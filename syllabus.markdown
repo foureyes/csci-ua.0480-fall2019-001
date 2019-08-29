@@ -114,7 +114,7 @@ Expect about __one homework__ every __week__, with one final project assigned mi
     * Don't copy (clone, download, etc.) anyone else's code
     * Don't distribute/publish your code (including publishing to a public git repository or posting in a forum)
         * (You can publish your final project once the class is over)
-    * The Director of Undergraduate Studies will handle any instances of cheating or software plagiarism
+    * Please see the department's page on academic integrity for full policy and potential disciplinary action: [https://cs.nyu.edu/home/undergrad/policy.html](https://cs.nyu.edu/home/undergrad/policy.html)
 * __Help!__
     * Office hours and tutoring is available
     * If you use code from online resources outside of the course materials, annotate your code with comments and the link to the resource
@@ -197,7 +197,7 @@ Significant material will be pulled from the following sites:
 <div class="panel-body" markdown="block">
 There are __tutors available__ for the course.
 
-* See [pinned message on Piazza for up-to-date hours](https://piazza.com/class/jcqb4xh11ny10y?cid=7)
+* See [pinned message on Piazza for up-to-date hours]({{ site.vars.piazza }})
 
 {% comment %}
     * __Wednesday__  - 5pm - 7pm

@@ -41,7 +41,7 @@
       <div class="container">
         <h1><span>{{ site.vars.course_name }}</span></h1>
 {% if page.nav-state == 'index' %}
-    <h2><span>{{ site.vars.course_number }} {{ site.vars.course_section }}{% if site.vars.course_section_2 %}/{{ site.vars.course_section_2 }} {% endif %}{{ site.vars.course_semester }}</span></h2>
+    <h2><span>{{ site.vars.course_number }} {{ site.vars.course_section }}{% if site.vars.course_section_2 %}/{{ site.vars.course_section_2 }} {% endif %} {{ site.vars.course_semester }}</span></h2>
 {% else %}
 		<h2><span>{{ page.nav-state }}</span></h2>
 {% endif %}
