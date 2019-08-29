@@ -1,0 +1,36 @@
+{
+  "name": "cscia-ua.0480-ait",
+  "version": "0.1.0",
+  "description": "Course site for csci-ua.0480, Applied Internet Technology",
+  "author": "Joe Versoza",
+  "devDependencies": {
+    "eslint": "^5.9.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-jsx-a11y": "^6.1.2",
+    "eslint-plugin-react": "^7.11.1",
+    "grunt": "",
+    "grunt-contrib-concat": "",
+    "grunt-contrib-connect": "",
+    "grunt-contrib-copy": "",
+    "grunt-contrib-less": "",
+    "grunt-contrib-uglify": "",
+    "grunt-contrib-watch": "",
+    "grunt-jekyll": "",
+    "grunt-liquid": "",
+    "grunt-touch": "",
+    "q": ""
+  },
+  "dependencies": {
+    "chai": "^4.2.0",
+    "cors": "^2.8.5",
+    "express": "^4.16.4",
+    "express-session": "^1.16.1",
+    "hbs": "^4.0.4",
+    "mocha": "^6.0.0",
+    "mocha-sinon": "^2.1.0",
+    "mongoose": "^5.5.2",
+    "npm": "^6.4.0",
+    "sinon": "^7.2.4"
+  }
+}
