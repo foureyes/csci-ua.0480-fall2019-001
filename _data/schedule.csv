@@ -44,7 +44,7 @@ draft,type,num,date,day,topics,slides,readings,assignments,
  Homework #0
  
  * [Fill out this survey / use of GitHub consent form]({{ site.survey_intro }})
- * (Must be logged in)
+ * (Must be logged in to NYU Drive)
  * (Required for future homeworks! ^^^)
  * [Sign up for piazza]({{ site.piazza }})
  * [Install Node {{ site.node_version }}](https://nodejs.org/en/)
