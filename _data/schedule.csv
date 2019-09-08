@@ -51,7 +51,7 @@ draft,type,num,date,day,topics,slides,readings,assignments,
  * (you can also use homebrew on MacOS or apt/yum/etc. on Linux)
  
  
- __Due Tuesday 9/9, by 11pm__ 
+ __Due Monday 9/9, by 11pm__ 
  
  * Quizzes #2 and #3 
  * (Quizz #1 is Optional)",
@@ -326,11 +326,11 @@ __Midterm Practice__
  * [wifi](resources/data/wifi3.json) (NYC Open Data)
  -->","[{{ site.book_js_6 }}]({{ site.book_js_6_link }})
 
-* [Node: Up and Running by Mike Wilson, Tom Hughes-Croucher, Part 2 Chapter 6 Data Access (NoSQL and Document Stores – MongoDB – mongoose)](https://www.oreilly.com/library/view/node-up-and/9781449332235/ch06.html#id3216759)
+* [Node: Up and Running by Mike Wilson, Tom Hughes-Croucher, Part 2 Chapter 6 Data Access (NoSQL and Document Stores â MongoDB â mongoose)](https://www.oreilly.com/library/view/node-up-and/9781449332235/ch06.html#id3216759)
 
 OWASP
 
-* [OWASP – NoSQL Injection](https://www.owasp.org/index.php/Testing_for_NoSQL_injection)
+* [OWASP â NoSQL Injection](https://www.owasp.org/index.php/Testing_for_NoSQL_injection)
 
 MongoDB Documentation 
 
@@ -341,7 +341,7 @@ MongoDB Documentation
 * [MongoDB Modeling Relationships / Examples](https://docs.mongodb.com/v3.2/applications/data-models-relationships/)
 * [Mongoose Embedded Documents - Sub Docs](http://mongoosejs.com/docs/subdocs.html) 
 * [Mongoose Document References - Mongoose Population](http://mongoosejs.com/docs/populate.html) 
-* [MDN – TLS](https://developer.mozilla.org/en-US/docs/Web/Security/Transport_Layer_Security)","HW5 db + cookies
+* [MDN â TLS](https://developer.mozilla.org/en-US/docs/Web/Security/Transport_Layer_Security)","HW5 db + cookies
  __Due Wednesday 3/6 at 12:15pm__ (end of class)
  
  * [Express Lab](homework/express-lab.html) 
@@ -353,8 +353,8 @@ y,,12,15-Oct,Tue,"* Object Document Mapper Continued
  * Sessions and Cookies from Previous Classes
  * [Router Objects](slides/14/routers.html)
  * [URL Parameters](slides/14/params.html)
- * Validation from Previous Classes","* [Express Routing – Route Parameters](https://expressjs.com/en/guide/routing.html)
-* [Mongoose – Validation](https://mongoosejs.com/docs/validation.html)",,
+ * Validation from Previous Classes","* [Express Routing â Route Parameters](https://expressjs.com/en/guide/routing.html)
+* [Mongoose â Validation](https://mongoosejs.com/docs/validation.html)",,
 y,,13,16-Oct,Wed,* Review,,,,
 y,exam,14,21-Oct,Mon,EXAM #1,,,,
 y,,15,23-Oct,Wed,"* Authentication
@@ -376,7 +376,7 @@ y,,15,23-Oct,Wed,"* Authentication
 
 Various Online Articles on Authentication
 
-* [OWASP – Authentication Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html)
+* [OWASP â Authentication Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html)
 * [NIST - Recommendation for Password-Based Key Derivation](http://csrc.nist.gov/publications/nistpubs/800-132/nist-sp800-132.pdf)
 * [How to securely hash passwords](http://security.stackexchange.com/questions/211/how-to-securely-hash-passwords)
 * [Salted Password Hashing - Doing it Right](https://crackstation.net/hashing-security.htm)
@@ -411,9 +411,9 @@ y,,16,28-Oct,Mon,"* HTML Primer
 
 HTML Tutorials
 
-* [MDN – Introduction to the DOM](https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Introduction)
-* [MDN – Introduction to HTML](https://developer.mozilla.org/en-US/docs/Learn/HTML/Introduction_to_HTML)
-* [MDN–Accessibility](https://developer.mozilla.org/en-US/docs/Web/Accessibility)
+* [MDN â Introduction to the DOM](https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Introduction)
+* [MDN â Introduction to HTML](https://developer.mozilla.org/en-US/docs/Learn/HTML/Introduction_to_HTML)
+* [MDNâAccessibility](https://developer.mozilla.org/en-US/docs/Web/Accessibility)
 * [HTML and CSS from shayhowe.com](http://learn.shayhowe.com/html-css/getting-to-know-html/)
 ",,
 y,,17,30-Oct,Wed,* CSS,"* [JavaScript Timers](slides/19/timers.html)
@@ -421,7 +421,7 @@ y,,17,30-Oct,Wed,* CSS,"* [JavaScript Timers](slides/19/timers.html)
 * (Optional / Briefly) Flexbox
 * (Optional / Briefly) Grids
 ","* [HTML and CSS from shayhowe.com](http://learn.shayhowe.com/html-css/getting-to-know-html/)
-* [MDN – Introduction to CSS](https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS#Guides)","<strike>Due Friday 4/12 at 11pm:</strike>
+* [MDN â Introduction to CSS](https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS#Guides)","<strike>Due Friday 4/12 at 11pm:</strike>
  __Due Saturday 4/13 at 11pm:__
  
  * [Homework #6](homework/06.html)
@@ -444,13 +444,13 @@ y,,19,6-Nov,Wed,"* AJAX
 
 MDN Articles on AJAX
 
-* [MDN – AJAX Getting Started](https://developer.mozilla.org/en-US/docs/Web/Guide/AJAX/Getting_Started)
-* [MDN – Same Origin Policy](https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy)
-* [MDN – Cross Site Scripting](https://developer.mozilla.org/en-US/docs/Glossary/Cross-site_scripting)
+* [MDN â AJAX Getting Started](https://developer.mozilla.org/en-US/docs/Web/Guide/AJAX/Getting_Started)
+* [MDN â Same Origin Policy](https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy)
+* [MDN â Cross Site Scripting](https://developer.mozilla.org/en-US/docs/Glossary/Cross-site_scripting)
 
 OWASP
 
-* [OWASP – Cross Site Scripting](https://www.owasp.org/index.php/Cross-site_Scripting_(XSS))","__Due Saturday 4/20 at 11pm:__
+* [OWASP â Cross Site Scripting](https://www.owasp.org/index.php/Cross-site_Scripting_(XSS))","__Due Saturday 4/20 at 11pm:__
  
  * [Homework #7](homework/07.html)
  * [Final Project Milestone #03](final-project.html#milestone03)",m1 due
@@ -470,7 +470,7 @@ y,,20,11-Nov,Mon,"* AJAX Continued
 
 MDN
 
-* [MDN – Promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)",HW 8 AJAX,
+* [MDN â Promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)",HW 8 AJAX,
 y,,21,13-Nov,Wed,"* Promises Continued
 * fetch 
 * async / await","* Example Code for AJAX and Promises
@@ -483,8 +483,8 @@ y,,21,13-Nov,Wed,"* Promises Continued
 
 MDN Articles
 
-* [MDN – Using Fetch](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch)
-* [MDN – Async Await](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous/Async_await)","<!--__Due Monday 4/24 at 11pm:__ 
+* [MDN â Using Fetch](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch)
+* [MDN â Async Await](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous/Async_await)","<!--__Due Monday 4/24 at 11pm:__ 
  
  * [Homework #9](homework/09.html)
  -->
