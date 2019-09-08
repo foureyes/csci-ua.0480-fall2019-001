@@ -1,0 +1,219 @@
+I"m!<section class="intro-slide">
+  <h1 id="introducing-javascript">Introducing JavaScript</h1>
+
+  <h3 id="csci-ua0480-001">CSCI-UA.0480-001</h3>
+
+  <p><small> 
+</small></p>
+</section>
+
+<section>
+
+  <h2 id="lets-talk-about">Let&#39;s Talk About</h2>
+
+  <ul>
+    <li>What is <strong>JavaScript</strong> <em>anyway</em>, and where have you seen it?</li>
+    <li>Why are <em>we</em> using JavaScript?</li>
+  </ul>
+
+</section>
+
+<section>
+
+  <h2 id="books-javascript-specific">Books (JavaScript Specific)</h2>
+
+  <ul>
+    <li><strong>required</strong>
+      <ul>
+        <li><a href="http://speakingjs.com/es5/index.html">Speaking JavaScript</a> &#8594;
+          <ul>
+            <li>great JavaScript / intro to programming book (may be too basic for some, though!)</li>
+            <li>the <a href="http://speakingjs.com/es5/index.html">online version</a> is free</li>
+          </ul>
+        </li>
+        <li><a href="http://exploringjs.com/es6/index.html">Exploring ES6</a> &#8594;
+          <ul>
+            <li>if you&#39;ve seen JavaScript before / feel like you have this <em>programming thing</em> down, this is for you</li>
+            <li>the <a href="http://speakingjs.com/es5/index.html">online version</a> is also free</li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="whats-javascript">What&#39;s JavaScript?</h2>
+
+  <h3 id="perhaps-youve-used-it-before">Perhaps you&#39;ve used it before!</h3>
+
+  <ul class="fragment">
+    <li><strong>JavaScript</strong> is a <strong>widely used</strong>, <strong>high-level</strong> programming language that is <strong>available on many platforms</strong></li>
+    <li><strong>JavaScript</strong> and <strong>Java</strong> are two entirely different programming languages</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="some-history">Some History</h2>
+
+  <p>Originally created in 1995 as a way to add interactivity (through programming) to web pages in <strong>Netscape Navigator</strong>!</p>
+
+  <div class="img">
+    <p><img src="../../resources/img/netscape.gif" alt="Netscape!" /></p>
+  </div>
+
+</section>
+
+<section>
+  <h2 id="more-history">More History</h2>
+
+  <ul>
+    <li>Microsoft also implemented a compatible dialect of JavaScript for Internet Explorer called <a href="http://en.wikipedia.org/wiki/JScript">JScript</a></li>
+    <li>formally standardized in the late 90&#39;s (under the name <a href="http://en.wikipedia.org/wiki/ECMAScript">ECMAScript</a>)
+      <ul>
+        <li>implementations include the JavaScript engines in various browsers</li>
+        <li>as well as <a href="http://en.wikipedia.org/wiki/ActionScript">ActionScript</a> (remember Flash?)</li>
+        <li>and, of course, various server side implementations, such as Node.js and Rhino</li>
+      </ul>
+    </li>
+    <li>(did I mention that it&#39;s <strong>not Java</strong>?)</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="where-is-it-now">Where is it Now?</h2>
+
+  <h3 id="current-version-is-es5">Current version is ES5&#8230;</h3>
+
+  <ul>
+    <li>ES6 is mostly <a href="http://kangax.github.io/compat-table/es6/">implemented in node and major browsers, though</a></li>
+    <li>(btw, we&#39;ll be using ES5 for most of the class; feel free to use ES6, though)</li>
+    <li>ubiquitous on the web</li>
+    <li><strong>JavaScript</strong> is an integral part of creating modern, single-page/hybrid web apps</li>
+    <li>it&#39;s usage has gone beyond web page interactivity:
+      <ul>
+        <li>server side language (<strong>Node.js</strong>)</li>
+        <li>database query language (<strong>MongoDB</strong>)</li>
+        <li>creative programming (<strong>processing.js</strong>)</li>
+        <li>embedded scripting language (<strong>Max/MSP</strong>)</li>
+      </ul>
+    </li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="a-quick-rundown-of-its-features">A Quick Rundown of its Features</h2>
+
+  <ul>
+    <li><strong>multi paradigm</strong> - <strong>Object Oriented</strong> (through prototypes), <strong>Functional</strong>, etc.</li>
+    <li><strong>dynamically typed</strong> (eh&#8230; maybe not a great feature?)</li>
+    <li><strong>weakly typed</strong> (also maybe not a great feature?)</li>
+    <li>most implementations are <strong>interpreted</strong> rather than compiled (shrug)</li>
+    <li><strong>C-like syntax</strong> - so you should be pretty familiar with all of the curly braces</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="its-available">It&#39;s Available!</h2>
+
+  <ul>
+    <li>you can install server-side JavaScript on multiple platforms (Node.js has <strong>Windows</strong>, <strong>Linux</strong>, and <strong>OSX</strong> installers)</li>
+    <li>it&#39;s available on every major browser (such as Chrome, Safari or Internet Explorer)</li>
+    <li>not only are you able to run JavaScript, but&#8230; if you have a web browser and a text editor, you will be able to write JavaScript programs as well!</li>
+    <li><strong>check out the JavaScript <em>console</em> in Chrome</strong> &#8594;</li>
+    <li>In Chrome: View &#8594; Developer &#8594; JavaScript Console</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="running-javascript">Running JavaScript</h2>
+
+  <p>We&#39;ll be running JavaScript on both the server and the client&#8230; so we&#39;ll rely on:</p>
+
+  <ul>
+    <li class="fragment">the <strong>Node.js</strong> commandline interpreter / <a href="http://nodejs.org/api/repl.html">REPL</a>, which is really just <a href="http://en.wikipedia.org/wiki/V8_(JavaScript_engine)">V8</a> (what&#39;s v8? &#8594;)</li>
+  </ul>
+  <pre class="fragment"><code data-trim="" contenteditable="">
+node myfile.js
+</code></pre>
+  <pre class="fragment"><code data-trim="" contenteditable="">
+pines:~ joe$ node
+&gt; console.log('REPL time!')
+</code></pre>
+  <ul>
+    <li class="fragment">and Chrome for running JavaScript in browser (which is, coincidentally, also <strong>v8</strong>)</li>
+  </ul>
+
+</section>
+
+<section data-background="#440000">
+  <h2 id="for-the-first-few-classes-it-would-be-good-to-use-node-but-your-browsers-developer-tools-or-jsfiddle-will-work-in-a-pinch">For the first few classes, it would be good to use <strong>node</strong>, but your browser&#39;s developer tools or jsfiddle will work in a pinch.</h2>
+
+  <h3 id="lets-see-all-of-them-in-action-">Let&#39;s see all of them in action &#8594;</h3>
+
+</section>
+
+<section>
+  <h2 id="javascript-basics">JavaScript Basics</h2>
+
+  <h3 id="ok-now-about-the-actual-language">OK! Now About the <em>Actual</em> Language</h3>
+
+  <ul>
+    <li>From the book, Speaking JavaScript:
+      <ul>
+        <li><a href="http://eloquentjavascript.net/01_values.html">Values</a></li>
+        <li><a href="http://eloquentjavascript.net/02_program_structure.html">Program Structure</a></li>
+      </ul>
+    </li>
+    <li>&#8230;And the slides (based on the above readings)
+      <ul>
+        <li><a href="values-types-operators.html">Values, Types, and Operators</a></li>
+        <li><a href="variables-control-structures.html">Variables</a></li>
+        <li><a href="conditionals-loops.html">Control Structures</a></li>
+      </ul>
+    </li>
+    <li>And a valuable reference:
+      <ul>
+        <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/A_re-introduction_to_JavaScript">Mozilla Developer Network, Reintroduction to JavaScript</a></li>
+      </ul>
+    </li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="a-few-notes-on-how-youll-be-writing-programs">A few Notes on How You&#39;ll be Writing Programs</h2>
+
+  <ul>
+    <li>use any text editor you want (I don&#39;t care, really)</li>
+    <li>some editors that I&#39;ve used in the past:
+      <ul>
+        <li>sublimetext</li>
+        <li>webstorm</li>
+        <li>vim (&lt;&#8211; I use this mostly, but <em>probably not a good choice if you don&#39;t already know it</em>)</li>
+      </ul>
+    </li>
+    <li>if you don&#39;t have node installed yet, you could use
+      <ul>
+        <li>your browser&#39;s developer tools</li>
+        <li><a href="jsfiddle.net">jsfiddle</a> (or <a href="codepoen.io">codepen</a> or jsbin, etc.)</li>
+      </ul>
+    </li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="lets-end-with-a-quick-survey">Let&#39;s End With a Quick Survey</h2>
+
+  <p>I&#39;d like to get an idea of what languages / technologies everyone has had experience with.</p>
+
+  <ul>
+    <li><strong>please fill out</strong> <a href="https://docs.google.com/a/nyu.edu/forms/d/e/1FAIpQLScN3qcI_P8BQl6aBbK_-OqIEwdI-qCuwfm_jIrm7IF0o-bi_Q/viewform">this survey</a></li>
+    <li>(it&#39;s also my secret way of taking attendance)</li>
+  </ul>
+</section>
+
+:ET

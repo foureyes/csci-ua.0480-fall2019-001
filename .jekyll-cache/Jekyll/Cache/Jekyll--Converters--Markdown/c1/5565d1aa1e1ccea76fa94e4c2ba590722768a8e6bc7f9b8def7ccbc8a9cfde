@@ -1,0 +1,30 @@
+I"3<section class="intro-slide">
+  <h1 id="about-class-11">About Class #11</h1>
+
+  <h3 id="csci-ua0480-001">CSCI-UA.0480-001</h3>
+
+  <p><small></small></p>
+</section>
+
+<section>
+  <h2 id="topics">Topics</h2>
+
+  <ul>
+    <li>Midterm coming up in a week!</li>
+    <li>MongoDB</li>
+    <li>Mongoose</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="midterm">Midterm</h2>
+
+  <ul>
+    <li>coming up next week, Thursday, October 22nd</li>
+    <li>(see schedule)</li>
+    <li>in-class review on Tuesday</li>
+    <li>sample questions posted this evening</li>
+  </ul>
+</section>
+
+:ET

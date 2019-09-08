@@ -1,0 +1,141 @@
+I"<section class="intro-slide">
+  <h1 id="tlsssl">TLS/SSL</h1>
+
+  <h3 id="csci-ua0480-001">CSCI-UA.0480-001</h3>
+
+  <p><small></small></p>
+</section>
+
+<section>
+  <h2 id="tlsssl-1">TLS/SSL</h2>
+
+  <p>SSL is usually used to refer to two cryptographic protocols:</p>
+
+  <ul>
+    <li><strong>TLS</strong> - transport layer security</li>
+    <li><strong>SSL</strong> - secure sockets layer (precedes TLS, but acronym more well-known)</li>
+  </ul>
+
+  <p><br />
+On the web, SSL, as a protocol, sits between TCP/IP and HTTP (well &lt;&#8211; this can be other protocols too, like FTP). It ensures that:</p>
+
+  <ul>
+    <li class="fragment">communication between two computers on a network are <strong>private</strong></li>
+    <li class="fragment"><strong>identities</strong> of at least one of the endpoints are proven</li>
+    <li class="fragment">&#8230; and messages sent between computers are <strong>not tampered</strong> with.</li>
+  </ul>
+
+</section>
+<section>
+  <h2 id="privacy">Privacy</h2>
+
+  <p>A connection made through SSL/TLS is made private through <strong>symmetric cryptography</strong>.  <strong>Wait, what&#39;s that?</strong> &#8594;</p>
+
+  <ul>
+    <li class="fragment">same key is used for encryption of plain text into <em>cipher</em> text (encrypted text), as well as decryption back to plain text. <strong>uh, what&#39;s a key?</strong> &#8594;</li>
+    <li class="fragment">it&#39;s just a piece of data (think parameter in a function) given to a cryptographic algorithm that determines its output. <strong>example please&#8230; anyone know the caesar cipher or any substitution ciphier?</strong> &#8594;</li>
+    <li class="fragment">caesar uses <em>shift</em> as key, substitution cipher may use a <em>keyword</em></li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="encryption---motivation">Encryption - Motivation</h2>
+
+  <p><strong>How does encryption work for ensuring privacy?</strong> &#8594;</p>
+
+  <ul>
+    <li class="fragment">if there are eavesdroppers&#8230;</li>
+    <li class="fragment">messages won&#39;t be in plain text</li>
+    <li class="fragment">so, while they can observe that communication is occurring, they won&#39;t know what the content is&#8230;</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="verified-identity">Verified Identity</h2>
+
+  <ul>
+    <li>identity is verified by a <em>cryptographically signed</em> certificate from a trusted <a href="https://en.wikipedia.org/wiki/Certificate_authority">certificate authority</a> that the server supplies to the client</li>
+    <li>this is an <strong>SSL Certificate</strong></li>
+    <li>it&#39;s basically a way for the server to prove that they are they say they are</li>
+    <li><strong>why does this matter?</strong> &#8594;
+      <ul>
+        <li class="fragment">so &#8230; some malicious 3rd party can&#39;t masquerade as the server / site</li>
+      </ul>
+    </li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="message-integrity">Message Integrity</h2>
+
+  <p>A <a href="https://en.wikipedia.org/wiki/Message_authentication_code">message authentication code</a> is a code that can be used to confirm:</p>
+
+  <ul>
+    <li>that a message hasn&#39;t been tampered with</li>
+    <li>and that it&#39;s coming from the <em>stated</em> sender</li>
+  </ul>
+
+  <p><br /> implemented by hashing the message with some shared secret key</p>
+
+</section>
+
+<section>
+  <h2 id="protocol-description">Protocol Description</h2>
+
+  <p>On a high level&#8230; once a connection is made between the client and server:</p>
+
+  <ol>
+    <li class="fragment">the client starts an <a href="https://en.wikipedia.org/wiki/Transport_Layer_Security#TLS_handshake">SSL handshake</a>:
+      <ul>
+        <li class="fragment">where information is exchanged so that the <em>actual</em> encrypted communication can occur</li>
+        <li class="fragment">for the client&#8230; that means sending (among other things) the <strong>highest version of TLS</strong> it supports</li>
+        <li class="fragment">a <strong>list of supported cipher suites</strong> (what encryption algorithms do I support, what method do I use to authenticate messages, etc.)</li>
+        <li class="fragment">&#8230;and which compression algorithms it supports</li>
+      </ul>
+    </li>
+    <li class="fragment">the server responds with (among other things):
+      <ul>
+        <li class="fragment">the chosen TLS protocol version</li>
+        <li class="fragment">which cipher suite to use</li>
+        <li class="fragment">which compression algorithm to use</li>
+      </ul>
+    </li>
+  </ol>
+
+</section>
+
+<section>
+  <h2 id="protocol-description-continued">Protocol Description Continued</h2>
+
+  <p>So, that handles some basic setup to configure a few things (like cipher suite, compression algorithm, etc.) <strong>Next</strong> &#8594;</p>
+
+  <ol>
+    <li class="fragment">the server sends back an SSL cert</li>
+    <li class="fragment">once the cert is verified by the browser (was it <em>signed</em> by a trusted certificate authority &#8230; for example <a href="https://support.apple.com/en-us/HT207177">list of trusted ca&#39;s on ios 10</a>?)</li>
+    <li class="fragment">keys can be exchanged for encryption with symmetric cryptography
+      <ul>
+        <li class="fragment">how? &#8230;maybe through public-key / asymmetric cryptography first</li>
+        <li class="fragment">exchange public keys</li>
+        <li class="fragment">generate and exchange new keys</li>
+        <li class="fragment">why not just use public key encryption? asymmetric is slower, requires larger keys, and resulting encrypted output is slightly larger</li>
+      </ul>
+    </li>
+    <li class="fragment">client sends an encrypted message signalling that all communication will now be encrypted</li>
+    <li class="fragment">server verifies message and returns it (which is then verified by the client)</li>
+  </ol>
+
+</section>
+
+<section>
+  <h2 id="resources">Resources</h2>
+
+  <ul>
+    <li><a href="http://security.stackexchange.com/questions/20803/how-does-ssl-tls-work">Great, succinct stackexchange article</a></li>
+    <li><a href="https://en.wikipedia.org/wiki/Transport_Layer_Security">Wikipedia article</a></li>
+  </ul>
+
+</section>
+:ET

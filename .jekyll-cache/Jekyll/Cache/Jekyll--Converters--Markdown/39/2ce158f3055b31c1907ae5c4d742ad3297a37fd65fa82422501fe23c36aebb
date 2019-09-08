@@ -1,0 +1,71 @@
+I"<section class="intro-slide">
+  <h1 id="about-class-13">About Class #13</h1>
+
+  <h3 id="csci-ua0480-001">CSCI-UA.0480-001</h3>
+
+  <p><small></small></p>
+</section>
+
+<section>
+  <h2 id="todays-topics">Today&#39;s Topics</h2>
+
+  <p>I&#39;ll keep today&#39;s class fairly open ended, so we can discuss:</p>
+
+  <ul>
+    <li>questions about the midterm exam ()</li>
+    <li>questions about homework #4 (due yesterday, but???)</li>
+  </ul>
+
+  <p>Otherwise, I&#39;ll reinforce the topics that we went skimmed through last week:</p>
+
+  <ul>
+    <li>forms</li>
+    <li>sessions</li>
+  </ul>
+
+  <p>(I&#39;ve augmented the slides from the previous class based on feedback)</p>
+</section>
+
+<section>
+  <h2 id="midterm-exam">Midterm Exam</h2>
+
+  <ul>
+    <li>I&#39;ll discuss format and topics later today</li>
+    <li>I&#39;ve posted some <a href="../../resources/handouts/midterm/midterm_sample_questions.pdf">sample midterm questions</a></li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="homework-02">Homework #02</h2>
+
+  <p>Nice work!</p>
+
+  <ul>
+    <li><strong>read the comments in the grader feedback!</strong></li>
+  </ul>
+
+  <p>Some common errors:</p>
+
+  <ul>
+    <li>should have implemented your own every and some</li>
+    <li>flatten required the use of reduce</li>
+    <li>use ===</li>
+    <li>use var</li>
+    <li>avoid using magic numbers (why use number, when you can use key/name!)</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="homework-03">Homework #03</h2>
+
+  <ul>
+    <li>don’t fake results of curl!</li>
+    <li>watch out for relative vs absolute urls in links</li>
+    <li>q&#39;s abt objects / prototypes?</li>
+    <li>res.render’s second arg - keys are template vars</li>
+    <li>redirect to same domain (when to include domain)</li>
+    <li>styling 404</li>
+    <li>no weirdo &#39;shops</li>
+  </ul>
+</section>
+:ET

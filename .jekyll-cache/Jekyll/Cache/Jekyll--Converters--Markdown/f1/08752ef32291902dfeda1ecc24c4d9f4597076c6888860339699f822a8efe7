@@ -1,0 +1,180 @@
+I"$<section class="intro-slide">
+  <h1 id="routers-directory-layout">Routers, Directory Layout</h1>
+
+  <h3 id="csci-ua0480-001">CSCI-UA.0480-001</h3>
+
+  <p><small></small></p>
+</section>
+
+<section>
+  <h2 id="generating-scaffolding">Generating Scaffolding</h2>
+
+  <p>With express generator, you can run:</p>
+
+  <pre><code data-trim="" contenteditable="">
+express --hbs projectname
+</code></pre>
+
+  <p>&#8230;to create a directory called projectname, with a bunch of files and code auto-generated for you.</p>
+
+</section>
+
+<section>
+  <h2 id="directory-layout">Directory Layout</h2>
+
+  <p>Created by express-generator:</p>
+
+  <ul>
+    <li><strong>routes</strong> - directory that contains your routers (and consequently your route handlers, like app.get)</li>
+    <li><strong>app.js</strong> - app wide requires and configuration, mount routers and specific paths (app.use(&#39;/list&#39;, listRouter))</li>
+    <li><strong>bin/www</strong> - your run script</li>
+    <li><strong>views</strong> - handlebar templates (views), name must match what you use in res.render</li>
+    <li><strong>views/layout.hbs</strong> - your <em>outer</em> template file&#8230; the surrounding html</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="uh-whats-a-router">Uh. What&#39;s a Router?</h2>
+
+  <p>A <strong>router</strong> is an <em>isolated instance</em> of route handlers and middleware. It&#39;s an object that&#39;s essentially a <strong>mini-application</strong>. This means that you can:</p>
+
+  <ol>
+    <li>you can define routes (or  <em>route handlers</em> - the HTTP verb methods, path and callback)</li>
+    <li>you can also use middleware in a router (which means that you can <em>mount</em> a router at a specific path and effectively have a path prefix for all of the paths that your router handles)</li>
+  </ol>
+
+  <p><br />
+<strong>Let&#39;s see an actual example</strong> &#8230;</p>
+
+</section>
+
+<section>
+  <h2 id="creating-a-router">Creating a Router</h2>
+
+  <p>The top level express object has a <code>Router()</code> function (<a href="http://expressjs.com/4x/api.html#router">see the docs</a>)&#8230; that <strong>creates a new router object</strong>. (Note that it&#39;s not a constructor, so don&#39;t invoke it with <code>new</code>).</p>
+
+  <pre><code data-trim="" contenteditable="">
+const express = require('express')
+const router = express.Router();
+</code></pre>
+</section>
+
+<section>
+  <h2 id="adding-route-handlers-to-a-router">Adding Route Handlers to a Router</h2>
+
+  <p>Just like the <code>app</code> object we would create to represent an Express application, our <code>router</code> has a bunch of methods named after HTTP verbs&#8230; so we can add some route handlers:</p>
+
+  <pre><code data-trim="" contenteditable="">
+// note that we're calling get on the router object that we created before
+router.get('/bar/baz', function(req, res) {
+  res.send('qux');
+})
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="using-your-routers">Using Your Routers</h2>
+
+  <p>If your router is in a different file, you will need to expose the router object (make it <em>public</em>) by adding it to your <code>module.exports</code> (so&#8230; if your router code is in <code>routes/myrouter.js</code>):</p>
+
+  <pre><code data-trim="" contenteditable="">
+module.exports = router;
+</code></pre>
+
+  <p>Then, just require it in <code>app.js</code>:</p>
+
+  <pre><code data-trim="" contenteditable="">
+// the router object you defined in myrouter.js
+// is now referenced by myRouter
+const myRouter = require('./routes/myrouter');
+</code></pre>
+</section>
+
+<section>
+  <h2 id="using-your-routers-continued">Using Your Routers Continued</h2>
+
+  <p>Finally, to actually <em>activate</em> all of the route handlers, you&#39;ll have to <strong>use</strong> your router object like any other middleware. If you mount it at a specific path, all URLs in your router will be prefixed by that path.</p>
+
+  <pre><code data-trim="" contenteditable="">
+app.use('/foo', myRouter);
+</code></pre>
+
+  <p>In our code above, our router was mounted on <code>'/foo'</code>&#8230; so the full path to the single route handler that we declared would be:</p>
+
+  <pre><code data-trim="" contenteditable="">
+/foo/bar/baz
+</code></pre>
+
+  <p><strong>Let&#39;s see if it works!</strong> &#8594;</p>
+</section>
+
+<section>
+  <h2 id="routers-and-express-generator">Routers and Express Generator</h2>
+
+  <p>If you use the scaffolding created by express generator, you&#39;ll notice that there are two routers created for you:</p>
+
+  <ul>
+    <li><code>index.js</code></li>
+    <li><code>users.js</code></li>
+  </ul>
+
+  <p><br />
+Feel free to remove them&#8230; but if you do, make sure you take out the requires as well.</p>
+</section>
+
+<section>
+  <h2 id="hey-wait-theres-something-that-wasnt-generated">Hey Wait, There&#39;s Something That Wasn&#39;t Generated!</h2>
+
+  <p><strong>Where do I put my database code?</strong> &#8594;</p>
+
+  <p class="fragment">Wherever you want! For small apps:</p>
+
+  <ul class="fragment">
+    <li><strong>db.js</strong> - schema, models and connection</li>
+    <li><strong>app.js</strong> - make sure to require db.js here to connect to database and define models</li>
+    <li><strong>routes/yourRouter.js</strong> - possibly a good place to retrieve model and use CRUD methods on model instance</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="running-your-app">Running Your App</h2>
+
+  <p>If you generated your application with Express generator, then you can run your app by:</p>
+
+  <pre><code data-trim="" contenteditable="">
+./bin/www
+</code></pre>
+
+  <p>(from within the project directory)</p>
+
+</section>
+
+<section>
+  <h2 id="restarting-server-on-code-changes">Restarting Server on Code Changes</h2>
+
+  <p>If you&#39;re tired of restarting your application whenever you change some code, you can install nodemon (<a href="https://github.com/remy/nodemon/blob/master/README.md">see the docs</a>.</p>
+
+  <p><strong>nodemon will run your application and watch for changes to files; when a change occurs, it restarts your application</strong> &#8594;</p>
+
+  <p>To install:</p>
+
+  <pre><code data-trim="" contenteditable="">
+npm install -g nodemon
+</code></pre>
+
+  <p>To run your application:</p>
+
+  <pre><code data-trim="" contenteditable="">
+nodemon app.js
+nodemon ./bin/www
+</code></pre>
+
+  <p>To watch for specific extensions, add the -e flag</p>
+  <pre><code data-trim="" contenteditable="">
+nodemon -e js,hbs
+</code></pre>
+
+</section>
+:ET

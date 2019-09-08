@@ -1,0 +1,83 @@
+I"¬
+<section class="intro-slide">
+  <h1 id="about-class-27--final-project-notes">About Class #27 / Final Project Notes</h1>
+
+  <h3 id="csci-ua0480-001">CSCI-UA.0480-001</h3>
+
+  <p><small></small></p>
+</section>
+
+<section>
+  <h2 id="some-administrative-things">Some Administrative Things</h2>
+
+  <ul>
+    <li>final project, of course</li>
+    <li>evaluations, hopefully!</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="final-project">Final Project</h2>
+
+  <p><strong>Final Projects are Due Today at 11pm</strong></p>
+
+  <ul>
+    <li>There&#39;s a 24 hour grace period, with a 5 point penalty if you submit after today</li>
+    <li>Classes closes on Friday at 11pm</li>
+    <li><strong>However</strong>&#8230; I can&#39;t tell if you tinker with i6, (I can see commits, though) so that&#39;s totally fine because&#8230;
+      <ul>
+        <li>I still expect deploy issues</li>
+        <li>or processes inadvertently going down</li>
+        <li>aaaaaand&#8230;.</li>
+      </ul>
+    </li>
+  </ul>
+
+</section>
+<section>
+  <h2 id="we-got-shut-down">We Got Shut Down</h2>
+
+  <p>We used up so much RAM/CPU on i6, that the server was slowing down! Resources were added, but that meant that your mongod and app were probably shut down.</p>
+
+  <p><strong>To bring everything back up without doing the full redeploy&#8230;</strong> &#8594;</p>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+# start mongod
+mongod --fork --logpath ~/var/log/mongodb.log --dbpath ~/data/db --smallfiles --port your_port_number --nohttpinterface
+
+# check that it's running
+tail ~/var/log/mongodb.log
+
+# you should see something like: 
+# Wed Dec  2 07:12:45.954 [initandlisten] waiting for connections on port PORT
+
+# start your app (in the directory where your project is, using your
+# own APP_PORT_NUMBER)
+PORT=APP_PORT_NUMBER bin/www
+
+# finally, go through Part #7 in these instructions to run it as a daemon:
+# http://foureyes.github.io/csci-ua.0480-fall2015-001/homework/deploy.html
+</code></pre>
+</section>
+
+<section>
+  <h2 id="evaluations">Evaluations</h2>
+
+  <ul>
+    <li>Let me know when there are about 5-10 minutes left in class</li>
+    <li><strong>Course Number</strong>: 0480</li>
+    <li><strong>Section</strong>: 001</li>
+    <li>I love comments. In addition to whatever you&#39;re planning on writing, I&#39;d like to hear about:
+      <ul>
+        <li>your feedback on the general pace / difficulty level of the class</li>
+        <li>what topics you liked / didn&#39;t like</li>
+        <li>the amount of work and projects that you were doing</li>
+        <li>I kind of want to push the frontend stuff earlier and do more of it too (maybe svg, more react, animations, etc.) - thoughts?</li>
+      </ul>
+    </li>
+  </ul>
+
+</section>
+
+:ET

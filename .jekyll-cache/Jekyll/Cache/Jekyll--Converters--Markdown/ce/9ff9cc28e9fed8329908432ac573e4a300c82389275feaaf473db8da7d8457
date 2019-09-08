@@ -1,0 +1,366 @@
+I"¾2<section class="intro-slide">
+  <h1 id="forms-revisited">Forms Revisited</h1>
+
+  <h3 id="csci-ua0480-001">CSCI-UA.0480-001</h3>
+
+  <p><small></small></p>
+</section>
+
+<section>
+  <h2 id="form-elements">Form Elements</h2>
+
+  <p><strong>What form elements do we know / have we used?</strong> &#8594;</p>
+
+  <ul class="fragment">
+    <li><strong>text</strong> (&lt;input type=&quot;text&quot; name=&quot;&#8230;&quot;&gt;)</li>
+    <li>a <strong>submit button</strong> (&lt;input type=&quot;submit&quot; name=&quot;&#8230;&quot;&gt;)</li>
+  </ul>
+
+  <p class="fragment"><br />
+<strong>What are some other form elements that you&#39;ve seen for collecting data?</strong> &#8594;</p>
+
+  <ul class="fragment">
+    <li>dropdowns</li>
+    <li>multi-selects</li>
+    <li>textboxes</li>
+    <li>radio buttons</li>
+    <li>checkboxes</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="and-others">And Others&#8230;</h2>
+
+  <p>Some newer ones&#8230;</p>
+
+  <ul>
+    <li>email</li>
+    <li>url</li>
+    <li>number</li>
+    <li>range</li>
+    <li>date</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="you-cant-see-me">You Can&#39;t See Me!</h2>
+
+  <p>There&#39;s also a <strong>hidden input</strong>:</p>
+
+  <ul>
+    <li>a form element that&#39;s not visible in the user interface</li>
+    <li>but it still sends its value along with the other input elements</li>
+    <li>(when a form is submitted)</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="all-together">All Together</h2>
+
+  <ul>
+    <li>text</li>
+    <li>email</li>
+    <li>url</li>
+    <li>number</li>
+    <li>radio buttons</li>
+    <li>checkboxes</li>
+    <li>range</li>
+    <li>date</li>
+    <li>submit buttons</li>
+    <li>dropdowns</li>
+    <li>multi-selects</li>
+    <li>textboxes</li>
+    <li>hidden</li>
+  </ul>
+
+</section>
+<section>
+  <h2 id="about-form-markup">About Form Markup</h2>
+
+  <p>Of course, all of these elements have to be nested within a parent &lt;form&gt; element.</p>
+
+  <p>And&#8230;. if you want to be able to submit a form (of course you do), you&#39;ll probably want a submit button:</p>
+
+  <pre><code data-trim="" contenteditable="">
+&lt;form method="POST" action=""&gt;
+&lt;!-- other form element placed within form tags--&gt;
+&lt;input type="submit"&gt;
+&lt;/form&gt;
+</code></pre>
+</section>
+
+<section>
+  <h2 id="about-form-markup-continued">About Form Markup Continued</h2>
+
+  <p><strong>Each of these form elements have different markup</strong>:</p>
+
+  <ul>
+    <li>the majority of them are &lt;input&gt;, and vary only by having a different <code>type</code> attribute</li>
+    <li>there are others that use entirely different form elements, such as &lt;select&gt; or &lt;textarea&gt;</li>
+  </ul>
+
+</section>
+<section>
+  <h2 id="about-form-markup-continued-1">About Form Markup Continued</h2>
+
+  <p><strong>But there are some element attributes that are common to all of them</strong> &#8594;:</p>
+
+  <ul class="fragment">
+    <li><code>name</code>
+      <ul>
+        <li>the <strong>name</strong> of the form data that you&#39;re passing over</li>
+        <li>the property name in the <code>req.body</code> or <code>req.query</code> objects</li>
+      </ul>
+    </li>
+    <li><code>value</code>
+      <ul>
+        <li>can be set by the actual <strong>value</strong> of the form field</li>
+        <li>or set explicitly (can be a default value) in the element&#39;s attributes&#8230;</li>
+        <li>it&#39;s the <strong>value</strong> associated with the form element&#39;s <em>name</em></li>
+        <li>the value contained in the property name in the <code>req.body</code> or <code>req.query</code> objects</li>
+      </ul>
+    </li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="text-email-url">Text, Email, URL</h2>
+
+  <p>Text, email and url are, as their names imply, input fields for text, emails and urls.  They&#39;re all <code>&lt;input&gt;</code> elements. They vary by type:</p>
+
+  <pre><code data-trim="" contenteditable="">
+&lt;label&gt;Text&lt;/label&gt;&lt;input type="text" name="textExample"&gt;
+&lt;label&gt;Email&lt;/label&gt;&lt;input type="email" name="emailExample"&gt;
+&lt;label&gt;URL&lt;/label&gt;&lt;input type="url" name="urlExample"&gt;
+</code></pre>
+
+  <ul>
+    <li>they all look like boxes of text</li>
+    <li><strong>they show up as you&#39;d expect on the server side, the name of the element and its value map directly to a property and value in Express</strong> &#8594;</li>
+    <li><strong>so&#8230; what do you think the difference is between these elements?</strong> &#8594;</li>
+    <li class="fragment"><strong>some clients have validation</strong> &#8594;</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="range-and-number">Range and Number</h2>
+
+  <p><strong>Range</strong> and <strong>number</strong> represent a numeric value, and again, they&#39;re both &lt;input&gt; elements. They have a type of <code>range</code> and <code>number</code>. However, instead of regular text entry&#8230;</p>
+
+  <ul>
+    <li><strong>number</strong> represents a <em>spin box</em></li>
+    <li><strong>range</strong> represents a slider</li>
+  </ul>
+
+  <p><br />
+Here&#39;s some markup:</p>
+
+  <pre><code data-trim="" contenteditable="">
+&lt;label&gt;Number&lt;/label&gt;&lt;input type="number" min="1" max="10" step="1" name="numberExample"&gt;
+&lt;label&gt;Range&lt;/label&gt;&lt;input  min="1" max="10" step="1" type="range" name="rangeExample"&gt;
+</code></pre>
+
+</section>
+<section>
+  <h2 id="range-and-number-continued">Range and Number Continued</h2>
+
+  <p><strong>Did you see any extra attributes there?</strong> &#8594;</p>
+
+  <p class="fragment">The following attributes are optional:</p>
+
+  <ul class="fragment">
+    <li><code>min</code> - the lower bound of the form element</li>
+    <li><code>max</code> - the upper bound of the form element</li>
+    <li><code>step</code> - the interval between values (the increment/decrement from one value to the next)</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="radio-buttons">Radio Buttons</h2>
+
+  <p><strong>Radio buttons</strong> allow you to choose <strong>only one value</strong> from a set of values. They&#39;re &lt;input&gt; elements with a type of <code>radio</code>.</p>
+
+  <pre><code data-trim="" contenteditable="">
+&lt;label&gt;Radio 1&lt;/label&gt;&lt;input type="radio" name="radioExample" value="1"&gt;
+&lt;label&gt;Radio 2&lt;/label&gt;&lt;input type="radio" name="radioExample" value="2"&gt;
+&lt;label&gt;Radio 3&lt;/label&gt;&lt;input type="radio" name="radioExample" value="3"&gt;
+</code></pre>
+
+  <p><strong>What&#39;s peculiar about the way they&#39;re named and the values that they&#39;re given? What value do you think is sent over to the server?</strong> &#8594;</p>
+
+  <ul class="fragment">
+    <li><strong>all radio buttons within a group of radio buttons should have the same name</strong></li>
+    <li>you can use the <code>checked</code> attribute to have a default radio button selected</li>
+    <li>each radio button has its own value</li>
+    <li><strong>the value of the button that&#39;s selected is what&#39;s sent over to the server</strong></li>
+  </ul>
+</section>
+<section>
+  <h2 id="check-boxes">Check Boxes</h2>
+
+  <p><strong>Check boxes</strong> allow you to choose <strong>multiple</strong> values from a set of values. They&#39;re &lt;input&gt; elements with a type of <code>checkbox</code>.</p>
+
+  <pre><code data-trim="" contenteditable="">
+&lt;label&gt;Checkbox 1&lt;/label&gt;
+&lt;input type="checkbox" name="checkboxExample" value="1"&gt;
+&lt;label&gt;Checkbox 2&lt;/label&gt;
+&lt;input type="checkbox" name="checkboxExample" value="2"&gt;
+&lt;label&gt;Checkbox 3&lt;/label&gt;
+&lt;input type="checkbox" name="checkboxExample" value="3"&gt;
+</code></pre>
+
+  <ul>
+    <li><strong>check boxes within a group should have the same name</strong></li>
+    <li>to default to checked, add a <code>checked</code> attribute to the tag</li>
+    <li>each checkbox in a group of check boxes has its own value</li>
+    <li><strong>all values of the items checked are sent to the server</strong> (<strong>how do you think they&#39;re represented?</strong> &#8594;)</li>
+    <li class="fragment">&#8230;as an array! (or as a single value if only one item checked)</li>
+    <li class="fragment">if the frst two were checked, <code>req.body.checkboxExample</code> &#8594; <code>[1, 2]</code></li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="date">Date</h2>
+
+  <p><strong>Date</strong> shows up as a date picker in your browser. It is an &lt;input&gt; element with a type of <code>date</code></p>
+
+  <pre><code data-trim="" contenteditable="">
+&lt;label&gt;Date&lt;/label&gt;&lt;input type="date" name="dateExample"&gt;
+</code></pre>
+
+  <ul>
+    <li>sent over to the server in <code>yyyy-mm-dd</code> format</li>
+    <li>other date and time element types include <code>datetime</code>, <code>week</code>, <code>month</code>, etc.</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="dropdowns-and-multi-selects">Dropdowns and Multi-Selects</h2>
+
+  <p><strong>Dropdowns</strong> represent a form element that lets you pick a single value from a set of values (Similar to radio buttons). However, the markup for dropdowns uses a single &lt;select&gt; element (with the <code>name</code> attribute), and &lt;option&gt; elements (with the <code>value</code>) nested within it:</p>
+
+  <pre><code data-trim="" contenteditable="">
+&lt;select name="selectExample"&gt;
+&lt;option value="Option 1"&gt;Option 1&lt;/option&gt;
+&lt;option value="Option 2" selected&gt;Option 2&lt;/option&gt;
+&lt;option value="Option 3"&gt;Option 3&lt;/option&gt;
+&lt;/select&gt;
+</code></pre>
+
+  <ul>
+    <li>single value shows up on server side</li>
+    <li>you can use selected in <code>option</code> element to default to that option</li>
+    <li>use the attribute, <code>multiple</code>, on the <code>select</code> element&#8230;
+      <ul>
+        <li>to allow multiple values to be selected</li>
+        <li>&#8230;if multiple values, interpreted as an Array on server side</li>
+      </ul>
+    </li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="textboxtextareas">Textbox/Textareas</h2>
+
+  <p>A larger version of text input!</p>
+
+  <pre><code data-trim="" contenteditable="">
+&lt;textarea name="textareaExample"&gt;&lt;/textarea&gt;
+</code></pre>
+
+  <p>(not much to see here)</p>
+</section>
+
+<section>
+  <h2 id="hidden-input">Hidden Input</h2>
+
+  <p>This input will send along the data that&#39;s in the <code>value</code> attribute when the form is submitted. It&#39;s not visible in the user interface.</p>
+
+  <pre><code data-trim="" contenteditable="">
+&lt;input type="hidden" name="hiddenExample" value="someValue&gt;
+</code></pre>
+
+  <p>Particularly useful if you want a pre-set piece of data to be submitted along with the rest of your form (perhaps the id of an associated resource).</p>
+</section>
+
+<section>
+  <h2 id="for-a-demo">For a Demo</h2>
+
+  <p>In a router&#8230;</p>
+
+  <pre><code data-trim="" contenteditable="">
+router.get('/forms', function(req, res) {
+	res.render('forms', { title: 'Express' });
+});
+
+router.post('/forms', function(req, res) {
+	console.log('=====\n', req.body, '\n=====');
+	res.redirect('/forms');
+});
+</code></pre>
+</section>
+
+<section>
+  <h2 id="for-a-demo-continued">For a Demo Continued</h2>
+
+  <p>In forms.hbs:</p>
+
+  <pre><code data-trim="" contenteditable="">
+<form method="POST" action="">
+<div>
+<label>Text</label><input type="text" name="textExample" />
+</div>
+<div>
+<label>Email</label><input type="email" name="emailExample" />
+</div>
+<div>
+<label>URL</label><input type="url" name="urlExample" /></div>
+<div>
+<label>Search</label><input type="search" name="searchExample" />
+</div>
+<div>
+<label>Number</label><input type="number" min="1" max="10" step="1" name="numberExample" />
+</div>
+<div>
+<label>Range</label><input min="1" max="10" step="1" type="range" name="rangeExample" />
+</div>
+<div>
+<label>Radio 1</label><input type="radio" name="radioExample" value="Radio 1" />
+<label>Radio 2</label><input type="radio" checked="" name="radioExample" value="Radio 2" />
+<label>Radio 3</label><input type="radio" name="radioExample" value="Radio 3" />
+</div>
+<div>
+<label>Checkbox 1</label><input type="checkbox" name="checkboxExample" value="Checkbox 1" />
+<label>Checkbox 2</label><input type="checkbox" name="checkboxExample" value="Checkbox 2" />
+<label>Checkbox 3</label><input type="checkbox" name="checkboxExample" value="Checkbox 3" />
+</div>
+<div>
+<label>Date</label><input type="date" name="dateExample" />
+</div>
+<div>
+<label>Dropdown</label>
+<select name="selectExample">
+<option value="Option 1">Option 1</option>
+<option value="Option 2" selected="">Option 2</option>
+<option value="Option 3">Option 3</option>
+</select>
+</div>
+<div>
+<label>Multi-select</label>
+<select multiple="" name="multiSelectExample">
+<option value="Option 1">Option 1</option>
+<option value="Option 2">Option 2</option>
+<option value="Option 3">Option 3</option>
+</select>
+</div>
+<div>
+<textarea name="textareaExample"></textarea>
+</div>
+<div>
+<label></label><input type="submit" />
+</div>
+</form>
+</code></pre>
+</section>
+:ET

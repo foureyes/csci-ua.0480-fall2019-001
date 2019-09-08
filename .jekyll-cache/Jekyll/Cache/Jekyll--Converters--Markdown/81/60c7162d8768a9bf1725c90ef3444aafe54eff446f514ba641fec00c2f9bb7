@@ -1,0 +1,386 @@
+I"�<<section class="intro-slide">
+  <h1 id="scaffolding">Scaffolding</h1>
+
+  <h3 id="csci-ua0480-001">CSCI-UA.0480-001</h3>
+
+  <p><small></small></p>
+</section>
+
+<section>
+  <h2 id="scaffolding-topics">Scaffolding Topics</h2>
+
+  <p>We&#39;ll discuss:</p>
+
+  <ul>
+    <li>what it takes to <em>bootstrap</em> an Express app</li>
+    <li>a peek at scaffolding</li>
+    <li>revisit modules</li>
+    <li>revisit middleware</li>
+    <li>revisit handlebars / yet another handlebars module</li>
+    <li>revisit installing with npm</li>
+    <li>scaffolding
+      <ul>
+        <li>installation</li>
+        <li>our modifications</li>
+        <li>running an app</li>
+        <li>stacktraces</li>
+        <li>layout</li>
+      </ul>
+    </li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="bootstrapping-an-express-app">Bootstrapping an Express App</h2>
+
+  <p>Hey. So good news. We know to create an express app. <strong>Walk me through all of the boilerplate stuff that we have to do to&#8230;</strong> &#8594;</p>
+
+  <ul>
+    <li>create a <strong>simple express app</strong></li>
+    <li>that <strong>contains a form</strong> (that POSTs data)</li>
+    <li>&#8230;and has <strong>handlebars</strong> templates</li>
+    <li>&#8230;and serves <strong>static files</strong> (for CSS and images)</li>
+    <li>&#8230;that has adequate <strong>logging</strong></li>
+  </ul>
+
+  <p><br />
+(kind of the bare minimum for a reasonable app, right?)</p>
+</section>
+
+<section>
+  <h2 id="bootstrapping-an-express-app-continued">Bootstrapping an Express App Continued</h2>
+
+  <p>Not <em>sooooo much</em> work, but <strong>there&#39;s still enough to make it a bit cumbersome:</strong> &#8594;</p>
+
+  <ol class="fragment">
+    <li>require and setup an actual Express app (create an app object, listen)</li>
+    <li>require handlebars and configure your Express app to use it</li>
+    <li>create your <code>view</code> directories so you have a place to put your templates</li>
+    <li>configure your Express app to use static files</li>
+    <li>create your <code>public</code> directory so you have a place to store your static resources, like images, css, etc.</li>
+    <li>require and configure body-parser to make sure you can read form data</li>
+    <li>create middleware to log requests and responses to the console</li>
+  </ol>
+
+</section>
+
+<section>
+  <h2 id="whew-i-am-tired">WHEW! I AM TIRED</h2>
+
+  <h3 id="were-lazy-so-even-though-thats-not-so-much-its-still-definitely-too-much-work">We&#39;re lazy, so even though that&#39;s not <em>so much</em>, it&#39;s still <strong>definitely</strong> <em>too much</em> work.</h3>
+
+  <ul>
+    <li>that&#39;s a lot of tasks for such a tiny web app</li>
+    <li>they&#39;re all pretty boilerplate too</li>
+    <li><strong>you <em>know</em> who&#39;s really good at finishing up tons of tiny and tedious tasks?</strong></li>
+    <li class="fragment">your computer!</li>
+  </ul>
+
+</section>
+
+<section>
+  <h1 id="instead-of-doing-all-of-this-stuff-on-our-own-we-can-just-let-a-computer-do-it-for-us">Instead of doing all of this stuff on our own, we can just let a computer do it for us.</h1>
+
+</section>
+<section>
+  <h2 id="express-generator">Express Generator</h2>
+
+  <p><strong>Express Generator</strong> is a commandline tool that creates a <strong>skeleton</strong> Express project with a single, simple command.  The project will come with a bunch of stuff baked in:</p>
+
+  <p><strong>All of the stuff we asked for&#8230;</strong></p>
+
+  <ul>
+    <li class="fragment">creating a simple express app with&#8230;</li>
+    <li class="fragment">templating</li>
+    <li class="fragment">serving static files</li>
+    <li class="fragment">parsing the request body</li>
+    <li class="fragment">logging</li>
+  </ul>
+
+  <p class="fragment"><br />
+<strong>And even more!</strong></p>
+
+  <ul>
+    <li class="fragment">bootstrapping package.json</li>
+    <li class="fragment">laying out the directory structure of your project</li>
+    <li class="fragment">setting up 404 and 500 pages</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="a-peek-at-scaffolding">A Peek at Scaffolding</h2>
+
+  <p><strong>Let&#39;s take a quick peek at what this thing does!</strong> &#8594;</p>
+
+  <ol>
+    <li>install it: <code>npm install -g express-generator</code></li>
+    <li>generate a skeleton app: <code>express --hbs myapp</code></li>
+    <li>install dependencies <code>cd myapp</code>, then <code>npm install</code></li>
+    <li>run your app at localhost:3000: <code>./bin/www</code></li>
+  </ol>
+
+</section>
+
+<section>
+  <h2 id="lets-check-out-what-it-made">Let&#39;s Check Out What it Made</h2>
+
+  <p>You can find <a href="http://expressjs.com/starter/generator.html">a more detailed list in the Express docs</a>, but here are some highlights:</p>
+
+  <ul>
+    <li>a few directories
+      <ul>
+        <li>the actual app&#39;s directory</li>
+        <li><code>views</code> (but no <code>layout</code>)</li>
+        <li><code>public</code> (but the folders in are named differently)</li>
+        <li>something called <code>routes</code> and <code>bin</code></li>
+      </ul>
+    </li>
+    <li>a bunch of files
+      <ul>
+        <li>of course, <code>app.js</code></li>
+        <li>a package.json</li>
+        <li>and <em>others</em></li>
+      </ul>
+    </li>
+    <li>for the most part, things are slightly different, but familiar</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="revisiting-a-few-topics-before-moving-on">Revisiting a Few Topics Before Moving On</h2>
+
+  <p>The are a few things that need a bit of explanation before diving in to what the scaffolding generated&#8230;.</p>
+
+  <ul>
+    <li>installing with npm (finally using package.json)</li>
+    <li>modules (creating our own)</li>
+    <li>middleware (mounting at a specific location)</li>
+    <li>handlebars again (a different module)</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="packagejson">package.json?</h2>
+
+  <p><strong>What does package.json contain again?</strong> &#8594;</p>
+
+  <ul class="fragment">
+    <li>meta data about your app (mainly for packaging and distribution purposes)</li>
+    <li>but most importantly, <strong>a list of module dependencies</strong></li>
+    <li>we&#39;ve been <code>--save</code>&#39;ing dependencies to it, but we haven&#39;t done anything with it yet&#8230; <strong>so what can we actually do with it?</strong> &#8594;</li>
+  </ul>
+
+  <p class="fragment"><br />
+Notice that right after we generated our scaffolding, we ran <strong><code>npm install</code></strong> in our application&#39;s root directory! &#8594;</p>
+
+  <ul class="fragment">
+    <li>this installs everything that&#39;s in <code>package.json</code>!</li>
+    <li>&#8230; without having to install each module individually</li>
+    <li>(that means that everything that&#39;s required in the generated <code>app.js</code> gets installed)</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="npm-install">npm install</h2>
+
+  <p>Straight from the docs:</p>
+
+  <p><strong>npm install</strong> (in package directory, no arguments):</p>
+
+  <ul>
+    <li>install the dependencies in the local <code>node_modules</code> folder.</li>
+    <li>by default, npm install will install all modules listed as dependencies</li>
+    <li>(with the &#8211;production flag, npm will not install modules listed in devDependencies &#8230; we don&#39;t have any yet, so this can be safely ignored)</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="modules">Modules</h2>
+
+  <p><strong>Does anyone remember what a module is?</strong> &#8594;</p>
+
+  <ul class="fragment">
+    <li>it&#39;s just a <strong>JavaScript file</strong></li>
+    <li>its contents can be brought in to another file by using the <strong><code>require</code></strong> statement (like <code>const express = require('express')</code></li>
+    <li>you can name a specific path in <code>require</code> (<code>require('./somemodule')</code>)</li>
+    <li>you can also drop the .js extension</li>
+    <li><strong>for variables to be usable by (exposed to) the file that&#39;s including the module&#8230;</strong> &#8594;
+      <ul>
+        <li class="fragment">you have to use the built-in <strong><code>exports</code></strong> variable (in module: <code>exports.publicname = myVar;</code> to make things public</li>
+        <li class="fragment">after requiring module, <code>module.publicname</code>)</li>
+      </ul>
+    </li>
+  </ul>
+
+  <p class="fragment"><br />
+<strong>Let&#39;s try making a module that has a function in it&#8230; and using that function in another file.</strong> &#8594;</p>
+</section>
+
+<section>
+  <h2 id="modules-in-the-scaffolding">Modules in the Scaffolding</h2>
+
+  <p><strong>Note that there&#39;s a directory called routes&#8230;</strong> &#8594;</p>
+
+  <ul>
+    <li>it has two files in it</li>
+    <li><code>index.js</code> and <code>users.js</code></li>
+    <li>with (surprise) routes in them!</li>
+    <li>&#8230;it looks like the files are just modules</li>
+    <li>(notice the use of <code>module.exports</code> - the built in <code>exports</code> variable is just a <a href="http://nodejs.org/api/modules.html#modules_module_exports">shorter name/alias for it</a>)</li>
+    <li><strong>also it uses an Express router&#8230;</strong> &#8594;</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="routers">Routers</h2>
+
+  <p>A router is an object that has the ability to define routes and use middleware. <strong>Sound familiar?</strong> &#8594;</p>
+
+  <p class="fragment"><strong>(Because it should a little bit&#8230;)</strong> &#8594;</p>
+
+  <p class="fragment"><strong>Straight from <a href="http://expressjs.com/api.html#router">the docs</a>:</strong> &#8594;</p>
+
+  <ul class="fragment">
+    <li>a <strong>router</strong> is an isolated instance of middleware and routes</li>
+    <li>routers can be thought of as &quot;mini&quot; applications&#8230;</li>
+    <li>capable only of performing middleware and routing functions</li>
+    <li><strong>we&#39;ve seen this before</strong> because it acts just like our <strong>app object</strong>
+      <ul>
+        <li>the router can have middleware</li>
+        <li>&#8230; and http VERB routes added just like an application</li>
+        <li><strong>but no listen&#8230;</strong></li>
+      </ul>
+    </li>
+    <li>routers behave like middleware themselves and can be <code>.use()'d</code> by the app or in other routers</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="route-modules-as-middleware">Route Modules as Middleware</h2>
+
+  <p>To use the route modules, the generated <strong><code>app.js</code></strong> does the following:</p>
+
+  <ul>
+    <li>the route modules are brought in using <code>require</code></li>
+    <li>which are used like middleware by using <strong><code>app.use</code></strong></li>
+    <li><strong>let&#39;s take a look at the generated code&#8230;</strong> &#8594;</li>
+    <li class="fragment">speaking of middleware, there are two version of calling the <code>use</code> method&#8230; <strong>what were they?</strong>
+      <ul>
+        <li class="fragment">with a single argument&#8230; middleware is enabled for all paths - <code>app.use(someFunction)</code></li>
+        <li class="fragment">with a two arguments&#8230; middleware is enabled for the path specified - <code>app.use('/path', someFunction)</code></li>
+      </ul>
+    </li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="external-routes--middleware-at-specific-paths"><em>External</em> Routes / Middleware at Specific Paths</h2>
+
+  <p>Notice that the route modules are used just like middleware.</p>
+
+  <ul>
+    <li>they&#39;re <em>mounted</em> at specific paths</li>
+    <li><strong>why might we have a separate folder for each set of routes, and why do we want them external to app.js?</strong> &#8594;
+      <ul>
+        <li class="fragment">as code base grows, a single file with all routes may end up unwieldy!</li>
+        <li class="fragment">helps organize functionality by top level paths</li>
+        <li class="fragment">(for example, all blog related stuff goes in /blog, all account related stuff goes in /account)</li>
+        <li class="fragment">for our simple projects, separating this stuff out may seem a bit like over-engineering, but it&#39;s handy to know for larger projects&#8230;</li>
+      </ul>
+    </li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="back-to-scaffolding">Back to Scaffolding</h2>
+
+  <p>Recap so far&#8230;</p>
+
+  <ul>
+    <li><strong>How do we install it?</strong> &#8594;</li>
+    <li class="fragment"><code>npm install express-generator</code></li>
+    <li class="fragment"><strong>How do we generate a project?</strong> &#8594;</li>
+    <li class="fragment"><code>express --hbs myapp</code> (the &#8211;hbs specifies that handlebars should be the template engine)</li>
+    <li class="fragment"><strong>How do we run an app?</strong> &#8594;</li>
+    <li class="fragment"><code>./bin/www</code> or <code>node bin/www</code> &#8594;</li>
+    <li class="fragment">that&#39;s weird&#8230; <strong>let&#39;s take a closer look</strong> &#8594;
+      <ul>
+        <li>(note that app is just a module required by www)</li>
+      </ul>
+    </li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="the-project-layout">The Project Layout</h2>
+
+  <pre><code data-trim="" contenteditable="">
+├── app.js (main app and app configuration)
+├── bin
+│   └── www (file that we run to start app)
+├── package.json (dependencies, project meta data)
+├── public (static assets)
+│   ├── images
+│   ├── javascripts
+│   └── stylesheets
+│       └── style.css
+</code></pre>
+  <pre><code data-trim="" contenteditable="">
+├── routes - (we'll do a lot of work here)
+│   ├── index.js
+│   └── users.js (get rid of this, yeah?)
+└── views (layouts and templates)
+    ├── error.hbs
+	├── index.hbs
+	└── layout.hbs
+</code></pre>
+</section>
+
+<section>
+  <h2 id="odds-and-ends">Odds and Ends</h2>
+
+  <ul>
+    <li>stack trace
+  <code>NODE_ENV='development' node bin/www</code></li>
+    <li>check out the logging!</li>
+    <li>what should we remove?
+      <ul>
+        <li>user routes?</li>
+      </ul>
+    </li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="some-annoyances">Some Annoyances</h2>
+
+  <ul>
+    <li>delete a bunch of stuff - users, any unwanted modules</li>
+    <li>forces specific handlebars module</li>
+    <li>some folder names are odd (javascripts?)</li>
+    <li>two space indents may not match your indentation</li>
+    <li>ups complexity somewhat (more files and requires)</li>
+  </ul>
+</section>
+<section>
+  <h2 id="yeah-scaffolding">Yeah, Scaffolding!</h2>
+
+  <p>For <strong>convenience</strong>, we&#39;ll be using scaffolding in class demonstrations from time to time.</p>
+
+  <ul>
+    <li>you know, because live demos are prone to typos, misspellings and a bunch of on-the-spot debugging (fun sometimes, but maybe too time consuming)</li>
+    <li>now that you (<em>hopefully</em>) are comfortable with some of the basic concepts behind express, feel free to use the generator</li>
+    <li>so, for your projects / homework, you can decide whether or not you&#39;d like to use it (<strong>why wouldn&#39;t you?</strong> &#8594;)
+      <ul>
+        <li class="fragment">maybe it&#39;s just not to your liking (too much extraneous stuff!)</li>
+        <li class="fragment">fortunately, express is <em>unopinionated</em>, you can use whatever project structure you like</li>
+        <li class="fragment"><a href="http://expressjs.com/starter/faq.html">check out some other options in the faq</a></li>
+        <li class="fragment">&#8230; this layout will continue to evolve</li>
+      </ul>
+    </li>
+  </ul>
+</section>
+:ET

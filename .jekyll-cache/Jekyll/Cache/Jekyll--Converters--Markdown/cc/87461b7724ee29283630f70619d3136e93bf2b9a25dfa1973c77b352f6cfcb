@@ -1,0 +1,142 @@
+I"Ž<section class="intro-slide">
+  <h1 id="about-class-8">About Class #8</h1>
+
+  <h3 id="csci-ua0480-001">CSCI-UA.0480-001</h3>
+
+  <p><small></small></p>
+</section>
+
+<section>
+  <h1 id="done-with-javascript-finally">Done With JavaScript, Finally!</h1>
+
+  <h3 class="fragment" id="well-not-really">(Well not really)</h3>
+
+  <h3 class="fragment" id="just-a-tiny-bit-more-today">(Just a tiny bit more today)</h3>
+</section>
+
+<section>
+  <h2 id="javascript-from-here-on-in">JavaScript From Here on In</h2>
+
+  <p><strong>Of course, we&#39;ll still be using JavaScript heavily throughout the class.</strong></p>
+
+  <ul>
+    <li>But we won&#39;t be focusing on the language itself anymore.</li>
+    <li>There are a few things that we didn&#39;t have chance to cover:
+      <ul>
+        <li class="fragment">composition vs inheritance</li>
+        <li class="fragment">calling super methods and constructors</li>
+      </ul>
+    </li>
+  </ul>
+
+  <p class="fragment"><br />
+I&#39;ll write something up on those topics&#8230;</p>
+</section>
+
+<section>
+  <h1 id="so-up-next">So Up Next&#8230;</h1>
+</section>
+
+<section>
+  <h2 id="making-web-applications">Making Web Applications</h2>
+
+  <h3 id="starting-with-a-general-overview-of-the-">Starting with a general overview of the &#8230;</h3>
+  <div class="img">
+    <p><img src="../../resources/img/internet.gif" alt="the internet" /></p>
+  </div>
+</section>
+
+<section>
+  <h2 id="the-internets">The Internets</h2>
+
+  <p><strong>We&#39;ll finally be moving on to topics about web development</strong>: &#8594;</p>
+
+  <ul>
+    <li>An Intro to Web Development</li>
+    <li>A Web Server</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="upcoming-classes">Upcoming Classes</h2>
+
+  <p>For the next couple of weeks we&#39;ll be covering Node and a web framework called Express.</p>
+
+  <p><a href="../../schedule.html#class08">Check out the schedule</a> &#8594;</p>
+</section>
+
+<section>
+  <h2 id="before-we-go-on">Before We Go On</h2>
+
+  <p>A re-cap of questions that I&#39;ve received a few times&#8230;</p>
+
+</section>
+<section>
+  <h2 id="this">This</h2>
+
+  <p>During our last class, we went over a few patterns for function invocation.  <strong>Do you remember any of those patterns and how they affected <em>this</em>?</strong></p>
+
+  <ul>
+    <li><strong>method invocation</strong> (this &#8594; object that method was called on)</li>
+    <li><strong>function invocation</strong> (this &#8594; global)</li>
+    <li><strong>call, apply</strong> (this &#8594; whatever we want it to be!)</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="constructors--properties">Constructors / Properties</h2>
+
+  <p>When writing a constructor, we can set properties and values on the instances that are created from it. <strong>How do we do this? (hint&#8230; there are two ways)</strong> &#8594;</p>
+
+  <ul class="fragment">
+    <li>using <strong>this</strong></li>
+    <li>adding to the <strong>prototype</strong> property</li>
+  </ul>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+function MyConstructor() {
+	this.prop = 'I\'m a property';
+}
+
+MyConstructor.prototype.printSomething = function() {
+	console.log('me too');
+};
+
+var foo = new MyConstructor();
+console.log(foo);
+foo.printSomething();
+</code></pre>
+</section>
+
+<section>
+  <h2 id="constructors--properties-1">Constructors / Properties</h2>
+
+  <p><strong>Which one do we use?</strong> &#8594;</p>
+
+  <p class="fragment">From <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Closures#Performance_considerations">Mozilla&#39;s JavaScript documentation</a>&#8230;</p>
+
+  <blockquote class="fragment">
+    <p>&quot;methods should normally be associated to the object&#39;s prototype rather than defined into the object constructor&quot;</p>
+  </blockquote>
+
+  <p class="fragment">As we mentioned before, a function is assigned to every object when using this, but there&#39;s only one function for every instance when using prototype.</p>
+
+  <p class="fragment"><a href="http://stackoverflow.com/questions/12180790/defining-methods-via-prototype-vs-using-this-in-the-constructor-really-a-perfo">And another reference.</a></p>
+</section>
+
+<section>
+  <h2 id="before-we-go-on-about-homework">Before we Go On&#8230; About Homework</h2>
+
+  <p><strong>Homework #1</strong> grades should be posted this week</p>
+
+</section>
+
+<section>
+  <h2 id="readings">Readings</h2>
+
+  <p><a href="../../schedule.html#class08">BTW, have you been following along with the readings</a> &#8594;</p>
+
+</section>
+:ET

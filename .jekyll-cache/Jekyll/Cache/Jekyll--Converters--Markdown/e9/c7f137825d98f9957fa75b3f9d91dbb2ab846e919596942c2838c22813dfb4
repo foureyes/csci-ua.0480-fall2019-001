@@ -1,0 +1,366 @@
+I"�0<section class="intro-slide">
+  <h1 id="a-tiny-review-types-operators-control-structures-etc">A Tiny Review (Types, Operators, Control Structures, etc.)</h1>
+
+  <h3 id="csci-ua0480-001">CSCI-UA.0480-001</h3>
+
+  <p><small></small></p>
+</section>
+
+<section>
+  <h2 id="a-tiny-review">A Tiny Review</h2>
+
+  <h3 id="previously-on-">Previously on &#8230;</h3>
+
+  <ul>
+    <li>we talked about <strong>types</strong>, <strong>operators</strong>, and <strong>variables</strong></li>
+    <li>oh, and some <strong>built-in functions</strong></li>
+    <li>&#8230;.and <strong>control structures</strong>
+      <ul>
+        <li><code>if</code> and <code>if</code>-<code>else</code></li>
+        <li><code>for</code></li>
+      </ul>
+    </li>
+    <li><strong>let&#39;s do a quick recap</strong> &#8594;</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="types">Types</h2>
+
+  <p><strong>Name 6 types that we know in JavaScript and a literal example of each.</strong> &#8594;</p>
+
+  <ul class="fragment">
+    <li>number - <code>317</code></li>
+    <li>string - <code>"yup, a string"</code></li>
+    <li>boolean - <code>true</code></li>
+    <li>function - <code>function f(x) {return x * 2}</code></li>
+    <li>object - <code>{'classSection': '002'}</code></li>
+    <li>undefined - <code>undefined</code> (of course!)</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="operators">Operators</h2>
+
+  <p>We talked about a bunch of operators:</p>
+
+  <ul>
+    <li><strong>arithmetic</strong>: <code class="fragment">+&nbsp;&nbsp;-&nbsp;&nbsp;*&nbsp;&nbsp;/&nbsp;&nbsp;%</code> <!--* --></li>
+    <li><strong>bitwise</strong>: <code class="fragment">&amp;&nbsp;&nbsp;|&nbsp;&nbsp;^&nbsp;&nbsp; ~&nbsp;&nbsp; &lt;&lt;;&nbsp;&nbsp;&gt;&gt;&nbsp;&nbsp;&gt;&gt;&gt;</code></li>
+    <li><strong>logical operators</strong>: <code class="fragment">&amp;&amp;&nbsp;&nbsp;||&nbsp;&nbsp;!</code></li>
+    <li><strong>comparison operators</strong>: <code class="fragment">==&nbsp;&nbsp;!=&nbsp;&nbsp;===&nbsp;&nbsp;!==&nbsp;&nbsp;&gt;&nbsp;&nbsp;&lt;&nbsp;&nbsp;&gt;=&nbsp;&nbsp;&lt;=</code></li>
+    <li><strong>miscellaneous</strong>:
+      <ul class="fragment">
+        <li>unary <code>+</code> and <code>-</code> &#8230; convert to positive or negative number</li>
+        <li><code>typeof</code> &#8230; obvs, returns string representation of type of operand</li>
+        <li>unary and postfix <code>++</code> and <code>--</code> &#8230; increment and decrement</li>
+      </ul>
+    </li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="equality">Equality</h2>
+
+  <p><strong>What&#39;s the difference between</strong> <code>==</code> <strong>and</strong> <code>===</code><strong>?</strong> &#8594;</p>
+
+  <ul>
+    <li class="fragment"><code>==</code> - allows coercion when testing if both values are equal</li>
+  </ul>
+  <pre class="fragment"><code data-trim="" contenteditable="">
+&gt;"5" == 5
+true
+</code></pre>
+  <ul>
+    <li class="fragment"><code>===</code> - checks both type and value</li>
+  </ul>
+  <pre class="fragment"><code data-trim="" contenteditable="">
+&gt;"5" === 5
+false
+</code></pre>
+
+  <p class="fragment"><strong>Always use</strong> <code>===</code> (and its friend, <code>!==</code>)!</p>
+
+</section>
+
+<section>
+  <h2 id="variables">Variables</h2>
+
+  <p><strong>How is a variable declared in JavaScript?</strong> &#8594;</p>
+
+  <p>(create a variable called officeHoursRoom and set it equal to the number 423)</p>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+var officeHoursRoom = 423;
+</code></pre>
+
+  <ul class="fragment">
+    <li>notice the keyword <code>var</code>? <strong>Use it! All. The. Times. Really!</strong></li>
+    <li>does anyone remember what happens if you don&#39;t declare with <code>var</code>? <span class="fragment"><strong>&#8230; you get a global variable ಠ_ಠ</strong></span></li>
+  </ul>
+
+  <!--_ -->
+</section>
+
+<section>
+  <h2 id="variable-names">Variable Names</h2>
+
+  <p><strong>What are the rules for a valid identifier (variable name) again?</strong> &#8594;</p>
+
+  <ul>
+    <li class="fragment">start with a <strong>letter</strong>, <strong>underscore</strong> ( <code>_</code> ), or <strong>dollar</strong> ( <code>$</code> ) <!--_--></li>
+    <li class="fragment">following characters can be any of above, and/or <strong>digits (0-9)</strong></li>
+    <li class="fragment">can&#39;t use reserved words / keywords</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="reassignment">Reassignment</h2>
+
+  <p><strong>What&#39;s the output of this code? Error, 25 or &quot;foo&quot;?</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+var x = 25;
+x = "foo";
+console.log(x);
+</code></pre>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+foo
+</code></pre>
+
+  <p class="fragment">You can bind an <em>identifier</em> (variable name) to values of different types during run time! Remember, JavaScript is <strong>dynamically typed</strong>.</p>
+</section>
+
+<section>
+  <h2 id="built-in-functions">Built-In Functions</h2>
+
+  <p>We saw 2 built-in functions. <strong>What were they</strong> &#8594;</p>
+
+  <ul>
+    <li class="fragment"><code>console.log(obj1, [obj2, obj3, ... objN])</code></li>
+    <li class="fragment"><code>parseInt(string,radix)</code></li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="ok-so-keeping-in-mind-these-definitions">Ok&#8230; so Keeping in Mind These Definitions&#8230;</h2>
+
+  <ul>
+    <li><strong>boolean expression</strong> - an expression that results in a boolean value
+      <ul>
+        <li><code>423 === 423</code> &#8594;
+          <ul>
+            <li>JavaScript &#10084;s coercing values for you; a value will be coaxed into boolean when the need arises</li>
+          </ul>
+        </li>
+        <li><code>!!5</code> &#8594;
+          <ul>
+            <li>logical not, logical not, number 5 &#8230; <code>¯\_(ツ)_/¯</code></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><strong>block</strong> - a sequence of grouped statements bound by curly braces - <code>{</code>&#39;s and <code>}</code>&#39;s</li>
+    <li><strong>iteration</strong> - repeated execution of a set of programming statements</li>
+    <li><strong>loop</strong> - the construct that allows allows us to repeatedly execute a statement or a group of statements until a terminating condition is satisfied</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="if-and-else">If and Else</h2>
+
+  <p>Should look familiar&#8230;</p>
+
+  <pre><code data-trim="" contenteditable="">
+if (some_boolean_expression) {
+	// do stuff here if expression is true
+}
+
+if (some_boolean_expression) {
+	// do stuff 
+} else if (another_boolean_expression) {
+	// do other stuff
+} else {
+	// do other other stuff
+}
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="switch-case">Switch-Case</h2>
+
+  <p><code>if ... else</code> getting too cumbersome? You can use <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/switch"><code>switch ... case</code></a> too&#8230;</p>
+
+  <pre><code data-trim="" contenteditable="">
+var day = "fri";
+switch (day) { 
+	case "fri":
+		console.log("Friday");
+	case "thu":
+		console.log("Thursday");
+		break;
+	case "wed":
+		console.log("Wednesday");
+		break;
+}
+</code></pre>
+
+  <p><strong>What is the output of the above programs?</strong> &#8594;</p>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+Friday
+Thursday
+// notice that there's no break at the end of case "fri"
+// so execution continues
+</code></pre>
+</section>
+
+<section>
+  <h2 id="loops">Loops</h2>
+
+  <p>A <code>for</code> loop:</p>
+
+  <ul>
+    <li><strong>Note how the loop variable, <code>i</code> is initialized (use var!)</strong>.</li>
+    <li>also, increment and decrement operators work as you&#39;d expect</li>
+  </ul>
+
+  <pre><code data-trim="" contenteditable="">
+for(var i = 0; i &lt;= 5; i++) {
+	console.log(i);
+}
+</code></pre>
+
+  <p>A <code>while</code> loop:</p>
+
+  <pre><code data-trim="" contenteditable="">
+while (boolean_expression) {
+	// repeat this stuff as long as boolean expression is true
+}
+</code></pre>
+
+  <p>And, if you want the body executed first, <code>do ... while</code></p>
+  <pre><code data-trim="" contenteditable="">
+do {
+	// repeat this stuff at least once
+} while (boolean_expression)
+</code></pre>
+</section>
+
+<section>
+  <h2 id="break-and-continue">Break and Continue</h2>
+
+  <p>Of course, there&#39;s <code>break</code> and <code>continue</code>&#8230;.</p>
+
+  <p>The <strong>keyword</strong> <code>break</code> immediately stops the execution of a loop:</p>
+
+  <pre><code data-trim="" contenteditable="">
+for (var num = 1; num &lt; 30; num++) { 
+	if (num % 7 == 0 &amp;&amp; num % 3 == 0)
+		break; 
+	console.log(num);
+}
+</code></pre>
+
+  <p>The <strong>keyword</strong> <code>continue</code> stops the current iteration and immediately skips to the next one:</p>
+
+  <pre><code data-trim="" contenteditable="">
+for(var num = 1; num &lt; 30; num++) { 
+	if (num % 7 == 0 &amp;&amp; num % 3 == 0)
+		continue; 
+	console.log(num);
+}
+</code></pre>
+
+  <p><strong>What is the output of the above programs?</strong> &#8594;</p>
+
+  <p><span class="fragment"><strong>1 through 20</strong> and <strong>1 through 29 skipping 21</strong> respectively</span></p>
+</section>
+
+<section>
+  <h2 id="an-exercise">An Exercise</h2>
+
+  <h3 id="we-didnt-get-to-do-this-during-the-last-class-so-lets-try-it-now">(We didn&#39;t get to do this during the last class, so let&#39;s try it now)</h3>
+</section>
+
+<section>
+  <h2 id="fizzbuzz">FizzBuzz</h2>
+
+  <p><strong>From Eloquent JavaScript</strong>:</p>
+
+  <ul>
+    <li>write a program that uses console.log to print all the numbers from 1 to 100</li>
+    <li>for numbers divisible by 3, print &quot;Fizz&quot; instead of the number</li>
+    <li>for numbers divisible by 5 (and not 3), print &quot;Buzz&quot; instead</li>
+    <li>for numbers divisible by <strong>both</strong> 3 and 5, print &quot;FizzBuzz&quot; instead</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="type-coercion">Type Coercion</h2>
+
+  <p>JavaScript <em>really</em> likes to help out when you&#39;re working with values of different types. <strong>There&#39;s a bunch of rules when it comes to coercing one type to another.</strong> &#8594;</p>
+
+  <ul>
+    <li><strong>when adding values</strong> &#8230;
+      <ul>
+        <li class="fragment">if either of the values is a string, coerce the other to perform string concatenation</li>
+        <li class="fragment">otherwise convert both sides to numbers (if they aren&#39;t already) and perform addition</li>
+      </ul>
+    </li>
+    <li><strong>when comparing values with relational operators, such as &lt;</strong>
+      <ul>
+        <li class="fragment">try to convert both sides to numbers first, so that comparison can be easily performed</li>
+        <li class="fragment">if either operand is NaN, the result is False</li>
+      </ul>
+    </li>
+    <li class="fragment"><strong>when it doubt, check the <a href="http://www.ecma-international.org/ecma-262/5.1/#sec-11.8.5">spec</a></strong> (or, of course <a href="http://stackoverflow.com/questions/14687876/how-do-the-javascript-relational-comparison-operators-coerce-types">SO</a> it)</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="type-coercion-continued">Type Coercion Continued</h2>
+
+  <p><strong>What are some ways to avoid making mistakes with type coercion (other than memorizing all of the rules)?</strong> &#8594;</p>
+
+  <ul>
+    <li class="fragment">always use <code>===</code> or <code>!==</code> when checking for equality</li>
+    <li class="fragment">explicitly convert from one type to another before using value (casting)</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="converting-types">Converting Types</h2>
+
+  <p><strong>What are some operators that we could use to convert a value into &#8230;</strong> &#8594;</p>
+
+  <ul>
+    <li>a <code>boolean</code>
+      <ul>
+        <li class="fragment">negate twice!? &#8230;for example: <code>!!5</code></li>
+      </ul>
+    </li>
+    <li>a <code>string</code>
+      <ul>
+        <li class="fragment">add empty string to it: <code>5 + ""</code></li>
+      </ul>
+    </li>
+    <li>a <code>number</code>
+      <ul>
+        <li class="fragment">use the unary plus: <code>+"5"</code></li>
+        <li class="fragment">also <code>parseInt</code> with radix</li>
+      </ul>
+    </li>
+    <li class="fragment">also constructors that are the same name of type (<code>Number</code>, <code>String</code>, etc.)</li>
+    <li class="fragment"><strong>let&#39;s try these in the interactive shell</strong> &#8594;</li>
+  </ul>
+
+</section>
+:ET

@@ -1,0 +1,27 @@
+I"â<section class="intro-slide">
+  <h1 id="question-on-logging">Question on Logging</h1>
+
+  <h3 id="csci-ua0480-001">CSCI-UA.0480-001</h3>
+
+  <p><small></small></p>
+</section>
+
+<section>
+  <h2 id="logging-out-nested-objects">Logging Out Nested Objects</h2>
+
+  <p>When using printing out nested objects for than 2 levels deep, the third object is just represented by <code>[Object]</code>. <strong>Let&#39;s check out this example.</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+var nested = {a:{b:{c:{d:{}}}}};
+console.log()
+</code></pre>
+
+  <p>Don&#39;t worry&#8230; all of the nested objects still exist. If you want the full details, you can check out <a href="http://www.2ality.com/2011/10/node-print-json.html">this article on printint out nested objects</a></p>
+
+  <pre><code data-trim="" contenteditable="">
+console.log('%j', nested); // json in the format string
+console.log(util.inspect(nested, false, null)); // don't show hidden, no depth
+</code></pre>
+
+</section>
+:ET

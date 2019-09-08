@@ -1,0 +1,736 @@
+I"c<section class="intro-slide">
+  <h1 id="managing-callbacks--promises">Managing Callbacks / Promises</h1>
+
+  <h3 id="csci-ua0480-001">CSCI-UA.0480-001</h3>
+
+  <p><small></small></p>
+</section>
+
+<section>
+  <h2 id="asynchronous-tasks-and-dependencies">Asynchronous Tasks and Dependencies</h2>
+
+  <p>Initially, dealing with asynchronous tasks is a bit tricky. A lot of times, you want to run code only <strong>after a task</strong> completes.</p>
+
+  <p><strong>If you have a task, and you don&#39;t know it will finish, how do you ensure that it&#39;s done before running other code that&#39;s dependent on it?</strong> &#8594;</p>
+
+  <ul>
+    <li class="fragment">we&#39;ve seen a common pattern for tasks that are asynchronous; they expect a callback</li>
+    <li class="fragment">the callback is fired when the task is finished</li>
+    <li class="fragment">so we put any code that&#39;s dependent on that task within the callback</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="an-example">An Example</h2>
+
+  <p>Assuming we have a function called <strong>get</strong> that retrieves a url&#8230; <strong>we tend to want to do this</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+const data = get(url);
+parseResult(data);
+</code></pre>
+
+  <p><strong>But if our get is asynchronous, we can&#39;t guarantee that get finishes before parseResult is called</strong> (so callback functions it is) &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+get(url, function(data) {
+  parseResult(data);
+});
+</code></pre>
+
+</section>
+<section>
+  <h2 id="no-big-deal">No Big Deal</h2>
+
+  <p>Ok. We get asynchronous tasks&#8230; and we understand that:</p>
+
+  <ul>
+    <li>if code depends on an async task</li>
+    <li>put in async task&#39;s callback</li>
+    <li>and it&#39;ll get executed when the task is finished</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="async-tasks-all-the-way-down">Async Tasks All the Way Down</h2>
+
+  <p>So&#8230; what happens if we have async tasks that are dependent on other async tasks? For example:</p>
+
+  <ul>
+    <li>retrieving a url results in a second url</li>
+    <li>which also has to be retrieved&#8230;</li>
+    <li>and maybe, in turn, the second url produces a third!</li>
+  </ul>
+
+  <p><br />
+Let&#39;s assume that we have our get function:</p>
+
+  <ul>
+    <li>it takes two arguments, a url and a callback</li>
+    <li>and the callback has a single parameter, the response data from the request</li>
+  </ul>
+
+  <p><br />
+<strong>Using our imaginary get function, what would this look like?</strong> &#8594;</p>
+
+  <p class="fragment">A tiny pyramid. ▲ ▲ ▲ ▲ ▲</p>
+
+</section>
+<section>
+  <h2 id="a-tiny-pyramid-made-of-http-requests">A Tiny Pyramid Made of HTTP Requests</h2>
+
+  <p>We use a bunch of nested callbacks&#8230; (the pyramid is the white space to the left).</p>
+
+  <pre><code data-trim="" contenteditable="">
+get(url, function(data) {
+  const urlTwo = parseResult(data);
+  get(urlTwo, function(data) {
+    const urlThree = parseResult(data);
+    get(urlThree, function(data) {
+      console.log("Aaaand we're done");
+    });
+  });
+});
+</code></pre>
+</section>
+
+<section>
+  <h2 id="lets-actually-try-this">Let&#39;s Actually Try This</h2>
+
+  <p><strong>Create 3 json files that each have an object with a <code class="highlighter-rouge">url</code> property holding the url of another json file. Then retrieve these files one by one&#8230;</strong> &#8594;</p>
+
+  <ol>
+    <li>Create an express app to serve up our files&#8230;</li>
+    <li>Create a bunch of json files in a directory called <code>data</code> within <code>public</code>
+      <ul>
+        <li><code>tango.json</code>: <code>{ "url":"http://localhost:3000/data/uniform.json" }</code></li>
+        <li><code>uniform.json</code>: <code>{ "url":"http://localhost:3000/data/victor.json" }</code></li>
+        <li><code>victor.json</code>: <code>{}</code></li>
+      </ul>
+    </li>
+    <li>Create a page that uses external JavaScript that&#8230;</li>
+    <li>Uses XMLHttpRequest to pull retrieve <code>tango.json</code></li>
+    <li>Extract the url, and retrieve it&#8230; and do the same for the third url&#8230;</li>
+  </ol>
+
+</section>
+
+<section>
+  <h2 id="this-is-going-to-be-ugly">This is Going to be Ugly</h2>
+
+  <p>Oh hello scrollbars. This won&#39;t even fit on this slide.</p>
+
+  <pre><code data-trim="" contenteditable="">
+const url = 'http://localhost:3000/data/tango.json';
+req1 = new XMLHttpRequest();
+req1.open('GET', url, true);
+req1.addEventListener('load', function() {
+  console.log('loading req1');
+  if(req1.status &gt;= 200 &amp;&amp; req1.status &lt; 400) {
+    console.log(req1.responseText);
+    const data1 = JSON.parse(req1.responseText) 
+    console.log(data1.url);
+    req2 = new XMLHttpRequest();
+    req2.open('GET', data1.url, true);
+    req2.addEventListener('load', function() {
+      console.log('loading req2');
+      if(req2.status &gt;= 200 &amp;&amp; req2.status &lt; 400) {
+        console.log(req2.responseText);
+        const data2 = JSON.parse(req2.responseText) 
+        console.log(data2.url);
+        req3 = new XMLHttpRequest();
+        req3.open('GET', data2.url, true);
+        req3.addEventListener('load', function() {
+          console.log('loading req3');
+          if(req3.status &gt;= 200 &amp;&amp; req3.status &lt; 400) {
+            console.log(req3.responseText);
+            console.log('done');  
+          }
+        });
+        req3.send();
+      }
+    });
+    req2.send();
+  }
+});
+req1.send();
+</code></pre>
+</section>
+
+<section>
+  <h2 id="obviously-that-was-terrible">Obviously, That Was Terrible</h2>
+
+  <p>Oof. Apologies for making your eyes bleed.</p>
+
+  <ul>
+    <li>So much nesting.</li>
+    <li>Such repetition!</li>
+    <li><strong>What can we do to tame this a bit?</strong> &#8594;
+      <ul>
+        <li class="fragment">hey&#8230; maybe stop using so many anonymous functions (start naming <em>those things</em>)</li>
+        <li class="fragment">and/or wrap up URL retrieval and data extraction into separate functions</li>
+        <li class="fragment"><code>get(url, cb)</code></li>
+        <li class="fragment"><code>extractURL(json)</code></li>
+      </ul>
+    </li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="get">get</h2>
+
+  <p>So&#8230; this function will retrieve a url, and when it gets a response, it&#39;ll call the callback with the response text.</p>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+function get(url, cb) {
+  console.log('getting ', url);
+  req = new XMLHttpRequest();
+  req.open('GET', url, true);
+  req.addEventListener('load', function() {
+    console.log('loading req');
+    if(req.status &gt;= 200 &amp;&amp; req.status &lt; 400) {
+      console.log(req.responseText);
+      cb(req.responseText);
+    }
+  });
+  req.send();
+}
+</code></pre>
+</section>
+
+<section>
+  <h2 id="extracturl">extractURL&#8230;</h2>
+
+  <p>This one&#39;s simple</p>
+  <pre><code data-trim="" contenteditable="">
+function extractURL(json) {
+  const data = JSON.parse(json) 
+  console.log(data.url);
+  return data.url;
+}
+</code></pre>
+</section>
+
+<section>
+  <h2 id="voila-using-get-and-extracturl">Voila (Using get and extractURL)</h2>
+
+  <p>Ah. Much nicer.</p>
+
+  <pre><code data-trim="" contenteditable="">
+const url = 'http://localhost:3000/data/tango.json';
+
+get(url, function(responseText) {
+  const url2 = extractURL(responseText); 
+  get(url2, function(responseText) {
+    const url3 = extractURL(responseText); 
+    get(url3, function(responseText) {
+      console.log('done'); 
+    });
+  });
+});
+</code></pre>
+
+  <p>We still get a tiny pyramid, though. To get around that, we can:</p>
+
+  <ul>
+    <li>for this example only (since it&#39;s doing the same thing for each), encapsulate each level of nesting in a single function</li>
+    <li>use <em>Promises</em></li>
+  </ul>
+</section>
+<section>
+  <h2 id="one-more-function">One More Function</h2>
+
+  <p>Getting and extracting were repeated 3 times. Why don&#39;t we just <strong>wrap this in another function</strong>? &#8594;</p>
+
+  <p class="fragment">(this only works because we&#39;re doing the <strong>same exact thing</strong> in each level of callback nesting).</p>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+function getAndExtract(url) {
+  get(url, function(responseText) {
+    const url = extractURL(responseText); 
+    if(url) {
+      getAndExtract(url);
+    } else {
+      console.log('done'); 
+    }
+  });
+}
+getAndExtract(url);
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="promises">Promises</h2>
+
+  <p>So, an alternate way to deal with this is to <strong>use an API that allows to code as if we were dealing with simple, sequential operations</strong>.</p>
+
+  <p>One of these APIs, <strong>Promise</strong>, is in ES6 and is actually <a href="http://caniuse.com/#feat=promises">already available on a lot of browsers</a></p>
+
+  <p>A <strong>Promise</strong> is an object that <strong>represents an asynchronous action</strong> - some operation that may or may not have been completed yet.</p>
+
+  <p>For example, a Promise may represent:</p>
+
+  <ul>
+    <li>retrieving data from a database can be a promise</li>
+    <li>writing to a file</li>
+    <li>making an http request</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="a-promise-object-continued">A Promise Object Continued</h2>
+
+  <p><strong>Again, a Promise is an object that represents an async task</strong> &#8594;</p>
+
+  <p>Consequently, a Promise can be in one of the following states:</p>
+
+  <ol>
+    <li>pending - the task hasn&#39;t been completed yet (still getting a url, reading a file, etc.)</li>
+    <li>fulfilled - the task has completed successfully</li>
+    <li>rejected - the task did not complete successfully (error state)</li>
+  </ol>
+
+</section>
+
+<section>
+  <h2 id="creating-a-promise">Creating a Promise</h2>
+
+  <p><strong>To create a <code>Promise</code> use the <code>Promise</code> constructor:</strong> &#8594;</p>
+
+  <ul>
+    <li>it has one parameter, a function called the <code class="highlighter-rouge">executor</code></li>
+    <li>the executor function is going to do some async stuff</li>
+    <li>it is executed <strong>immediately</strong>, even before the constructor returns!</li>
+    <li>the executor has two parameters:
+      <ul>
+        <li>a function to call if the task succeeded (<code class="highlighter-rouge">fulfill</code>)</li>
+        <li>a function to call if the task failed (<code class="highlighter-rouge">reject</code>)</li>
+        <li>both of these functions have a single argument</li>
+      </ul>
+    </li>
+  </ul>
+
+  <pre><code data-trim="" contenteditable="">
+const p = new Promise(function(fulfill, reject) {
+  // do something async
+  if(asyncTaskCompletedSuccessfully) {
+	fulfill('Success!');
+  } else {
+	reject('Failure!');
+  }
+});
+</code></pre>
+</section>
+
+<section>
+  <h2 id="promise-objects-methods">Promise Objects Methods</h2>
+
+  <p><strong>Promise objects have a couple of methods that allow the <code class="highlighter-rouge">fulfill</code> and <code class="highlighter-rouge">reject</code> arguments of the <code class="highlighter-rouge">executor</code> function to be set:</strong> &#8594;</p>
+
+  <ul>
+    <li class="fragment"><code class="highlighter-rouge">then(fulfill, reject)</code> - sets both the <code class="highlighter-rouge">fulfill</code> and <code class="highlighter-rouge">reject</code> functions</li>
+    <li class="fragment"><code class="highlighter-rouge">catch(reject)</code>- only sets the <code class="highlighter-rouge">reject</code> function</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="then-and-success--fulfill">Then and Success / Fulfill</h2>
+
+  <p><strong><code class="highlighter-rouge">then</code> can represent the next step to execute when a <code class="highlighter-rouge">Promise</code> completes (either successfully or fails).</strong> &#8594;</p>
+
+  <ul>
+    <li>it accepts a couple of callbacks as parameters&#8230;
+      <ul>
+        <li>the thing to do if our Promise was <em>resolved</em> or <em>successful</em></li>
+        <li>the thing to do if our Promise was <em>rejected</em> or <em>unsuccessful</em></li>
+      </ul>
+    </li>
+    <li>these callbacks have a single parameter
+      <ul>
+        <li>the value that was passed into the original succeed or reject function call in the original Promise</li>
+        <li>think of these as the succeed and fail in the original promise</li>
+      </ul>
+    </li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="an-immediately-fulfilled-promise">An Immediately Fulfilled Promise</h2>
+
+  <p>Let&#39;s take a look at how <code class="highlighter-rouge">then</code> works:</p>
+
+  <ul>
+    <li>start with a Promise that immediately is fulfilled</li>
+    <li>(it&#39;s as if the async task finished instantly)</li>
+  </ul>
+
+  <p><br /></p>
+
+  <p><strong>What is the output of this code, if any?</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+const p = new Promise(function(fulfill, reject) {
+  fulfill('Success!');
+});
+p.then(function(val) {
+  console.log(val);
+})
+</code></pre>
+
+  <pre><code data-trim="" contenteditable="">
+Success!
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="immediately-fulfilled-continued">Immediately Fulfilled Continued</h2>
+
+  <p><strong>Let&#39;s take a closer look at what&#39;s happening here:</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+const p = new Promise(function(fulfill, reject) {
+  fulfill('Success!');
+});
+p.then(function(val) {
+  console.log(val);
+})
+</code></pre>
+
+  <ul>
+    <li>The first argument to <code class="highlighter-rouge">then</code> is a function that takes a single argument and logs out that argument</li>
+    <li>Using <code class="highlighter-rouge">then</code> sets <code class="highlighter-rouge">fulfill</code> to the function above, so calling <code class="highlighter-rouge">fulfill</code> results in logging out the value</li>
+    <li>In fact any function that takes a single argument would work as the first argument to <code class="highlighter-rouge">then</code></li>
+    <li>This would result in the same output:</li>
+  </ul>
+
+  <p><br /></p>
+
+  <pre><code data-trim="" contenteditable="">
+p.then(console.log);
+</code></pre>
+</section>
+
+<section>
+  <h2 id="when-is-fulfill-or-reject-executed">When is Fulfill or Reject Executed?</h2>
+
+  <p><strong>The functions passed to <code class="highlighter-rouge">then</code> are guaranteed to be executed AFTER the Promise is created.</strong> &#8594;</p>
+
+  <p>This is true even if it looks like <code class="highlighter-rouge">fulfill</code> is called immediately and before <code class="highlighter-rouge">then</code> is called!. <strong>What&#39;s the output of this code?</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+const p1 = new Promise(function(fulfill, reject) {
+    console.log('begin');
+    fulfill('succeeded');
+    console.log('end');
+});
+p1.then(console.log);
+</code></pre>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+begin
+end
+succeeded
+// the fulfill function, console.log, is
+// guaranteed to be called after the Promise 
+// is created even though it looks like fulfill 
+// is called between logging begin and end!
+</code></pre>
+</section>
+
+<section>
+  <h2 id="thens-second-argument"><code class="highlighter-rouge">then</code>&#39;s Second Argument</h2>
+
+  <p><strong>To specify what happens when a Promise results in an error or if the async task fails, use <code class="highlighter-rouge">then</code>&#39;s 2nd argument.</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+const p = new Promise(function(fulfill, reject) {
+    reject('did not work!');
+});
+
+p.then(console.log, function(val) {
+    console.log('ERROR', val);
+});
+</code></pre>
+
+  <p>The code above results in the following output &#8230;</p>
+
+  <pre><code data-trim="" contenteditable="">
+ERROR did not work!
+</code></pre>
+</section>
+
+<section>
+  <h2 id="catch"><code class="highlighter-rouge">catch</code></h2>
+
+  <p><strong>You can also use the method <code class="highlighter-rouge">catch</code> to specify the <code class="highlighter-rouge">reject</code> function.</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+const p = new Promise(function(fulfill, reject) {
+    reject('did not work!');
+});
+
+p.catch(function(val) {
+    console.log('ERROR', val);
+});
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="back-to-then">Back to Then!</h2>
+
+  <p><strong><code class="highlighter-rouge">then</code> always returns a Promise</strong> &#8594;</p>
+
+  <ul>
+    <li>if the <code class="highlighter-rouge">fulfill</code> function returns a <code class="highlighter-rouge">Promise</code>, <code class="highlighter-rouge">then</code> will return that <code class="highlighter-rouge">Promise</code></li>
+    <li>if the <code class="highlighter-rouge">fulfill</code> function returns a value, <code class="highlighter-rouge">then</code> will return a <code class="highlighter-rouge">Promise</code> that immediately fulfills with the return value</li>
+  </ul>
+
+  <p><br />
+That sounds convoluted&#8230; <strong>Let&#39;s see some examples.</strong> &#8594;</p>
+
+</section>
+
+<section>
+  <h2 id="then-return-value"><code class="highlighter-rouge">then</code> return Value</h2>
+
+  <p>Starting with a <code class="highlighter-rouge">Promise</code>&#8230;</p>
+
+  <pre><code data-trim="" contenteditable="">
+const p1 = new Promise(function(fulfill, reject) {
+    fulfill(1);
+});
+</code></pre>
+
+  <p>The <code class="highlighter-rouge">fulfill</code> function passed to <code class="highlighter-rouge">then</code> returns a <code class="highlighter-rouge">Promise</code>, so <code class="highlighter-rouge">then</code> returns that same <code class="highlighter-rouge">Promise</code> object (which is assigned to <code class="highlighter-rouge">p2</code>)</p>
+
+  <pre><code data-trim="" contenteditable="">
+const p2 = p1.then(function(val) {
+    console.log(val);
+    return new Promise(function(fulfill, reject) {
+        fulfill(val + 1);    
+    });
+});
+</code></pre>
+
+  <p>Because <code class="highlighter-rouge">p2</code> is another <code class="highlighter-rouge">Promise</code>, we can call <code class="highlighter-rouge">then</code> on that too.</p>
+
+  <pre><code data-trim="" contenteditable="">
+p2.then(console.log);
+</code></pre>
+
+  <p><strong>So the resulting output is&#8230;</strong> &#8594;</p>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+1
+2
+</code></pre>
+</section>
+
+<section>
+  <h2 id="fulfill-not-returning-a-promise">Fulfill not Returning a Promise?</h2>
+
+  <p><strong>Let&#39;s make a minor modification to the code in the previous slide. Again, start with a Promise&#8230;</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+const p1 = new Promise(function(fulfill, reject) {
+    fulfill(1);
+});
+</code></pre>
+
+  <p>This time, though, instead of <code class="highlighter-rouge">fulfill</code> returning a <code class="highlighter-rouge">Promise</code>, it&#39;ll return a regular value.</p>
+
+  <pre><code data-trim="" contenteditable="">
+const p2 = p1.then(function(val) {
+    console.log(val);
+    return val + 1;    
+});
+</code></pre>
+
+  <p>Again, let&#39;s try calling <code class="highlighter-rouge">then</code> on <code class="highlighter-rouge">p2</code> (but is <code class="highlighter-rouge">p2</code> a <code class="highlighter-rouge">Promise</code>&#8230; or will an error occur!?)</p>
+
+  <pre><code data-trim="" contenteditable="">
+p2.then(console.log);
+</code></pre>
+
+  <p class="fragment"><code class="highlighter-rouge">p2</code> is still a <code class="highlighter-rouge">Promise</code></p>
+
+</section>
+
+<section>
+  <h2 id="wrapping-a-value-in-a-promise">Wrapping a Value in a Promise</h2>
+
+  <p><strong>If <code class="highlighter-rouge">fulfill</code> returns a non-Promise, <code class="highlighter-rouge">then</code> will return a <code class="highlighter-rouge">Promise</code> that immediately calls fulfill with the value that was returned.</strong> &#8594;</p>
+
+  <p>Consequently, the following two code samples return the same <code class="highlighter-rouge">Promise</code> for <code class="highlighter-rouge">p2</code>:</p>
+
+  <pre><code data-trim="" contenteditable="">
+const p2 = p1.then(function(val) {
+    console.log(val);
+    return new Promise(function(fulfill, reject) {
+        fulfill(val + 1);    
+    });
+});
+</code></pre>
+
+  <pre><code data-trim="" contenteditable="">
+const p2 = p1.then(function(val) {
+    console.log(val);
+    return val + 1;    
+});
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="promises-with-ajax">Promises with AJAX</h2>
+
+  <p><strong>So maybe our version of <code class="highlighter-rouge">get</code> will now just give back a Promise to wrap the async code.</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+function get(url) {
+  return new Promise(function(fulfill, reject) { 
+    console.log('getting ', url);
+    req = new XMLHttpRequest();
+    req.open('GET', url, true);
+    req.addEventListener('load', function() {
+      if(req.status &gt;= 200 &amp;&amp; req.status &lt; 400) {
+        fulfill(req.responseText);
+      } else {
+        reject('got bad status code ' + req.status); 
+      }
+    });
+    // also reject for error event listener!
+    req.send();
+  });
+}
+</code></pre>
+</section>
+
+<section>
+  <h2 id="keeping-our-extract-function">Keeping Our Extract Function&#8230;</h2>
+
+  <pre><code data-trim="" contenteditable="">
+function extractURL(json) {
+  const data = JSON.parse(json) 
+  console.log(data.url);
+  return data.url;
+}
+</code></pre>
+</section>
+
+<section>
+  <h2 id="we-can-make-async-look-sequential">We Can Make Async Look Sequential</h2>
+
+  <pre><code data-trim="" contenteditable="">
+const url = 'http://localhost:3000/data/tango.json';
+
+get(url)
+  .then(extractURL)
+  .then(get)
+  .then(extractURL)
+  .then(get)
+  .then(extractURL)
+  .then(function(val){
+    console.log(val);
+    console.log('done');
+  });
+</code></pre>
+</section>
+
+<section>
+  <h2 id="things-we-pretended-didnt-exist">Things We Pretended Didn&#39;t Exist</h2>
+
+  <p>So, promises are kind of complicated, but in the end, they do simplify things. Some things that we didn&#39;t cover that further show the power of using the Promise API are:</p>
+
+  <ul>
+    <li>error handling</li>
+    <li>having code trigger only when multiple async tasks are finished (rather than just one)</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="promises-look-hard--fetch">Promises Look Hard! / Fetch</h2>
+
+  <p>Using <code class="highlighter-rouge">Promise</code>s seemed to complicate AJAX rather than make it easier.</p>
+
+  <p>It&#39;s certainly tricky manually wrapping async tasks with Promises, but:</p>
+
+  <ul>
+    <li><strong>fortunately for us, we&#39;ll mostly encounter Promises as the result of using some built-in functions in JavaScript, like fetch</strong> &#8594;</li>
+    <li>the <a href="https://developer.mozilla.org/en-US/docs/Web/API/GlobalFetch/fetch"><code class="highlighter-rouge">fetch</code> api</a> provides a global function <code class="highlighter-rouge">fetch</code> that allows the retrieval of a url</li>
+    <li>but wraps the result of that retrieval in a Promise:</li>
+  </ul>
+
+  <p><br /></p>
+  <pre><code data-trim="" contenteditable="">
+fetch(url)
+  .then(function(response) { return response.text(); })
+  .then(handleResponse)
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="fetch-api-details">Fetch API Details</h2>
+
+  <p><strong>The Fetch API offers a <code class="highlighter-rouge">Request</code> and <code class="highlighter-rouge">Response</code> object, as well as a global <code class="highlighter-rouge">fetch</code> function</strong> &#8594;</p>
+
+  <p>The <code class="highlighter-rouge">fetch</code> function:</p>
+
+  <ul>
+    <li class="fragment">takes one argument, a <code class="highlighter-rouge">url</code></li>
+    <li class="fragment">it returns a promise</li>
+    <li class="fragment">the promise is resolved with <code class="highlighter-rouge">Response</code> object</li>
+  </ul>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+fetch('http://foo.bar.baz/qux.json')   
+	.then(function(response) {
+		# Response object!
+		return response.json();
+	})
+	.then(function(data) {
+		console.log(JSON.stringify(data));
+	});
+</code></pre>
+</section>
+
+<section>
+  <h2 id="response-object">Response Object</h2>
+
+  <p><strong>The <code class="highlighter-rouge">Response</code> object has a few methods and properties</strong> &#8594;</p>
+
+  <ul>
+    <li><code class="highlighter-rouge">status</code></li>
+    <li><code class="highlighter-rouge">headers</code></li>
+    <li><code class="highlighter-rouge">json()</code> - response body <strong>parsed</strong> json</li>
+    <li><code class="highlighter-rouge">text()</code> - response body</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="fetch-and-config">fetch and Config</h2>
+
+  <p><strong>A <code class="highlighter-rouge">fetch</code> call can be configured by passing in an object as the second argument</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+// example of options for a POST
+{         
+	method: "POST", 
+	headers: {
+		"Content-Type": "application/x-www-form-urlencoded"
+	},
+	body: 'foo=bar'
+}
+</code></pre>
+
+  <p>Check out <a href="https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch">mdn&#39;s Using Fetch</a> for more detailed examples.</p>
+</section>
+
+:ET

@@ -1,0 +1,6 @@
+I"<ul>
+  <li>{{ site.book_js_5 }} - Chapter 12 - JavaScript and the Browser</li>
+  <li>{{ site.book_js_5 }} - Chapter 13 - The Document Object Model</li>
+  <li><a href="http://learn.shayhowe.com/html-css/getting-to-know-html/">HTML and CSS from shayhowe.com</a></li>
+</ul>
+:ET

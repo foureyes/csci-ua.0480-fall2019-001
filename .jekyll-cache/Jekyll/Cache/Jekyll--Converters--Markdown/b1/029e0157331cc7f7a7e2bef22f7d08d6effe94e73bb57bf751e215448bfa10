@@ -1,0 +1,60 @@
+I")<section class="intro-slide">
+  <h1 id="a-simple-web-server">A Simple Web Server</h1>
+
+  <h3 id="csci-ua0480-001">CSCI-UA.0480-001</h3>
+
+  <p><small></small></p>
+</section>
+
+<section>
+  <h2 id="a-live-coding-experiment">A Live Coding Experiment!</h2>
+
+  <ul>
+    <li>Goal - make a library that allows you to do something like &#8230;</li>
+    <li>Architecture
+      <ul>
+        <li>App
+          <ul>
+            <li>listen</li>
+            <li>get</li>
+          </ul>
+        </li>
+        <li>Request
+          <ul>
+            <li>path</li>
+            <li>headers</li>
+            <li>body</li>
+          </ul>
+        </li>
+        <li>Response
+          <ul>
+            <li>write</li>
+            <li>end</li>
+            <li>setHeader</li>
+            <li>send</li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="lets-try-to-do-this">Let&#39;s Try to Do This</h2>
+
+  <ul>
+    <li>Serve an HTML Page</li>
+    <li>A quick diversion into fs.readFile</li>
+    <li>Serve an Image</li>
+    <li>Wrap everything in an App object
+      <ul>
+        <li>watch out for <em>this</em> and callbacks!!!</li>
+      </ul>
+    </li>
+    <li>Wrap response in Response object</li>
+    <li>In class activity</li>
+    <li>Switch Response based on parsed request</li>
+  </ul>
+</section>
+
+:ET

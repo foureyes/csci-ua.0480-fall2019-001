@@ -1,0 +1,676 @@
+I"L`<section class="intro-slide">
+  <h1 id="express---request-and-response-objects">Express - Request and Response Objects</h1>
+
+  <h3 id="csci-ua0480-001">CSCI-UA.0480-001</h3>
+
+  <p><small></small></p>
+</section>
+<section>
+  <h2 id="how-does-it-all-work-again">How Does it All Work Again?</h2>
+
+  <p><strong>What protocol is used when a browser asks for a web page?</strong> &#8594;</p>
+
+  <ul>
+    <li class="fragment">HTTP &#8230; <strong>great, but what&#39;s HTTP?</strong> &#8594;</li>
+    <li class="fragment"><strong>HTTP</strong> specifies the rules and conventions that allow documents and resources on the web to be requested over a network. These rules define:
+      <ul>
+        <li class="fragment">The format for exchanging messages</li>
+        <li class="fragment">The meaning/semantics of a messages</li>
+        <li class="fragment">The process for communication</li>
+      </ul>
+    </li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="retrieving-a-resource">Retrieving a Resource</h2>
+
+  <p>Each document or resource on the web is retrievable by a name. <strong>What is that name called, and what does the name consist of?</strong> &#8594;</p>
+
+  <p class="fragment">A <strong>URL</strong>&#8230; URLs consist of the follow parts:</p>
+
+  <ul class="fragment">
+    <li><strong>scheme/protocol</strong> - http</li>
+    <li><strong>domain or actual ip address</strong> - pizzaforyou.com</li>
+    <li><strong>port</strong> (optional) - 80 (default if http)</li>
+    <li><strong>path</strong> - /search</li>
+    <li><strong>query_string</strong> (optional) - ?type=vegan</li>
+    <li><strong>fragment_id</strong> (optional) - #topresult</li>
+  </ul>
+
+  <p class="fragment"><br />
+<code>scheme://domain:port/path?query_string#fragment_id</code></p>
+</section>
+
+<section>
+  <h2 id="url">URL</h2>
+
+  <p>These are silly questions, but <strong>why is the domain part of the URL important?</strong> <strong>What does it specify?</strong> &#8594;</p>
+
+  <ul>
+    <li class="fragment">The <strong>domain</strong> (or the ip address) is the server that your browser is connecting to!</li>
+    <li class="fragment"><strong>Why is the path part of the URL important? What does it specify?</strong> &#8594;</li>
+    <li class="fragment">The <strong>path</strong> represents the document or resource that your browser is trying to retrieve from the server.</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="urls-continued">URLs Continued</h2>
+
+  <h3 id="for-our-web-application-the-path-is-generally-the-first-part-of-the-url-thats-useful">For our web application, the path is generally the first part of the URL that&#39;s useful.</h3>
+
+  <p><strong>Why? What did we use the path for in our homework and our previous classes?</strong>  &#8594;</p>
+
+  <ul class="fragment">
+    <li>the path uniquely identifies pages, resources, and even functionality!</li>
+    <li>we used it to determine what content to serve (a <em>static</em> file, a string of text, etc.)</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="back-to-http">Back to HTTP</h2>
+
+  <p><strong>HTTP is a request-response protocol.</strong></p>
+
+  <ul>
+    <li>the client sends a request for a resource</li>
+    <li>the server responds to the request</li>
+  </ul>
+
+  <p><br />
+<strong>When you type a URL into your browser&#8230;</strong></p>
+
+  <ol>
+    <li>your browser will attempt to connect to the domain specified in the URL (the server)</li>
+    <li>the browser sends a request message (which includes the path specified in the url) to the server</li>
+    <li>the server responds based on the content of the request&#8230;</li>
+  </ol>
+</section>
+
+<section>
+  <h1 id="an-aside-on-web-servers-and-web-applications">An Aside on Web Servers and Web Applications</h1>
+</section>
+<section>
+  <h2 id="node-express-web-servers-and-web-applications">Node, Express, Web Servers and Web Applications</h2>
+
+  <p>A <strong>web application</strong> is any kind of software that runs in a web browser.</p>
+
+  <ul>
+    <li>it&#39;s usually more than just static pages</li>
+    <li>some examples of web applications might include gmail, albert, etc.</li>
+  </ul>
+
+  <p><br />
+A <strong>web server</strong> is basically software that processes HTTP requests</p>
+
+  <ul>
+    <li>web servers can <em>host</em> static files</li>
+    <li>they can also serve up web applications</li>
+    <li>a web server and a web application are usually different technologies.</li>
+    <li>for example, maybe you run a Rails web application on Nginx, a web server.</li>
+  </ul>
+
+  <p><br />
+<strong>For Node and Express, things are slightly different.</strong></p>
+</section>
+
+<section>
+  <h1 id="with-node-and-express-youre-building-both-the-web-server-and-the-web-app">With Node and Express, you&#39;re building both the web server and the web app!</h1>
+
+</section>
+
+<section>
+  <h2 id="express-apps">Express Apps</h2>
+
+  <p>Again, <strong>when we use Express, you&#39;re writing both the web server and a web app.</strong> That means:</p>
+
+  <ul>
+    <li>we&#39;ll need to know how to handle HTTP requests (on a high level)</li>
+    <li>we&#39;ll have to be able to send back an HTTP response</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="an-http-request">An HTTP Request</h2>
+
+  <p>So, your browser is making a request. <strong>What does it actually send to the server?</strong> &#8594;</p>
+
+  <ul>
+    <li class="fragment">the first line is the request line, which consists of
+      <ul>
+        <li class="fragment">the <strong>request method</strong> (usually GET or POST) - sometimes referred to the HTTP verb</li>
+        <li class="fragment">a <strong>path</strong> &#8230;</li>
+        <li class="fragment">the <strong>http version</strong> being used</li>
+        <li class="fragment">for example: <code>GET /about HTTP/1.1</code></li>
+      </ul>
+    </li>
+    <li class="fragment">some <strong>request headers</strong> - or additional information about your request (<em>user-agent</em> or browser, language, etc.)
+      <ul>
+        <li class="fragment">for example: <code>Host: localhost:8080</code></li>
+      </ul>
+    </li>
+    <li class="fragment"><strong>an empty line</strong></li>
+    <li class="fragment"><strong>an optional body</strong> (perhaps data you&#39;re ending over via <em>POST</em>)</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="data-all-over">Data All Over!</h2>
+
+  <p>Note that in an HTTP request, additional data can be sent over to the server in both:</p>
+
+  <ul>
+    <li><strong>the query string</strong> (in the path)</li>
+    <li>the <strong>body</strong></li>
+  </ul>
+
+  <p><br />
+These two methods of sending data to the server are usually associated with specific HTTP verbs.</p>
+
+  <ul>
+    <li>data in a <strong>POST</strong> request is sent within the body</li>
+    <li>data in a <strong>GET</strong> request is sent in the url&#39;s query string as name value pairs: <code>?firstname=joe&amp;lastname=versoza</code></li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="get-requests">GET Requests</h2>
+
+  <p>More about <strong>GET</strong>:</p>
+
+  <ul>
+    <li><strong>when you enter a URL into you&#39;re browser, you&#39;re issuing a GET request!</strong></li>
+    <li><strong>GET</strong> requests usually don&#39;t have a body</li>
+    <li>the data in a <strong>GET</strong> request is in the <strong>query string</strong> part of the URL</li>
+    <li><strong>query strings</strong> are URL encoded (also known as <a href="http://en.wikipedia.org/wiki/Percent-encoding">percent encoded</a>.</li>
+    <li>any characters that have special meaning in a URL are replaced with a numeric reference prefixed by %</li>
+    <li><a href="http://stackoverflow.com/questions/1634271/url-encoding-the-space-character-or-20">it&#39;s slightly more complicated than that</a>, with form submissions causing spaces to be substituted by +</li>
+    <li>spaces in a url: <code>http://localhost:8080/this%20is%20url%20encoded</code></li>
+    <li>spaces in a query string after form submission: <code>http://localhost:8080/?value=also+url+encoded</code></li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="post-requests">POST Requests</h2>
+
+  <p>More about <strong>POST</strong>:</p>
+
+  <ul>
+    <li><strong>POST</strong> requests, on the other hand, do have a body</li>
+    <li>the content or data that&#39;s being sent is placed in the body of the <strong>POST</strong> request</li>
+    <li>the <strong>content-type</strong> header specifies what kind of content is contained in the body
+      <ul>
+        <li>generally, <strong>POST</strong> bodies have a <strong>content-type</strong> of <code>application/x-www-form-urlencoded</code>, which is the same as url encoding a query string</li>
+        <li>if the data is an image being uploaded, the <strong>content-type</strong> is <code>multipart/form-data</code></li>
+        <li>finally, if the data being POSTed is JSON, the <strong>content-type</strong> is <code>application/json</code></li>
+      </ul>
+    </li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="an-example-request">An Example Request</h2>
+
+  <p>Below is a request sent from my browser to a sample node.js web app:</p>
+
+  <pre><code data-trim="" contenteditable="">
+GET /about HTTP/1.1
+Host: localhost:8080
+Connection: keep-alive
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.124 Safari/537.36
+Accept-Encoding: gzip,deflate,sdch
+Accept-Language: en-US,en;q=0.8
+</code></pre>
+</section>
+
+<section>
+  <h2 id="viewing-a-request">Viewing a Request</h2>
+
+  <p><strong>Where did I find the request headers from the previous slide?</strong> &#8594;</p>
+
+  <ol class="fragment">
+    <li>Chrome &#8594; View &#8594; Developer &#8594; Web Developer Tools</li>
+    <li>Click on Network tab &#8594; Click on page &#8594;  Click on view headers</li>
+  </ol>
+
+  <div class="img fragment">
+    <p><img src="../../resources/img/chrome-req-headers-sm.gif" alt="chrome" /></p>
+  </div>
+</section>
+
+<section>
+  <h2 id="getting-back-a-response">Getting Back a Response</h2>
+
+  <p><strong>When a web app/web server receives a request, it serves up content and resources based (usually) on the following attributes of the request</strong>: &#8594;</p>
+
+  <ul class="fragment">
+    <li>path</li>
+    <li>query string</li>
+    <li>body</li>
+  </ul>
+
+</section>
+<section>
+  <h2 id="response-continued">Response Continued</h2>
+
+  <p><strong>What does a server&#39;s response look like?</strong> &#8594;</p>
+
+  <ul>
+    <li class="fragment"><strong>a status line</strong>
+      <ul>
+        <li class="fragment"><strong>HTTP version</strong></li>
+        <li class="fragment"><strong>response status code</strong></li>
+        <li class="fragment"><strong>reason</strong></li>
+        <li class="fragment">for example:  <code>HTTP/1.1 200 OK</code></li>
+      </ul>
+    </li>
+    <li class="fragment"><strong>response header fields</strong>
+      <ul>
+        <li class="fragment">for example <code>Content-Type: text/html</code></li>
+        <li class="fragment">also, content-type matters a lot&#8230; <strong>why?</strong> &#8594; <code class="fragment">it determines how the client/browser should render the content!</code></li>
+      </ul>
+    </li>
+    <li class="fragment"><strong>an empty line</strong></li>
+    <li class="fragment"><strong>an optional message body</strong> - maybe an HTML document, CSS, an image, etc.</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="a-sample-response">A Sample Response</h2>
+
+  <p>This is an example response generated by a simple node web app:</p>
+
+  <pre><code data-trim="" contenteditable="">
+HTTP/1.1 200 OK
+Content-Type: text/html
+Date: Tue, 07 Oct 2014 03:38:37 GMT
+Connection: keep-alive
+Transfer-Encoding: chunked
+</code></pre>
+
+  <pre><code data-trim="" contenteditable="">
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+	&lt;head&gt;
+		&lt;link rel="stylesheet" href="/css/base.css" type="text/css" media="screen"&gt;
+	&lt;/head&gt;
+	&lt;body&gt;
+		&lt;h1&gt;Home&lt;/h1&gt;
+		&lt;p&gt;This is the homepage!&lt;/p&gt;
+		&lt;img src="/img/image1.png"&gt;
+	&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+  <p>(<strong>Let&#39;s check this out in Chrome&#39;s Web Developer Tools too.</strong> &#8594;)</p>
+</section>
+
+<section>
+  <h2 id="hows-your-browser-feel-about-that">How&#39;s Your Browser Feel About That?</h2>
+
+  <p><strong>When your browser receives a response, it looks at&#8230;</strong> &#8594;</p>
+
+  <ul>
+    <li>the response code</li>
+    <li>the headers</li>
+    <li>the body</li>
+  </ul>
+
+  <p><br /> 
+It uses the above three items to determine what to do next&#8230;</p>
+
+</section>
+
+<section>
+  <h2 id="browser-behavior">Browser Behavior</h2>
+
+  <p>What do you think your browser does with this data? Why might the response code or headers be important? <strong>What are some examples of how response code, headers, or body influence your browser&#39;s behavior?</strong> &#8594;</p>
+
+  <ul class="fragment">
+    <li>the <strong>response code</strong> may tell the browser that a page has permanently moved (301) &#8230;
+      <ul>
+        <li>so the browser should automatically go to the next url</li>
+        <li>(let&#39;s see that at work with jvers.com/teaching or google.com)</li>
+      </ul>
+    </li>
+    <li>the content-type <strong>header</strong> may tell the browser that the content being served up is actually an image, not text/html</li>
+    <li>the body may have links to images, css, etc.</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="browser-behavior-continued">Browser Behavior Continued</h2>
+
+  <p><strong>What happened when you requested the homepage from your homework? How many actual requests did it turn out to be&#8230; why?</strong></p>
+
+  <ul class="fragment">
+    <li>there were actually at least three requests
+      <ul>
+        <li>the initial request for the index page</li>
+        <li>the request for css</li>
+        <li>the request for an image</li>
+        <li>maybe even a request for the favicon</li>
+        <li>the initial request that as made had determined that the resource had associated images and css
+          <ul>
+            <li>consequently, the browser requested an image</li>
+            <li>&#8230; as well as css</li>
+          </ul>
+        </li>
+        <li><strong>we can check out the additional requests in Chrome</strong> &#8594;</li>
+      </ul>
+    </li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="http-is-all-about-the-request-and-the-response">HTTP Is All About the Request and the Response</h2>
+
+  <h3 id="turns-out-node-and-express-have-objects-that-model-these-two-concepts">Turns out&#8230; node and Express have objects that model these two concepts.</h3>
+
+  <p>In actuality, <strong>the majority of our work with Express will start with an incoming request object and end with a response object</strong>.</p>
+</section>
+
+<section>
+  <h2 id="the-request-object">The Request Object</h2>
+
+  <p>The <strong>request object</strong> is usually the first argument passed to a callback.</p>
+
+  <ul>
+    <li>a common convention is to call it <code>req</code> or <code>request</code>, but you can name it <em>whatever</em> you want</li>
+    <li>it&#39;s actually an http.IncomingMessage object (remember that?), but with a bunch of stuff added to it from Express</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="request-object-properties">Request Object Properties</h2>
+
+  <p><strong>Originally from node&#39;s <code>http</code> module:</strong></p>
+
+  <ul>
+    <li class="fragment"><code>req.url</code> - path and querystring (no protocol, port, or domain)</li>
+    <li class="fragment"><code>req.headers</code> - object with request headers as property names and header values as property values</li>
+    <li class="fragment"><code>req.method</code> - request method (POST, GET, PUT, etc.)</li>
+  </ul>
+
+  <p class="fragment"><br />
+<strong>Added by Express:</strong></p>
+
+  <ul>
+    <li class="fragment"><code>req.path</code> - request path (without protocol, host, port, or querystring)</li>
+    <li class="fragment"><code>req.query</code> - an object containing query string parameters</li>
+    <li class="fragment"><code>req.body</code> - an object containing POST parameters (requires middleware to make available)</li>
+  </ul>
+
+  <p><br />
+<strong>We&#39;ll also learn about <code>req.route</code> and <code>req.params</code> later in class.</strong></p>
+</section>
+
+<section>
+  <h2 id="lets-run-a-quick-demo">Let&#39;s Run a Quick Demo</h2>
+
+  <p>Our usual setup, with an extra bit for dealing with request bodies.</p>
+
+  <pre><code data-trim="" contenteditable="">
+const express = require('express');
+
+const port = 8080;
+const app = express();
+
+app.set('view engine', 'hbs');
+</code></pre>
+</section>
+
+<section>
+  <h2 id="some-middleware">Some Middleware</h2>
+
+  <p>We&#39;ll enable some middleware by using <strong><code>app.use</code></strong></p>
+
+  <ul>
+    <li><strong>middleware</strong> is just a function that operates on request and response objects, and calls the next middleware function</li>
+    <li>this will demo some of the properties we mentioned</li>
+  </ul>
+
+  <p><br /></p>
+
+  <p>This part makes the req.body property available.</p>
+
+  <pre><code data-trim="" contenteditable="">
+// to display request body...
+app.use(express.urlencoded({ extended: false }));
+
+</code></pre>
+</section>
+
+<section>
+  <h2 id="middleware-continued">Middleware Continued</h2>
+
+  <p>&#8230;And for logging all of the other properties:</p>
+
+  <pre><code data-trim="" contenteditable="">
+// for logging request information
+app.use(function(req, res, next) {
+	console.log('params for ', req.method, req.url);
+	console.log('======');
+	console.log('req.url:', req.url);
+	console.log('req.method:', req.method);
+	console.log('req.path:', req.path);
+	console.log('req.query:', req.query);
+	console.log('req.headers:', req.headers);
+	console.log('req.body:', req.body);
+	console.log('\n\n\n');
+	next();
+});
+</code></pre>
+
+  <p>(<strong>we&#39;ll talk more about middleware later</strong>)</p>
+</section>
+
+<section>
+  <h2 id="finally-some-routes">Finally, Some Routes</h2>
+
+  <p>Home and a Redirect</p>
+
+  <pre><code data-trim="" contenteditable="">
+app.get('/', function(req, res) {
+	res.render('index');
+});
+
+app.get('/home', function(req, res) {
+	res.redirect(302, '/');
+});
+</code></pre>
+
+  <p>A Form and a Success Page</p>
+
+  <pre><code data-trim="" contenteditable="">
+app.get('/post-demo', function(req, res) {
+	res.render('post-demo');
+});
+
+app.post('/post-demo', function(req, res) {
+	res.redirect(303, '/success');
+});
+
+app.get('/success', function(req, res) {
+	res.render('success');
+});
+</code></pre>
+</section>
+
+<section>
+  <h2 id="by-the-way-check-out-the-redirects">By the Way, Check Out the Redirects</h2>
+
+  <p>By default, the redirect method sends back a <strong>301</strong>.</p>
+
+  <ul>
+    <li><strong>301</strong> - Moved Permanently&#8230; you should use the new URL to request this resource</li>
+    <li><strong>302</strong> - Found (Moved Temporarily)&#8230; you should continue to request resource at this URL</li>
+    <li><strong>303</strong> - See Other&#8230; the resource can&#39;t be retrieved with the request method used</li>
+  </ul>
+
+  <p><br />
+(the response headers for redirects must include location, which specifies the url to redirect to)</p>
+</section>
+<section>
+  <h2 id="oh-of-course-we-cant-forget-this">Oh, Of Course, We Can&#39;t Forget This</h2>
+
+  <p>Listen&#8230;</p>
+
+  <pre><code data-trim="" contenteditable="">
+app.listen(port);
+console.log('started server on port', port);
+</code></pre>
+
+  <p><strong>Now let&#39;s try figuring out what the req properties will be for these requests. Will there be a body? Query string? What will the headers look like?</strong> &#8594;</p>
+</section>
+
+<section>
+  <h2 id="homeindex">Home/Index</h2>
+
+  <p><strong>Is there anything in the query or body? What&#39;s the method? What&#39;s the path?</strong> &#8594;</p>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+req.url: /
+req.method: GET
+req.path: /
+req.query: {}
+</code></pre>
+  <pre class="fragment"><code data-trim="" contenteditable="">
+req.headers: { host: 'localhost:8080',
+  connection: 'keep-alive',
+  .
+  .
+  .
+  'accept-language': 'en-US,en;q=0.8',
+  'if-none-match': 'W/"f2-f4d539eb"' }
+</code></pre>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+req.body: {}
+</code></pre>
+</section>
+
+<section>
+  <h2 id="redirect">Redirect</h2>
+
+  <p>Note that there are two consecutive requests. <strong>What&#39;s the url for each?</strong> &#8594;</p>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+req.url: /home
+req.method: GET
+req.path: /home
+.
+.
+.
+req.url: /
+req.method: GET
+req.path: /
+</code></pre>
+</section>
+
+<section>
+  <h2 id="with-a-query-string">With a Query String</h2>
+
+  <p><strong>Is there anything in the query or body properties?</strong> &#8594;</p>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+req.url: /?description=this%20is%20a%20query%20string
+req.method: GET
+req.path: /
+req.query: { description: 'this is a query string' }
+</code></pre>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+req.headers: { host: 'localhost:8080',
+  connection: 'keep-alive',
+  .
+  .
+  .
+  'if-none-match': 'W/"f2-f4d539eb"' }
+</code></pre>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+req.body: {}
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="after-posting-a-form">After Posting a Form</h2>
+
+  <p><strong>Is there anything in the query or body properties? How many consecutive requests are there? What are the methods?</strong> &#8594;</p>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+req.url: /post-demo
+req.method: POST
+req.path: /post-demo
+req.query: {}
+</code></pre>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+req.headers: { host: 'localhost:8080',
+  connection: 'keep-alive',
+  .
+  .
+  .
+  'content-type': 'application/x-www-form-urlencoded',
+  referer: 'http://localhost:8080/post-demo',
+  'accept-encoding': 'gzip,deflate',
+  'accept-language': 'en-US,en;q=0.8' }
+</code></pre>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+req.body: { item: 'Pizza', description: 'Delicious' }
+</code></pre>
+</section>
+
+<section>
+  <h2 id="post-continued">Post Continued</h2>
+
+  <p>&#8230; The success page is then requested. Post, Redirect, Get is a common pattern&#8230; <strong>why?</strong> &#8594; <span class="fragment">to avoid <a href="http://en.wikipedia.org/wiki/Post/Redirect/Get">duplicate form submissions</a></span></p>
+
+  <pre><code data-trim="" contenteditable="">
+req.url: /success
+req.method: GET
+req.path: /success
+req.query: {}
+req.headers: { host: 'localhost:8080',
+.
+.
+.
+'if-none-match': 'W/"55-c9e1cd0e"' }
+req.body: {}
+</code></pre>
+
+</section>
+<section>
+  <h2 id="the-response-object">The Response Object</h2>
+
+  <p>The <strong>response object</strong> is usually the second parameter passed to a callback. It&#39;s a common convention to name it <code>res</code> or <code>response</code>, but again, you can name it <em>whatever</em> you like.</p>
+
+  <ul>
+    <li>just like request, the response object has its beginning as an object from node&#39;s http module: <code>http.ServerResponse</code></li>
+    <li>Express adds some really useful methods</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="response-object-methods">Response Object Methods</h2>
+
+  <p><strong>We&#39;ve seen <code>send</code> and <code>render</code> before.</strong> <strong>A couple of others that we&#39;re likely to use are <code>json</code> and <code>redirect</code>.</strong> &#8594;</p>
+
+  <ul>
+    <li class="fragment"><code>res.status(status)</code> - sends response with <code>status</code> code back, can be chained with <code>send</code>: <code>res.status(200).send('hello')</code></li>
+    <li class="fragment"><code>res.send(body)</code>, <code>res.send(status, body)</code> - sends a response back to the client with an optional status code (the default is 200)</li>
+    <li class="fragment"><code>res.render(view, [locals], callback)</code> - render a view using the locals object - the property names of the object are variables in the template</li>
+    <li class="fragment"><code>res.redirect([status], url)</code> - redirect to a specific page using an optional status (the default is 302)</li>
+    <li class="fragment"><code>res.json(json)</code>, <code>res.json(status, json)</code> - sends json back as a response with an optional status code</li>
+    <li class="fragment"><code>res.set(name, val)</code> - you can still do stuff like manually set headers, or specify media type, but this functionality is usually for special cases</li>
+  </ul>
+
+</section>
+:ET

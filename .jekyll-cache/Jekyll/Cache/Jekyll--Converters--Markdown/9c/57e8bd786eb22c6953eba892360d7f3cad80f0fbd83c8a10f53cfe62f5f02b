@@ -1,0 +1,1075 @@
+I"†<section class="intro-slide">
+  <h1 id="ajax-and-express">AJAX and Express</h1>
+
+  <h3 id="csci-ua0480-001">CSCI-UA.0480-001</h3>
+
+  <p><small></small></p>
+</section>
+
+<section>
+  <h2 id="a-quick-review">A Quick Review</h2>
+
+  <p><strong>What object do we use to make an asycnhronous, HTTP Request in JavaScript?</strong> &#8594;</p>
+
+  <p class="fragment"><strong><code>XMLHttpRequest</code></strong> (an object that allows browser based JavaScript to make HTTP requests)</p>
+
+  <p class="fragment"><strong>Does the result have to be XML?</strong> &#8594;</p>
+
+  <p class="fragment">Nope&#8230; it can be:</p>
+
+  <ul>
+    <li class="fragment">(of course, XML)</li>
+    <li class="fragment">JSON</li>
+    <li class="fragment">even HTML fragments!</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="asynchronous-javascript-requests">Asynchronous JavaScript Requests</h2>
+
+  <p><strong>What advantages do we get (from a user interaction perspective) by having JavaScript make asynchronous HTTP requests?</strong> &#8594;</p>
+
+  <ul class="fragment">
+    <li>rather than request an entirely new page, we can make JavaScript calls to retrieve, create or update data</li>
+    <li>this means fewer page reloads</li>
+    <li>ui elements change rather than the entire page</li>
+    <li><strong>the application seems more responsive</strong></li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="xmlhttprequest-details">XMLHttpRequest Details</h2>
+
+  <p>At a high level, what are the steps for using XMLHttpRequest to make a request?</p>
+
+  <ul>
+    <li class="fragment"><strong>create</strong> an XMLHttpRequest object</li>
+    <li class="fragment"><strong>configure</strong> it with the appropriate request method and url</li>
+    <li class="fragment">specify what it should do:
+      <ul>
+        <li class="fragment"><strong>on load</strong>
+          <ul>
+            <li class="fragment">check the status</li>
+            <li class="fragment">parse the response text</li>
+          </ul>
+        </li>
+        <li class="fragment"><strong>on error</strong></li>
+      </ul>
+    </li>
+    <li class="fragment">lastly, <strong>send</strong> the request</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="create-an-xmlhttprequest-object">Create an XMLHttpRequest Object</h2>
+
+  <p><strong>How do create an XMLHttpRequest object?</strong> &#8594;</p>
+
+  <p class="fragment">Just use the constructor with new:</p>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+var req = new XMLHttpRequest();
+</code></pre>
+
+</section>
+<section>
+  <h2 id="configure-the-request-object">Configure the Request Object</h2>
+
+  <p><strong>How do we set the url of the request that we&#39;re making? What are some other parts of the request that we can configure?</strong> &#8594;</p>
+
+  <p class="fragment">The <strong><code>open</code></strong> method allows us to configure our request by setting:</p>
+
+  <ul class="fragment">
+    <li>request method (string)</li>
+    <li>url (string)</li>
+    <li>asynchronous (boolean)</li>
+  </ul>
+
+  <p><br /></p>
+  <pre class="fragment"><code data-trim="" contenteditable="">
+req.open('GET', url, true);
+</code></pre>
+</section>
+
+<section>
+  <h2 id="we-have-a-response-now-what">We Have a Response; Now What?</h2>
+
+  <p>We also have to specify what to do when we get a response. <strong>Name two ways to handle a response.</strong> &#8594;</p>
+
+  <ul class="fragment">
+    <li>define the <strong>onload</strong> property of the <strong>XMLHttpRequest</strong> object</li>
+    <li>add a <strong>load</strong> event listener to the <strong>XMLHttpRequest</strong> object</li>
+  </ul>
+
+  <p><br /></p>
+  <pre class="fragment"><code data-trim="" contenteditable="">
+req.onload = function() { 
+	console.log('content loaded!');
+};
+
+req.addEventListener('load') { 
+	console.log('content loaded!');
+};
+</code></pre>
+</section>
+
+<section>
+  <h2 id="working-with-the-response-data">Working With the Response Data</h2>
+
+  <p><strong>What are some typical things that we&#39;ll do in our onload / load event handler?</strong> &#8594;</p>
+
+  <ul>
+    <li class="fragment">check the <strong><code>status</code></strong></li>
+    <li class="fragment">parse the <strong><code>responseText</code></strong></li>
+  </ul>
+
+  <p><br /></p>
+  <pre class="fragment"><code data-trim="" contenteditable="">
+if (req.status &gt;= 200 &amp;&amp; req.status &lt; 400) {
+	data = JSON.parse(req.responseText);
+}
+</code></pre>
+</section>
+
+<section>
+  <h2 id="we-has-a-problem">We Has a Problem</h2>
+
+  <p>Something always goes wrong&#8230;</p>
+
+  <p><strong>We should probably also define what to do if there&#39;s an error! How do we do that?</strong> &#8594;</p>
+
+  <ul class="fragment">
+    <li>define the <strong>onerror</strong> property of the <strong>XMLHttpRequest</strong> object</li>
+    <li>add an <strong>error</strong>  event listener to the <strong>XMLHttpRequest</strong> object</li>
+  </ul>
+
+  <p><br /></p>
+  <pre class="fragment"><code data-trim="" contenteditable="">
+req.onerror = function() { 
+
+};
+req.addEventListener('error') {
+
+};
+</code></pre>
+</section>
+
+<section>
+  <h2 id="making-the-actual-request">Making the Actual Request</h2>
+
+  <p>WHEW! That was a lot of configuration. But we haven&#39;t actually sent anything to the server yet. <strong>How do we make the actual request?</strong> &#8594;</p>
+
+  <ul class="fragment">
+    <li>use the <strong><code>send()</code></strong> method to actually send your request.</li>
+    <li>send has an optional argument &#8211; the data that you want send as your request body
+      <ul>
+        <li>you&#39;ll usually leave out this argument</li>
+        <li>unless you&#39;re posting data</li>
+      </ul>
+    </li>
+    <li>any event listeners you wish to set must be set before calling send()</li>
+  </ul>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+req.send();
+</code></pre>
+</section>
+
+<section>
+  <h2 id="repository-viewer-review">Repository Viewer (Review)</h2>
+
+  <p>Another look at the demo that we <em>may</em> have done&#8230;. <strong>a GitHub repository viewer</strong> &#8594;</p>
+
+  <p>It has:</p>
+
+  <ul>
+    <li>has one text field where you can input a github username</li>
+    <li>will list all of that person&#39;s pubic repositories when you click on submit</li>
+    <li>additionally, has a button to check for rate limit (of course!)</li>
+  </ul>
+
+  <div class="img">
+    <p><img src="../../resources/img/github-repo-browser.jpg" alt="github" /></p>
+  </div>
+
+</section>
+
+<section>
+  <h2 id="well-use-githubs-api">We&#39;ll Use GitHub&#39;s API!</h2>
+
+  <p>Where do we get this data? We can get it from <strong>GitHub&#39;s API</strong>. GitHub&#39;s API is</p>
+
+  <ul>
+    <li>accessible cross domain</li>
+    <li>does not require a user account / authentication</li>
+  </ul>
+
+  <p><br />
+Great! But&#8230; because we&#39;re using their API unauthenticated, we&#39;ll have to deal with <a href="https://developer.github.com/v3/#rate-limiting">rate limits</a> (~60 requests per hours by IP Address). We&#39;ll use the following two API end points (URLs) to retrieve data:</p>
+
+  <ul>
+    <li><a href="https://developer.github.com/v3/rate_limit/">rate limit status</a></li>
+    <li><a href="https://developer.github.com/v3/repos/#list-user-repositories">list user repos</a></li>
+    <li>the domain we&#39;ll be making requests to is <code>https://api.github.com</code></li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="reading-api-documentation">Reading API Documentation</h2>
+
+  <p>Typically, API documentation will specify:</p>
+
+  <ul>
+    <li class="fragment">http request method to use</li>
+    <li class="fragment">the path to the resource</li>
+    <li class="fragment">the response format and status code</li>
+    <li class="fragment">the actual data contained within the response</li>
+  </ul>
+
+  <p class="fragment"><br />
+<strong>Let&#39;s take a look at the two end points we&#39;ll be using.</strong> &#8594;</p>
+
+</section>
+<section>
+  <h2 id="show-rate-limit-status">Show Rate Limit Status</h2>
+
+  <p>The endpoint / URL for retrieving info about the rate limit is:</p>
+
+  <pre><code data-trim="" contenteditable="">
+GET /rate_limit
+</code></pre>
+
+  <p>Using this URL with my account: <a href="https://api.github.com/rate_limit">https://api.github.com/rate_limit</a></p>
+
+  <p>We&#39;re interested in resources.core.limit&#8230; this is what we get back:</p>
+
+  <pre><code data-trim="" contenteditable="">
+{
+  "resources": {
+    "core": {
+      "limit": 60,
+      "remaining": 58,
+      "reset": 1447761547
+    },
+    "search": {
+      "limit": 10,
+      "remaining": 10,
+      "reset": 1447759711
+    }
+  },
+  "rate": {
+    "limit": 60,
+    "remaining": 58,
+    "reset": 1447761547
+  }
+}
+
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="list-user-repos">List User Repos</h2>
+
+  <p>The endpoint / URL for retrieving repository info from GitHub is:</p>
+
+  <pre><code data-trim="" contenteditable="">
+GET /:username/repos
+</code></pre>
+
+  <p>Using this URL with my account: <a href="https://api.github.com/users/foureyes/repos">https://api.github.com/users/foureyes/repos</a></p>
+
+  <p>We get back&#8230;</p>
+
+  <pre><code data-trim="" contenteditable="">
+[{
+"id": 26084780,
+"name": "bjorklund",
+"full_name": "foureyes/bjorklund",
+"owner": { 
+	"login": "foureyes",
+	"avatar_url": "https://avatars.githubusercontent.com/u/356512?v=3",
+	"url": "https://api.github.com/users/foureyes",
+	.
+	.
+},
+"private": false,
+.
+.
+}]
+</code></pre>
+</section>
+
+<section>
+  <h2 id="lets-start-with-some-markup">Let&#39;s Start With Some Markup</h2>
+
+  <p>We&#39;ll need:</p>
+
+  <ul>
+    <li>a text input for the username</li>
+    <li>a button to submit</li>
+    <li>a button to ask for the rate limit</li>
+    <li>a place to insert the repository names as a list</li>
+    <li>a place to insert the rate limit info</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="maybe-some-markup-like-this">Maybe Some Markup Like This?</h2>
+
+  <p>Here&#39;s our HTML:</p>
+
+  <pre><code data-trim="" contenteditable="">
+&lt;h2&gt;Repository Viewer&lt;/h2&gt;
+&lt;input type="button" id="get-rate-limit" name="get-rate-limit" value="Get Rate Limit"&gt;
+&lt;pre id="rate-limit"&gt;
+&lt;/pre&gt;
+&lt;label for="username"&gt;GitHub Username&lt;/label&gt;
+&lt;input type="text" id="username" name="username"&gt;
+&lt;input type="button" id="get-repos" name="get-repos" value="Get Repositories"&gt;
+&lt;div id="container"&gt;
+			&lt;ul&gt;&lt;/ul&gt;
+&lt;/div&gt;
+</code></pre>
+</section>
+
+<section>
+  <h2 id="setting-up--getting-required-elements">Setting Up &#8230; Getting Required Elements</h2>
+
+  <p><strong>Let&#39;s gather the buttons and add event listeners to them.</strong> &#8594;</p>
+  <pre><code data-trim="" contenteditable="">
+document.addEventListener('DOMContentLoaded', init);
+
+function init() {
+	console.log('init');
+	var button = document.getElementById('get-repos'),
+		rateLimitButton = document.getElementById('get-rate-limit');
+
+	button.addEventListener('click', handleClick);
+	rateLimitButton.addEventListener('click', handleRateLimitClick);
+}
+</code></pre>
+</section>
+
+<section>
+  <h2 id="handling-a-click-on-the-rate-limit-button">Handling a Click on the Rate Limit Button</h2>
+
+  <p>To get the rate limit, we can use the following url <a href="http://api.github.com/rate_limit">http://api.github.com/rate_limit</a>.  <strong>Let&#39;s set up the request in our <code>handleRateLimitClick</code> function</strong> &#8594;</p>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+function handleRateLimitClick() {
+	var req = new XMLHttpRequest(),
+		url = 'http://api.github.com/rate_limit';
+
+	req.open('GET', url, true);
+	req.addEventListener('load', handleRateLimitResponse);
+	req.send();
+}
+</code></pre>
+</section>
+
+<section>
+  <h2 id="dealing-with-the-response">Dealing with the Response</h2>
+
+  <p><strong>Let&#39;s define a function that populates an element, the pre tag, with the data from the API Limit call.</strong> &#8594;</p>
+  <pre class="fragment"><code data-trim="" contenteditable="">
+function handleRateLimitResponse() {
+	var pre = document.getElementById('rate-limit'), 
+		response = JSON.parse(this.responseText);
+	if (this.status &gt;= 200 &amp;&amp; this.status &lt; 400) {
+		pre.textContent = response.rate.limit + ' Limit, ' 
+				+ response.rate.remaining + ' Remaining, ' 
+				+ new Date(response.rate.reset * 1000);
+	}
+}
+</code></pre>
+</section>
+
+<section>
+  <h2 id="now-for-the-actual-repo-browser">Now for the Actual Repo Browser&#8230;</h2>
+
+  <p>When clicking view repositories, we should retrieve the repositories for the user in the text field. <strong>First, let&#39;s set up our click handler&#8230; and configure a request within it.</strong> &#8594;</p>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+function handleClick(evt) {
+	var req = new XMLHttpRequest(),
+		url = 'http://api.github.com/users/' + 
+			document.getElementById('username').value + '/repos';
+
+	req.open('GET', url, true);
+	req.addEventListener('load', handleResponse);
+	req.send();
+}
+</code></pre>
+</section>
+
+<section>
+  <h2 id="lastly-once-we-have-the-repository-data">Lastly, Once we Have the Repository Data&#8230;.</h2>
+
+  <p>We can use the response from the API to drop in the repositories. <strong>Create a function that gets called when the data from the request has loaded.</strong> &#8594;</p>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+function handleResponse() {
+	if (this.status &gt;= 200 &amp;&amp; this.status &lt; 400) {
+		var div = document.getElementById('container'), 
+			oldList = document.querySelector('#container ul'),
+			ul = document.createElement('ul'),
+			repos = JSON.parse(this.responseText);
+
+		repos.forEach(function(obj) {
+			ul.appendChild(document.createElement('li')).textContent = obj.name;
+		});
+		div.replaceChild(ul, oldList);
+	}
+}
+</code></pre>
+</section>
+
+<section>
+  <h2 id="cross-domain-requests">Cross Domain Requests</h2>
+
+  <p><strong>Can your client-side JavaScript application make requests to domains other than the one that your app is on?</strong> &#8594;</p>
+
+  <p class="fragment">Nope! <strong>Why?</strong> &#8594;</p>
+
+  <p class="fragment">Cross domain requests could allow access to sessions you have on other sites! <strong>But wait, what criteria do we use to determine if our app and our request are coming from the same site (same <em>origin</em>)</strong> &#8594;</p>
+
+  <p class="fragment">Same <strong>protocol</strong>, <strong>domain (including subdomain)</strong>, and <strong>port</strong></p>
+
+  <p class="fragment">This <strong>Same Origin Policy</strong> is implemented by your browser to prevent cross site request forgery.</p>
+</section>
+
+<section>
+  <h2 id="accessing-3rd-party-apis-on-the-client-side">Accessing 3rd Party APIs on the Client Side</h2>
+
+  <p>So&#8230; <strong>how were we able to make a request to GitHub&#39;s API</strong>? &#8594;</p>
+
+  <ul class="fragment">
+    <li>GitHub set a few headers that let our browser know that it was ok to make the cross domain request</li>
+    <li>for example: <strong>Access-Control-Allow-Origin</strong> specifies a particular allowed origin URL or * for all</li>
+    <li>this is called <strong>Cross Origin Resource Sharing</strong>, or <strong>CORS</strong></li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="creating-our-own-api">Creating Our Own API</h2>
+
+  <p>If we have a bunch of data in our database, and we want to access it via a single page web app or a heavy client-side application, we&#39;ll need to make our own API.</p>
+
+  <p><strong>What&#39;s an API?</strong> &#8594;</p>
+
+  <ul class="fragment">
+    <li>it&#39;s a set of functions, tools, and protocols for building an application</li>
+    <li>(hence the name - Application Programming Interface)</li>
+    <li>in the context of this class, we&#39;ll use API to refer to:
+      <ul>
+        <li>a set of services that we expose via HTTP</li>
+        <li>&#8230;to allow access to our Express app and data in our database</li>
+      </ul>
+    </li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="designing-our-api-a-base-url">Designing Our API, A Base URL</h2>
+
+  <p>We&#39;ll have a base URL to access our API. For example:</p>
+
+  <pre><code data-trim="" contenteditable="">
+http://my.domain/api
+http://api.my.domain
+</code></pre>
+
+  <p>Optionally, to allow for different versions of our API, it may make sense to add versioning to the URL:</p>
+
+  <pre><code data-trim="" contenteditable="">
+http://my.domain/api/v1
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="api-design-resources">API Design, Resources</h2>
+
+  <p>We could think of all of the <em>things</em> in our web app as resources. For example&#8230; Users, Lists, Items, Birds.</p>
+
+  <p>The path in your URL should reflect this. Generally, the convention is:</p>
+
+  <p>For a list of resources</p>
+
+  <pre><code data-trim="" contenteditable="">
+/resources
+</code></pre>
+
+  <p>For a single resource</p>
+
+  <pre><code data-trim="" contenteditable="">
+/resource/id
+</code></pre>
+</section>
+
+<section>
+  <h2 id="api-design-http-methods">API Design, HTTP Methods</h2>
+
+  <p>The actions that we can perform on our resources will be dictated by the HTTP method that&#39;s used.</p>
+
+  <ul>
+    <li><strong>GET</strong> - read or retrieve</li>
+    <li><strong>POST</strong> - create or add</li>
+    <li><strong>PUT</strong> - update</li>
+    <li><strong>DELETE</strong> - delete (didn&#39;t see that coming)</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="chatty---api-design-example-urls">CHATTY - API Design, Example URLs</h2>
+
+  <p>Let&#39;s design an API for a <strong>naive chat application</strong>. &#8594; It should allow us to:</p>
+
+  <ul>
+    <li>retrieve all messages&#8230;</li>
+    <li>and create a message.</li>
+  </ul>
+
+  <p><br />
+<strong>What HTTP method and URL should we use for the features above?</strong> &#8594;</p>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+GET  /messages
+POST  /message
+</code></pre>
+</section>
+
+<section>
+  <h2 id="api-design-format">API Design, Format</h2>
+
+  <p>The URLs from the previous slide respond with some data. We can designate what format that data is in. It could be:</p>
+
+  <ul>
+    <li>plain old HTML</li>
+    <li>XML</li>
+    <li>JSON</li>
+  </ul>
+
+  <p><br />
+We&#39;ll be using JSON - it&#39;s widely used and it&#39;s easy to work with.</p>
+
+</section>
+
+<section>
+  <h2 id="before-we-get-started">Before We Get Started</h2>
+
+  <p>A few miscellaneous things regarding some tools we&#39;ll need. Chat messages are typically displayed in chronological order, <strong>so we&#39;ll need to know a few things regarding dates / timestamps</strong> &#8594;</p>
+
+  <ul>
+    <li>JavaScript&#39;s date object</li>
+    <li>mongo&#39;s comparison operators (to compare dates, for example!)</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="javascript-date-object">JavaScript Date Object</h2>
+
+  <p>JavaScript has a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date"><code>Date</code> object</a>&#8230; <strong>you can create a date by using the Date() constructor</strong> &#8594;</p>
+
+  <ul>
+    <li>without arguments, it represents the current date and time</li>
+    <li>it can take a number of optional arguments&#8230;
+      <ul>
+        <li>one of these is a date string in this format: <code>new Date('November 17, 2015 09:30:00');</code></li>
+      </ul>
+    </li>
+    <li>to get nicely formatted string based on your locale (language, region, etc.) from a date object, you can call the <code>toLocaleTimeString()</code></li>
+    <li><strong>note that this could be used as a Mongoose Type!</strong> &#8594;</li>
+    <li>You can call a static method, now,  on date to get the current milliseconds since the epoch (we&#39;ll be using this when we create documents in mongoose)</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="javascript-date-objects-examples">JavaScript Date Objects Examples</h2>
+
+  <pre><code data-trim="" contenteditable="">
+console.log(Date.now());
+
+var d1 = new Date();
+console.log(d1);
+console.log(d1.toLocaleString());
+
+var d2 = new Date('November 17, 2015 09:30:00');
+console.log(d2.toLocaleString());
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="query-comparison-operators">Query Comparison Operators</h2>
+
+  <p>So far, our mongo queries have only asked for documents with property values that match our query values exactly:</p>
+
+  <pre><code data-trim="" contenteditable="">
+db.stuff.find({foo:bar});
+</code></pre>
+
+  <p>However, you can also use <a href="https://docs.mongodb.org/v3.0/reference/operator/query-comparison/">operators to perform comparisons, like less than or not equals</a>:</p>
+
+  <ul>
+    <li><code>$lt</code> - less than</li>
+    <li><code>$gt</code> - greater than</li>
+    <li><code>$ne</code> - not equals</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="using-query-comparison-operators">Using Query Comparison Operators</h2>
+
+  <p>To use <code>$lt</code>, <code>$gt</code>, <code>$ne</code>, etc. &#8230;</p>
+
+  <ul>
+    <li>rather than {property: value} as your query object&#8230;</li>
+    <li>use {property: {$operator: value}</li>
+  </ul>
+
+  <p><br />
+For example, if we had a collection with documents that looked like <code>{name: 'french fries', price: 2.00}</code>:</p>
+
+  <pre><code data-trim="" contenteditable="">
+&gt; db.food.insert({name: 'french fries', price: 2.00});
+WriteResult({ "nInserted" : 1 })
+&gt; db.food.insert({name: 'a burrito made of gold', price: 5000.00});
+WriteResult({ "nInserted" : 1 })
+&gt; db.food.find({price: {$lt: 4}})
+{ "_id" : ObjectId("564b2d3ce73ab98f9279ac15"), "name" : "french fries", "price" : 2 }
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="ok-whew-back-to-chat">Ok. Whew. Back to Chat.</h2>
+
+  <p>So&#8230; now that we know about:</p>
+
+  <ul>
+    <li>dates in JavaScript</li>
+    <li>comparisons in mongo (and consequently mongoose!)</li>
+  </ul>
+
+  <p><br />
+<strong>we can start implementing our chat app&#8230;</strong> &#8594;</p>
+</section>
+<section>
+  <h2 id="lets-start-with-some-setup">Let&#39;s Start with Some Setup</h2>
+
+  <p>In order to create our API, we&#39;ll need:</p>
+
+  <ul>
+    <li>an Express app</li>
+    <li>database access</li>
+    <li>a couple of routes</li>
+    <li>(specifically routes that return JSON)</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="returning-json-from-express">Returning JSON from Express</h2>
+
+  <p>Instead of calling res.render to put together a template/view, you can call the <strong><code>json</code></strong> method on the response object to send back (surprise) json!</p>
+
+  <ul>
+    <li>just pass in an Array or Object</li>
+    <li>Express will convert it to JSON</li>
+    <li>it&#39;ll also set the appropriate headers for you: <code>Content-Type:application/json</code></li>
+    <li><strong>Let&#39;s give it a try</strong> &#8594;</li>
+  </ul>
+
+  <p><br /></p>
+  <pre><code data-trim="" contenteditable="">
+router.get('/json', function(req, res) {
+  res.json({foo: 'bar'});
+});
+</code></pre>
+</section>
+
+<section>
+  <h2 id="lets-create-a-schema">Let&#39;s Create a Schema</h2>
+
+  <p><strong>How do we set up our database and create a Schema for a message document that just contains text and a date?</strong> &#8594;</p>
+
+  <p class="fragment">In db.js:</p>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+var mongoose = require('mongoose');
+URLSlugs = require('mongoose-url-slugs');
+
+var Message = new mongoose.Schema({
+	text: String,
+	dateSent: Date
+});
+
+mongoose.model('Message', Message);
+mongoose.connect('mongodb://localhost/jaxindb/');
+</code></pre>
+</section>
+
+<section>
+  <h2 id="oh-yes-remember-to-require">Oh Yes, Remember to Require</h2>
+
+  <p>Don&#39;t forget to include db.js in your app.js file:</p>
+
+  <pre><code data-trim="" contenteditable="">
+require('./db');
+</code></pre>
+
+  <p>Do this at the top of app.js, otherwise your connection won&#39;t run, and your models won&#39;t be registered.</p>
+</section>
+
+<section>
+  <h2 id="a-route-handler-that-exposes-the-api">A Route Handler That Exposes the API</h2>
+
+  <p><strong>Let&#39;s create a route handler in index.js that retrieves all messages from the database and sends it back as JSON</strong> &#8594;</p>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+var mongoose = require('mongoose');
+var Message = mongoose.model('Message');
+</code></pre>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+router.get('/api/messages', function(req, res) {
+  Message.find({}, function(err, messages, count) {
+    res.json(messages.map(function(ele) {
+      return {
+        'message': ele.text,
+        'date': ele.dateSent
+      }; 
+    }));
+  });
+});
+</code></pre>
+</section>
+
+<section>
+  <h2 id="test-out-your-api">Test Out Your API</h2>
+
+  <p>Use Curl or your browser to request the following URL:</p>
+
+  <pre><code data-trim="" contenteditable="">
+http://localhost:3000/api/messages
+</code></pre>
+
+  <ul>
+    <li>you should get json back</li>
+    <li>you should see the appropriate headers: Content-Type should be application/json</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="on-the-client-side-its-our-usual-display">On the Client Side, It&#39;s Our Usual Display</h2>
+
+  <p>Assuming we&#39;re adding to an element with an id = messageList:</p>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+var req = new XMLHttpRequest(),
+url = 'http://localhost:3000/api/messages';
+req.open('GET', url, true);
+</code></pre>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+req.addEventListener('load', function() {
+	if (req.status &gt;= 200 &amp;&amp; req.status &lt; 400){
+		data = JSON.parse(req.responseText);
+    	messageList = document.getElementById('message-list');
+		data.forEach(function(msg) {
+			var div = messageList.appendChild(document.createElement('div'));
+			div.textContent = (new Date(msg.date)).toLocaleString() + ' - ' + msg.message;
+		});
+	} });
+</code></pre>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+req.send()
+</code></pre>
+</section>
+
+<section>
+  <h1 id="reading-was-a-breeze-what-about-adding-a-new-message">Reading was a Breeze, What About Adding a New Message?</h1>
+</section>
+
+<section>
+  <h2 id="creating-messages">Creating Messages</h2>
+
+  <p><strong>What URL and method should we use for creating a single message?</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+POST /message
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="lets-start-off-with-handling-our-post">Let&#39;s Start off With Handling Our Post</h2>
+
+  <p><strong>How do we create a route that accepts a POST&#8230; and creates a new Message based on that POST?</strong> &#8594;</p>
+
+  <p>(let&#39;s return the id of the object created as JSON)</p>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+router.post('/api/messages/', function(req, res) {
+  var message = new Message({
+    text: req.body.message,
+    dateSent: Date.now()
+  });
+  message.save(function(err, saved_message, count) {
+    if (err) { return res.send(500, 'Error occurred: database error.'); }
+    res.json({id:saved_message._id});
+  });
+});
+</code></pre>
+</section>
+
+<section>
+  <h2 id="a-few-things-to-note">A Few Things to Note</h2>
+
+  <p><strong>In the previous slide, we saw:</strong> &#8594;</p>
+
+  <ul>
+    <li><strong>Date.now()</strong> &#8230;. number of milliseconds since 1/1/1970 (unix epoch time)</li>
+    <li>notice the manual call to <strong>res.send</strong> &#8230; so we can send back a 500</li>
+    <li>additionally, there&#39;s a return there to end the function</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="client-side-code-for-posts">Client Side Code for POSTs</h2>
+
+  <ul>
+    <li>we&#39;ll need to specify POST for our XMLHttpRequest</li>
+    <li>we&#39;ll also need to send the data through the request&#39;s body</li>
+    <li>lastly, have to specify the appropriate content type</li>
+    <li>(this is done by setting the Content-Type header)</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="setrequestheader">setRequestHeader</h2>
+
+  <p>We can set arbitrary headers using the setRequestHeader method on our XMLHttpRequest object.</p>
+
+  <p>It takes two parameters:</p>
+
+  <ul>
+    <li>header</li>
+    <li>value</li>
+  </ul>
+
+  <p><br />
+For example, we&#39;ll use the following for our form submission:</p>
+
+  <pre><code data-trim="" contenteditable="">
+req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+</code></pre>
+</section>
+
+<section>
+  <h2 id="send-revisited">send Revisited</h2>
+
+  <p>In order to send data with our request, we have to pass in an argument to send when we call it.</p>
+
+  <p>The argument is a url encoded string of name value pairs. For example:</p>
+
+  <pre><code data-trim="" contenteditable="">
+req.send('name1=val1&amp;name2=val2');
+</code></pre>
+
+  <p>In our case, it would look something like this:</p>
+
+  <pre><code data-trim="" contenteditable="">
+req.send('message=' + message);
+</code></pre>
+</section>
+
+<section>
+  <h2 id="getting-a-form-elements-value">Getting a Form Element&#39;s Value</h2>
+
+  <p>As we saw in previous classes, there are some conventional attributes that we can access as properties on elements.</p>
+
+  <p>The following example grabs the value from a text input with an id of message:</p>
+
+  <pre><code data-trim="" contenteditable="">
+var message = document.getElementById('message').value;
+</code></pre>
+</section>
+
+<section>
+  <h2 id="all-together-for-post">All Together for POST</h2>
+
+  <p><strong>Now that we have all of the building blocks, we can put together our request.</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+var message = document.getElementById('message').value;
+var req= new XMLHttpRequest();
+req.open('POST', 'http://localhost:3000/api/message', true);
+req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+req.send('message=' + message);
+</code></pre>
+</section>
+
+<section>
+  <h1 id="demo-time---faking-real-time-chat">Demo Time - Faking Real-Time Chat</h1>
+
+</section>
+
+<section>
+  <h2 id="chat-implementation">Chat Implementation</h2>
+
+  <p><strong>How do you think we could fake realtime chat with what we currently have?</strong> &#8594; (we pretty much know everything we need to be able to put this together).</p>
+
+  <ul class="fragment">
+    <li>just a lot of requests!</li>
+    <li>(polling)</li>
+    <li>using XMLHttpRequeset along with setTimeout, of course</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="some-fancy-mongo-querying">Some Fancy Mongo Querying</h2>
+
+  <p>Actually, there is <em>some</em> additional stuff that we have to know.</p>
+
+  <p>We can use $gt in our query object to filter results that are greater than some value.</p>
+
+  <pre><code data-trim="" contenteditable="">
+{sentDate {$gt:new Date(someDateString)}};
+</code></pre>
+
+  <p>We can also sort by a property by calling sort after find, and chaining an exec call to specify a callback:</p>
+
+  <pre><code data-trim="" contenteditable="">
+Message.find(q).sort('dateSent').exec(callback)
+</code></pre>
+
+  <p>(this was actually in the auth demo project for populating related records)</p>
+
+</section>
+
+<section>
+  <h2 id="a-revised-get-route-handler">A Revised GET Route Handler</h2>
+
+  <p><strong>Let&#39;s use sorting and filtering by &amp;gt to amend our api so that it accepts a query parameter called lastRetrievalDate.</strong> &#8594;</p>
+
+  <p>We can filter by that to only get <em>recent</em> messages.</p>
+
+  <pre><code data-trim="" contenteditable="">
+router.get('/api/messages', function(req, res) {
+  console.log(req.query.lastRetrievalDate);
+
+  var q = {};
+  if (req.query.lastRetrievalDate) {
+    q.dateSent = {$gt:new Date(req.query.lastRetrievalDate)};
+    console.log(q);
+  }
+
+  Message.find(q).sort('dateSent').exec(function(err, messages, count) {
+    console.log('messages:', messages);
+    console.log('err:', err);
+    res.json(messages.map(function(ele) {
+      return {
+        'message': ele.text,
+        'date': ele.dateSent
+      }; 
+    }));
+  });
+});
+</code></pre>
+</section>
+
+<section>
+  <h2 id="client-side">Client Side</h2>
+
+  <p>On the client side, we&#39;ll add some timing so that we only need to retrieve messages since the one that we last saw:</p>
+
+  <pre><code data-trim="" contenteditable="">
+var lastRetrievalDate, 
+    timer, 
+    delay = 1000;
+
+document.addEventListener("DOMContentLoaded", getMessages);
+document.querySelector('input[type=button]').addEventListener("click", sendMessage);
+
+function sendMessage() {
+	var message = document.getElementById('message').value;
+	console.log('sending message', message);
+	var req= new XMLHttpRequest();
+	req.open('POST', 'http://localhost:3000/api/messages/create', true);
+	req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+	req.send('message=' + message);
+	req.addEventListener('load', function(eve) {
+    clearTimeout(timer);
+		getMessages();
+	});
+}
+
+</code></pre>
+</section>
+
+<section>
+  <h2 id="client-side-continued">Client Side Continued</h2>
+
+  <pre><code data-trim="" contenteditable="">
+function getMessages() {
+	var req = new XMLHttpRequest(),
+
+  url = 'http://localhost:3000/api/messages';
+
+  console.log(lastRetrievalDate);
+  if (lastRetrievalDate) {
+    url += '?lastRetrievalDate=' + lastRetrievalDate;
+  }
+	req.open('GET', url, true);
+
+	// place event listeners here	
+
+	req.send();
+}
+
+</code></pre>
+</section>
+
+<section>
+  <h2 id="event-listeners">Event Listeners</h2>
+
+  <pre><code data-trim="" contenteditable="">
+  req.addEventListener('load', function() {
+    if (req.status &gt;= 200 &amp;&amp; req.status &lt; 400){
+      data = JSON.parse(req.responseText);
+      messageList = document.getElementById('message-list');
+      data.forEach(function(msg) {
+        var div = messageList.appendChild(document.createElement('div'));
+        div.textContent = (new Date(msg.date)).toLocaleString() + ' - ' + msg.message;
+      });
+      console.log(data);
+      if(data.length &gt;= 1) { 
+        lastRetrievalDate = data[data.length - 1].date;
+      }
+      timer = setTimeout(getMessages, delay);
+    } else {
+      console.log(req.status);
+    }
+  });
+</code></pre>
+
+</section>
+<section>
+  <h2 id="handling-an-error">Handling an Error</h2>
+
+  <pre><code data-trim="" contenteditable="">
+  req.addEventListener('error', function() {
+    console.log('uh-oh... network error or cross domain request');
+  });
+</code></pre>
+</section>
+
+:ET

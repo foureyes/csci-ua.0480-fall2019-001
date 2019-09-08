@@ -1,0 +1,473 @@
+I"b4<section class="intro-slide">
+  <h1 id="angular">Angular</h1>
+
+  <h3 id="csci-ua0480-001">CSCI-UA.0480-001</h3>
+
+  <p><small></small></p>
+</section>
+
+<section>
+  <h2 id="whats-angularjs">What&#39;s Angular.js?</h2>
+
+  <p>Angular is a client-side JavaScript framework for creating web applications.</p>
+
+  <ul>
+    <li class="fragment">extends HTML <em>vocabulary</em> for dynamic views (rather than just static content)</li>
+    <li class="fragment">based on model, view, controller architecture</li>
+    <li class="fragment">particularly well suited for creating single page, interactive web applications</li>
+    <li class="fragment">does not abstract away html/css (a bit different from what we&#39;ve been doing so far)</li>
+  </ul>
+</section>
+<section>
+  <h2 id="why-use-angular">Why Use Angular?</h2>
+
+  <ul>
+    <li>a quick way for creating client side web apps</li>
+    <li>familiar templating engine</li>
+    <li>html tags&#8230; w/ data</li>
+    <li>handles dom very well</li>
+    <li>data directly bound to template (two-way data binding)</li>
+    <li>easily load json documents</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="a-quick-recap-of-mvc">A Quick Recap of MVC</h2>
+
+  <ul>
+    <li><strong>model</strong> - your data</li>
+    <li><strong>views</strong> - how data or model is displayed</li>
+    <li><strong>controllers</strong> - orchestrates how models, templates, views and data work together</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="data-binding">Data Binding</h2>
+
+  <p>Binding in classical template systems vs two way data binding:</p>
+
+  <p><a href="https://docs.angularjs.org/guide/databinding">https://docs.angularjs.org/guide/databinding</a></p>
+
+  <ul>
+    <li>in classical template systems, model and template are merged once and pushed to the view</li>
+    <li>keeping view in sync with data changes up to developer - had to be done manually</li>
+    <li>angular templates are automatically updated when the model changes, and the model is updated when ineteraction occurs in the view</li>
+    <li><strong>Two-Way Data Binding</strong></li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="some-notes">Some Notes</h2>
+
+  <ul>
+    <li>again&#8230; Angular is a client side JavaScript framework</li>
+    <li>models, views and controllers are client side</li>
+    <li>even templating is compiled on the client side</li>
+    <li>usually only relies on server for initial page load and persistent storage
+      <ul>
+        <li>not really a need for server side templating, tho, right?</li>
+      </ul>
+    </li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="which-version">Which Version?</h2>
+
+  <p>The latest version of Angular is 1.3.x.</p>
+
+  <ul>
+    <li>it&#39;s a recent significant release, with some breaking changes for legacy applications</li>
+    <li>most of the guides and tutorials out there are still for 1.2.x</li>
+    <li>probably a good idea to learn 1.3, though&#8230; as it paves the wave for Angular 2</li>
+    <li>some changes from 1.2 to 1.3 &#8230;
+      <ul>
+        <li><a href="https://docs.angularjs.org/guide/migration">https://docs.angularjs.org/guide/migration</a></li>
+        <li><a href="http://ng-learn.org/2014/06/Migration_Guide_from_1-2_to1-3/">http://ng-learn.org/2014/06/Migration_Guide_from_1-2_to1-3/</a></li>
+      </ul>
+    </li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="using-angular">Using Angular</h2>
+
+  <p>Get angular by:</p>
+
+  <ul>
+    <li>downloading from <a href="https://angularjs.org/">https://angularjs.org/</a></li>
+    <li>or using a cdn (for example, <a href="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.6/angular.min.js">https://ajax.googleapis.com/ajax/libs/angularjs/1.3.6/angular.min.js</a></li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="angular-directives">Angular Directives</h2>
+
+  <p><strong>directives</strong> - markers on DOM elements (usually an element attribute) that tell Angular&#39;s HTML compiler to associate behavior/command/transformation to that element</p>
+
+  <ul>
+    <li>think of as commands that can be placed in html</li>
+    <li>usually prefixed with ng or data-ng</li>
+    <li>there are built in directives</li>
+    <li>&#8230; and you can create your own</li>
+    <li>an example directive below:</li>
+  </ul>
+
+  <pre><code data-trim="" contenteditable="">
+&lt;html ng-app="myApp"&gt;
+</code></pre>
+</section>
+
+<section>
+  <h2 id="ng-app">ng-app</h2>
+
+  <p>The <strong>ng-app</strong> directive:</p>
+
+  <ul>
+    <li>specifies the root element of our Angular application</li>
+    <li>it&#39;s usually near the <em>actual</em> root element of the document (<code>html</code>)</li>
+    <li><strong>required</strong> to <em>activate</em> / bootstrap angular!</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="angular-expressions">Angular Expressions</h2>
+
+  <p><strong>AngularJS expressions</strong> bind data to HTML</p>
+
+  <ul>
+    <li>they&#39;re written within double braces: {{ some expression }}.</li>
+    <li>you can have simple JavaScript expessions within them</li>
+    <li>kind of like handlebars templating!
+<br /></li>
+  </ul>
+
+  <pre><code data-trim="" contenteditable="">
+&lt;!DOCTYPE html&gt;
+&lt;html ng-app=""&gt;
+&lt;head&gt;
+&lt;script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.6/angular.min.js"&gt;&lt;/script&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+&lt;div&gt;
+ 	&lt;p&gt;{{ 'hello' + 'world' }}&lt;/p&gt;
+&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+</section>
+
+<section>
+  <h2 id="scopes">Scopes</h2>
+
+  <p>Scopes are the glue between the application layer and the view.</p>
+
+  <p>It&#39;s essentially an object that can be used to access the model.</p>
+
+  <pre><code data-trim="" contenteditable="">
+$scope
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="two-way-data-binding">Two Way Data Binding</h2>
+
+  <p>Here, we bind the input text field with a model, myName.</p>
+
+  <pre><code data-trim="" contenteditable="">
+&lt;div class="field"&gt;
+  &lt;input type="text" ng-model="myName" /&gt;
+  &lt;p&gt;My name is &lt;strong&gt;&lt;/strong&gt;&lt;/p&gt;
+  &lt;button ng-click="myName='default value'"&gt;Reset to 'default value'&lt;/button&gt;
+&lt;/div&gt;
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="another-example-of-two-way-data-binding">Another Example of Two Way Data Binding</h2>
+
+  <pre><code data-trim="" contenteditable="">
+&lt;div class="field"&gt;
+	&lt;input type="text" ng-model="myName" /&gt;
+	{{myName}}
+&lt;/div&gt;
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="defining-models-and-controllers">Defining Models and Controllers</h2>
+
+  <p>Let&#39;s try creating a model and controller&#8230; and using $scope, and a directive called ng-repeat (a loop!).</p>
+
+  <pre><code data-trim="" contenteditable="">
+var myApp = angular.module('myApp', []);
+myApp.controller("ImageBoardController", function ($scope) {
+	$scope.images = [
+    {'title':'image 1', 'url': 'http://foo.bar'},
+    {'title':'image 2', 'url': 'http://baz.qux'},
+    {'title':'image 3', 'url': 'http://weeble.wuz'}
+	];
+});
+</code></pre>
+</section>
+
+<section>
+  <h2 id="defining-models-controllers-continued">Defining Models, Controllers Continued</h2>
+
+  <p>In your markup, <code>index.html</code>:</p>
+
+  <pre><code data-trim="" contenteditable="">
+&lt;html ng-app="myApp"&gt;
+	&lt;head&gt;
+		&lt;title&gt;&lt;/title&gt;
+		&lt;script src="javascripts/angular.js"&gt;&lt;/script&gt;
+		&lt;script src="javascripts/controllers.js"&gt;&lt;/script&gt;
+	&lt;/head&gt;
+	&lt;body&gt;
+	&lt;div ng-controller="ImageBoardController"&gt;
+		&lt;ul&gt; 
+			&lt;li ng-repeat="image in images"&gt;
+				&lt;span&gt;	{{ image.title }} - {{ image.url }} {{ $index }}&lt;/span&gt;
+			&lt;/li&gt;
+		&lt;/ul&gt;
+	&lt;/div&gt;
+	&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+</section>
+
+<section>
+  <h2 id="using-http">Using http</h2>
+
+  <p>The <a href="https://docs.angularjs.org/api/ng/service/$http">http service</a> is angular&#39;s abstraction for making http requests. In your controller:</p>
+
+  <pre><code data-trim="" contenteditable="">
+var myApp = angular.module('myApp', []);
+// controller
+myApp.controller("ImageBoardController", ['$scope', '$http', function($scope, $http) {
+  $http.get('/api/images'). 
+    success(function(data) {
+      $scope.images = data; 
+    }).
+    error(function(err) {
+      console.log('ruh roh');
+    });
+}]);
+</code></pre>
+</section>
+
+<section>
+  <h2 id="using-http-continued">Using http continued</h2>
+
+  <p>On the server&#8230;</p>
+
+  <pre><code data-trim="" contenteditable="">
+var express = require('express');
+var router = express.Router();
+
+router.get('/api/images', function(req, res) {
+  var images = [
+    {'title':'image 1', 'url': 'http://foo.bar'},
+    {'title':'image 2', 'url': 'http://baz.qux'},
+    {'title':'image 3', 'url': 'http://weeble.wuz'}
+  ];
+  res.json(images);  
+});
+module.exports = router;
+
+</code></pre>
+</section>
+
+<section>
+  <h2 id="the-controller">The Controller&#8230;</h2>
+
+  <pre><code data-trim="" contenteditable="">
+var myApp = angular.module('myApp', []);
+// controller
+myApp.controller("ImageBoardController", ['$scope', '$http', function($scope, $http) {
+  $http.get('/api/images'). 
+    success(function(data) {
+      $scope.images = data; 
+    }).
+    error(function(err) {
+      console.log('ruh roh');
+    });
+}]);
+</code></pre>
+</section>
+
+<section>
+  <h2 id="with-a-database">With a Database</h2>
+
+  <p>Router</p>
+
+  <pre><code data-trim="" contenteditable="">
+
+// home is in public!
+router.get('/api/images', function(req, res) {
+  var images = ImagePost.find(function(err, imagePosts){
+    res.json(imagePosts);  
+  });  
+});
+</code></pre>
+</section>
+
+<section>
+  <h2 id="a-note-on-handlebars">A Note on Handlebars</h2>
+
+  <p>Handlebars and {{ }}!? &#8230;does not really play well with Angular.  Fortunately, you can specify the delimeter for Angular expressions:</p>
+
+  <pre><code data-trim="" contenteditable="">
+
+appModule.config(function($interpolateProvider) {
+  $interpolateProvider.startSymbol('{[{');
+  $interpolateProvider.endSymbol('}]}');
+});
+</code></pre>
+
+  <p>Then you could use this in angular:</p>
+
+  <pre><code data-trim="" contenteditable="">
+{[{message}]}
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="a-complete-app">A Complete App</h2>
+
+  <p>Markup&#8230;</p>
+
+  <pre><code data-trim="" contenteditable="">
+&lt;body ng-controller="ImageBoardController" ng-init="getImages()"&gt;
+&lt;form&gt;
+	title &lt;input type="text" ng-model="title" name="title"&gt;
+	url &lt;input type="text" ng-model="url" name="url"&gt;
+	&lt;input type="button" ng-click="addImage(title, url)" value="submit"&gt;
+
+&lt;/form&gt;
+&lt;div&gt;
+	&lt;ul&gt; 
+		&lt;li ng-repeat="image in images"&gt;
+			&lt;p&gt;Image  {{$index}}:&lt;/p&gt; &lt;img  src='{{image.url}}'&gt;&lt;/span&gt;
+		&lt;/li&gt;
+	&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/body&gt;
+
+</code></pre>
+</section>
+
+<section>
+  <h2 id="our-controller">Our Controller</h2>
+
+  <pre><code data-trim="" contenteditable="">
+var myApp = angular.module('myApp', []);
+
+// controller
+myApp.controller("ImageBoardController", ['$scope', '$http', function($scope, $http, images) {
+  $scope.images = [{'foo':'bar'}];
+
+}]);
+
+</code></pre>
+
+</section>
+<section>
+  <h2 id="getimages-function">getImages Function</h2>
+
+  <pre><code data-trim="" contenteditable="">
+  $scope.getImages = function() {
+    $http.get('/api/images') 
+      .success(function(data) {
+        $scope.images = data;
+        console.log("retrieved images", $scope.images);
+      })
+      .error(function(data, status) {
+        console.log('error:', data, status);
+      });
+  };
+</code></pre>
+
+</section>
+<section>
+  <h2 id="addimage-function">addImage Function</h2>
+
+  <pre><code data-trim="" contenteditable="">
+  $scope.addImage = function(title, url) {
+    console.log("button clicked:", url, title);
+    img = {'title':title, 'url':url}; 
+    $http.post('/api/image', {
+      method: 'POST',
+      data: img,
+      headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+    }) 
+      .success(function(data) {
+        console.log("success - got: ", data);
+        // add to beginning
+        $scope.images.unshift({'url':data.url, 'title':data.title});
+        console.log("update images:", $scope.images);
+      })
+      .error(function(data, status) {
+        console.log('error:', data, status);
+      });
+  };
+</code></pre>
+</section>
+
+<section>
+  <h2 id="and-on-the-server">And on the Server</h2>
+
+  <pre><code data-trim="" contenteditable="">
+var express = require('express');
+var router = express.Router();
+var mongoose = require('mongoose');
+var ImagePost = mongoose.model('ImagePost');
+
+router.get('/api/images', function(req, res) {
+  var images = ImagePost.find({}).sort('-postDate').exec(function(err, imagePosts){
+    res.json(imagePosts);  
+  });  
+});
+
+router.post('/api/image', function(req, res) {
+  console.log(req.body);
+  image = new ImagePost({
+    'title': req.body.data.title,
+    'url': req.body.data.url,
+    'postDate': Date.now()
+  });
+  image.save(function(err, saved_image) {
+    res.json(saved_image);
+  });
+});
+module.exports = router;
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="of-course-the-schema">Of Course, the Schema</h2>
+
+  <pre><code data-trim="" contenteditable="">
+var mongoose = require('mongoose');
+
+var ImagePost = new mongoose.Schema({
+  title: String,
+  url: String,
+  postDate: Date
+});
+
+mongo_uri = process.env.MONGO_URI || 'mongodb://localhost/imageboarddb';
+mongoose.connect(mongo_uri);
+mongoose.model('ImagePost', ImagePost);
+
+</code></pre>
+
+</section>
+:ET

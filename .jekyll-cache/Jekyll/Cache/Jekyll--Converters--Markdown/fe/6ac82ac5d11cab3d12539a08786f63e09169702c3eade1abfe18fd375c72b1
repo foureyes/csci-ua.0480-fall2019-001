@@ -1,0 +1,323 @@
+I"B2<section class="intro-slide">
+  <h1 id="project-setup">Project Setup</h1>
+
+  <h3 id="csci-ua0480-001">CSCI-UA.0480-001</h3>
+
+  <p><small></small></p>
+</section>
+<section>
+  <h2 id="topics">Topics</h2>
+
+  <p>For the first few homeworks, I&#39;ve setup skeleton projects for you. <em>Eventually</em> you&#39;ll have to create your own project from scratch. <strong>So&#8230; in this set of slides, we&#39;ll talk about some things were done to set up homeworks 1 through 3.</strong> &#8594;</p>
+
+  <ul>
+    <li>generating a <code class="highlighter-rouge">package.json</code></li>
+    <li>using <code class="highlighter-rouge">--save</code> vs <code class="highlighter-rouge">--save-dev</code></li>
+    <li>linting / <code class="highlighter-rouge">eslint</code></li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="packagejson">package.json</h2>
+
+  <p><strong>package.json</strong> is a file that contains metadata about your project. It tells <code>npm</code></p>
+
+  <ul>
+    <li class="fragment">how to <strong>install</strong> your project</li>
+    <li class="fragment">how it&#39;s <strong>published</strong> (if it&#39;s a public project)</li>
+    <li class="fragment">how it&#39;s used as a <strong>module</strong></li>
+    <li class="fragment">how to retrieve its <strong>dependencies</strong></li>
+    <li class="fragment">etc.
+<br /></li>
+  </ul>
+
+  <p class="fragment"><br />
+There&#39;s a <a href="https://www.npmjs.org/doc/files/package.json.html">very comprehensive page</a> on <code>package.json</code> on <a href="https://www.npmjs.org">npm&#39;s site</a>.</p>
+</section>
+
+<section>
+  <h2 id="packagejson-for-dependencies">package.json for Dependencies</h2>
+
+  <h3 id="were-using-it-mainly-for-dependency-management">We&#39;re using it mainly for dependency management.</h3>
+
+  <ul>
+    <li>a lot of the data in <code>package.json</code> is used for specifying how your code is imported into another file (what name to use, what the license is, etc.).</li>
+    <li>we mostly care about the fact that it helps us <strong>download all of our project&#39;s dependencies at the correct versions</strong></li>
+    <li>instead of installing dependencies manually, one-by-one, we can just <code>npm install .</code></li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="packagejson-format">package.json Format</h2>
+
+  <p>As the name implies (uh, of course), <strong>package.json is <em>actually</em> a json file</strong> (no surprise there). <strong>How is that different from an object literal again?</strong> &#8594;</p>
+
+  <ul>
+    <li class="fragment">use double quotes for property names</li>
+    <li class="fragment">values can be a string, number, another object, an array, boolean or null</li>
+    <li class="fragment">(not functions, function calls, expressions that need to be evaluated)</li>
+  </ul>
+</section>
+<section>
+  <h2 id="required-fields-in-packagejson">Required Fields in package.json</h2>
+
+  <p><strong>There are two required properties</strong>:</p>
+
+  <ul>
+    <li class="fragment">the short, but descriptive <strong>name</strong> of your project
+      <ul>
+        <li>all lowercase</li>
+        <li>one word, no spaces</li>
+        <li>dashes and underscores allowed</li>
+      </ul>
+    </li>
+    <li class="fragment">your project&#39;s <strong>version</strong> in the format of MAJOR.MINOR.PATCH <a href="https://docs.npmjs.com/getting-started/semantic-versioning">see semver spec</a></li>
+    <li class="fragment"><strong>why?</strong> <span class="fragment">together, these become a unique identifier for your module at a specific version</span></li>
+  </ul>
+
+  <p class="fragment"><br />
+You&#39;ll also get warnings on the following, but everything will work even if you don&#39;t have these:</p>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">description
+repository field
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="additional-fields-in-packagejson">Additional Fields in package.json</h2>
+
+  <p>Some other data in <code>package.json</code> includes:</p>
+
+  <ul>
+    <li><strong>author</strong> - name of author</li>
+    <li><strong>private</strong> - a <em>boolean</em> specifying whether or not to publish publicly</li>
+    <li><strong>dependencies</strong> - an object of all of the dependencies that your project has, along with their version numbers</li>
+    <li><strong>devDependencies</strong> - and object of all of the dependencies that are necessary for <em>working on/developing</em> your project (such as testing libraries, build tools)</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="example-packagejson">Example package.json</h2>
+
+  <p><strong>An example minimal <code>package.json</code></strong>:</p>
+
+  <pre><code data-trim="" contenteditable="">
+{
+	"name": "my-site",
+	"version": "1.0.0",
+	"author": "Joe Versoza",
+	"private": true,
+	"dependencies": {}
+}
+</code></pre>
+</section>
+
+<section>
+  <h2 id="or-you-can-generate-">Or You Can Generate &#8230;</h2>
+
+  <p>Of course, you don&#39;t have to write all of that by hand.  <strong>You can use npm to create a new one for you!</strong>  Just run:</p>
+
+  <pre><code data-trim="" contenteditable="">
+npm init
+</code></pre>
+
+  <p><br />
+It&#39;ll ask you a bunch of questions.</p>
+
+  <ul>
+    <li>the default answers are adequate for our purposes</li>
+    <li>(so you can just press [ENTER] to go through it</li>
+  </ul>
+
+  <p><strong>Let&#39;s give it a try</strong> &#8594;</p>
+
+  <p class="fragment">(remember, name is all lowercase with underscores and dashes)</p>
+</section>
+
+<section>
+  <h2 id="fields-generated">Fields Generated</h2>
+
+  <pre><code data-trim="" contenteditable="">{
+  "name": "projectname",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" &amp;&amp; exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
+</code></pre>
+</section>
+
+<section>
+  <h2 id="specifying-dependencies">Specifying Dependencies</h2>
+
+  <p>You can manually specify dependencies. The <strong>dependencies</strong> property is an object with:</p>
+
+  <ul>
+    <li>module names as keys</li>
+    <li>version specifiers as values</li>
+  </ul>
+
+  <p><br /></p>
+  <pre><code data-trim="" contenteditable="">
+{
+	"name": "foo",
+	"version": "1.0.0",
+	"dependencies": {
+		"request": "^2.44.0"
+	}
+}
+</code></pre>
+</section>
+<section>
+  <h2 id="version-specifiers">Version Specifiers</h2>
+
+  <p>A list of <a href="https://www.npmjs.org/doc/files/package.json.html#dependencies">example version specifiers is included npm&#39;s documentation</a>. <strong>Some common ones include</strong>:</p>
+
+  <ul>
+    <li><code>version</code>- exact version</li>
+    <li><code>^version</code> - compatible with version</li>
+    <li><code>&gt;version</code> - greater than version</li>
+    <li><code>1.2.x</code> - all 1.2.x versions</li>
+    <li><code>*</code> - matches any version</li>
+  </ul>
+
+  <!--* -->
+</section>
+
+<section>
+  <h2 id="installing-packages">Installing Packages</h2>
+
+  <p><strong>How do I install the request module?</strong> &#8594;</p>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+npm install request
+</code></pre>
+
+  <p class="fragment">We could then manually add that to our <code>package.json</code> if it&#39;s a dependency of our project&#8230; <strong>just drop it into the <code>dependency</code> property.</strong></p>
+
+</section>
+
+<section>
+  <h2 id="installing-packages-continued">Installing Packages Continued</h2>
+
+  <p>As we&#39;re developing, we may want to <em>keep track</em> of all of the packages/modules that we&#39;ve installed.</p>
+
+  <p>Using the <code>--save</code> flag will add it to your <code>package.json</code> automatically.</p>
+
+  <pre><code data-trim="" contenteditable="">
+npm install request --save
+</code></pre>
+
+  <p><strong>Let&#39;s see how that works.</strong> &#8594;</p>
+</section>
+
+<section>
+  <h2 id="dependencies-vs-dev-dependencies">Dependencies vs Dev Dependencies</h2>
+
+  <p>There&#39;s also a <code>--save-dev</code> flag. This flag saves what you just installed to the devDependencies property.</p>
+
+  <ul>
+    <li><strong>dependencies</strong> - tracks required libraries and packages for you actual project to be installed and deployed</li>
+    <li><strong>devDependencies</strong> - dependencies that are only necessary if you&#39;re <strong>working on</strong> or <strong>developing</strong> a project&#8230; <strong>what are some examples</strong> &#8594;
+      <ul>
+        <li class="fragment">linter, like JSHint or ESLint</li>
+        <li class="fragment">build tools, like grunt or gulp</li>
+        <li class="fragment">unit test tools, like mocha or jasmine</li>
+      </ul>
+    </li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="speaking-of-linters">Speaking of Linters</h2>
+
+  <p>A <strong>linter</strong> is a program that performs static analysis on your code to determine if there is any use of <em>suspicious</em> or non-standard language constructs.</p>
+
+  <p><strong>Static analysis</strong> is the inspection of the text of your program without actually executing it.</p>
+
+  <p>As you know, the linter that we&#39;re using is <strong>ESLint</strong>. <strong>What are some issues that it reports on that could potentially lead to errors?</strong> &#8594;</p>
+
+  <ul>
+    <li class="fragment"><code class="highlighter-rouge">===</code> vs <code class="highlighter-rouge">==</code></li>
+    <li class="fragment">variables declared without <code class="highlighter-rouge">var</code></li>
+    <li class="fragment">the absence (or presence) of semicolons</li>
+    <li class="fragment">etc.</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="linter-features">Linter Features</h2>
+
+  <p><strong>So, linters have actually moved beyond just detecting potential problems/errors in code. They also can:</strong> &#8594;</p>
+
+  <ul>
+    <li class="fragment">check for adherence to stylistic conventions
+      <ul>
+        <li class="fragment">(such as line length, camel-case, indentation, etc.)</li>
+      </ul>
+    </li>
+    <li class="fragment">report on cyclomatic complexity
+      <ul>
+        <li class="fragment">&#8230;a software metric that measures that amount of linearly independent paths through your code</li>
+        <li class="fragment">basically, how <em>complex</em> your code is</li>
+      </ul>
+    </li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="linter-history--for-other-languages">Linter History / For Other Languages</h2>
+
+  <p><strong>lint</strong> was <em>actually</em> the name of a program that would check your C code for potential errors (errors such as dividing by zero, using variables before they&#39;re set, etc.).</p>
+
+  <p><strong>Of course, linters are no longer just for C.</strong> There are linters for other languages (and pretty popular with dynamically typed languages as well):</p>
+
+  <ul>
+    <li>Java - <a href="http://www.sonarqube.org/">SonarQube</a> for code quality inspection</li>
+    <li>Python - pylint and pyflakes</li>
+    <li>JavaScript &#8230; &#8594;</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="javascript-linters">JavaScript Linters</h2>
+
+  <p><strong>There are a actually a bunch of linters for JavaScript, not just ESLint</strong>:</p>
+
+  <ul>
+    <li><a href="http://eslint.org/">ESLint</a> - highly configurable linter for ES5 and ES6, reports on both potential code issues as well as adherance to stylistic conventions</li>
+    <li><a href="http://jshint.com/">JSHint</a> - community driven fork of JSLint, pretty relaxed default configuration, reports on cyclomatic complexity, shifting away from style suggestions</li>
+    <li><strong>JSLint</strong> - oldest, <em>most opinionated</em>, and non-configurable (but created by the author of the classic JS book, <em>JavaScript the Good Parts</em>, Douglas Crockford)</li>
+  </ul>
+
+  <p><br />
+<strong>The <em>trend</em> seems to be <a href="http://www.npmtrends.com/jshint-vs-eslint-vs-jslint-vs-babel-eslint-vs-jscs">shifting towards ESLint</a> in the last year (argh, <a href="http://thefullstack.xyz/javascript-fatigue/">JavaScript fatigue</a> is <em>real</em>)</strong>.</p>
+
+</section>
+<section>
+  <h2 id="eslint">ESLint</h2>
+
+  <p><strong>You can install ESLint through npm (of course).</strong></p>
+
+  <pre><code data-trim="" contenteditable="">
+npm install eslint --save-dev
+</code></pre>
+
+  <ul>
+    <li><a href="http://eslint.org/docs/user-guide/getting-started">See the full installation instructions</a></li>
+    <li><a href="http://eslint.org/docs/user-guide/integrations">For integration with various editors, check out ESLint&#39;s install page</a></li>
+    <li><strong>For example, it works on the commandline, with <a href="https://github.com/scrooloose/syntastic/tree/master/syntax_checkers/javascript">vim</a>, with <a href="https://atom.io/packages/linter-eslint">atom</a>, with <a href="https://github.com/roadhump/SublimeLinter-eslint">SublimeText</a></strong> &#8594;</li>
+  </ul>
+</section>
+
+:ET

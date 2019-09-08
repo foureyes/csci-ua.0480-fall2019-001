@@ -1,0 +1,13 @@
+I"ã
+<ul>
+  <li><a href="slides/23/socketio.html">Websockets and socket.io</a></li>
+  <li><a href="slides/25/socketio-rooms.html">Rooms</a></li>
+  <li>Websockets and socket.io Examples
+    <ul>
+      <li><a href="examples/websockets-demo/app.js">app.js</a> (server)</li>
+      <li><a href="examples/websockets-demo/public/main.js">public/main.js</a> (client)</li>
+      <li><a href="examples/websockets-demo/public/index.html">public/index.html</a> (client)</li>
+    </ul>
+  </li>
+</ul>
+:ET

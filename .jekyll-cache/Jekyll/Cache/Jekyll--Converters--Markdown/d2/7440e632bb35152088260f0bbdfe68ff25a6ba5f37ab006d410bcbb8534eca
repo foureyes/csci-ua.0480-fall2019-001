@@ -1,0 +1,496 @@
+I"�k<style>
+.warning {
+    background-color: #eecccc;
+}
+</style>
+
+<div class="panel panel-default">
+	<div class="panel-heading">Homework #6</div>
+	<div class="panel-body">
+
+    <h1 id="a-taste-of-login---due-saturday-april-8th-by-11pm">A Taste of Login - <strong>Due Saturday, April 8th, by 11PM</strong></h1>
+
+    <h2 id="overview">Overview</h2>
+
+    <h3 id="description">Description</h3>
+
+    <h4 id="implement-parts-of-user-authentication-mostly-from-scratch">Implement parts of user authentication, <em>mostly</em> from scratch!</h4>
+
+    <p>Create a site that allows user registration and login. User data will be stored in MongoDB, with passwords salted and hashed. A successful registration or login will result in an authentication session. Some pages on the site will require an authenticated session to view content.</p>
+
+    <h3 id="goals--concepts-and-technologies-used">Goals / Concepts and Technologies Used</h3>
+
+    <p>To implement the features above, we&#39;ll use the following techniques:</p>
+
+    <ul>
+      <li>using the bcrypt module to salt and hash a password</li>
+      <li>using express-session to store user data  / an authenticated session</li>
+      <li>applying the concepts from <a href="../slides/16/auth.html">the slides on authentication</a> to create login and registration</li>
+    </ul>
+
+    <h3 id="disclaimers">Disclaimers</h3>
+
+    <p><span class="warning">Note, however, that our authentication implementation will not be complete / suitable for <em>real world</em> use because:</span></p>
+
+    <ul>
+      <li>our application will not be served over an encrypted connection and cookies aren&#39;t set to secure</li>
+      <li>using nested callbacks instead of promises makes error handling complex</li>
+      <li>not all errors accounted for</li>
+      <li>user interaction and error messaging will be minimal (for example, successful login should redirect to page that required login)</li>
+      <li>some error messages reveal will info about the existence of a user</li>
+      <li>our session secret will be in version control</li>
+    </ul>
+
+    <h3 id="features">Features</h3>
+
+    <h4 id="in-this-application-users-will-be-able-to">In this application, users will be able to:</h4>
+
+    <ul>
+      <li>register a new account</li>
+      <li>login using an existing account</li>
+      <li>view a home page that has content that changes depending on logged in state</li>
+      <li>view a restricted page that can only be seen if logged in</li>
+    </ul>
+
+    <p>Aaaand, if you do the extra credit&#8230;</p>
+
+    <ul>
+      <li>implement logout</li>
+    </ul>
+
+    <h4 id="youll-have-4-pages-and-2-forms">You&#39;ll have 4 pages and 2 forms:</h4>
+
+    <ul>
+      <li><strong>/</strong> - home page</li>
+      <li><strong>/register</strong> - register form</li>
+      <li><strong>/login</strong>  - login form</li>
+      <li><strong>/restricted</strong> - a page that can only be seen if logged in</li>
+    </ul>
+
+    <h4 id="example-interaction">Example Interaction</h4>
+
+    <p>Here&#39;s an example of registration, login and viewing a restricted page.</p>
+
+    <ul>
+      <li>registration
+  <br /> <img src="../resources/img/hw06-auth-02-register.gif" alt="register" /></li>
+      <li>login
+  <br /> <img src="../resources/img/hw06-auth-03-login.gif" alt="login" /></li>
+      <li>restricted page
+  <br /> <img src="../resources/img/hw06-auth-04-restricted.gif" alt="viewing a restricted page" /></li>
+    </ul>
+
+    <h3 id="submission-process">Submission Process</h3>
+
+    <p>You will be given access to a private repository on GitHub. Generate an Express application using express-generator (see instructions below) when you clone it.</p>
+
+    <p>The final version of your assignment should be in GitHub</p>
+
+    <ul>
+      <li><strong>Push</strong> your changes to the homework repository on GitHub.</li>
+      <li>Add the URL of the repository to your assignment submission in NYU Classes.</li>
+    </ul>
+
+    <h3 id="make-at-least-3-commits">Make at Least 3 Commits</h3>
+
+    <ul>
+      <li>Commit multiple times throughout your development process.</li>
+      <li>Make at least 3 separate commits - (for example, one option may be to make one commit per part in the homework).</li>
+    </ul>
+
+    <h2 id="part-1---setup">Part 1 - Setup</h2>
+
+    <h3 id="starting-project">Starting Project</h3>
+
+    <p>Start your project by creating the following files. This can be done directly in the root folder of your repository:</p>
+
+    <ul>
+      <li><code class="highlighter-rouge">.gitignore</code> - ignore <code class="highlighter-rouge">node_modules</code></li>
+      <li><code class="highlighter-rouge">.eslintrc.js</code> - you can use a previous configuration for this</li>
+      <li><code class="highlighter-rouge">package.json</code> - <code class="highlighter-rouge">npm init</code></li>
+      <li><code class="highlighter-rouge">app.js</code> - this is your main express file</li>
+    </ul>
+
+    <h3 id="install-using-npm-and-configure-the-following-modules">Install (using <code class="highlighter-rouge">npm</code>) and Configure the Following Modules</h3>
+
+    <p>(Use previous homework instructions / completed homeworks for examples)</p>
+
+    <ul>
+      <li><code class="highlighter-rouge">express</code></li>
+      <li><code class="highlighter-rouge">hbs</code> - for templating</li>
+      <li><code class="highlighter-rouge">body-parser</code> - for parsing POST request bodies (from form submission)</li>
+      <li><code class="highlighter-rouge">express-session</code> - for session management
+        <ul>
+          <li>generate a random secret for this</li>
+          <li>(for example, you can start node as in interactive shell and run <code class="highlighter-rouge">require('crypto').randomBytes(64).toString('hex')</code>)</li>
+          <li>ideally the secret would not be stored in version control (perhaps using something like <code class="highlighter-rouge">process.env</code> to retrieve the secret from the environment)&#8230;</li>
+          <li>but to easy the grading process, you can check in the secret for this homework</li>
+        </ul>
+      </li>
+      <li><code class="highlighter-rouge">mongoose</code> - for database access</li>
+    </ul>
+
+    <p><span class="warning">Make sure to use dynamically generated paths for your views and static files by using <code class="highlighter-rouge">__dirname</code></span></p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// express static setup
+const path = require('path');
+app.use(express.static(path.join(__dirname, 'public')));
+
+// hbs setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'hbs');
+</code></pre></div>    </div>
+    <p><span class="warning">Configure your app to listen on port 3000</span></p>
+
+    <h3 id="install-bcrypt">Install bcrypt</h3>
+
+    <p><code class="highlighter-rouge">npm install bcrypt</code></p>
+
+    <p>We&#39;ll use this module in our code for login and registration.  <code class="highlighter-rouge">bcrypt</code> is a node module for password hashing. The result of using bcrypt contains both the hash and the salt! Check out the details in the first section of the <a href="https://en.wikipedia.org/wiki/Bcrypt">wikipedia article</a> and the diagram below illustrating the output of bcrypt:</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy
+|_____||____________________||_____________________________|
+   |             |                          |
+   |             |                          +-- hash
+   |             |
+   |             +-- salt
+   |
+   +-- algorithm and cost factor
+
+</code></pre></div>    </div>
+
+    <p>There are some errors that you may encounter while installing <code class="highlighter-rouge">bcrypt</code>. Here&#39;s how to troubleshoot:</p>
+
+    <ol>
+      <li>If npm says <code class="highlighter-rouge">ERR! Tried to download(404)</code> - this means that it couldn&#39;t locate the binary for the module&#8230; but it&#39;ll fall back to trying to download the source and compiling, so it may still work!</li>
+      <li>If the installation ends with the following, then <code class="highlighter-rouge">bcrypt</code> has successfully been installed despite the message from part #1
+        <pre><code data-trim="" contenteditable="">netid-homework06@1.0.0 /Users/username/Desktop/AIT/homeworks/netid-homework06
+└── bcrypt@1.0.2 
+</code></pre>
+      </li>
+      <li>If you see <code class="highlighter-rouge">Error: Python executable ... is xxxx which is not supported by gyp</code>, that means that you may need to explicitly pass a version of python to <code class="highlighter-rouge">npm</code> to compile the source</li>
+      <li>In this case, when running <code class="highlighter-rouge">npm install</code>  add the <code class="highlighter-rouge">--python=/path/to/python</code> flag with the path to a version of Python that&#39;s greater than 2.5.x, but not 3.x.x. The path to the right version of python may be <code class="highlighter-rouge">/usr/bin/python</code> or <code class="highlighter-rouge">/System/Library/Frameworks/Python.framework/Versions/2.7/bin/python2.7</code> (change the version numbers) if you&#39;re on OSX. If you&#39;re on windows, you could try installing python 2.x and python 3.x side-by-side&#8230; or for a quicker solution&#8230;</li>
+      <li>Try using <a href="https://www.npmjs.com/package/bcryptjs">an alternate module, such bcryptjs</a> which has a very similar api. Check out the docs to see what methods you&#39;d use to salt and hash&#8230; as well as compare hashes.</li>
+    </ol>
+
+    <h3 id="database-setup">Database Setup</h3>
+
+    <ul>
+      <li>create a <code class="highlighter-rouge">db.js</code> file in the root of your project</li>
+      <li>using mongoose, write a <code class="highlighter-rouge">User</code> schema with username and password
+        <ul>
+          <li>both should be type, <code class="highlighter-rouge">String</code></li>
+          <li>username should be a unique field, so set as <code class="highlighter-rouge">{type: String, unique: true}</code></li>
+          <li>typically hash and salt should be stored in separate fields</li>
+          <li>however, when using bcrypt, hash will contain both salt and salted and hashed password, so no separate field needed for salt</li>
+        </ul>
+      </li>
+      <li>don&#39;t forget to register your model
+        <ul>
+          <li><code class="highlighter-rouge">mongoose.model('User', User);</code></li>
+        </ul>
+      </li>
+      <li>name your database <code class="highlighter-rouge">hw06</code>:
+        <ul>
+          <li><code class="highlighter-rouge">mongoose.connect('mongodb://localhost/hw06');</code></li>
+        </ul>
+      </li>
+    </ul>
+
+    <h2 id="part---2-registration">Part - 2 Registration</h2>
+
+    <h3 id="description-1">Description</h3>
+
+    <p>Registration should allow a user to create a new account and immediately start a new authenticated session. To do this, follow these steps:</p>
+
+    <ol>
+      <li>show a registration form</li>
+      <li>after submitting the form, salt and hash the password using bcrypt</li>
+      <li>save the username and salt/hash combination</li>
+      <li>regenerate the session (create a new session id)</li>
+      <li>add some information, such as the username, to the session</li>
+      <li>redirect to home, <code class="highlighter-rouge">/</code>, if registration is successful</li>
+    </ol>
+
+    <p>Create two routes for registration</p>
+
+    <ol>
+      <li><code class="highlighter-rouge">GET /register</code> - to display the form</li>
+      <li><code class="highlighter-rouge">POST /register</code>- to process the form input</li>
+    </ol>
+
+    <h3 id="get-register-overview-and-implementation">GET /register Overview and Implementation</h3>
+
+    <ul>
+      <li>create the route for <code class="highlighter-rouge">GET /register</code> in <code class="highlighter-rouge">app.js</code></li>
+      <li>it should render a template, <code class="highlighter-rouge">register.hbs</code> that contains a form</li>
+      <li><code class="highlighter-rouge">register.hbs</code> should contain a form
+        <ul>
+          <li>the form will <code class="highlighter-rouge">POST</code> to <code class="highlighter-rouge">/register</code></li>
+          <li>(that is, when you press the submit button, a POST request will be made to <code class="highlighter-rouge">/register</code>)</li>
+        </ul>
+      </li>
+    </ul>
+
+    <h3 id="post-register-overview">POST /register Overview</h3>
+
+    <p><span class="warning">Warning: the following code you&#39;ll write will have several nested callbacks!</span></p>
+
+    <ul>
+      <li>we haven&#39;t covered promises yet, but if you want to remove nesting, using promises is one solution (though you&#39;ll have to research this on your own): both <code class="highlighter-rouge">mongoose</code> and <code class="highlighter-rouge">bcrypt</code> provide promises (instead of callbacks) as part of their api</li>
+      <li>another way of dealing with this is wrapping some functionality in a function, but if you do this, you&#39;ll need to write a function that takes a callback!</li>
+    </ul>
+
+    <p>For registration, we&#39;ll handle a couple of error states:</p>
+
+    <ol>
+      <li>password length too short</li>
+      <li>user already exists</li>
+    </ol>
+
+    <h3 id="post-register-validation">POST /register Validation</h3>
+
+    <p>To implement the POST logic for <code class="highlighter-rouge">/register</code>:</p>
+
+    <ul>
+      <li><span class="warning">unless specified otherwise, any errors (<code class="highlighter-rouge">err</code>) that occur when using callbacks can just be logged out to the console, with a generic error message sent to the client:`</span>
+        <ul>
+          <li><code class="highlighter-rouge">console.log(err);</code></li>
+          <li><code class="highlighter-rouge">res.send('an error has occurred, please check the server output')</code></li>
+        </ul>
+      </li>
+      <li>create the route for <code class="highlighter-rouge">POST /register</code> in <code class="highlighter-rouge">app.js</code></li>
+      <li>it should check the length of the password entered by the user</li>
+      <li>if the password is under 8 characters, send a message back saying that the password length is too short, and have a link that goes back home, <code class="highlighter-rouge">/</code>, or ideally allow the user to re-register immediately
+        <ul>
+          <li>there&#39;s no need to redirect</li>
+          <li>if you want, you can re-render the registration template with an error message (again, this is ideal)</li>
+          <li>or render a generic error template</li>
+          <li>or even more simply just use <code class="highlighter-rouge">res.send</code> to send back a string of markup</li>
+          <li>the error message can be as simple as this:
+  <br /> <img src="../resources/img/hw06-auth-05-length.png" alt="password length" /></li>
+        </ul>
+      </li>
+      <li>it should check if user already exists
+        <ul>
+          <li>remember to pull out your <code class="highlighter-rouge">User</code> model by using <code class="highlighter-rouge">const User = mongoose.model('User');</code></li>
+          <li>use <code class="highlighter-rouge">User.findOne((err, result, count) =&gt; {   })</code> to check if the user already exists
+            <ul>
+              <li>you can check the object with <code class="highlighter-rouge">if(result)</code> to determine if a <code class="highlighter-rouge">User</code> object was returned</li>
+            </ul>
+          </li>
+          <li>or use <code class="highlighter-rouge">User.find((err, result, count) =&gt; {   })</code>&#8230; the
+            <ul>
+              <li>you can check if the length of the resulting <code class="highlighter-rouge">Array</code> is greater than 0</li>
+            </ul>
+          </li>
+          <li>the error message should be similar to the password length error message, with a link back to home (<code class="highlighter-rouge">/</code>) or a way to &quot;re-register&quot;</li>
+          <li>there&#39;s no need to redirect</li>
+          <li>again, you can re-render the registration template to show the form again&#8230; but add an error message</li>
+          <li>or you can use a generic error template or simply use <code class="highlighter-rouge">res.send</code> to send back a string of markup</li>
+          <li>here&#39;s an example of a simple error page for trying to register an existing user:
+  <br /> <img src="../resources/img/hw06-auth-06-exists.png" alt="username exists" /></li>
+        </ul>
+      </li>
+      <li><span class="warning">if the user doesn&#39;t already exist and the password is at least 8 characters long&#8230; you can proceed with salting and hashing the password, saving the new user and automatically starting an authenticated / logged in session</span></li>
+    </ul>
+
+    <h3 id="post-register-salting-and-hashing-password">POST /register Salting and Hashing Password</h3>
+
+    <ul>
+      <li>the following can all be done in your registration route handler, but a nicer solution would be to move some of this out to a module (though the functions that you create will require callbacks)</li>
+      <li>first, salt and hash the password using the <code class="highlighter-rouge">bcrypt</code> module
+        <ul>
+          <li><a href="https://github.com/kelektiv/node.bcrypt.js/blob/master/README.md">check out the documentation on the bcrypt module</a></li>
+          <li>require <code class="highlighter-rouge">bcrypt</code>: const bcrypt = require(&#39;bcrypt&#39;);</li>
+          <li>use the async versions of these functions (we don&#39;t want this to block)</li>
+          <li>there are two techniques that you can use:</li>
+          <li>manually generating the salt and then hashing:
+            <pre><code data-trim="" contenteditable="">bcrypt.genSalt(saltRounds, function(err, salt) {
+    bcrypt.hash(myPlaintextPassword, salt, function(err, hash) {
+      // Store hash in your password DB.
+    });
+});
+</code></pre>
+          </li>
+          <li>auto generate a hash and a salt:
+            <pre><code data-trim="" contenteditable="">// you can use a default value of 10 for salt rounds 
+bcrypt.hash(myPlaintextPassword, saltRounds, function(err, hash) {
+    // Store hash in your password DB.
+});
+</code></pre>
+          </li>
+        </ul>
+      </li>
+    </ul>
+
+    <h3 id="post-register-saving-user">POST /register Saving User</h3>
+
+    <ul>
+      <li>remember that the output of <code class="highlighter-rouge">bcrypt</code> contains both the hash and the salt&#8230; so now we can simply create and save the new user in our database
+        <ul>
+          <li>create a new <code class="highlighter-rouge">User</code> object</li>
+          <li>set the <code class="highlighter-rouge">username</code> and <code class="highlighter-rouge">password</code> with the password as the single string (the hash and salt combined) created from <code class="highlighter-rouge">bcrypt</code></li>
+          <li>don&#39;t forget to call <code class="highlighter-rouge">save</code> on the resulting object!</li>
+        </ul>
+      </li>
+      <li>again any errors from salting and hashing or saving should just be logged out to the console on the server side and a generic error message sent to the frontend</li>
+    </ul>
+
+    <h3 id="post-register-starting-an-authenticated-session">POST /register Starting an Authenticated Session</h3>
+
+    <ul>
+      <li>once you&#39;ve successfully saved the user, start an authenticated session:
+        <ul>
+          <li>regenerate a session id</li>
+          <li>add the username to the session</li>
+          <li>this way, to check if someone is logged in, we simply check if username exists in session (<code class="highlighter-rouge">if(req.session.username)</code>)
+            <pre><code data-trim="" contenteditable="">
+// assuming that user is the user object just saved to the database
+req.session.regenerate((err) =&gt; {
+  if (!err) {
+  req.session.username = user.username; 
+  } else {
+  console.log('error'); 
+  res.send('an error occurred, please see the server logs for more information');
+  }
+});
+</code></pre>
+          </li>
+        </ul>
+      </li>
+    </ul>
+
+    <h3 id="post-register-redirect-to-homepage">POST /register Redirect to Homepage</h3>
+
+    <ul>
+      <li>finally, create a home page and redirect to that page once registration has succeeded (all validation passed, a new user is saved, and a new authenticated session is started)&#8230;
+        <ul>
+          <li>add <code class="highlighter-rouge">res.redirect('/');</code> to your successful registration (that is&#8230; within the callbacks to generating the hash, saving and starting a new session)</li>
+          <li>create a route handler for <code class="highlighter-rouge">/</code></li>
+          <li>for the homepage, show a message that says whether or not a user is logged in</li>
+          <li>you can do this by passing <code class="highlighter-rouge">req.session.username</code> to the template when calling <code class="highlighter-rouge">render</code></li>
+        </ul>
+      </li>
+      <li>checking your work
+        <ul>
+          <li>use the commandline client, <code class="highlighter-rouge">mongo</code>, to connect to your running mongo db instance</li>
+          <li><code class="highlighter-rouge">use hw06</code></li>
+          <li><code class="highlighter-rouge">db.users.find()</code></li>
+          <li>check that you have user documents with username and password filled in</li>
+        </ul>
+      </li>
+      <li>here&#39;s an example of how a successful registration should look:
+  <br /> <img src="../resources/img/hw06-auth-02-register.gif" alt="register" /></li>
+    </ul>
+
+    <h2 id="part-3---login">Part 3 - Login</h2>
+
+    <h3 id="description-2">Description</h3>
+
+    <p>Login should allow a user to authenticate using a username and password. To do this, follow these steps:</p>
+
+    <ol>
+      <li>show a login form</li>
+      <li>search the database for the username specified in the login form</li>
+      <li>after finding the user, salt and hash the incoming password and compare with the password in the database by using <code class="highlighter-rouge">bcrypt.compare</code></li>
+      <li>if the passwords match then start a new authenticated session</li>
+      <li>redirect to the home page</li>
+    </ol>
+
+    <p>Create two routes for login</p>
+
+    <ol>
+      <li><code class="highlighter-rouge">GET /login</code> - to display the form</li>
+      <li><code class="highlighter-rouge">POST /login</code>- to process the form input</li>
+    </ol>
+
+    <h3 id="get-login-implementation">GET /login Implementation</h3>
+
+    <ul>
+      <li>create the route for <code class="highlighter-rouge">GET /login</code> in <code class="highlighter-rouge">app.js</code></li>
+      <li>it should render a template, <code class="highlighter-rouge">login.hbs</code> that contains a form</li>
+      <li><code class="highlighter-rouge">login.hbs</code> should contain a form with the following specifications
+        <ul>
+          <li>the form will <code class="highlighter-rouge">POST</code> to <code class="highlighter-rouge">/login</code></li>
+          <li>(that is, when you press the submit button, a POST request will be made to <code class="highlighter-rouge">/login</code>)</li>
+        </ul>
+      </li>
+    </ul>
+
+    <h3 id="post-login-implementation">POST /login Implementation</h3>
+
+    <p>Now it&#39;s time to handle the data POSTed by the form above&#8230;</p>
+
+    <ul>
+      <li>create the route for <code class="highlighter-rouge">POST /login</code> in <code class="highlighter-rouge">app.js</code></li>
+      <li>your route handler should find the user with username entered in the form using <code class="highlighter-rouge">findOne</code>
+        <pre><code data-trim="" contenteditable="">
+User.findOne({username: req.body.username}, (err, user, count) =&gt; {
+      if (!err &amp;&amp; user) {
+          // compare with form password!
+  }
+});
+</code></pre>
+      </li>
+      <li>if the user doesn&#39;t exist, show a message on the login form or show a generic error page saying that the user doesn&#39;t exist (in terms of security, this reveals too much information, but for debugging and for ease of use, this is what we&#39;ll use)</li>
+      <li>if the user exists&#8230; then check if the password entered matches the password in the database
+        <ul>
+          <li>the password in the database is salted and hashed&#8230; and contains the salt</li>
+          <li>so a simple compare with <code class="highlighter-rouge">===</code> is not adequate</li>
+          <li>we must salt and hash the password and compare with the hash stored in the database</li>
+          <li>we can use the function, <code class="highlighter-rouge">bcrypt.compare</code> to do this:
+            <pre><code data-trim="" contenteditable="">bcrypt.compare(req.body.password, user.password, (err, passwordMatch) =&gt; {
+  // regenerate session if passwordMatch is true
+});
+</code></pre>
+          </li>
+          <li>note that <code class="highlighter-rouge">passwordMatch</code> within the callback will be either true or false, signifying whether or not the salted and hashed version of the incoming password matches the one stored in the database</li>
+        </ul>
+      </li>
+      <li>once the match is verified, a new authenticated session can be started - you can use the same code that you used in registration
+        <pre><code data-trim="" contenteditable=""> // assuming that user is the user retrieved from the database
+req.session.regenerate((err) =&gt; {
+  if (!err) {
+      req.session.username = user.username; 
+  } else {
+      console.log('error'); 
+      res.send('an error occurred, please see the server logs for more information');
+  }
+});
+</code></pre>
+      </li>
+      <li>finally, once the session has been started, you can redirect to the homepage, <code class="highlighter-rouge">/</code></li>
+      <li>here&#39;s an example of how a successful login should look:
+  <br /> <img src="../resources/img/hw06-auth-03-login.gif" alt="login" /></li>
+    </ul>
+
+    <h2 id="part-4---restricted-page">Part 4 - Restricted Page</h2>
+
+    <p>Finally, create a page at the path, <code class="highlighter-rouge">/restricted</code>. This path should:</p>
+
+    <ul>
+      <li>redirect to <code class="highlighter-rouge">login</code> if the user is not logged in</li>
+      <li>display the message: <code class="highlighter-rouge">your are logged in so you can see secret stuff</code></li>
+    </ul>
+
+    <p>Here&#39;s what the restricted page interaction should look like:</p>
+
+    <p><br /> <img src="../resources/img/hw06-auth-04-restricted.gif" alt="viewing a restricted page" /></p>
+
+    <h2 id="extra-credit-15-points">Extra Credit (15 points)</h2>
+
+    <h3 id="logout">Logout</h3>
+
+    <ol>
+      <li>create a route for logging out</li>
+      <li>it should respond to <code class="highlighter-rouge">GET /logout</code></li>
+      <li>invalidate the authenticated session by calling <a href="https://github.com/expressjs/session#sessiondestroycallback">destroy</a></li>
+      <li>if <code class="highlighter-rouge">destroy</code> is successful, redirect to home (<code class="highlighter-rouge">/</code>)</li>
+    </ol>
+
+  </div>
+
+</div>
+
+:ET

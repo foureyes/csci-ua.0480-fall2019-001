@@ -1,0 +1,428 @@
+I"�3<section class="intro-slide">
+  <h1 id="hoisting">Hoisting</h1>
+
+  <h3 id="csci-ua0480-001">CSCI-UA.0480-001</h3>
+
+  <p><small></small></p>
+</section>
+
+<section>
+  <h2 id="hoisting-1">Hoisting</h2>
+
+  <p><strong>hoisting</strong> is the processing of <em>declarations</em> before any code is executed.</p>
+
+  <p class="fragment">What&#39;s a <strong>declaration</strong> though?</p>
+
+  <ul class="fragment">
+    <li>a <strong>declaration</strong> is a way of telling the interpreter (or compiler) that a name or identifier exists</li>
+    <li>we learned two ways of declaring names in JavaScript (the 1st is easy, the 2nd, a bit tricky)&#8230; <strong>what were they</strong>? &#8594;
+      <ul>
+        <li class="fragment">variable declarations (using <code>var</code>)</li>
+        <li class="fragment">function declarations (using <code>function f(x) {}</code>)</li>
+      </ul>
+    </li>
+  </ul>
+
+  <p class="fragment"><strong>Hoisting</strong> basically brings declarations to the <strong>top of the current scope</strong>.  <strong>What does that mean for us?</strong> &#8594;</p>
+  <div class="fragment">
+
+    <ul>
+      <li>declarations do not have to occur before they are used!</li>
+      <li>we already saw this with functions&#8230;</li>
+    </ul>
+
+    <p class="fragment">(btw, <a href="http://www.i-programmer.info/programming/javascript/5364-javascript-hoisting-explained.html?start=1">this article</a> explained a lot, as well as <a href="http://eloquentjavascript.net/03_functions.html">Chapter 4</a> in Speaking JavaScript)</p>
+  </div>
+</section>
+
+<section>
+  <h2 id="hoisting-and-functions">Hoisting and Functions</h2>
+
+  <p>So&#8230; we basically know what happens here. <strong>What&#39;s the output of the following code examples?</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+f();
+function f() {
+	console.log("TO THE TOP, PLZ!")
+}
+</code></pre>
+
+  <p class="fragment"><strong>output</strong>: <code>TO THE TOP, PLZ!</code></p>
+
+  <pre><code data-trim="" contenteditable="">
+f();
+var f = function() {
+	console.log("TO THE TOP, PLZ!")
+}
+</code></pre>
+
+  <p class="fragment"><strong>output</strong>: <code>TypeError: undefined is not a function</code></p>
+
+</section>
+
+<section>
+  <h2 id="hoisting-and-functions-some-more">Hoisting and Functions SOME MORE!</h2>
+
+  <p><strong>What&#39;s the output of this code?</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+function outer() {
+	inner();
+	function inner() {
+		console.log('hello');	
+	}
+}
+outer();
+</code></pre>
+
+  <p class="fragment"><code>hello</code> is printed out. <strong>What happens if we add in a call to <code>inner at the end, outside of the function</code></strong>?</p>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+// same as above (function outer() ... )
+// but add the line below at the very end
+inner();
+</code></pre>
+
+  <p class="fragment"><code>ReferenceError</code> - function declarations are hoisted to the top of their <strong>enclosing scope</strong> (not to the top of the global scope)</p>
+
+</section>
+<section>
+  <h1 id="great-but-what-about-variable-declarations">Great! But What About Variable Declarations?</h1>
+
+  <h3 id="well-see-why-var-f--function---behaves-the-we-way-it-does">(We&#39;ll see why <code>var f = function ... </code> behaves the we way it does)</h3>
+
+</section>
+
+<section>
+  <h2 id="some-variable-declarations">Some Variable Declarations</h2>
+
+  <p>Treating each code example as a completely separate program, <strong>what is the output of the following lines of code?</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+console.log(x);
+</code></pre>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+// variable not yet declared (easy)
+ReferenceError: x is not defined
+</code></pre>
+
+  <pre><code data-trim="" contenteditable="">
+var x;
+console.log(x);
+</code></pre>
+  <pre class="fragment"><code data-trim="" contenteditable="">
+// x is declared before ... works obvs!
+undefined
+</code></pre>
+
+  <pre><code data-trim="" contenteditable="">
+// so... what do we get here?
+console.log(x);
+var x;
+</code></pre>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+undefined
+</code></pre>
+</section>
+
+<section>
+  <h2 id="variable-declarations-are-hoisted">Variable Declarations are Hoisted</h2>
+
+  <pre><code data-trim="" contenteditable="">
+console.log(x);
+console.log(y);
+var x;
+var y;
+</code></pre>
+
+  <p>In the above example:</p>
+
+  <ul>
+    <li>the variable declarations are taken from the regular top-to-bottom flow</li>
+    <li>&#8230; and <strong>they are treated as if they were moved to the beginning of their enclosing scope</strong></li>
+    <li>consequently, this prints out <code>undefined</code> twice rather than <code>ReferenceError</code></li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="how-about-initializing-a-variable-along-with-declaration">How About Initializing a Variable Along with Declaration?</h2>
+
+  <p>Let&#39;s start simple. <strong>What&#39;s the output of this code?</strong></p>
+  <pre><code data-trim="" contenteditable="">
+var x = 5;
+console.log(x);
+</code></pre>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+// no surprise here!
+5
+</code></pre>
+
+  <p class="fragment"><strong>But how about this?</strong> &#8594;</p>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+console.log(x);
+var x = 5;
+</code></pre>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+// oof. what!?
+undefined
+</code></pre>
+</section>
+
+<section>
+  <h2 id="declaration-and-initialization">Declaration and Initialization</h2>
+
+  <ul>
+    <li>variable declarations are hoisted</li>
+    <li>but the <strong>initialization is executed in the location of the program where the initialization statement is actually placed</strong></li>
+    <li>soooo&#8230; that means:</li>
+  </ul>
+
+  <pre><code data-trim="" contenteditable="">
+console.log(x);
+var x = 5;
+</code></pre>
+
+  <ul>
+    <li>is executed as:</li>
+  </ul>
+
+  <pre><code data-trim="" contenteditable="">
+var x;
+console.log(x);
+x = 5;
+</code></pre>
+
+</section>
+<section>
+  <h2 id="another-note-on-variable-hoisting">Another Note on Variable Hoisting</h2>
+
+  <p>This probably doesn&#39;t matter since, we all know that you should <strong>never declare a variable without var</strong>, but:</p>
+
+  <ul>
+    <li><strong>implicit variable declarations are not hoisted!</strong></li>
+    <li>the following gives us a <code>ReferenceError</code></li>
+  </ul>
+
+  <pre><code data-trim="" contenteditable="">
+// (all we did here was take out var!)
+
+console.log(x); // oops ... ReferenceError
+x = 5;
+
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="hoisting-summary">Hoisting Summary</h2>
+
+  <p><strong>This is all you need to know about hoisting</strong>:</p>
+
+  <ul>
+    <li>variables declarations are brought to the beginning of their enclosing scope</li>
+    <li>declarations can be function declarations or variable declarations
+      <ul>
+        <li>all function declarations are hoisted</li>
+        <li>variable declarations are hoisted, but the initialization part occurs where the original statement was located</li>
+      </ul>
+    </li>
+    <li>implicit variable declarations are not hoisted (but you always use <code>var</code>, so not relevant, right?)</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="hoisting-example-1">Hoisting Example 1</h2>
+
+  <p><strong>What&#39;s the output of the following code?</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+var num = 1000; 
+f(); 
+
+function f(){ 
+	console.log(num)
+	var num = 5;
+};
+</code></pre>
+  <pre class="fragment"><code data-trim="" contenteditable="">
+undefined
+
+</code></pre>
+
+  <ul class="fragment">
+    <li>the global <code>num</code> is not used</li>
+    <li>instead, <code>num</code> within the function is hoisted to the top of its enclosing scope, the function, <code>f</code></li>
+    <li>but note the initialization is executed in the place where it occurs&#8230; consequently, <code>undefined</code></li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="hoisting-example-2">Hoisting Example 2</h2>
+
+  <p><strong>What&#39;s the output of the following code?</strong> &#8594;</p>
+  <pre><code data-trim="" contenteditable="">
+console.log(f);
+var f = function(x) {
+	console.log("hello " + x);
+}
+</code></pre>
+
+  <ul class="fragment">
+    <li>yup, still <code>undefined</code> - the declaration is hoisted</li>
+    <li>&#8230; but the initialization to a value is not</li>
+  </ul>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+// it's executed as if it were
+var f;
+console.log(f);
+f = function(x) {
+	console.log("hello " + x);
+}
+</code></pre>
+</section>
+
+<section>
+  <h2 id="hoisting-example-3">Hoisting Example 3</h2>
+
+  <p><strong>What&#39;s the output of this code?</strong> &#8594;</p>
+  <pre><code data-trim="" contenteditable="">
+var inner = 1000;
+function outer () {
+    inner = 5;
+    function inner() {}
+}
+outer();
+console.log(inner);
+</code></pre>
+
+  <ul>
+    <li class="fragment">the output is <code>1000</code></li>
+    <li class="fragment">the function declaration of <code>inner</code> is hoisted to the top of the enclosing scope</li>
+    <li class="fragment">which renders the first line of the function, <code>inner = 5</code>, a reassignment of the local <code>inner</code>, not the global</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="back-to-an-earlier-mystery">Back to an Earlier Mystery</h2>
+
+  <p><strong>And that&#39;s why the following gives us <code>undefined is not a function</code></strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+f();
+var f = function(x) {
+	console.log("hello " + x);
+}
+</code></pre>
+
+  <ul>
+    <li>we know that the declaration of <code>f</code> is hoisted</li>
+    <li>but it has no value at the point that it is invoked/called (it&#39;s <code>undefined</code>)</li>
+    <li>consequently, the program is attempting to use <code>undefined</code> as a function</li>
+  </ul>
+</section>
+
+<section>
+  <h1 id="whew-that-seemed-unnecessarily-complicated">Whew! That Seemed Unnecessarily Complicated.</h1>
+
+  <h3 id="why-even-">Why even? ಠ_ಠ</h3>
+</section>
+
+<section>
+  <h2 id="no-seriously">No Seriously&#8230;</h2>
+
+  <p>Variable hoisting.  <strong>Why?</strong> &#8594;</p>
+
+  <ul class="fragment">
+    <li>generally a top-down approach is taken to programming
+      <ul>
+        <li>so it may make sense for the &quot;main&quot; part of the program to on top, calling functions elsewhere</li>
+        <li>those functions are likely to be declared below main</li>
+        <li>so it&#39;s more natural&#8230; ¯\_(ツ)_/¯ (maybe)</li>
+      </ul>
+    </li>
+    <li>as for variables, I don&#39;t know if I can excuse that
+      <ul>
+        <li>but perhaps it&#39;s to make things easier</li>
+        <li>(that is&#8230; if you&#39;ve forgotten to declare something at the top of your program or function)</li>
+      </ul>
+    </li>
+  </ul>
+
+  <ul class="fragment">
+    <li>according to <a href="http://stackoverflow.com/questions/15005098/why-does-javascript-hoist-variables">this SO</a> article&#8230;.</li>
+    <li>it may possibly just be due to the interpreter implementation: scan source for variable and function declarations first, then execute code next</li>
+  </ul>
+</section>
+<section>
+  <h2 id="easy-right">Easy, Right?</h2>
+
+  <h3 id="a-lot-of-the-design-decisions-in-javascript-seemed-to-be-made-for-ease-of-use">A lot of the design decisions in JavaScript seemed to be made for ease of use</h3>
+
+  <div style="text-align:center">Though, in certain cases these features actually make things more complex (weak typing, hoisting, etc.)</div>
+
+</section>
+
+<section>
+  <h2 id="hoisting-can-lead-to-tricky-situations">Hoisting Can Lead to Tricky Situations</h2>
+
+  <p>Like the one we saw before:</p>
+
+  <pre><code data-trim="" contenteditable="">
+var num = 1000; 
+f(); 
+
+function f(){ 
+	console.log(num)
+	var num = 5;
+};
+
+</code></pre>
+
+  <p><strong>How can we get around this ambiguity?</strong> &#8594;</p>
+
+  <p class="fragment">Always declare your variables at the beginning of your function!</p>
+</section>
+
+<section data-background="#440000">
+  <h2 id="this-calls-for-a-red-slide">This Calls for a Red Slide:</h2>
+
+  <h2 id="lets-say-it-again---always-declare-your-variables-at-the-beginning-of-your-function">Let&#39;s say it again - always declare your variables at the beginning of your function!</h2>
+
+</section>
+<section>
+  <h2 id="one-last-thing">One Last Thing</h2>
+
+  <h3 id="multiple-variable-declarations-on-one-line-yes">Multiple variable declarations on one line (YES!)</h3>
+  <p>A bit off topic&#8230; but since we&#39;re talking about <strong>variable declarations</strong>&#8230;</p>
+
+  <p>You can define multiple variables at once with var. This works fine (that is, there&#39;s no <code>ReferenceError</code>):</p>
+
+  <pre><code data-trim="" contenteditable="">
+console.log(foo, bar, baz);
+var foo, bar, baz;
+</code></pre>
+
+  <p>Initialization also works too :</p>
+
+  <pre><code data-trim="" contenteditable="">
+var foo = 1, bar = 2, baz = 3;
+console.log(foo, bar, baz);
+</code></pre>
+
+  <p>Lastly, preferred formatting is each initialization on a new line:</p>
+
+  <pre><code data-trim="" contenteditable="">
+var foo = 1, 
+    bar = 2,
+    baz = 3;
+</code></pre>
+</section>
+:ET

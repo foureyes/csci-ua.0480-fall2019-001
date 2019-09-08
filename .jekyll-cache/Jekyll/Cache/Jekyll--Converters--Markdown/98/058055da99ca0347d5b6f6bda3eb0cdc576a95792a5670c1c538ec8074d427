@@ -1,0 +1,1781 @@
+I"ü`<div class="panel panel-default">
+	<div class="panel-heading">Homework #1</div>
+	<div class="panel-body">
+
+    <h1 id="tic-tac-toe-and-scrabble-pal">Tic Tac Toe and Scrabble Pal</h1>
+
+    <h2 id="due-sep-16th-by-11pm">Due <strong>Sep 16th, by 11PM</strong></h2>
+
+    <div class="img">
+      <p><img src="../resources/img/hw01-t3-wargames.gif" alt="tic tac toe from wargames" /></p>
+    </div>
+
+    <h2 id="overview">Overview</h2>
+
+    <h3 id="description">Description</h3>
+
+    <p><strong>There are multiple parts to this homework:</strong></p>
+
+    <p><strong>Parts 1 and 2</strong> - Tic Tac Toe</p>
+
+    <p>Create an interactive 2-player (computer vs human player) Tic Tac Toe game.</p>
+
+    <ul>
+      <li>check out <a href="https://en.wikipedia.org/wiki/Tic-tac-toe">the rules on wikipedia</a></li>
+      <li>xkcd has a map that describes the <a href="https://xkcd.com/832/">optimal tic-tac-toe moves</a></li>
+      <li>some people take tic-tac-toe <a href="https://www.reddit.com/r/TrueTicTacToe/">really seriously</a></li>
+      <li>the gif above comes from a <a href="http://www.imdb.com/title/tt0086567/">youtube clip from the 1983 movie, Wargames</a></li>
+    </ul>
+
+    <p>You&#39;ll create this game in 2 parts. The first part will guide you through creating several helper functions for your game. The second part deals with implementing the game using the helper functions you made for part 1. It&#39;ll be a bit over-engineered, but don&#39;t worry - you don&#39;t have to use all of the functions you create (and you definitely won&#39;t use every feature in each function). Of course, you&#39;re encouraged to create your own helper functions as well!</p>
+
+    <p>See the <a href="#hw01-tic-tac-toe-sample">example game</a> shown at the end of these instructions.</p>
+
+    <p><strong>Part 3</strong>  - Scrabble Pal</p>
+
+    <p>Create a scrabble solver. It will allow you to enter a string of letters&#8230; and it will output the 5 highest scoring words that can be constructed from those letters. The scores for each word are on these <a href="https://en.wikibooks.org/wiki/Scrabble/Rules#Scoring">rules</a>, using the following <a href="http://www.wordfind.com/scrabble-letter-values/">letter values</a>.</p>
+
+    <h3 id="objectives">Objectives</h3>
+
+    <ol>
+      <li>Write some ES6!
+        <ul>
+          <li>control structures</li>
+          <li>functions</li>
+          <li>higher order functions</li>
+          <li>Array and string manipulation</li>
+        </ul>
+      </li>
+      <li>Learn how to run node programs</li>
+      <li>Learn about node built-ins:
+        <ul>
+          <li><code class="highlighter-rouge">process</code></li>
+          <li><code class="highlighter-rouge">exports</code></li>
+          <li><code class="highlighter-rouge">require</code></li>
+        </ul>
+      </li>
+      <li>Install and use modules, create your own</li>
+      <li>Run unit tests to check your work</li>
+      <li>Use a static analysis tool (eshint) to help prevent bugs / errors</li>
+    </ol>
+
+    <h3 id="submission-process">Submission Process</h3>
+
+    <p>The final version of your assignment should be in GitHub.</p>
+
+    <ul>
+      <li><strong>push</strong> your changes to the homework repository on GitHub</li>
+      <li>all repositories will be cloned on the due date</li>
+      <li>after the due date, no further commits will be seen by the graders (even if you continue to commit your work)</li>
+    </ul>
+
+    <h2 id="preparation">Preparation</h2>
+
+    <p>Ensure that node and npm are installed (this should have been done for <em>homework #0</em>). You should be able to open up your terminal or DOS Shell and run <code class="highlighter-rouge">node -v</code> and <code class="highlighter-rouge">npm -v</code>. Both commands should output a version number (probably something like <code class="highlighter-rouge">10.10.0</code> for <code class="highlighter-rouge">node</code> and <code class="highlighter-rouge">5.7.1</code> for <code class="highlighter-rouge">npm</code>).</p>
+
+    <ol>
+      <li>use git / clone the repository</li>
+      <li>install development modules
+        <ul>
+          <li>mocha and chai for running the supplied unit tests</li>
+          <li>eshint for cleaning up your JavaScript / spotting common sources of bugs and errors in your code</li>
+        </ul>
+      </li>
+      <li>install modules required by your game</li>
+    </ol>
+
+    <h3 id="use-git--clone-the-repository">Use Git / Clone the repository</h3>
+
+    <p>Make sure you have git / a git client!</p>
+
+    <ul>
+      <li><a href="https://git-scm.com/book/en/v1/Getting-Started-Installing-Git">commandline git</a></li>
+      <li><a href="https://www.sourcetreeapp.com/">SourceTree</a></li>
+      <li><a href="https://www.gitkraken.com/">GitKraken</a></li>
+    </ul>
+
+    <p>Assuming that you&#39;ve already:</p>
+
+    <ul>
+      <li>submitted your github username via the form/survey</li>
+      <li>accepted the invitation that adds you to the github organization for this course</li>
+    </ul>
+
+    <p>You can then go through the following steps to clone your repository and commit your first changes:</p>
+
+    <ol>
+      <li>&#8230;go to the <a href="https://github.com/nyu-csci-ua-0480-008-spring-2019">class github page</a></li>
+      <li>find the repository that starts with your github username and ends with homework01 (for example, mygithubusername-homework01)</li>
+      <li>on the repository&#39;s page, use the green &quot;Clone or download&quot; button on the right side of the screen to copy the HTTPS clone URL to <strong>clone</strong> the homework. To use the commandline client (with GITHUB_REPOSITORY_URL being the url you copied from the green button):
+        <pre><code data-trim="" contenteditable=""> git clone GITHUB_REPOSITORY_URL
+</code></pre>
+      </li>
+      <li>create a file called <code>.gitignore</code> in the same directory</li>
+      <li>add the following line to the file so that git ignores any locally installed node modules: <code> node_modules </code></li>
+      <li>in the same project directory, create a file called README.md, and edit it so that it includes:
+        <ul>
+          <li>your github username</li>
+          <li>the title of your project: Homework #01 - Tic Tac Toe</li>
+        </ul>
+      </li>
+      <li>again, in the same project directory, run <code>git add README.md</code> to let git know that we&#39;re ready to &quot;save&quot;</li>
+      <li>save your work locally by running <code>git commit -m "add homework meta information"</code>&#8230; everything within the quotes after <code>-m</code> is any commit message you&#39;d like
+        <ul>
+          <li>please make your commit messages descriptive</li>
+          <li>(what features have been added, what bug has been fixed, etc.)</li>
+        </ul>
+      </li>
+      <li>finally, send your work to github by running <code>git push</code> (or <code>git push origin master</code>)</li>
+    </ol>
+
+    <h3 id="install-development-modules">Install Development Modules</h3>
+
+    <p>You&#39;ll have to install a couple of node modules to help you run tests and use static analysis tools on your code. These tools won&#39;t be required for your program to run, but they will be useful while you&#39;re writing your programs.</p>
+
+    <p>You&#39;ll be installing the following modules globally:</p>
+
+    <ul>
+      <li><code class="highlighter-rouge">mocha</code> - for running unit tests</li>
+    </ul>
+
+    <p>You&#39;ll also install the following modules locally in your project directory:</p>
+
+    <ul>
+      <li><code class="highlighter-rouge">chai</code> - supplies assertions for unit tests</li>
+      <li><code class="highlighter-rouge">eslint</code> - for catching potential errors in your code</li>
+      <li><code class="highlighter-rouge">eslint-plugin-mocha</code> - to support linting test code</li>
+    </ul>
+
+    <p>Go into the directory of your cloned repository (<code class="highlighter-rouge">cd username-homework01</code>), and run the following commands:</p>
+
+    <pre><code data-trim="" contenteditable="">npm install -g mocha
+npm install --save-dev eslint
+npm install --save-dev chai
+npm install --save-dev eslint-plugin-mocha
+</code></pre>
+
+    <p>Note that the last command installs a module <em>locally</em> to your project directory:</p>
+
+    <ul>
+      <li>It will create a <code class="highlighter-rouge">package-lock.json</code> file that stores exact versions</li>
+      <li>It will make a modification to an existing file, <code class="highlighter-rouge">package.json</code>, within your project folder</li>
+      <li>It will create a <code class="highlighter-rouge">node_modules</code> folder where your downloaded modules are stored (this folder is included in your <code class="highlighter-rouge">.gitignore</code> file because these external libraries are not meant to be in your project&#39;s version control</li>
+    </ul>
+
+    <p><strong>Troubleshooting errors</strong></p>
+
+    <ul>
+      <li>On some systems (for example, Ubuntu 18.04), you may have to use <code class="highlighter-rouge">sudo</code> to run <code class="highlighter-rouge">npm</code> as the super user</li>
+      <li>If any part of your code complains about a missing package, try installing it with <code class="highlighter-rouge">npm</code> either locally or globally (do your best to keep everything local at first, of course)</li>
+    </ul>
+
+    <h3 id="install-required-modules">Install Required Modules</h3>
+
+    <p>You&#39;ll also need a module to help you ask the user for input.</p>
+
+    <ul>
+      <li>in your repository directory, install the node module, <code>readline-sync</code>, by running this command in your project&#39;s directory:
+        <pre><code> npm install --save readline-sync
+</code></pre>
+      </li>
+      <li>note that the <code>readline-sync</code> module allows you to prompt for user input <strong>synchronously</strong>
+        <ul>
+          <li>this is very different from how node.js apps usually operate</li>
+          <li>however, for our purposes, using sync prompt is fine (for now), and it mimics the browser&#39;s prompt functionality well</li>
+        </ul>
+      </li>
+      <li>check out the example usage on <a href="https://www.npmjs.com/package/readline-sync">readline-sync&#39;s npm page</a>
+        <ul>
+          <li>essentially: <code class="highlighter-rouge">const readlineSync = require('readline-sync');</code></li>
+          <li>which imports the function <code>question</code> from the <code>readline-sync</code> module into your program</li>
+        </ul>
+      </li>
+      <li>note that installing <code class="highlighter-rouge">readline-sync</code> will make a modification to <code class="highlighter-rouge">package.json</code> as well. This modification to <code class="highlighter-rouge">package.json</code> should be committed and pushed as well!</li>
+    </ul>
+
+    <h3 id="minimum-number-of-commits">Minimum Number of Commits</h3>
+
+    <p>As you write your code, make sure that you make at least four commits total (more commits are better; if you can, try to commit per feature added).</p>
+
+    <ul>
+      <li>the commits should be meaningful (that is, do not just add a newline, commit and push to make up the requirements for commits).</li>
+      <li>make sure your commit messages describe the changes in the commit; for example:
+        <ul>
+          <li><code class="highlighter-rouge">add config file reader and set board based on config file</code></li>
+          <li><code class="highlighter-rouge">fix bug that prevented vertical lines of tiles from being flipped</code></li>
+        </ul>
+      </li>
+    </ul>
+
+    <pre><code data-trim="" contenteditable="">git add --all
+git commit -m 'your commit message'
+</code></pre>
+    <ul>
+      <li>push your code frequently</li>
+    </ul>
+    <pre><code data-trim="" contenteditable="">git push
+</code></pre>
+
+    <h3 id="running-your-programs">Running Your Programs</h3>
+
+    <p>To run your programs, use the commandline (Terminal.app, DOS, etc.):</p>
+
+    <pre><code data-trim="" contenteditable=""># in your project directory
+# change directory to src folder
+cd src
+node myfile.js
+
+# or, without changing directory
+node src/myfile.js
+</code></pre>
+
+    <h2 id="part-1---tic-tac-toe-functions-and-running-unit-tests">Part 1 - Tic Tac Toe Functions and Running Unit Tests</h2>
+
+    <h3 id="background">Background</h3>
+
+    <p>For your implementation of Tic Tac Toe, you&#39;ll break down the game into several functions. These helper functions will be written in a <em>module</em> (a file separate from the file that actually runs your game), which you&#39;ll use in part 3: <code class="highlighter-rouge">src/tic-tac-toe.js</code></p>
+
+    <p>The helper functions you&#39;ll be implementing are described below. Unit tests have been included in your repository in the file, <code class="highlighter-rouge">test/tic-tac-toe-test.js</code>.</p>
+
+    <h3 id="creating-a-module--exporting-functions">Creating a Module / Exporting Functions</h3>
+
+    <p>You&#39;ll be creating a module that contains a bunch of helper functions. The file that you&#39;ll be writing your module in is already included in your repository in <code class="highlighter-rouge">src/tic-tac-toe.js</code>. Both your <em>actual</em> interactive Tic Tac Toe game (in Part 2) and the supplied unit tests will use this module. Note that we are <strong>not using ES6 modules</strong> (it only available in the latest version of node, it is not enabled by default, and node docs still use <code class="highlighter-rouge">require</code> rather than ES6 <code class="highlighter-rouge">import</code>).</p>
+
+    <p>To make the functions you write available when your module is brought into another program (that is, required or <em>imported</em>), you&#39;ll have to <em>export</em> your functions. See <a href="https://www.sitepoint.com/understanding-module-exports-exports-node-js/">this sitepoint tutorial</a> or this <a href="http://openmymind.net/2012/2/3/Node-Require-and-Exports/">article</a> to get a primer on modules, <code class="highlighter-rouge">exports</code> and using <code class="highlighter-rouge">require</code>. There are a few ways to do export your functions (all of the examples use <code class="highlighter-rouge">module.exports</code>, but they should work with just <code class="highlighter-rouge">exports</code> as well):</p>
+
+    <ol>
+      <li>create all of your functions &#8230; then, at the end, assign <code class="highlighter-rouge">module.exports</code> to an object literal containing all of the functions that you want to export:
+        <pre><code data-trim="" contenteditable="">function foo(x, y) {
+    // implementation
+} 
+    
+function bar(z) { 
+    // implementation
+} 
+
+// define more functions
+
+module.exports = {
+    foo: foo,
+    bar: bar,
+    // add more property name to function mappings...
+}
+</code></pre>
+      </li>
+      <li>create all of your functions in an object and assign that object to <code class="highlighter-rouge">module.exports</code>:
+        <pre><code data-trim="" contenteditable="">const tic = { 
+    foo: function(x, y) {
+        // implementation
+    },
+    
+    bar: function(z) {
+        // implementation
+    },
+    
+    // add more properties and their associated functions
+}
+    
+module.exports = tic;
+</code></pre>
+      </li>
+      <li>Create functions as properties on <code class="highlighter-rouge">module.exports</code>
+        <pre><code data-trim="" contenteditable="">module.exports.foo = function(x, y) {
+    // implementation
+}
+    
+module.exports.bar = function(z) {
+    // implementation
+},
+    
+// add more properties on module.exports
+</code></pre>
+      </li>
+    </ol>
+
+    <p>When you <code class="highlighter-rouge">require</code> your module, the object you create for <code class="highlighter-rouge">exports</code> will be given back. In the example below, the module, <code class="highlighter-rouge">some-module.js</code> is brought in to the current file (the <code class="highlighter-rouge">./</code> specifies that the file is in the same directory as the current file) and is represented by the variable, <code class="highlighter-rouge">someModule</code>. The functions can be accessed by using regular dot notation on the <code class="highlighter-rouge">someModule</code> object:</p>
+
+    <pre><code data-trim="" contenteditable="">const someModule = require('./some-module.js');
+someModule.someFunction();
+</code></pre>
+
+    <p><strong>You should make sure your exports are up to date as you implement your functions</strong> so that you can run your unit tests as you complete your function implementations.</p>
+
+    <h3 id="unit-tests">Unit Tests</h3>
+
+    <p>You can use the supplied unit tests (in <code class="highlighter-rouge">tests/tic-tac-toe-test.js</code>) to check that your functions are:</p>
+
+    <ul>
+      <li>are named correctly
+        <ul>
+          <li>have the required parameters</li>
+        </ul>
+      </li>
+      <li>return the appropriate value(s)</li>
+      <li>meet the minimum requirements according to the specifications</li>
+    </ul>
+
+    <p>The given unit tests use Mocha as a testing framework and Chai for assertions. While you don&#39;t have to know how to write these tests, you should read through them (the api is very <em>human readable</em>) to get a feel for how your functions are being tested. If you&#39;re curious about writing unit tests, check out <a href="https://www.codementor.io/nodejs/tutorial/unit-testing-nodejs-tdd-mocha-sinon">this article on codementor</a>.</p>
+
+    <p>You can <strong>run the included unit tests by using this command</strong> in your project directory:</p>
+
+    <p><code class="highlighter-rouge">mocha test/tic-tac-toe-test.js</code></p>
+
+    <p>If you run these tests before starting, you&#39;ll get a bunch of reference errors. This is because you have no functions implemented yet. Additionally, you&#39;ll have to export the functions you create so that the tests have access to them.</p>
+
+    <p><strong>Please try continually running the unit tests as you develop your program.</strong></p>
+
+    <h3 id="only-running-a-subset-of-unit-tests">Only Running a Subset of Unit Tests</h3>
+
+    <p>To clear out the noise of dealing with many failing tests due to unimplemented functions, use <code class="highlighter-rouge">.only()</code>:</p>
+
+    <p>Any time that you see the functions <code class="highlighter-rouge">describe()</code> or <code class="highlighter-rouge">it()</code> in <code class="highlighter-rouge">tests/tic-tac-toe-test.js</code>, you can follow it with <code class="highlighter-rouge">.only()</code> to limit the tests being run to those contained in the call to <code class="highlighter-rouge">describe</code> or <code class="highlighter-rouge">it</code>. For example:</p>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># describe('board', function() { });
+describe.only(('board', function() { });
+# or
+# it('generates a board with specified number of rows and columns', function() { });
+it.only('generates a board with specified number of rows and columns', function() { });
+</code></pre></div>    </div>
+
+    <p>Alternatively, you can simply comment out unused tests until you&#39;re ready to implement them.</p>
+
+    <h3 id="assumptions">Assumptions</h3>
+
+    <p>The functions make some assumptions about how you&#39;ll be representing a Tic Tac Toe board.</p>
+
+    <ol>
+      <li>although some functions allow for arbitrary rows and columns&#8230;
+        <ul>
+          <li>you can assume that a board will always have at least 1 square, but no more than 26 squares</li>
+          <li>you can also assume that a board&#39;s rows and columns will always be equal</li>
+        </ul>
+      </li>
+      <li>we can name a cell / square based on its row number and column number
+        <ul>
+          <li>rows start from the top with row number 0</li>
+          <li>cols start from the left with column number 0</li>
+          <li>the diagram below shows a board with row and column labels
+            <pre><code data-trim="" contenteditable="">          columns
+         0   1   2
+       +---+---+---+
+  r  0 | 0 | 1 | 2 |
+  o    +---+---+---+
+  w  1 | 3 | 4 | 5 |
+  s    +---+---+---+
+     2 | 6 | 7 | 8 |
+       +---+---+---+
+</code></pre>
+          </li>
+          <li>in this example, the middle cell (containing 4) is at row 1, column 1</li>
+          <li>the cell containing 2 (the last column of the first row) is at row 0, column 2</li>
+        </ul>
+      </li>
+      <li>Alternatively, we can reference a cell using a format borrowed from <a href="https://en.wikipedia.org/wiki/Algebraic_notation_(chess)">chess algebraic notation</a>
+        <ul>
+          <li>the rows are uppercase letters starting with A from the top</li>
+          <li>&#8230; while the columns are numbers <strong>starting at 1 from the left</strong></li>
+          <li>(<strong>this is an abomination of chess notation, where letters and rows are represented by numbers and letters respectively (sry!)</strong>)</li>
+          <li>using this notation, the board with labels would like like this:
+            <pre><code data-trim="" contenteditable="">          columns
+         1   2   3
+       +---+---+---+
+  r  A | 0 | 1 | 2 |
+  o    +---+---+---+
+  w  B | 3 | 4 | 5 |
+  s    +---+---+---+
+     C | 6 | 7 | 8 |
+       +---+---+---+
+</code></pre>
+          </li>
+          <li>the middle cell (containing 4) is at B2</li>
+          <li>the cell containing 2 (the last column of the first row) is at A3</li>
+        </ul>
+      </li>
+      <li>Although a 2-dimensional Array is a natural fit for representing a Tic Tac Toe board, <strong>your implementation of Tic Tac Toe will use a one dimensional <code class="highlighter-rouge">Array</code> to represent the board</strong>
+        <ul>
+          <li>in this representation, imagine all of the rows of the board placed adjacent to each other
+            <pre><code data-trim="" contenteditable="">           +-----+-----+-----+-----+-----+-----+-----+-----+-----+
+row, col   | 0,0 | 0,1 | 0,2 | 1,0 | 1,1 | 1,2 | 2,0 | 2,1 | 2,2 |
+           +-----+-----+-----+-----+-----+-----+-----+-----+-----+
+algebraic  | A1  | A2  | A3  | B1  | B2  | B3  | C1  | C2  | C3  |
+           +-----+-----+-----+-----+-----+-----+-----+-----+-----+
+index      |  0  |  1  |  2  |  3  |  4  |  5  |  6  |  7  |  8  |
+           +-----+-----+-----+-----+-----+-----+-----+-----+-----+
+</code></pre>
+          </li>
+          <li>the upper left corner would be at index 0 (or row 0, column 0)</li>
+          <li>the upper left corner would be at index 2 (or row 0, column 2)</li>
+          <li>the center square would be at index 4 (or row 1, column 1)</li>
+        </ul>
+      </li>
+      <li>The empty string, <code class="highlighter-rouge">""</code>, will be used to mark an empty square</li>
+      <li>You can assume that all of the code examples below use <code class="highlighter-rouge">tic</code> as the name of the imported module of your Tic Tac Toe functions</li>
+    </ol>
+
+    <p><br /></p>
+
+    <h3 id="functions-to-implement">Functions to Implement</h3>
+
+    <h3 id="boardrows-columns-initialcellvalue--modify-parameters-to-allow-for-default-values"><code class="highlighter-rouge">board(rows, columns, initialCellValue) // modify parameters to allow for default values</code></h3>
+
+    <p><strong>Parameters:</strong></p>
+
+    <ul>
+      <li><code class="highlighter-rouge">rows</code> - the number of rows in the board</li>
+      <li><code class="highlighter-rouge">columns</code> - the number of columns in the board</li>
+      <li><code class="highlighter-rouge">initialCellValue</code> (optional) - the initial value contained in each square
+        <ul>
+          <li>default value should be empty string (<code class="highlighter-rouge">""</code>)</li>
+        </ul>
+      </li>
+    </ul>
+
+    <p><strong>Returns:</strong></p>
+
+    <ul>
+      <li>a single dimensional <code class="highlighter-rouge">Array</code> containing the number of elements that would be in a rows x columns board&#8230; with each cell containing the initial value, <code class="highlighter-rouge">initialCellValue</code></li>
+    </ul>
+
+    <p><strong>Description:</strong></p>
+
+    <p>Creates a single dimensional <code class="highlighter-rouge">Array</code> representation of a Tic Tac Toe board. The number of elements in the <code class="highlighter-rouge">Array</code> is the same as the number of squares in the board based on the supplied number of <code class="highlighter-rouge">rows</code> and <code class="highlighter-rouge">columns</code>. The initial value in each cell is the <code class="highlighter-rouge">initialCellValue</code> passed in. If <code class="highlighter-rouge">initialCellValue</code> is not passed in, default to  (<code class="highlighter-rouge">""</code>).</p>
+
+    <p>A <code class="highlighter-rouge">for</code> loop and generous use of <code class="highlighter-rouge">push</code> works here, but an alternative would be to use an <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array#Syntax"><code class="highlighter-rouge">Array</code> constructor</a> (not typical, but worth doing in this case) with the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/fill"><code class="highlighter-rouge">fill</code> method</a></p>
+
+    <p><strong>Example:</strong></p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// creates a board with 9 squares (default value not specified)
+const board = tic.board(3, 3);
+// board = ["", "", "", "", "", "", "", "", "", ];
+// (each empty cell is an empty string)
+
+// creates a board with 9 squares, with "-" as initial value
+const board = tic.board(3, 3, "-");
+// board = ["-", "-", "-", "-", "-", "-", "-", "-", "-", ];
+</code></pre></div>    </div>
+    <hr />
+
+    <h3 id="toindexboard-row-col"><code class="highlighter-rouge">toIndex(board, row, col)</code></h3>
+
+    <p><strong>Parameters:</strong></p>
+
+    <ul>
+      <li><code class="highlighter-rouge">board</code> - the board where the <code class="highlighter-rouge">row</code> and <code class="highlighter-rouge">col</code> come from</li>
+      <li><code class="highlighter-rouge">row</code> - the row number to be converted to an index in a one dimensional a<code class="highlighter-rouge">Array</code> representation</li>
+      <li><code class="highlighter-rouge">col</code> - the column number to be converted to an index in a one dimensional a<code class="highlighter-rouge">Array</code> representation</li>
+    </ul>
+
+    <p><strong>Returns:</strong></p>
+
+    <ul>
+      <li>a <code class="highlighter-rouge">Number</code>, the index that&#39;s mapped to by the given <code class="highlighter-rouge">row</code> and <code class="highlighter-rouge">col</code></li>
+    </ul>
+
+    <p><strong>Description:</strong></p>
+
+    <p>A cell in a Tic Tac Toe board can be specified by a row number and a column number. However, our board implementation uses a one dimensional <code class="highlighter-rouge">Array</code>, so a cell must be specified by a single index. This function translates a row and a column into an index in the one dimensional <code class="highlighter-rouge">Array</code> representation of a Tic Tac Toe board.</p>
+
+    <p>Hint: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/sqrt">Math.sqrt</a> can be used to help determine the original width and height of the board even though <code class="highlighter-rouge">board</code> comes in as a one dimensional <code class="highlighter-rouge">Array</code>.</p>
+
+    <p><strong>Example:</strong></p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// translates a row and col to a single index
+const board = tic.board(3, 3, "");
+const i = tic.toIndex(board, 1, 1);
+const j = tic.toIndex(board, 0, 2);
+// i is 4 (column 1, row 1 is the same as the element at index 4)
+// j is 2
+</code></pre></div>    </div>
+
+    <hr />
+
+    <h3 id="torowcolboard-i"><code class="highlighter-rouge">toRowCol(board, i)</code></h3>
+
+    <p><strong>Parameters:</strong></p>
+
+    <ul>
+      <li><code class="highlighter-rouge">board</code> - the board where the <code class="highlighter-rouge">rowNumber</code> and <code class="highlighter-rouge">columnNumber</code> come from</li>
+      <li><code class="highlighter-rouge">i</code> - the index to be converted into a row and column</li>
+    </ul>
+
+    <p><strong>Returns:</strong></p>
+
+    <ul>
+      <li>an object containing two properties, <code class="highlighter-rouge">row</code> and <code class="highlighter-rouge">col</code>, representing the row and column numbers that the <code class="highlighter-rouge">index</code> maps to</li>
+    </ul>
+
+    <p><strong>Description:</strong></p>
+
+    <p>Translates a single index in a one dimensional <code class="highlighter-rouge">Array</code> representation of a board to that cell&#39;s row and column. The <code class="highlighter-rouge">board</code> supplied can be used to determine the max column and row numbers. <strong>You can assume that the board is always square</strong>. Row and column numbers start at 0.</p>
+
+    <p>Hint: Again, <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/sqrt">Math.sqrt</a> can be used to determine the original width and height of the board. If you need integer division or if you need to always round down, you can just call <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/floor">Math.floor</a> after dividing (which will give you the largest integer less than or equal to a given number).</p>
+
+    <p><strong>Example:</strong></p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// translates an index into a row and column...
+const board = tic.board(3, 3, "");
+const rowCol1 = tic.toRowCol(board, 4);
+const rowCol2 = tic.toRowCol(board, 2);
+// rowCol1 is: {"row": 1, "col": 1};
+// rowCol2 is {"row": 0, "col": 2};
+</code></pre></div>    </div>
+
+    <hr />
+
+    <h3 id="setboardcellboard-letter-row-col"><code class="highlighter-rouge">setBoardCell(board, letter, row, col)</code></h3>
+
+    <p><strong>Parameters:</strong></p>
+
+    <ul>
+      <li><code class="highlighter-rouge">board</code> - the board where a cell will be set to <code class="highlighter-rouge">letter</code></li>
+      <li><code class="highlighter-rouge">letter</code> - the string to set the cell to</li>
+      <li><code class="highlighter-rouge">row</code> - the row number of the cell to be set</li>
+      <li><code class="highlighter-rouge">col</code> - the column number of the cell to be set</li>
+    </ul>
+
+    <p><strong>Returns:</strong></p>
+
+    <ul>
+      <li>a single dimensional <code class="highlighter-rouge">Array</code> representing the board where the cell at <code class="highlighter-rouge">row</code> and <code class="highlighter-rouge">col</code> is set to the value of <code class="highlighter-rouge">letter</code></li>
+    </ul>
+
+    <p><strong>Description:</strong></p>
+
+    <p>Sets the value of the cell at the specified row and column numbers on the board, <code class="highlighter-rouge">board</code>, to the value, <code class="highlighter-rouge">letter</code>.</p>
+
+    <p>Instead of modifying the <code class="highlighter-rouge">board</code> argument passed in, create a shallow copy of the <code class="highlighter-rouge">board</code>, mutate it (place the letter), and return the copy. To shallow copy an <code class="highlighter-rouge">Array</code>, use the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/slice">slice</a> method.</p>
+
+    <p><strong>Example:</strong></p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// sets two squares, one X and one O
+const board = tic.board(3, 3, "");
+const b1 = tic.setBoardCell(board, "X", 1, 1);
+const b2 = tic.setBoardCell(b1, "O", 0, 2);
+// b1 is [" ", " ", " ", " ", "X", " ", " ", " ", " "];
+// b2 is [" ", " ", "O", " ", "X", " ", " ", " ", " "];
+</code></pre></div>    </div>
+
+    <hr />
+
+    <h3 id="algebraictorowcolalgebraicnotation"><code class="highlighter-rouge">algebraicToRowCol(algebraicNotation)</code></h3>
+
+    <p><strong>Parameters:</strong></p>
+
+    <ul>
+      <li><code class="highlighter-rouge">algebraicNotation</code> - a <code class="highlighter-rouge">String</code> that specifies the position of a cell using algebraic notation</li>
+    </ul>
+
+    <p><strong>Returns:</strong></p>
+
+    <ul>
+      <li>
+        <p>an object containing two properties, <code class="highlighter-rouge">row</code> and <code class="highlighter-rouge">col</code>, representing the row and column numbers that the <code class="highlighter-rouge">algebraicNotation</code> maps to (for example, <code class="highlighter-rouge">{"row": 1, "col": 1}</code>)</p>
+      </li>
+      <li>
+        <p><code class="highlighter-rouge">undefined</code> if the algebraic notation passed in is not valid.</p>
+      </li>
+    </ul>
+
+    <p><strong>Description:</strong></p>
+
+    <p>Translates algebraic notation specifying a cell into a row and column specifying the same cell. If the notation passed in is not valid, then return <code class="highlighter-rouge">undefined</code>.</p>
+
+    <p>The algebraic notation format we&#39;ll use will be a single string with the row letter first, immediately followed by the column number (with nothing separating the row and column). The <strong>column number starts at index 1!</strong> (which is different from row and column notation above where numbers start at 0). You can <strong>assume that there are no more than 26 rows and columns</strong>. Some examples of valid formats: <code class="highlighter-rouge">A1</code> and <code class="highlighter-rouge">C20</code>. Some invalid formats include: <code class="highlighter-rouge">1A</code>, <code class="highlighter-rouge">1</code>, <code class="highlighter-rouge">A</code>, <code class="highlighter-rouge">A:1</code>, <code class="highlighter-rouge">***</code>.</p>
+
+    <p>Hint: There are many ways you can implement this. If you want to loop through every character, you can use a simple for loop, the string&#39;s <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/length">length</a>, and the string&#39;s <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/charAt">charAt</a> method. Note that there&#39;s no actual character type, you just get a <code class="highlighter-rouge">String</code> composed of a single character.</p>
+
+    <p>Alternatively, you can create an <code class="highlighter-rouge">Array</code> containing every character of the original <code class="highlighter-rouge">String</code> by using <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/split">split</a> with an empty string as an argument.</p>
+
+    <p>Once you can look at each individual character (or group of characters), you can examine each character by using <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/isNaN">isNaN</a> to determine if a <code class="highlighter-rouge">String</code> is not numeric.</p>
+
+    <p>Finally if you feel like wrangling regular expressions, you can try using the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/match">match</a> method.</p>
+
+    <p><strong>Example:</strong></p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// valid 
+tic.algebraicToRowCol("B2") // {"row": 1, "col": 1}
+tic.algebraicToRowCol("A3") // {"row": 0, "col": 2}
+
+// not valid
+tic.algebraicToRowCol("A")) // undefined
+tic.algebraicToRowCol("2")) // undefined
+tic.algebraicToRowCol("2A")) // undefined
+tic.algebraicToRowCol(" ")) // undefined
+tic.algebraicToRowCol("A 2")) // undefined
+tic.algebraicToRowCol("A:2")) // undefined
+tic.algebraicToRowCol("**")) // undefined
+</code></pre></div>    </div>
+
+    <hr />
+
+    <h3 id="placelettersboard-letter-algebraicnotation--see-specifications-for-addtional-arguments"><code class="highlighter-rouge">placeLetters(board, letter, algebraicNotation) // see specifications for addtional arguments</code></h3>
+
+    <p><strong>Parameters:</strong></p>
+
+    <ul>
+      <li><code class="highlighter-rouge">board</code> - the board where a cell will be set to <code class="highlighter-rouge">letter</code></li>
+      <li><code class="highlighter-rouge">letter</code> - the string to set the cell to</li>
+      <li><code class="highlighter-rouge">algebraicNotation</code> - a <code class="highlighter-rouge">String</code> that specifies the position of a cell using algebraic notation
+        <ul>
+          <li>followed by any number of <code class="highlighter-rouge">letter</code> and <code class="highlighter-rouge">string</code> pairs</li>
+        </ul>
+      </li>
+    </ul>
+
+    <p><strong>Returns:</strong></p>
+
+    <ul>
+      <li>a single dimensional <code class="highlighter-rouge">Array</code> representing the board where the cell at <code class="highlighter-rouge">row</code> and <code class="highlighter-rouge">col</code> is set to the value of <code class="highlighter-rouge">letter</code></li>
+    </ul>
+
+    <p><strong>Description:</strong></p>
+
+    <p>Places the every a letter at every algebraic notation for every pair of arguments specifying letter and algebraic notation. Letters and position combinations are placed in the order that they appear in the arguments. It does not have to be &quot;smart&quot; about detecting whether or not a value is a letter vs algebraic notation; using position to determine letter versus position is adequate. In general, this function can be naive in its implementation, and it should do its best to skip erroneous arguments without raising exceptions (failing silently is not usually good practice, but it&#39;s appropriate for our toy implementation of this game):</p>
+
+    <ul>
+      <li>If the algebraic notation is invalid, skip the move.</li>
+      <li>If there are an uneven number of arguments after <code class="highlighter-rouge">board</code>, assume that every odd is the letter and every even is the algebraic notation, and skip the last argument</li>
+      <li>If a letter already exists in the position specified after the letter, do not overwrite the existing letter&#8230; and skip the new move instead</li>
+    </ul>
+
+    <p>Use the <code class="highlighter-rouge">setBoardCell</code> function you created above to implement this. Use the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/rest_parameters">rest operator</a> to implement an arbitrary number of arguments.</p>
+
+    <p><strong>Example:</strong></p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// X and O are placed on the board
+let board = tic.board(3, 3, "");
+board = tic.placeLetters(board, 'X', "B2");
+board = tic.placeLetters(board, 'O', "A3");
+// board is [" ", " ", "O", " ", "X", " ", " ", " ", " "]
+
+
+// X and O are placed on the board in a single call
+let board = tic.board(3, 3, "");
+board = tic.placeLetters(board, 'X', 'B2', 'O', 'A3');
+// board is ["", "", "O", "", "X", "", "", "", ""]
+   
+// Invalid moves, uneven moves, and existing letter in position
+// should result in skipping the current move
+let board = tic.board(3, 3, "");
+board = tic.placeLetters(board, 'X', 'Z7', 'O', 'B2', 'X', 'B2', 'O');
+// board is ["", "", "", "", "O", "", "", "", ""]
+// (O is not overwritten, and invalid rows/cols are skipped)
+</code></pre></div>    </div>
+
+    <hr />
+
+    <h3 id="boardtostringboard"><code class="highlighter-rouge">boardToString(board)</code></h3>
+
+    <p><strong>Parameters:</strong></p>
+
+    <ul>
+      <li><code class="highlighter-rouge">board</code> - the board to be converted to a <code class="highlighter-rouge">String</code></li>
+    </ul>
+
+    <p><strong>Returns:</strong></p>
+
+    <ul>
+      <li>a <code class="highlighter-rouge">String</code> representation of the board</li>
+    </ul>
+
+    <p><strong>Description:</strong></p>
+
+    <p>Creates a <em>text drawing</em> representation of the Tic Tac Toe <code class="highlighter-rouge">board</code> passed in. The board should have:</p>
+
+    <ul>
+      <li>borders between cells</li>
+      <li>the contents of each cell</li>
+      <li>labels on the rows and columns</li>
+    </ul>
+
+    <p>Printing out an example result would yield:</p>
+
+    <pre><code data-trim="" contenteditable="">
+     1   2   3
+   +---+---+---+
+ A | X |   |   |
+   +---+---+---+
+ B |   | O |   |
+   +---+---+---+
+ C |   |   |   |
+   +---+---+---+
+</code></pre>
+
+    <p>It should work for boards of any size! Here&#39;s an example of a 7 x 7 board!</p>
+
+    <pre><code data-trim="" contenteditable="">
+     1   2   3   4   5   6   7
+   +---+---+---+---+---+---+---+
+ A | X |   |   |   |   |   |   |
+   +---+---+---+---+---+---+---+
+ B |   |   |   |   |   |   |   |
+   +---+---+---+---+---+---+---+
+ C |   |   |   |   |   |   |   |
+   +---+---+---+---+---+---+---+
+ D |   |   | O |   |   |   |   |
+   +---+---+---+---+---+---+---+
+ E |   |   |   |   |   |   |   |
+   +---+---+---+---+---+---+---+
+ F |   |   |   |   |   |   |   |
+   +---+---+---+---+---+---+---+
+ G |   |   |   |   |   |   |   |
+   +---+---+---+---+---+---+---+
+</code></pre>
+
+    <p>If the &quot;letter&quot; is empty (an empty string), use a space character to space out the cell. If the &quot;letter&quot; is more than one character, truncate it to fit in the space.</p>
+
+    <p>This one is actually quite challenging (and tedious) to get exactly right, so there won&#39;t be any penalties for minor spacing inconsistencies&#8230; and if there are other issues (for example, not adding labels), there will only be small point penalties.</p>
+
+    <p>Again, you can <strong>assume that the numbers of rows and columns will not be greater than 26</strong>.</p>
+
+    <p>Hint: One way of dealing with the row label is to use <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/fromCodePoint">String.fromCodePoint</a>, which gives you the unicode code point of the character supplied.</p>
+
+    <p><strong>Example:</strong></p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// a string representation of a board with two moves
+let board = tic.board(3, 3, "");
+board = tic.placeLetters(board, 'X', "B2");
+board = tic.placeLetters(board, 'O', "A3");
+// board will be equal to the following string:
+// "     1   2   3  \n   +---+---+---+\n A |   |   | O |\n   +---+---+---+\n B |   | X |   |\n   +---+---+---+\n C |   |   |   |\n   +---+---+---+\n"
+</code></pre></div>    </div>
+
+    <hr />
+
+    <h3 id="getwinnerrowsboard"><code class="highlighter-rouge">getWinnerRows(board)</code></h3>
+
+    <p><strong>Parameters:</strong></p>
+
+    <ul>
+      <li><code class="highlighter-rouge">board</code> - the board to examine for a winner</li>
+    </ul>
+
+    <p><strong>Returns:</strong></p>
+
+    <ul>
+      <li>the letter of the winning player or <code class="highlighter-rouge">undefined</code> if there is no winner yet (based on rows)</li>
+    </ul>
+
+    <p><strong>Description:</strong></p>
+
+    <p>Examines the <code class="highlighter-rouge">board</code> passed in to see if any row is completely filled by a single letter (and consequently is &quot;won&quot; by that player). You can assume that there is exactly one winner or neither player has won (you do not have to deal with the case where both letters fill different rows).</p>
+
+    <p>Hint: There are many possible implementations. One space inefficient way is to extract each row into its own <code class="highlighter-rouge">Array</code> and check if all of the <code class="highlighter-rouge">Array</code> elements are the same (or if you want to get fancy / sophisticated, you can use an Array&#39;s <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/every">every</a> method). Alternatively, you can check the value of the first element in a row and make sure any subsequent elements don&#39;t deviate from that first element.</p>
+
+    <p>Additionally&#8230; your previous implementation of <code class="highlighter-rouge">toIndex</code> may be helpful here if you end up using nested loops to iterate through rows and columns.</p>
+
+    <p><strong>Example:</strong></p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// row B is filled with X, X wins
+let board = tic.board(3, 3, "");
+board = tic.placeLetters(board, 'X', "B1");
+board = tic.placeLetters(board, 'X', "B2");
+board = tic.placeLetters(board, 'X', "B3");
+console.log(tic.getWinnerRows(board)); // --&gt; 'X'
+
+// row B is partially filled, no winner
+let board = tic.board(3, 3, "");
+board = tic.placeLetters(board, 'X', "B1");
+board = tic.placeLetters(board, 'X', "B2");
+console.log(tic.getWinnerRows(board)); // --&gt; undefined
+
+// row B is partially filled, no winner
+let board = tic.board(3, 3, "");
+board = tic.placeLetters(board, 'X', "B2");
+board = tic.placeLetters(board, 'X', "B3");
+console.log(tic.getWinnerRows(board)); // --&gt; undefined
+</code></pre></div>    </div>
+
+    <hr />
+
+    <h3 id="getwinnercolsboard"><code class="highlighter-rouge">getWinnerCols(board)</code></h3>
+
+    <p><strong>Parameters:</strong></p>
+
+    <ul>
+      <li><code class="highlighter-rouge">board</code> - the board to examine for a winner</li>
+    </ul>
+
+    <p><strong>Returns:</strong></p>
+
+    <ul>
+      <li>the letter of the winning player or <code class="highlighter-rouge">undefined</code> if there is no winner yet (based on columns)</li>
+    </ul>
+
+    <p><strong>Description:</strong></p>
+
+    <p>Examines the <code class="highlighter-rouge">board</code> passed in to see if any column is completely filled by a single letter (and consequently is &quot;won&quot; by that player). You can assume that there is exactly one winner or neither player has won (you do not have to deal with the case where both letters fill different rows).</p>
+
+    <p>See the hints for <code class="highlighter-rouge">getWinnerRows</code>.</p>
+
+    <p><strong>Example:</strong></p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// Column 2 is filled with X, X wins
+let board = tic.board(3, 3, "");
+board = tic.placeLetters(board, 'X', "A2");
+board = tic.placeLetters(board, 'X', "B2");
+board = tic.placeLetters(board, 'X', "C2");
+console.log(tic.getWinnerCols(board)); // --&gt; 'X'
+
+// Column 2 is partially filled, no winner
+let board = tic.board(3, 3, "");
+board = tic.placeLetters(board, 'X', "A2");
+board = tic.placeLetters(board, 'X', "B2");
+console.log(tic.getWinnerCols(board)); // --&gt; undefined
+
+// Column 2 is partially filled, no winner
+let board = tic.board(3, 3, "");
+board = tic.placeLetters(board, 'X', "B2");
+board = tic.placeLetters(board, 'X', "C2");
+console.log(tic.getWinnerCols(board)); // --&gt; undefined
+</code></pre></div>    </div>
+
+    <hr />
+
+    <h3 id="getwinnerdiagonalsboard"><code class="highlighter-rouge">getWinnerDiagonals(board)</code></h3>
+
+    <p><strong>Parameters:</strong></p>
+
+    <ul>
+      <li><code class="highlighter-rouge">board</code> - the board to examine for a winner</li>
+    </ul>
+
+    <p><strong>Returns:</strong></p>
+
+    <ul>
+      <li>the letter of the winning player or <code class="highlighter-rouge">undefined</code> if there is no winner yet (based on diagonals)</li>
+    </ul>
+
+    <p><strong>Description:</strong></p>
+
+    <p>Examines the <code class="highlighter-rouge">board</code> passed in to see if either diagonal (major or minor &#8230;. or upper left to lower right and upper right to lower left)  is completely filled by a single letter (and consequently is &quot;won&quot; by that player). You can assume that there is exactly one winner or neither player has won (you do not have to deal with the case where both letters fill different rows).</p>
+
+    <p>See the hints for <code class="highlighter-rouge">getWinnerRows</code>.</p>
+
+    <p><strong>Example:</strong></p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// a diagonal is filled with X, X wins
+let board = tic.board(3, 3, "");
+board = tic.placeLetters(board, 'X', "A1");
+board = tic.placeLetters(board, 'X', "B2");
+board = tic.placeLetters(board, 'X', "C3");
+console.log(tic.getWinnerDiagonals(board)); // --&gt; 'X'
+
+// a diagonal is filled with X, X wins
+let board = tic.board(3, 3, "");
+board = tic.placeLetters(board, 'X', "A3");
+board = tic.placeLetters(board, 'X', "B2");
+board = tic.placeLetters(board, 'X', "C1");
+console.log(tic.getWinnerDiagonals(board)); // --&gt; 'X'
+
+// a diagonal is partially filled with X, no winner
+let board = tic.board(3, 3, "");
+board = tic.placeLetters(board, 'X', "A3");
+board = tic.placeLetters(board, 'O', "B2");
+board = tic.placeLetters(board, 'X', "C1");
+console.log(tic.getWinnerDiagonals(board)); // --&gt; undefined
+</code></pre></div>    </div>
+
+    <hr />
+
+    <h3 id="isboardfullboard"><code class="highlighter-rouge">isBoardFull(board)</code></h3>
+
+    <p><strong>Parameters:</strong></p>
+
+    <ul>
+      <li><code class="highlighter-rouge">board</code> - the board to examine</li>
+    </ul>
+
+    <p><strong>Returns:</strong></p>
+
+    <ul>
+      <li><code class="highlighter-rouge">true</code> if there are no empty cells left in the board, <code class="highlighter-rouge">false</code> otherwise</li>
+    </ul>
+
+    <p><strong>Description:</strong></p>
+
+    <p>Examines the <code class="highlighter-rouge">board</code> passed in to determine whether or not it&#39;s full. It returns <code class="highlighter-rouge">true</code> if there are no empty squares, <code class="highlighter-rouge">false</code> if there are still squares available. <strong>Assume that the board uses the empty string , <code class="highlighter-rouge">""</code>, to mark a square as empty</strong>.</p>
+
+    <p>Hint: The solution to this is pretty straightforward with a simple for loop, but if you want to ditch the for loop entirely, you can get fancy and use the <code class="highlighter-rouge">Array</code> method, <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/some">some</a>.</p>
+
+    <p><strong>Example:</strong></p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// board is empty
+const board = tic.board(3, 3, "");
+console.log(tic.isBoardFull(board)); // --&gt; false
+
+// board is completely full
+let board = tic.board(3, 3, "");
+board = tic.placeLetters(board, 'X', "A1");
+board = tic.placeLetters(board, 'X', "A2");
+board = tic.placeLetters(board, 'X', "A3");
+board = tic.placeLetters(board, 'X', "B1");
+board = tic.placeLetters(board, 'X', "B2");
+board = tic.placeLetters(board, 'X', "B3");
+board = tic.placeLetters(board, 'X', "C1");
+board = tic.placeLetters(board, 'X', "C2");
+board = tic.placeLetters(board, 'X', "C3");
+console.log(tic.isBoardFull(board)); // --&gt; true
+
+// board has one square empty...
+board = tic.placeLetters(board, 'X', "A2");
+board = tic.placeLetters(board, 'X', "A3");
+board = tic.placeLetters(board, 'X', "B1");
+board = tic.placeLetters(board, 'X', "B2");
+board = tic.placeLetters(board, 'X', "B3");
+board = tic.placeLetters(board, 'X', "C1");
+board = tic.placeLetters(board, 'X', "C2");
+board = tic.placeLetters(board, 'X', "C3");
+console.log(tic.isBoardFull(board)); // --&gt; false
+</code></pre></div>    </div>
+
+    <hr />
+
+    <h3 id="isvalidmoveboard-row-col"><code class="highlighter-rouge">isValidMove(board, row, col)</code></h3>
+
+    <p><strong>Parameters:</strong></p>
+
+    <ul>
+      <li><code class="highlighter-rouge">board</code> - the board the move is performed on</li>
+      <li><code class="highlighter-rouge">row</code> - the row number of the move</li>
+      <li><code class="highlighter-rouge">col</code> - the column number of the move</li>
+    </ul>
+
+    <p><strong>Returns:</strong></p>
+
+    <ul>
+      <li><code class="highlighter-rouge">true</code> if the move is valid, <code class="highlighter-rouge">false</code> otherwise</li>
+    </ul>
+
+    <p><strong>Description:</strong></p>
+
+    <p>Using the <code class="highlighter-rouge">board</code> passed in, determines whether or not a move to <code class="highlighter-rouge">row</code> and <code class="highlighter-rouge">col</code> is valid. A valid move:</p>
+
+    <ul>
+      <li>targets an empty square</li>
+      <li>is within the boundaries of the board</li>
+    </ul>
+
+    <p>Use a previous function that you created, <code class="highlighter-rouge">toIndex</code> in the implementation of this function. Again, you can <strong>assume that the empty string, <code class="highlighter-rouge">""</code>, represents empty</strong>.</p>
+
+    <p><strong>Example:</strong></p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// a valid move
+const board = tic.board(3, 3, "");
+console.log(tic.isValidMove(board, 1, 1)); // --&gt; true
+
+// move is out of bounds, not valid
+const board = tic.board(3, 3, "");
+console.log(tic.isValidMove(board, 3, 3)); // --&gt; false
+
+// move into square that's already occupied, not valid
+let board = tic.board(3, 3, "");
+board = tic.placeLetters(board, 'O', "B2");
+console.log(tic.isValidMove(board, 1, 1)); // --&gt; false
+</code></pre></div>    </div>
+
+    <hr />
+
+    <h3 id="isvalidmovealgebraicnotationboard-algebraicnotation"><code class="highlighter-rouge">isValidMoveAlgebraicNotation(board, algebraicNotation)</code></h3>
+
+    <p><strong>Parameters:</strong></p>
+
+    <ul>
+      <li><code class="highlighter-rouge">board</code> - the board the move is performed on</li>
+      <li><code class="highlighter-rouge">algebraicNotation</code> - algebraic notation representing a move on the <code class="highlighter-rouge">board</code></li>
+    </ul>
+
+    <p><strong>Returns:</strong></p>
+
+    <ul>
+      <li><code class="highlighter-rouge">true</code> if the move is valid, <code class="highlighter-rouge">false</code> otherwise</li>
+    </ul>
+
+    <p><strong>Description:</strong></p>
+
+    <p>Using the <code class="highlighter-rouge">board</code> passed in, determines whether or not a move to <code class="highlighter-rouge">algebraicNotation</code> is valid. Use the functions your previously created, <code class="highlighter-rouge">isValidMove</code> and <code class="highlighter-rouge">algebraicToRowCol</code> to implement this function.</p>
+
+    <p><strong>Example:</strong></p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>const board = tic.board(3, 3, "");
+// a valid move
+console.log(tic.isValidMoveAlgebraicNotation(board, 'B2')) // --&gt; true
+// row is out of bounds
+console.log(tic.isValidMoveAlgebraicNotation(board, 'D2')) // --&gt; false
+
+// target square is not empty, not a valid move
+let board = tic.board(3, 3, "");
+board = tic.placeLetters(board, 'X', "A3");
+console.log(tic.isValidMoveAlgebraicNotation(board, 'A3')) // --&gt; false
+</code></pre></div>    </div>
+
+    <hr />
+
+    <h3 id="getrandomemptycellindexboard"><code class="highlighter-rouge">getRandomEmptyCellIndex(board)</code></h3>
+
+    <p><strong>Parameters:</strong></p>
+
+    <ul>
+      <li><code class="highlighter-rouge">board</code> - the board to get an empty cell from</li>
+    </ul>
+
+    <p><strong>Returns:</strong></p>
+
+    <ul>
+      <li>index of an empty square on the board, <code class="highlighter-rouge">undefined</code> if the board is full</li>
+    </ul>
+
+    <p><strong>Description:</strong></p>
+
+    <p>Finds the index of an empty square on the board. If there are many empty squares, return the index of a randomly selected empty square.</p>
+
+    <p><strong>Example:</strong></p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// there's only one empty cell... the middle square (index 4)
+let board = tic.board(3, 3, "");
+board = tic.placeLetters(board, 'X', "A1");
+board = tic.placeLetters(board, 'X', "A2");
+board = tic.placeLetters(board, 'X', "A3");
+board = tic.placeLetters(board, 'X', "B1");
+board = tic.placeLetters(board, 'X', "B3");
+board = tic.placeLetters(board, 'X', "C1");
+board = tic.placeLetters(board, 'X', "C2");
+board = tic.placeLetters(board, 'X', "C3");
+const i = tic.getRandomEmptyCellIndex(board);
+// i is 4
+
+// the entire second row is empty (index 3, 4, or 5)
+let board = tic.board(3, 3, "");
+board = tic.placeLetters(board, 'X', "A1");
+board = tic.placeLetters(board, 'X', "A2");
+board = tic.placeLetters(board, 'X', "A3");
+board = tic.placeLetters(board, 'X', "C1");
+board = tic.placeLetters(board, 'X', "C2");
+board = tic.placeLetters(board, 'X', "C3");
+const i = tic.getRandomEmptyCellIndex(board);
+// i is 3, 4, or 5
+
+let board = tic.board(3, 3, "");
+board = tic.placeLetters(board, 'X', "A1");
+board = tic.placeLetters(board, 'X', "A2");
+board = tic.placeLetters(board, 'X', "A3");
+board = tic.placeLetters(board, 'X', "B1");
+board = tic.placeLetters(board, 'X', "B2");
+board = tic.placeLetters(board, 'X', "B3");
+board = tic.placeLetters(board, 'X', "C1");
+board = tic.placeLetters(board, 'X', "C2");
+board = tic.placeLetters(board, 'X', "C3");
+const i = tic.getRandomEmptyCellIndex(board);
+// i is undefined
+</code></pre></div>    </div>
+
+    <h3 id="checking-your-code-pushing-your-changes">Checking Your Code, Pushing Your Changes</h3>
+
+    <ol>
+      <li>JavaScript (ES5) is kind of crazy (read: has some really <em>bad</em>, but valid parts), so it&#39;s useful to use a static analysis tool, like <code class="highlighter-rouge">eshint</code> to check your code
+        <ul>
+          <li>ideally, you&#39;d be doing this periodically while you develop</li>
+          <li>the commandline usage is described here, but there are eshint integrations for some editors (see the plugins section in the <a href="https://eslint.org/docs/user-guide/integrations">eshint installation guide</a>)</li>
+          <li>from your project directory run: <code class="highlighter-rouge">eshint src/*</code> to check all of the code in the <code class="highlighter-rouge">src</code> directory</li>
+          <li>(you <em>did install</em> <code class="highlighter-rouge">eshint</code> globally in the preparation section, right?)</li>
+          <li>check the output; <strong>make sure you fix all warnings / errors</strong></li>
+        </ul>
+      </li>
+      <li>Run your tests one last time to make sure that they&#39;re all (or&#8230; <em>mostly</em>) passing.
+        <ul>
+          <li><code class="highlighter-rouge">mocha test.tic-tac-toe-test.js</code></li>
+        </ul>
+      </li>
+      <li>Fix unit test errors
+        <ul>
+          <li>if you have test failure, examine the output of each failure&#8230;</li>
+          <li>it&#39;ll describe what was expected vs what was actually given back by your function&#8230;</li>
+          <li>in the example below, +/green shows expected, while -/red shows the incorrect output
+  <br />
+  <img src="../resources/img/hw01-tests-01.png" alt="observed / expected" /></li>
+          <li>in the following example, the diff of expected and observed shows a very subtle difference in spacing!
+  <br />
+  <img src="../resources/img/hw01-tests-02.png" alt="spaces!" /></li>
+          <li>if you get <code class="highlighter-rouge">TypeError ... is not a function</code>
+  <br />
+  <img src="../resources/img/hw01-tests-03.png" alt="reference error" />
+  <br />
+  &#8230;you may have:
+            <ul>
+              <li>not implemented the function (!)</li>
+              <li>named the function differently than what was specified in the instructions</li>
+              <li>did not export the function from your module</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>finally make sure your changes are saved and pushed
+        <ul>
+          <li><strong>use git to add and commit</strong> to continually save changes</li>
+          <li>push your changes so that they&#39;re available on the remote repository (github)</li>
+        </ul>
+      </li>
+    </ol>
+
+    <h2 id="part-2---tic-tac-toe-game">Part 2 - Tic Tac Toe Game</h2>
+
+    <p>Whew. That was a lot of work. But, ummmm&#8230; there&#39;s no Tic Tac Toe game yet. What?
+<strong>Let&#39;s use the module / helper functions you created in part 1 to implement an interactive Tic Tac Toe game that supports the following features:</strong></p>
+
+    <ol>
+      <li>User controlled game settings</li>
+      <li>An interactive game</li>
+      <li>Scripted moves for both players</li>
+    </ol>
+
+    <p>You don&#39;t have to use <em>all</em> of the function you created in your <code class="highlighter-rouge">tic-tac-toe.js</code> module (and you definitely won&#39;t need to use all of the features of each function). However, you&#39;ll likely end up doing a lot of redundant work. Of course, you are encouraged to create your own additional functions as well!</p>
+
+    <h2 id="you-must-implement-3-scripted-moves">You MUST IMPLEMENT #3, Scripted Moves</h2>
+
+    <ul>
+      <li>in order for this game to be tested properly, scripted moves must be implemented for both the computer and the human player</li>
+      <li>consequently, this feature will be worth a  <strong>significant</strong> number of points</li>
+      <li>make sure you implemented it (see the section below, &quot;Scripted Moves&quot;)</li>
+    </ul>
+
+    <h3 id="prep">Prep</h3>
+
+    <p>You&#39;ll write your Tic Tac Toe game in the file called <code class="highlighter-rouge">src/game.js</code>. Your first step is to bring in some required modules. Open up <code class="highlighter-rouge">src/game.js</code> and&#8230;</p>
+
+    <ol>
+      <li>bring in the module you created by using <code class="highlighter-rouge">require</code>
+        <pre><code data-trim="" contenteditable="">// you can name the object whatever you like
+// "tic" is used below...
+const tic = require('./tic-tac-toe.js');
+</code></pre>
+      </li>
+      <li>bring in the module, <code class="highlighter-rouge">readline-sync</code>, which you installed in the preparation portion of the homework
+        <pre><code data-trim="" contenteditable="">const readlineSync = require('readline-sync');
+</code></pre>
+      </li>
+    </ol>
+
+    <h3 id="user-controlled-game-settings">User Controlled Game Settings</h3>
+
+    <p>Start the game by prompting the user to set up some game options. Use <code class="highlighter-rouge">readline-sync</code> to ask the user for input synchronously (again, very different from how node usually works, but more in line with how we&#39;re accustomed to seeing how programs flow). Check out the <a href="https://www.npmjs.com/package/readline-sync">documentation on <code class="highlighter-rouge">readline-sync</code> on npm</a>.</p>
+
+    <p>Here&#39;s some example usage:</p>
+
+    <pre><code data-trim="" contenteditable="">
+const readlineSync = require('readline-sync');
+ 
+const answer = readlineSync.question('What is the meaning of life?');
+console.log(answer);
+</code></pre>
+
+    <ol>
+      <li>greet the user by saying something like: <code class="highlighter-rouge">Shall we play a game of TIC TAC TOE?</code></li>
+      <li>ask the user for the width of the game board
+        <ul>
+          <li>the width must be at least 1 square wide</li>
+          <li>the width cannot be more than 26 squares wide</li>
+          <li>if the width does not fall within the above range or if the width entered is not numeric (remember, you can use <code class="highlighter-rouge">isNaN</code> for this), then ask the user for the width again</li>
+          <li>see the example interaction below (note that the first 3 answers are not valid widths, but the 4th valid answer allows the user to progress to the next question)
+            <pre><code data-trim="" contenteditable="">How wide should the board be? (1 - 26)
+&gt; -5
+How wide should the board be? (1 - 26)
+&gt; 28
+How wide should the board be? (1 - 26)
+&gt; really large
+How wide should the board be? (1 - 26)
+&gt; 3
+Pick your letter: X or O
+</code></pre>
+          </li>
+        </ul>
+      </li>
+      <li>ask the user what letter they&#39;d like to use (&#39;X&#39; or &#39;O&#39;)
+        <ul>
+          <li>uppercase &#39;X&#39; and uppercase &#39;O&#39; are the only valid inputs</li>
+          <li>if the user does not enter a valid letter, continually ask the user for a letter until a valid letter is given</li>
+          <li>see the example interaction below (the first 2 inputs are not valid - the first x is lowercase):
+            <pre><code data-trim="" contenteditable="">Pick your letter: X or O
+&gt; WHAT?
+Pick your letter: X or O
+&gt; x
+Pick your letter: X or O
+&gt; X
+Player is X
+</code></pre>
+          </li>
+        </ul>
+      </li>
+      <li>use the data collected to construct a board (use on of the functions that you created!) and show the letter that the player chose along with the empty board
+        <pre><code data-trim="" contenteditable="">Player is X
+     1   2   3
+   +---+---+---+
+ A |   |   |   |
+   +---+---+---+
+ B |   |   |   |
+   +---+---+---+
+ C |   |   |   |
+   +---+---+---+
+</code></pre>
+      </li>
+    </ol>
+
+    <p><br />
+<strong>An entire <em>happy path</em> (that is, all valid input) interaction would look like this:</strong></p>
+
+    <pre><code data-trim="" contenteditable="">Shall we play a game? TIC-TAC-TOE!
+
+How wide should the board be? (1 - 26)
+&gt; 3
+Pick your letter: X or O
+&gt; X
+Player is X
+     1   2   3
+   +---+---+---+
+ A |   |   |   |
+   +---+---+---+
+ B |   |   |   |
+   +---+---+---+
+ C |   |   |   |
+   +---+---+---+
+
+</code></pre>
+
+    <h3 id="an-interactive-game">An Interactive Game</h3>
+
+    <p>Now&#8230; for the actual game. The user will be playing against the computer</p>
+
+    <ol>
+      <li>&#39;X&#39; goes first (so if the user chose &#39;O&#39;, the computer will make the first move)</li>
+      <li>As long as the board isn&#39;t full and neither player has won, alternate computer and user turns
+        <ul>
+          <li>for the player&#39;s move, ask the player for a move in algebraic notation</li>
+          <li>if the move is not valid (use one of the functions you wrote to determine this!), notify the user and ask for another move
+            <pre><code data-trim="" contenteditable="">     1   2   3
+   +---+---+---+
+ A | X |   |   |
+   +---+---+---+
+ B |   |   | O |
+   +---+---+---+
+ C |   |   |   |
+   +---+---+---+
+What's your move?
+&gt; B3
+Your move must be in a <row><column> format, and it must specify an existing empty cell!
+What's your move?
+&gt; ARGH!
+Your move must be in a <row><column> format, and it must specify an existing empty cell!
+What's your move?
+&gt; C2
+&lt;/code&gt;&lt;/pre&gt;
+</column></row></column></row></code></pre>
+          </li>
+          <li>after a player moves, ask the player to press enter (simply ask for any input again using something like <code class="highlighter-rouge">readlineSync.question('Press &lt;ENTER&gt; to show computer\'s move...');</code>&#8230; without storing the input in a variable
+            <pre><code data-trim="" contenteditable="">What's your move?
+&gt; C2
+  1   2   3
+   +---+---+---+
+ A | X |   |   |
+   +---+---+---+
+ B |   |   | O |
+   +---+---+---+
+ C |   | X |   |
+   +---+---+---+
+Press <ENTER> to show computer's move...
+&lt;/code&gt;&lt;/pre&gt;
+</ENTER></code></pre>
+          </li>
+          <li>for the computer&#39;s move, you can use any algorithm you want to generate a valid move</li>
+          <li>the easiest way is to get a random empty cell (hey, conveniently, you have a function for this in your module!)</li>
+        </ul>
+      </li>
+      <li>If there&#39;s a winner, display who won&#8230; for example <code class="highlighter-rouge">Computer won!</code> or <code class="highlighter-rouge">Player won!</code></li>
+      <li>If the board is full, announce that it&#39;s a draw: <code class="highlighter-rouge">It's a draw!</code></li>
+    </ol>
+
+    <p><br />
+<strong>Here&#39;s an example game:</strong></p>
+
+    <div class="img" id="hw01-tic-tac-toe-sample">
+      <p><img src="../resources/img/hw01-example-game.gif" alt="example game" /></p>
+    </div>
+
+    <p><br />
+<strong>And the text-only version of the game above:</strong></p>
+
+    <pre><code data-trim="" contenteditable="">Shall we play a game? TIC-TAC-TOE!
+
+How wide should the board be? (1 - 26)
+&gt; 3
+Pick your letter: X or O
+&gt; O
+Player is O
+     1   2   3
+   +---+---+---+
+ A |   |   |   |
+   +---+---+---+
+ B |   |   |   |
+   +---+---+---+
+ C |   |   |   |
+   +---+---+---+
+
+Press &lt;ENTER&gt; to show computer's move...
+     1   2   3
+   +---+---+---+
+ A | X |   |   |
+   +---+---+---+
+ B |   |   |   |
+   +---+---+---+
+ C |   |   |   |
+   +---+---+---+
+
+What's your move?
+&gt; B2
+     1   2   3
+   +---+---+---+
+ A | X |   |   |
+   +---+---+---+
+ B |   | O |   |
+   +---+---+---+
+ C |   |   |   |
+   +---+---+---+
+
+Press &lt;ENTER&gt; to show computer's move...
+     1   2   3
+   +---+---+---+
+ A | X | X |   |
+   +---+---+---+
+ B |   | O |   |
+   +---+---+---+
+ C |   |   |   |
+   +---+---+---+
+
+What's your move?
+&gt; C3
+     1   2   3
+   +---+---+---+
+ A | X | X |   |
+   +---+---+---+
+ B |   | O |   |
+   +---+---+---+
+ C |   |   | O |
+   +---+---+---+
+
+Press &lt;ENTER&gt; to show computer's move...
+     1   2   3
+   +---+---+---+
+ A | X | X | X |
+   +---+---+---+
+ B |   | O |   |
+   +---+---+---+
+ C |   |   | O |
+   +---+---+---+
+
+Computer won!!!
+</code></pre>
+
+    <p><br />
+<strong>Remember, the game should work with variable widths&#8230; here&#39;s the beginning of a game on a 5 x 5 board:</strong></p>
+
+    <pre><code data-trim="" contenteditable="">
+Shall we play a game? TIC-TAC-TOE!
+
+How wide should the board be? (1 - 26)
+&gt; 5
+Pick your letter: X or O
+&gt; X
+Player is X
+     1   2   3   4   5
+   +---+---+---+---+---+
+ A |   |   |   |   |   |
+   +---+---+---+---+---+
+ B |   |   |   |   |   |
+   +---+---+---+---+---+
+ C |   |   |   |   |   |
+   +---+---+---+---+---+
+ D |   |   |   |   |   |
+   +---+---+---+---+---+
+ E |   |   |   |   |   |
+   +---+---+---+---+---+
+
+What's your move?
+&gt; E4
+     1   2   3   4   5
+   +---+---+---+---+---+
+ A |   |   |   |   |   |
+   +---+---+---+---+---+
+ B |   |   |   |   |   |
+   +---+---+---+---+---+
+ C |   |   |   |   |   |
+   +---+---+---+---+---+
+ D |   |   |   |   |   |
+   +---+---+---+---+---+
+ E |   |   |   | X |   |
+   +---+---+---+---+---+
+
+Press &lt;ENTER&gt; to show computer's move...
+     1   2   3   4   5
+   +---+---+---+---+---+
+ A | O |   |   |   |   |
+   +---+---+---+---+---+
+ B |   |   |   |   |   |
+   +---+---+---+---+---+
+ C |   |   |   |   |   |
+   +---+---+---+---+---+
+ D |   |   |   |   |   |
+   +---+---+---+---+---+
+ E |   |   |   | X |   |
+   +---+---+---+---+---+
+
+What's your move?
+&gt;
+</code></pre>
+
+    <h3 id="scripted-moves">Scripted Moves</h3>
+
+    <p>Testing your game against a computer player that makes random moves can be pretty annoying because you can&#39;t reliably repeat tests!</p>
+
+    <p>To deal with this, add a feature to your game that allows you to pass in the computer&#39;s moves (and, if present, the player&#39;s moves) once you start your game. That is, when you run your game on the commandline, you can add an extra option to control the computer and player moves.</p>
+
+    <p>To pick up commandline arguments, use the built-in variable <code class="highlighter-rouge">process.argv</code>. <code class="highlighter-rouge">process.argv</code> is an array that contains parts of the command used to run your program. For example, if you run your program with <code class="highlighter-rouge">node my-program.js</code>, <code class="highlighter-rouge">process.argv[0]</code> will be <code class="highlighter-rouge">node</code> and <code class="highlighter-rouge">process.argv[1]</code> will be <code class="highlighter-rouge">my-prgoram.js</code>.</p>
+
+    <p>We can use this feature to supply an <code class="highlighter-rouge">Array</code> of moves. The entire <code class="highlighter-rouge">Array</code> consists of two inner <code class="highlighter-rouge">Arrays</code> - one for the computer and one for the player. The player and computer <code class="highlighter-rouge">Array</code>s contain moves, which themselves are 2-element <code class="highlighter-rouge">Array</code>s. So&#8230; if we want the computer and player to move according to s commandline argument that we pass in, we can start the program by running:</p>
+
+    <pre><code data-trim="" contenteditable="">node game.js "[[[0,0],[0,1],[0,2]], [[1,0],[1,1]]]"
+// the computer's first three moves are the first 3 columns of the first row, and the player's moves are 
+// the first 2 columns of the 2nd row
+</code></pre>
+
+    <p>To capture the commandline argument, you can use this line:</p>
+
+    <pre><code data-trim="" contenteditable="">const arr = process.argv[2]
+</code></pre>
+
+    <p>Now&#8230; instead of just randomly choosing the computer&#39;s move, and instead of prompting the user for a move, you can consume the moves from the Array passed in.</p>
+
+    <p><strong>To implement this feature&#8230;</strong></p>
+
+    <ol>
+      <li>At the beginning of your file, use <code class="highlighter-rouge">process.argv</code> to access the passed in argument&#8230; and use <code class="highlighter-rouge">JSON.parse</code> to turn it into an actual nested <code class="highlighter-rouge">Array</code>
+        <pre><code data-trim="" contenteditable="">const arr = process.argv[2] ? JSON.parse(process.argv[2]) : undefined;
+</code></pre>
+        <ul>
+          <li>assign the first element to <code class="highlighter-rouge">computerMoves</code></li>
+          <li>assign the first element to <code class="highlighter-rouge">playerMoves</code>`</li>
+        </ul>
+      </li>
+      <li>Notify the user that the computer (and possibly the player) is using scripted moves:
+        <pre><code data-trim="" contenteditable=""> Computer will make the following moves: [ [ 0, 0 ], [ 0, 1 ], [ 0, 2 ] ]
+Player will make the following moves: [ [ 1, 0 ], [ 2, 1 ] ]
+</code></pre>
+      </li>
+      <li>When the computer moves
+        <ul>
+          <li>check out the 1st element of the <code class="highlighter-rouge">computerMoves</code> <code class="highlighter-rouge">Array</code>&#8230;</li>
+          <li>if it&#39;s valid use it as the computer&#39;s move, otherwise just move randomly</li>
+          <li>remove the 1st element of <code class="highlighter-rouge">computerMoves</code> (the first scripted move has been consumed)&#8230; you can use <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/splice">splice</a> to do this</li>
+          <li>if the <code class="highlighter-rouge">computerMoves</code> array is empty or undefined, just use a random move</li>
+          <li>check out the example code below:</li>
+        </ul>
+      </li>
+    </ol>
+    <pre><code data-trim="" contenteditable="">// assume that a computerMoves global variable 
+// and it is an Array of 2-element Arrays like [[0, 0], [0, 1], ...]
+        
+// the move the computer will make
+let move; 
+
+// do we have an Array of scripted moves and are there moves left?
+if(computerMoves &amp;&amp; computerMoves.length &gt; 0) {
+    const arr = computerMoves.splice(0, 1)[0];
+    // make sure it's a valid move!
+    if(tic.isValidMove(board, arr[0], arr[1])) {
+        move = {'row':arr[0], 'col':arr[1]};
+    }
+	// if it's not valid, move remains undefined
+}
+
+// if we still don't have a valid move, just get a random empty square
+if(move === undefined) {
+    move = tic.toRowCol(board, tic.getRandomEmptyCellIndex(board));
+}
+
+</code></pre>
+    <ol>
+      <li>Do the same for player moves
+        <ul>
+          <li>instead of prompting the player for user input, just show the move that they are about to make</li>
+          <li>&#8230;and ask the player to press enter</li>
+          <li>(simply ask for any input again using something like <code class="highlighter-rouge">readlineSync.question('Press &lt;ENTER&gt; to confirm player\'s scripted move...');</code>&#8230; without storing the input in a variable)</li>
+        </ul>
+      </li>
+      <li>Once the <code class="highlighter-rouge">playerMoves</code> or <code class="highlighter-rouge">computerMoves</code> <code class="highlighter-rouge">Array</code> is exhausted, allow the moves to proceed normally
+        <ul>
+          <li>use <em>whatever</em> mechanism you want to generate a computer move</li>
+          <li>prompt the player for their move as if it were not scripted</li>
+        </ul>
+      </li>
+      <li>Again - skip invalid moves (moves that are not on the board or that attempt to move into an already occupied cell), and remove them from their respective scripted moves <code class="highlighter-rouge">Array</code></li>
+    </ol>
+
+    <h2 id="part-3---scrabble-pal">Part 3 - Scrabble Pal</h2>
+
+    <p>Create a program that asks the user for a series of letters. It will output the 5 highest scoring words in Scrabble that can be formed from the letters entered (not all of the letters have to be used to form a word). Here&#39;s an example interaction:</p>
+
+    <pre><code data-trim="" contenteditable="">Please enter some letters:
+&gt;axdvree
+
+The top scoring words are:
+16 - vexed
+15 - vexer
+14 - exedra
+13 - raxed
+13 - vex
+</code></pre>
+
+    <h3 id="preparation-1">Preparation</h3>
+
+    <ol>
+      <li>Find <code class="highlighter-rouge">enable1.txt</code> in your <code class="highlighter-rouge">data</code> folder - this is your word list</li>
+      <li>Find <code class="highlighter-rouge">scrabble.js</code> in your <code class="highlighter-rouge">src</code> folder - this is where you&#39;ll write your program</li>
+      <li>In <code class="highlighter-rouge">scrabble.js</code>, require the built-in <code class="highlighter-rouge">readline</code> and <code class="highlighter-rouge">fs</code> modules:
+        <pre><code data-trim="" contenteditable="">const readline = require('readline');
+const fs = require('fs');
+</code></pre>
+      </li>
+    </ol>
+
+    <h3 id="background-material-and-callbacks">Background Material and Callbacks</h3>
+
+    <p>To write this program, you&#39;ll use a word list called <code class="highlighter-rouge">enable1.txt</code>. Your program will read in this file to determine if the letters entered can construct any of those words.</p>
+
+    <p>In your implementation, you&#39;ll be using a lot of functions that required callback functions to be passed in as arguments! So it&#39;ll be good to read up on functions as objects in the readings and slides.</p>
+
+    <p>Instead of using <code class="highlighter-rouge">readline-sync</code> to ask for user for input, use the built-in <code class="highlighter-rouge">readline</code> module. The regular <code class="highlighter-rouge">readline</code> module will allow you to read input from the user.</p>
+
+    <p><code class="highlighter-rouge">readline</code> does the same thing as <code class="highlighter-rouge">readline-sync</code>, but it&#39;s asynchronous. That is, it&#39;s non-blocking, so it may not finish before your next line of code is executed. Try the sample programs below (you&#39;ll need a file called test.txt with a few lines in it to try the second example) to get a feel for programming with callbacks. Pay close attention to when <code class="highlighter-rouge">last line of program</code> is printed out.</p>
+
+    <p>Lastly, use <code class="highlighter-rouge">fs.readFile</code> to read in your word list.</p>
+
+    <p><strong>Input from the user</strong></p>
+
+    <p>When <code class="highlighter-rouge">question</code> is called, a callback function, <code class="highlighter-rouge">handleUserInput</code> is passed in. This callback function isn&#39;t called immediately! Instead, it&#39;s called after the program receives input from the user. Consequently, the line printing <code class="highlighter-rouge">last line of program</code> is called before <code class="highlighter-rouge">'Hi ' + response</code> could be printed out.</p>
+
+    <pre><code data-trim="" contenteditable="">const readline = require('readline');
+
+// set up a readline object that can be used for gathering user input
+const userPrompt = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+});
+
+// ask a question
+userPrompt.question('What\'s your name?', handleUserInput);
+
+// the callback function that's run when the readline object receives input
+function handleUserInput(response) {
+    console.log('Hi ' + response);
+    userPrompt.close();
+}
+
+console.log('last line of program!');
+</code></pre>
+
+    <p><strong>Reading from a file</strong></p>
+
+    <ul>
+      <li>the <a href="https://nodejs.org/api/fs.html#fs_fs_readfile_file_options_callback"><code class="highlighter-rouge">fs</code> module has a  readFile function</a> to do this</li>
+      <li>example usage of the <code class="highlighter-rouge">fs</code> module:
+        <pre><code data-trim="" contenteditable="">
+fs.readFile('path/to/myFile.txt', 'utf8', function(err, data) {
+  if (err) {
+      console.log('uh oh', err); 
+  } else {
+      console.log(data);
+  }
+});
+
+</code></pre>
+      </li>
+    </ul>
+    <p><strong>Please use a relative path to read the file!</strong></p>
+
+    <ul>
+      <li>that is&#8230; read <code class="highlighter-rouge">data/enable1.txt</code> rather than <code class="highlighter-rouge">/full/path/to/enable1.txt</code></li>
+      <li>assume that the program will be run from the project&#39;s root directory</li>
+    </ul>
+
+    <h3 id="handle-scores">Handle Scores</h3>
+
+    <p>The score for a word is calculated by summing the point values of each letter in the word. You can use the following object to associate letters with point values:</p>
+
+    <pre><code data-trim="" contenteditable="">const letterValues = { 
+        "E": 1, "A": 1, "I": 1, "O": 1, "N": 1, "R": 1, "T": 1, "L": 1, "S": 1, "U": 1, 
+        "D": 2, "G": 2, "B": 3, "C": 3, "M": 3, "P": 3, "F": 4, "H": 4, "V": 4, "W": 4, 
+        "Y": 4, "K": 5, "J": 8, "X": 8, "Q": 10, "Z": 10 
+};
+</code></pre>
+
+    <p>You&#39;ll likely want to represent each word as an object&#8230; with the actual word as one property and the word&#39;s score as a second property. You can then sort an <code class="highlighter-rouge">Array</code> of these &quot;word/score&quot; objects using the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort">sort method</a> on your <code class="highlighter-rouge">Array</code>.</p>
+
+    <p>The <code class="highlighter-rouge">sort</code> method also requires a callback function&#8230; which is used to compare the values in the <code class="highlighter-rouge">Array</code>. Check out the following example where the <code class="highlighter-rouge">Array</code>, <code class="highlighter-rouge">numbers</code> is sorted from highest to lowest:</p>
+
+    <pre><code data-trim="" contenteditable="">const numbers = [1, 3, 2, 7, 5, 4, 6];
+
+// sort numbers from highest to lowest
+numbers.sort(function(a, b) {
+    // if a is less than b, then a should be after b 
+    if(a &lt; b) {
+        return 1;
+    } else if(a &gt; b) {
+        return -1;
+    } else {
+        return 0;
+    }
+});
+console.log(numbers);
+
+// for ascending, swap the 1 and -1 (or really, just omit the callback / compare function)!
+</code></pre>
+
+    <p>Note that the compare / callback function is an anonymous function that returns a positive, negative or zero value. If a positive value is returned, it means that the first argument passed in is greater, and should occur after the second element in the sorted <code class="highlighter-rouge">Array</code>.</p>
+
+    <h3 id="implementation">Implementation</h3>
+
+    <p>So&#8230; this is a pretty short program, and may seem easy on the surface. However, there are some really tricky parts! You&#39;ll have to put together the examples from the background material above along with a novel algorithm for determining all of the valid words that a set of letters can create. You should approach this program incrementally, testing as you go along. Unlike the previous 2 parts, it&#39;s up to you to determine how to break up your program into functions.</p>
+
+    <p><strong>A potential algorithm for finding all words that can be formed from a series of letters</strong></p>
+
+    <ul>
+      <li>go through every word in the word list
+        <ul>
+          <li>make a copy of the user input</li>
+          <li>go through every letter in the word from the word list</li>
+          <li>if the letter exists in the copy of the user input, remove it from the copy of the user input</li>
+          <li>if the letter doesn&#39;t exist, then you know the word from the word list cannot be formed by the letters in the user input</li>
+          <li>if all of the letters in the word from the word list have been iterated over, then you know the word can be formed by the letters in the user input!</li>
+        </ul>
+      </li>
+      <li>some methods that may be useful for doing this are:
+        <ul>
+          <li>a String&#39;s <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/split">split</a> method - to break up a string into an <code class="highlighter-rouge">Array</code> of characters</li>
+          <li>an Array&#39;s <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/indexOf">indexOf</a> method - to determine if an element exists in an <code class="highlighter-rouge">Array</code></li>
+          <li>an Array&#39;s <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/splice">splice</a> method - to remove an element or elements from an <code class="highlighter-rouge">Array</code></li>
+        </ul>
+      </li>
+    </ul>
+
+    <p><strong>Dealing with scope and callbacks</strong></p>
+
+    <p>Because you&#39;ll be writing a lot of callback functions, you may find that you don&#39;t have access to certain variables because they&#39;re within the local scope of another function. Here&#39;s an example:</p>
+
+    <pre><code data-trim="" contenteditable="">const readline = require('readline');
+
+function main() {
+    const greeting = "Hello ";
+
+    const userPrompt = readline.createInterface({
+        input: process.stdin,
+        output: process.stdout
+    });
+
+    userPrompt.question('What\'s your name?', handleUserInput);
+
+}
+
+function handleUserInput(response) {
+    console.log(greeting + ' ' + response);
+    userPrompt.close();
+}
+
+main();
+</code></pre>
+
+    <p>If you run the above code, you&#39;ll get the following error:</p>
+
+    <p><code class="highlighter-rouge">ReferenceError: greeting is not defined</code></p>
+
+    <p>Because greeting is within the local scope of <code class="highlighter-rouge">main</code>. Assuming you want to keep the <code class="highlighter-rouge">main</code> function around, you can get around this by employing one the following strategies (I recommend using the arrow function version!):</p>
+
+    <ul>
+      <li>(easy, but sloppy) using a lot of global variables - just move the declaration of <code class="highlighter-rouge">greeting</code> outside of <code class="highlighter-rouge">main</code></li>
+      <li>(easy, slightly less sloppy) nest functions within other functions if you need inner function to access variables in the outer function
+        <pre><code data-trim="" contenteditable="">const readline = require('readline');
+    
+  function main() {
+  const greeting = "Hello ";
+
+  const userPrompt = readline.createInterface({
+      input: process.stdin,
+      output: process.stdout
+  });
+
+  userPrompt.question('What\'s your name?', handleUserInput);
+
+  function handleUserInput(response) {
+      console.log(greeting + ' ' + response);
+      userPrompt.close();
+  }
+}
+main();
+</code></pre>
+      </li>
+      <li>(difficult) pass the necessary variables to the function as arguments, and then fix the arity by using an anonymous function (that is, fix the values of a function&#39;s parameters) when using the function as a callback (an arrow function or <em>regular</em> function expression will work):
+        <pre><code data-trim="" contenteditable="">const readline = require('readline');
+    
+  function main() {
+  const greeting = "Hello ";
+
+  const userPrompt = readline.createInterface({
+      input: process.stdin,
+      output: process.stdout
+  });
+
+  // using arrow function
+  // (arrow function takes one argument and passes that as third argument to handleUserInput)
+  userPrompt.question('What\'s your name?', (response) =&gt; { handleUserInput(userPrompt, greeting, response); } );
+
+  // or with a function expression
+  // userPrompt.question('What\'s your name?', function(response) {
+  //     handleUserInput(userPrompt, greeting, response);
+  // });
+}
+function handleUserInput(userPrompt, greeting, response) {
+  console.log(greeting + ' ' + response);
+  userPrompt.close();
+}
+main();
+</code></pre>
+      </li>
+      <li>(difficult) pass the necessary variables to the function as arguments, and then fix the arity of the callback by using an arrow function or <a href="https://www.google.com/search?q=js+bind&amp;oq=js+bind&amp;aqs=chrome..69i57j0l5.1794j0j4&amp;sourceid=chrome&amp;ie=UTF-8">bind</a>
+        <pre><code data-trim="" contenteditable="">const readline = require('readline');
+
+  function main() {
+  const greeting = "Hello ";
+
+  const userPrompt = readline.createInterface({
+      input: process.stdin,
+      output: process.stdout
+  });
+
+  // using bind...
+  userPrompt.question('What\'s your name?', handleUserInput.bind(null, userPrompt, greeting));
+}
+function handleUserInput(userPrompt, greeting, response) {
+  console.log(greeting + ' ' + response);
+  userPrompt.close();
+}
+main();
+</code></pre>
+      </li>
+    </ul>
+
+    <p><strong>Issues Reading a File</strong></p>
+
+    <p>You should be running your program from your project root directory. The path given to <code class="highlighter-rouge">fs.readFile</code> should be:</p>
+
+    <p><code class="highlighter-rouge">data/enable1.txt</code></p>
+
+  </div>
+
+</div>
+
+:ET

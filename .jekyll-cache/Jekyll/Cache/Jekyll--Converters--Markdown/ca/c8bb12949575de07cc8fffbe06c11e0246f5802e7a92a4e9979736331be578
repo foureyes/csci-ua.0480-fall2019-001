@@ -1,0 +1,39 @@
+I"”<section class="intro-slide">
+  <h1 id="model-view-controller-misc-express">Model View Controller, Misc Express</h1>
+
+  <h3 id="csci-ua0480-001">CSCI-UA.0480-001</h3>
+
+  <p><small></small></p>
+</section>
+<section>
+  <h2 id="recap">Recap</h2>
+
+  <ul>
+    <li>POST, Redirect, Get</li>
+    <li>Middleware</li>
+    <li>Routers</li>
+    <li>Constructing Meaningfule URLs</li>
+    <li>Using a database abstraction layer</li>
+    <li>Minimally dealing with validation errors on the server side</li>
+    <li>Concepts behind authentication</li>
+  </ul>
+
+</section>
+<section>
+  <h2 id="we-didnt-cover">We Didn&#39;t Cover</h2>
+
+  <ul>
+    <li>MVC, alternatives to code organization</li>
+    <li>deployment</li>
+    <li>configuration management</li>
+    <li>actual logging and alerting</li>
+    <li>automated testing</li>
+    <li>fun with cookie tampering</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="mvc">MVC</h2>
+
+</section>
+:ET

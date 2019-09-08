@@ -1,0 +1,61 @@
+I"¥<section class="intro-slide">
+  <h1 id="authentication">Authentication</h1>
+
+  <h3 id="csci-ua0480-001">CSCI-UA.0480-001</h3>
+
+  <p><small></small></p>
+</section>
+
+<section>
+  <h2 id="topics">Topics</h2>
+
+  <ul>
+    <li>storing password information
+      <ul>
+        <li>not about crypto</li>
+        <li>you should prob use&#8230;</li>
+        <li>why encrypt?</li>
+      </ul>
+    </li>
+    <li>using passport
+      <ul>
+        <li>how many different ways can you sign up / sign in to a site?
+          <ul>
+            <li>what are some common ones&#8230; let&#39;s start with the obvious</li>
+            <li>fb, twitter, g+, linkedin, etc.</li>
+          </ul>
+        </li>
+        <li>what&#39;s a strategy</li>
+        <li>
+          <ul>
+            <li>other auth schemes</li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li>integrating user with other model
+      <ul>
+        <li>first, last</li>
+        <li>address</li>
+      </ul>
+    </li>
+    <li>login considerations
+      <ul>
+        <li>user does not exist</li>
+        <li>password not right</li>
+        <li>both</li>
+        <li>errors?</li>
+      </ul>
+    </li>
+    <li>registration considerations
+      <ul>
+        <li>user already exists</li>
+        <li>password or username doesn&#39;t meet reqs</li>
+        <li>errors?</li>
+        <li>revealing username and password</li>
+      </ul>
+    </li>
+    <li>maybe error handling</li>
+  </ul>
+</section>
+:ET

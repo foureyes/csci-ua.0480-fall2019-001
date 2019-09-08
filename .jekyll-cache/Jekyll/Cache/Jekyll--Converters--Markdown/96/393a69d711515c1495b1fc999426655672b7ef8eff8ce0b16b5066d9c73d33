@@ -1,0 +1,751 @@
+I")m<section class="intro-slide">
+  <h1 id="strings-and-arrays">Strings and Arrays</h1>
+
+  <h3 id="csci-ua0480">CSCI-UA.0480</h3>
+
+  <p><small></small></p>
+</section>
+
+<section>
+  <h2 id="strings-and-arrays-1">Strings and Arrays</h2>
+
+  <p>First&#8230; a quick note.</p>
+
+  <ul>
+    <li><strong>Strings</strong> are primitives. They just <em>act</em> like objects when they&#39;re called upon to do so
+      <pre><code data-trim="" contenteditable="">
+const s = "I'm not really an object";
+s.message = "prove it!"
+console.log(s.message);
+</code></pre>
+    </li>
+    <li>Uh turns out that <code>Arrays</code> are actually <em>just</em> objects (they&#39;re not a separate type on their own)</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="strings">Strings</h2>
+
+  <p><strong>They&#39;re pretty unremarkable (whew!)</strong> &#8594;</p>
+
+  <ul>
+    <li>just an ordered sequence of characters</li>
+    <li>they&#39;re <strong>immutable</strong></li>
+    <li>a string literal can be constructed with single or double quotes: <code>'</code> or <code>"</code></li>
+    <li>backslash escapes the next character (new line, tab, literal backslash, etc.)</li>
+    <li>the <code>.length</code> property contains the number of characters in a string</li>
+    <li>you can get a specific character by using the indexing operator: myString[0] &#8230;</li>
+    <li>(negative indexes don&#39;t work, you&#39;ll have to use myString.length - 1 for the last index)</li>
+  </ul>
+
+</section>
+<section>
+  <h2 id="arrays">Arrays</h2>
+
+  <p><code>Arrays</code> though&#8230; <strong>are a little strange</strong>.  First - 2 ways to create an Array:</p>
+
+  <ol>
+    <li class="fragment">literal (square brackets with comma separated values): <code>[1, 2, 3]</code>
+      <ul>
+        <li>an empty array is just open and close bracket: <code>[]</code></li>
+        <li>you can index with brackets, and you can retrieve the number of elements using <code>.length</code></li>
+      </ul>
+    </li>
+    <li class="fragment">you may see Arrays created with an <code>Array</code> constructor
+      <ul>
+        <li><strong>but be careful when using the <code class="highlighter-rouge">Array</code> constructor</strong>!!!</li>
+        <li class="fragment">with a single <code class="highlighter-rouge">Number</code> argument, it creates an <code>Array</code> of that length</li>
+        <li class="fragment">&#8230;anything else constructs an Array with the arguments as elements
+          <pre><code data-trim="" contenteditable="">
+new Array(2) // [ , ,  ] !?!?!?! 
+new Array('abc') // ['abc'] oookaaaay
+new Array(2, 4, 6) // [2, 4, 6] sure!
+</code></pre>
+        </li>
+      </ul>
+    </li>
+  </ol>
+</section>
+
+<section>
+  <h2 id="arrays-are-what">Arrays are What?</h2>
+
+  <p><strong>Also, <code>Arrays</code> are <em>actually just objects</em>. This means that their indexes are properties.</strong> &#8594;</p>
+
+  <ul>
+    <li class="fragment">indexes don&#39;t have to be contiguous!?</li>
+    <li class="fragment">you can have <em>holes</em> in your arrays (length counts them as elements, though):
+      <pre><code data-trim="" contenteditable="">
+const a = [];
+a[0] = 'ok'
+a[4] = 'where are the previous elements?'
+console.log(a);
+console.log(a.length);
+</code></pre>
+    </li>
+    <li class="fragment">generally, avoid doing this&#8230; behavior when working with <code>Array</code> holes varies depending on what you&#39;re doing!</li>
+    <li class="fragment"><a href="http://speakingjs.com/es5/ch18.html#array_holes">there&#39;s actually a section in the book devoted to this</a></li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="string-and-array-methods">String and Array Methods</h2>
+
+  <p>Strings are object like when you want them to be, and Arrays are secretly objects. <strong>They both have a bunch of built-in methods.</strong> &#8594;</p>
+
+  <ul>
+    <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String#Methods_2">Strings have a lot</a></li>
+    <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array#Methods_of_array_instances">Arrays do too</a></li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="some-useful-string-methods">Some Useful String Methods</h2>
+
+  <p><strong>Note that these methods don&#39;t change the original string that they&#39;re called on:</strong> &#8594;</p>
+
+  <ul>
+    <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/split">split([separator][, limit])</a> - splits a String object into an array of strings by separating the string into substrings - default is one element of original string if no separator is specified. &#8594;</li>
+    <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/toUpperCase">toUpperCase()</a> and <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/toLowerCase">toLowerCase()</a> - um&#8230; self explanatory? &#8594;</li>
+    <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/slice">slice(beginSlice[, endSlice])</a>
+      <ul>
+        <li>extracts a section of a string and returns a new string starting at index, beginSlice, and going to end of string or up to, but not including endSlice <code>"racecar".slice(1, 4)</code> &#8594; <code>'ace'</code></li>
+        <li>negative values for both parameters are ok (treated as length + index value): <code>"racecar".slice(0, -1)</code> &#8594; <code>'raceca'</code></li>
+      </ul>
+    </li>
+    <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace">replace(regexp|substr, newSubStr|function[, flags])</a> - returns a new string with some or all matches of a pattern replaced by a replacement (both substrings and regexes work) &#8594;</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="some-useful-array-methods">Some Useful Array Methods</h2>
+
+  <p><strong>These methods <em>modify</em> the array that they&#39;re called on!</strong> &#8594;</p>
+
+  <ul>
+    <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/pop">pop()</a> - removes and returns the last element from the array</li>
+    <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/push">push(element1, &#8230;, elementN)</a> - adds one or more elements to the end of an array and <strong>returns the new length</strong> of the array</li>
+    <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reverse">reverse()</a> - reverses the order of the elements of an array — the first becomes the last, and the last becomes the first.</li>
+    <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort">sort([compareFunction])</a>
+      <ul>
+        <li>sorts the elements of an array in place and returns the array (default sort is by unicode code point value)</li>
+        <li><code>compareFunction(a, b)</code> &#8594; <code>return</code> <code>-1</code>, <code>0</code>, or <code>1</code></li>
+      </ul>
+    </li>
+    <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/splice">splice(index, howMany[, element1[, &#8230;[, elementN]]])</a>
+      <ul>
+        <li>adds and/or removes elements from an array, starting at <code>index</code>&#8230; and removing <code>howMany</code> elements</li>
+        <li><strong>returns spliced elements as array</strong></li>
+        <li>negative <code>index</code> - begin that many elements from end</li>
+      </ul>
+    </li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="and-even-more-array-methods">And Even More Array Methods</h2>
+
+  <p><strong>These don&#39;t mutate the array that they&#39;re called on.</strong> &#8594;</p>
+
+  <ul>
+    <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/slice">slice(index, howMany[, element1[, &#8230;[, elementN]]])</a> -  returns a shallow copy of a portion of an array into a new array object
+      <ul>
+        <li>called with no arguments - copies entire array (start at index 0, end at last element)</li>
+      </ul>
+    </li>
+    <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/join">join([separator = &#39;,&#39;])</a> - joins all elements of an array into a string using separator (default is comma)</li>
+    <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach">forEach(callback[, thisArg])</a> - calls a function for each element in the array</li>
+    <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/every">every(callback[, thisArg])</a> -  tests whether all elements in the array pass the test implemented by the provided function</li>
+    <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/indexOf">indexOf(searchElement[, fromIndex=0])</a> - returns index of searchElement or -1 if not found</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="splice-and-slice">Splice and Slice</h2>
+
+  <p>These methods may not be so intuitive, so <strong>let&#39;s go over them in depth</strong>. &#8594;</p>
+
+</section>
+<section>
+  <h2 id="splice">Splice</h2>
+
+  <p><code>splice</code> <strong>removes elements</strong> (in place) from an Array, and <strong>optionally inserts elements</strong>.</p>
+
+  <ul>
+    <li>1st parameter, <code>start</code> specifies the index (inclusive) to start modifying the Array
+      <ul>
+        <li>negative indexes start from left</li>
+        <li>indexes greater than last index is set to the last index</li>
+      </ul>
+    </li>
+    <li>2nd parameter, <code>deleteCount</code> specifies the number of elements to be deleted
+      <ul>
+        <li>omitting this argument will cause all elements after <code>start</code> to be removed</li>
+      </ul>
+    </li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="splice-continued">Splice Continued</h2>
+
+  <ul>
+    <li><strong>all arguments after the second parameter are elements that will be added to the original Array</strong>
+      <ul>
+        <li>these elements will be inserted at the <code>start</code> specified</li>
+        <li>if there are no parameters after the second, <code>splice</code> will only remove elements</li>
+      </ul>
+    </li>
+    <li><strong>returns the elements removed as an Array</strong></li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="tldr">TL;DR</h2>
+
+  <ul>
+    <li><code>splice</code> removes elements from an existing Array</li>
+    <li>it optionally replaces those elements with <em>other</em> elements</li>
+    <li>it gives back the elements that were removed as an Array</li>
+  </ul>
+
+</section>
+<section>
+  <h2 id="splice-examples">Splice Examples</h2>
+
+  <p>Using the following code, <code>a = [2, 4, 6, 8, 10, 12]</code>,  <strong>what is the new content of a&#8230; and what is returned&#8230; after calling splice (assume a is reset each time)?</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+a.splice(2);
+a.splice(2, 2);
+a.splice(-2);
+a.splice(2, 2, 1, 1);
+</code></pre>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+returned: [ 6, 8, 10, 12 ], a: [ 2, 4 ]
+returned: [ 6, 8 ],         a: [ 2, 4, 10, 12 ]
+returned: [ 10, 12 ],       a: [ 2, 4, 6, 8 ]
+returned: [ 6, 8 ],         a: [ 2, 4, 1, 1, 10, 12 ]
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="splice-vs-slice">Splice vs Slice</h2>
+
+  <p>They sound the same! <strong>They do different stuff though!</strong> &#8230; totally different stuff.</p>
+
+  <p>Think of <code>slice</code> as a way of copying a sub-Array from an existing an Array.</p>
+
+  <ul>
+    <li>parameter 1, <code>begin</code>, is the start index (inclusive) of the sub-Array to be copied out
+      <ul>
+        <li>begins at index 0 if it is not specified</li>
+        <li>negative starts from end</li>
+      </ul>
+    </li>
+    <li>parameter 2, <code>end</code>, is the end of the sub-Array (exclusive &#8230; so goes up to, but does not include)
+      <ul>
+        <li>ends at last index if not specified</li>
+        <li>negative starts from end</li>
+      </ul>
+    </li>
+    <li>think slices in Python lists</li>
+    <li><strong>it does not alter the original Array</strong></li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="slice-examples">Slice Examples</h2>
+
+  <p><strong>What is the output of the following code?</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+a = [2, 4, 6, 8];
+console.log(a.slice());
+console.log(a.slice(1));
+console.log(a.slice(1, 3));
+console.log(a.slice(-1));
+console.log(a);
+</code></pre>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+[ 2, 4, 6, 8 ]
+[ 4, 6, 8 ]
+[ 4, 6 ]
+[ 8 ]
+[ 2, 4, 6, 8 ]
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="arrays-and-mutability">Arrays and Mutability</h2>
+
+  <p><strong>What&#39;s the output of this code?</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+a = [1, 2, 3];
+b = a;
+a.push(4);
+console.log(b);
+</code></pre>
+
+  <p class="fragment"><code>[1, 2, 3, 4]</code></p>
+
+  <p class="fragment">Remember&#8230; <code>Arrays</code> are just objects anyway (so, yeah, they&#39;re mutable).</p>
+
+</section>
+
+<section>
+  <h2 id="using-slice-to-copy">Using Slice to Copy</h2>
+
+  <p><strong>A common way of duplicating an Array is to use slice.</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+const a = [1, 2, 3];
+const b = a.slice();
+a.push(4);
+console.log(b);
+</code></pre>
+
+  <ul>
+    <li>er&#8230; be careful, though&#8230;</li>
+    <li>object references are copied which means they&#39;ll still refer to the same object</li>
+    <li><strong>what is the output of the code below?</strong> &#8594;</li>
+  </ul>
+
+  <pre><code data-trim="" contenteditable="">
+const a = [{}, 2, 3];
+const b = a.slice();
+b[0].tricky = 'yup, same object';
+console.log(a);
+</code></pre>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+[ { tricky: 'yup, same object' }, 2, 3 ]
+</code></pre>
+
+  <p class="fragment"><a href="http://pythontutor.com/javascript.html#code=const+a+%3D+%5B%7B%7D,+2,+3%5D%3B%0Aconst+b+%3D+a.slice(%29%3B%0Ab%5B0%5D.tricky+%3D+'yup,+same+object'%3B%0Aconsole.log(a%29%3B&amp;mode=display&amp;origin=opt-frontend.js&amp;cumulative=false&amp;heapPrimitives=false&amp;textReferences=false&amp;py=js&amp;rawInputLstJSON=%5B%5D&amp;curInstr=3)">See the diagram</a></p>
+
+</section>
+
+<section>
+  <h2 id="spread-to-copy">Spread to Copy</h2>
+
+  <p>As of ES6, you can also use <strong>spread syntax</strong> to copy an Array:</p>
+
+  <pre><code data-trim="" contenteditable="">
+const numbers = [1, 2, 3, 4];
+const copy = [...numbers]
+</code></pre>
+
+  <ol class="fragment">
+    <li>in your <code class="highlighter-rouge">Array</code> literal</li>
+    <li>add three dots</li>
+    <li>followed by the name of the Array you&#39;re copying</li>
+    <li>only goes one-level deep (shallow)</li>
+    <li>note that you can also use this on multiple Arrays (to <strong>concatenate</strong>):
+      <pre><code data-trim="" contenteditable="">
+const words1 = ['foo', 'bar'];
+const words2 = ['baz', 'qux'];
+const allWords = [...words1, ...words2]
+</code></pre>
+    </li>
+  </ol>
+
+  <p class="fragment"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_operator#Copy_an_array">See more about spread syntax on mdn</a></p>
+
+</section>
+
+<section>
+  <h2 id="back-to-arrays-and-mutability">Back to Arrays and Mutability</h2>
+
+  <p><strong>Objects are <em>mutable</em>.</strong> (<strong>What does that mean?</strong>) &#8594;</p>
+
+  <ul>
+    <li class="fragment">objects can be changed</li>
+    <li class="fragment">&#8230;for example, creating new properties on-the-fly: <br /> <code>obj.newProp = 5</code></li>
+    <li class="fragment"><strong>arrays are objects; they&#39;re mutable too!</strong></li>
+  </ul>
+
+  <p class="fragment"><br />
+Numbers, strings and booleans are all immutable!</p>
+</section>
+
+<section data-background="#440000">
+  <h2 id="um-again-numbers-strings-and-booleans-are-immutable">Um. Again&#8230; Numbers, strings and booleans are immutable!</h2>
+</section>
+
+<section>
+  <h2 id="working-with-arrays">Working With Arrays</h2>
+
+  <p>Because <strong>arrays are mutable</strong>, we have to be careful when we work with them.</p>
+
+  <p>For example, we can create functions that work on arrays:</p>
+
+  <ul>
+    <li><strong>in place</strong>  (that is, change the elements in the array itself)</li>
+    <li>&#8230; or <strong>return an entirely new array</strong> with the elements of the original array changed</li>
+  </ul>
+
+  <p><br />
+(<strong>Let&#39;s see&#8230;</strong> &#8594;)</p>
+</section>
+
+<section>
+  <h2 id="double-values-new-array">Double Values, New Array</h2>
+
+  <p><strong>Create a function called doubleValues.</strong> &#8594;</p>
+
+  <ul>
+    <li>it should have one parameter, an array called <code>arr</code></li>
+    <li>it should return an entirely new array, with the elements of the original array doubled</li>
+    <li>double each element by multiplying by 2 (regardless of the type)</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="double-values-new-array-implementation">Double Values, New Array, Implementation</h2>
+
+  <p><strong>What do you think the following code prints out?</strong> &#8594;</p>
+  <pre><code data-trim="" contenteditable="">
+const numbers = [1, 2, 3];
+const doubleValues = function(arr) {
+	const doubled = [];
+	for(let i = 0; i &lt; arr.length; i++) {
+		doubled.push(arr[i] * 2);
+	}
+	return doubled;
+};
+result = doubleValues(numbers);
+console.log(numbers);
+console.log(result);
+</code></pre>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+[1, 2, 3]
+[2, 4, 6]
+</code></pre>
+</section>
+
+<section>
+  <h2 id="double-values-in-place">Double Values, In Place</h2>
+
+  <p><strong>Create a function called doubleValuesInPlace.</strong> &#8594;</p>
+
+  <ul>
+    <li>it should have one parameter, an array called <code>arr</code></li>
+    <li>it should double each element in place by multiplying each element by 2 (regardless of the type)</li>
+    <li>it does not return a value</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="double-values-in-place-implementation">Double Values, In Place, Implementation</h2>
+
+  <p><strong>What do you think the following code prints out?</strong> &#8594;</p>
+  <pre><code data-trim="" contenteditable="">
+const numbers = [1, 2, 3];
+const doubleValuesInPlace = function(arr) {
+	for(let i = 0; i &lt; arr.length; i++) {
+		arr[i] *= 2;
+	}
+};
+const result = doubleValuesInPlace(numbers);
+console.log(numbers);
+console.log(result);
+</code></pre>
+
+  <pre><code data-trim="" contenteditable="">
+[2, 4, 6]
+undefined
+</code></pre>
+</section>
+
+<section>
+  <h1 id="which-leads-us-to-call-by-sharing">Which leads us to call-by-sharing</h1>
+
+</section>
+<section>
+  <h2 id="call-by-sharing">Call By Sharing</h2>
+
+  <p>It&#39;s not quite <strong>pass-by-value</strong>, and it&#39;s not quite <strong>pass-by-reference</strong>:</p>
+
+  <ul>
+    <li>&quot;assignments to function arguments within the function aren&#39;t visible to the caller&quot;</li>
+    <li>&quot;however since the function has access to the same object as the caller (no copy is made), mutations to those objects, if the objects are mutable, within the function are visible to the caller&quot;</li>
+  </ul>
+
+  <p class="fragment"><br />
+Note that <strong>semantics of these phrases differ based on language / community</strong>! better to just describe the behavior as above.</p>
+
+  <p class="fragment"><br /> 
+Lastly, TL;DR - similar behavior in Java and Python</p>
+
+</section>
+
+<section>
+  <h2 id="call-by-sharing-continued">Call By Sharing Continued</h2>
+
+  <p><strong>What is the output of the following code?</strong> &#8594;</p>
+  <pre><code data-trim="" contenteditable="">
+const p = {'x':5, 'y':3}; 
+const changePoint = function(point, distance) {
+	point.x = 0;
+	console.log('in function:', point);
+};
+changePoint(p);
+console.log('outside', p);
+</code></pre>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+in function: { x: 0, y: 3 }
+outside { x: 0, y: 3 }
+</code></pre>
+
+  <p class="fragment"><strong>We can mutate the original object passed in!</strong></p>
+
+</section>
+<section>
+  <h2 id="and-even-more-call-by-sharing">And Even More Call By Sharing</h2>
+
+  <p><strong>What is the output of the following code?</strong> &#8594;</p>
+  <pre><code data-trim="" contenteditable="">
+const p = {'x':5, 'y':3}; 
+const changePoint = function(point, distance) {
+	point = {};
+	console.log('in function:', point);
+};
+changePoint(p);
+console.log('outside', p);
+</code></pre>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+in function: {}
+outside { x: 5, y: 3 }
+</code></pre>
+
+  <p class="fragment"><strong>The code outside of the function doesn&#39;t see the reassignment!</strong></p>
+</section>
+<section>
+  <h2 id="a-quick-summary">A Quick Summary</h2>
+
+  <p><strong>A function&#8230;</strong> &#8594;</p>
+
+  <ul>
+    <li>can mutate a mutable object passed in as a parameter</li>
+    <li>can reassign a mutable or an immutable object
+      <ul>
+        <li>but that reassignment is only within the scope of the function</li>
+        <li>(the caller is not affected by the reassignments)</li>
+      </ul>
+    </li>
+    <li>can&#39;t mutate an immutable object (obvs!) passed in as a parameter</li>
+  </ul>
+
+  <p><br />
+Some references:</p>
+
+  <ul>
+    <li><a href="http://skilldrick.co.uk/2010/12/clearing-up-the-confusion-around-javascript-references/">an article on JavaScript references</a></li>
+    <li><a href="http://en.wikipedia.org/wiki/Evaluation_strategy#Call_by_sharing">the wikipedia article on call by sharing</a></li>
+    <li><a href="http://effbot.org/zone/call-by-object.htm">call by sharing in Python</a></li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="indexof">indexOf</h2>
+
+  <p>If you&#39;d like to find something in an Array, you can use the <code>indexOf</code> method. (<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/indexOf">see the docs</a>).</p>
+
+  <ul>
+    <li>it returns the index of first occurrence of an element</li>
+    <li>-1 if the element doesn&#39;t exist</li>
+    <li>it has an optional start index as the second arg (where to start the search from)</li>
+  </ul>
+
+  <pre><code data-trim="" contenteditable="">
+console.log([1, 3, 3, 7].indexOf(3));
+console.log([1, 3, 3, 7].indexOf(8));
+console.log([1, 3, 3, 7].indexOf(3, 2));
+</code></pre>
+
+</section>
+<section>
+  <h2 id="looping-over-arrays">Looping Over Arrays</h2>
+
+  <p>Errrr. It looks like there are a lot of ways to do this. <strong>What are they (there are three, and one of &#39;em is the old classic.</strong> &#8594;</p>
+
+  <ul class="fragment">
+    <li>use a for loop</li>
+    <li>use the forEach method</li>
+    <li>use for&#8230;of</li>
+  </ul>
+
+  <p class="fragment"><br />
+<strong>Which one should we use?</strong> &#8594;</p>
+
+  <ul class="fragment">
+    <li>the classic <code>for</code> loop is actually the fastest (though, for some engines, you&#39;ll have to cache the length!?)</li>
+    <li><code>forEach</code> and every are a little bit closer to what you&#39;re actually doing (<em>more expressive</em>)
+      <ul>
+        <li>though using a callback / dealing with scoping may be tricky</li>
+        <li>can&#39;t break out of <code>forEach</code></li>
+      </ul>
+    </li>
+    <li><code class="highlighter-rouge">for of</code> - ES6 syntax that allows looping over every element in an iterable object</li>
+  </ul>
+
+</section>
+
+<section>
+  <h3 id="looping-over-arrays-part-1">Looping Over Arrays Part 1</h3>
+
+  <p>Loop over <code>nums = [1, 2, 3, 4];</code> and print out double the value of every element. <strong>Do this three ways</strong> &#8594;</p>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+
+// with classic for loop and length caching
+for(let i = 0, cachedLength = nums.length; i &lt; cachedLength; i++) {
+	console.log(nums[i] * 2);
+}
+</code></pre>
+</section>
+
+<section>
+  <h3 id="looping-over-arrays-part-2">Looping Over Arrays Part 2</h3>
+
+  <pre><code data-trim="" contenteditable="">
+// with forEach (define callback first)
+const doubleIt = function(x) {
+	console.log(x * 2);
+}
+nums.forEach(doubleIt); 
+</code></pre>
+
+  <p>(Or with an anonymous function)</p>
+
+  <pre><code data-trim="" contenteditable="">
+// with forEach
+nums.forEach(function(num, i) {
+	console.log(num * 2);
+});
+
+</code></pre>
+
+</section>
+
+<section>
+  <h3 id="and-part-3-forof">And Part 3: for&#8230;of</h3>
+
+  <p><strong>Use for&#8230;of</strong>. It&#39;s similar in expressiveness to <code class="highlighter-rouge">forEach</code>, but only available in ES6 &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+const words = ['foo', 'bar', 'baz']
+for (let w of words) {
+    console.log(words);
+}
+</code></pre>
+
+  <ul>
+    <li>you can use <code class="highlighter-rouge">break</code> and <code class="highlighter-rouge">continue</code>!</li>
+    <li>can be used to go over other iterable objects, like strings, the arguments object, etc.</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="arrays-are-mutable">Arrays are Mutable</h2>
+
+  <p>Arrays are really just objects. Sooo this example should look familiar.  <strong>What will this print out?</strong> &#8594;</p>
+  <pre><code data-trim="" contenteditable="">
+a = [1, 2, 3]
+b = a;
+b.push(4);
+console.log(a);
+</code></pre>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+[1, 2, 3, 4]
+</code></pre>
+
+  <p class="fragment">(We can use the slice method to copy an Array instead of <em>aliasing</em>: <code>a.slice()</code>)</p>
+</section>
+
+<section>
+  <h2 id="arguments-object">Arguments Object</h2>
+
+  <p>When a function is called, it gets an <strong>arguments</strong> in its context, along with its defined parameters (and <strong>this</strong>, but we&#39;ll talk about that later).</p>
+
+  <pre><code data-trim="" contenteditable="">
+const f = function() {
+    // btw... ok - I get the funny coercion rules now
+    console.log("number of args " + arguments.length);
+    for (let i = 0, j = arguments.length; i &lt; j; i++) {
+        console.log(arguments[i]);
+    }
+};
+f(1, 2, 3);
+
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="arguments-object-continued">Arguments Object Continued</h2>
+
+  <ul>
+    <li>Array like, but not an Array (<strong>let&#39;s see</strong> &#8594;)</li>
+    <li>you can index into it</li>
+    <li>you can get it&#39;s length</li>
+    <li>you can loop over it</li>
+    <li>no methods, like slice</li>
+    <li>how might you do required and optional arguments?</li>
+    <li class="fragment">loop over arguments, but start at appropriate index</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="destructuring">Destructuring</h2>
+
+  <p>Think of it as multiple assignment:</p>
+
+  <ul>
+    <li>works with Arrays</li>
+    <li>works with objects (but you use curly braces instead)</li>
+  </ul>
+
+  <p><br /></p>
+
+  <pre><code data-trim="" contenteditable="">
+const coord = [1, 2];
+let [x, y] = coord;
+console.log(x); // 1
+console.log(y); // 2
+</code></pre>
+
+  <pre><code data-trim="" contenteditable="">
+const {a, b} = {a: 1, b:2}
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="destructuring-continued">Destructuring Continued</h2>
+
+  <ul>
+    <li class="fragment">number of values and variables don&#39;t have to match (you&#39;ll get undefined tho!)</li>
+    <li class="fragment">can leave <code class="highlighter-rouge">[a, , c]</code> blank to skip a value</li>
+    <li class="fragment">can use rest operator <code class="highlighter-rouge">[a, b, ...rest]</code> for remainder</li>
+    <li class="fragment">swapping <code class="highlighter-rouge">[a, b] = [b, a]</code></li>
+    <li class="fragment">within a loop: <code class="highlighter-rouge">for(const [x, y] of points)</code></li>
+  </ul>
+
+</section>
+
+:ET

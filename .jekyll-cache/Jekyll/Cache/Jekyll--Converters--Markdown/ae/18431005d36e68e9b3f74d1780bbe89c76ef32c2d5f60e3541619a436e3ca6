@@ -1,0 +1,228 @@
+I"_<section class="intro-slide">
+  <h1 id="a-quick-look-at-jquery">A Quick Look at jQuery</h1>
+
+  <h3 id="csci-ua0480-001">CSCI-UA.0480-001</h3>
+
+  <p><small></small></p>
+</section>
+
+<section>
+  <h2 id="why-jquery">Why jQuery</h2>
+
+  <p>So&#8230; all of the stuff that we&#39;ve doing manually, <strong>JQuery makes sooo much easier.</strong> &#8594;</p>
+
+  <ul>
+    <li>manipulating the DOM</li>
+    <li>facilitating event handling</li>
+    <li>a cleaner ajax interface</li>
+    <li>animation/visual effects</li>
+  </ul>
+
+  <p><br />
+It also abstracts away the details of:</p>
+
+  <ul>
+    <li>what should I use to change style? .style, classList, etc.?</li>
+    <li>which event handling should I use for ajax? onload or addEventListener(&#39;load&#39;, callback)</li>
+  </ul>
+
+  <p><br />
+It does <strong>a lot</strong>. Usually super useful!</p>
+</section>
+
+<section>
+  <h2 id="jquery-selecting-elements">$, jQuery, Selecting Elements</h2>
+
+  <p>Everything in jQuery revolves around the <strong><code>jQuery</code></strong> function.</p>
+
+  <ul>
+    <li><strong><code>jQuery</code></strong> allows you to select elements: <code>var paragraphs = jQuery('p')</code></li>
+    <li>the <code>jQuery</code> function is more commonly used as <strong><code>$</code></strong>: <code>$('p')</code></li>
+    <li>you can use any css selector as an argument:
+      <ul>
+        <li><code>#someID</code></li>
+        <li><code>.aClass</code></li>
+        <li><code>ul li</code></li>
+      </ul>
+    </li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="selecting-elements-continued">Selecting Elements Continued</h2>
+
+  <p>Note that selectors will give back a set of elements. Most operations that you use on that set will apply to all elements.</p>
+
+  <p>Some examples of selectors:</p>
+
+  <pre><code data-trim="" contenteditable="">
+// get all paragraphs
+$('p')
+
+// get all links in paragraphs
+$('p a')
+
+// get all input elements of type button
+$('input[type=button]')
+
+// get element with id of content
+$('#content')
+
+// get elements with class of hidden
+$('.hidden')
+</code></pre>
+</section>
+
+<section>
+  <h2 id="demo-some-jquery-stuffs">Demo Some JQuery Stuffs</h2>
+
+  <p>For the following slides, we&#39;ll be using this fiddle:</p>
+
+  <p><a href="http://jsfiddle.net/8zeobyvL/">http://jsfiddle.net/8zeobyvL/</a></p>
+</section>
+
+<section>
+  <h2 id="getting-or-setting-text-content">Getting or Setting Text Content</h2>
+
+  <p>Use <code>text</code> to both get and set text!</p>
+  <pre><code data-trim="" contenteditable="">
+// get text
+$('#foo').text('bar');
+// set text
+$('#foo').text('bar');
+</code></pre>
+</section>
+
+<section>
+  <h2 id="basic-hide--show">Basic Hide / Show</h2>
+
+  <p><a href="http://api.jquery.com/category/effects/basics/">The following</a> allow you to hide and show selected elements:</p>
+
+  <ul>
+    <li>hide()</li>
+    <li>show()</li>
+    <li>toggle()</li>
+  </ul>
+
+  <p><br /></p>
+  <pre><code data-trim="" contenteditable="">
+// hide everything with class of secret
+// sort of like display: none
+$('.secret').hide();
+
+// toggle between hiding and showing an element
+$('.switcheroo').toggle();
+</code></pre>
+</section>
+
+<section>
+  <h2 id="handling-click-events">Handling Click Events</h2>
+
+  <p><a href="http://api.jquery.com/category/events/mouse-events/">There are a bunch of click events in the JQuery docs</a>.</p>
+
+  <p>For example, you can trigger both click and doubleclick:</p>
+
+  <ul>
+    <li>click(callback)</li>
+    <li>dblclick(callback)</li>
+  </ul>
+
+  <pre><code data-trim="" contenteditable="">
+// bring up an annoying modal if you double click
+$('button').dblclick(function() {alert('stop it, plz!')});
+</code></pre>
+</section>
+
+<section>
+  <h2 id="determining-if-the-dom-content-is-ready">Determining if the DOM Content is Ready</h2>
+
+  <p>Instead of adding an event listener, you could use&#8230;</p>
+
+  <pre><code data-trim="" contenteditable="">
+$(document).ready(callback);
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="creating-elements">Creating Elements</h2>
+
+  <p><a href="http://api.jquery.com/category/manipulation/">There are several ways to manipulate the DOM</a></p>
+
+  <ul>
+    <li>maybe you want to add a child? - <strong>append()</strong></li>
+    <li>or add a parent!? - <strong>wrap()</strong></li>
+    <li>or insert immediately after - <strong>after()</strong></li>
+  </ul>
+
+  <pre><code data-trim="" contenteditable="">
+// wrap this link in h1's
+$('header a').wrap('&lt;h1&gt;');
+
+$('header a').after('&lt;a&gt;Yeah&lt;/a&gt;');
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="working-with-styles">Working With Styles</h2>
+
+  <ul>
+    <li>addClass()</li>
+    <li>removeClass()</li>
+    <li>toggleClass()</li>
+    <li>css()</li>
+  </ul>
+
+  <p><br /></p>
+  <pre><code data-trim="" contenteditable="">
+// change the background-color property (note no camel case!)
+$('.callout').css('background-color', '#8f9');
+
+// add a class called highlight
+$('.callout').addClass('highlight');
+
+</code></pre>
+</section>
+
+<section>
+  <h2 id="ajax">Ajax</h2>
+
+  <p>get</p>
+
+  <pre><code data-trim="" contenteditable="">
+$.getJSON('https://api.github.com/users/someuser/repos', function(data) {
+	data.forEach(function(ele) {
+  $('body').append('<pre>' + ele.name + '</pre>');
+  });
+});
+</code></pre>
+
+  <p>post</p>
+
+  <pre><code data-trim="" contenteditable="">
+$.ajax({
+	type: 'POST',
+	url: '/list',
+	data: 'name=mylist'
+});
+</code></pre>
+</section>
+
+<section>
+  <h2 id="some-effects">Some Effects</h2>
+
+  <ul>
+    <li><strong>fadeIn()</strong></li>
+    <li><strong>fadeOut()</strong></li>
+    <li><strong>slideIn()</strong></li>
+    <li><strong>slideOut()</strong></li>
+  </ul>
+
+  <p><br /></p>
+  <pre><code data-trim="" contenteditable="">
+$('#container').fadeOut(2000);
+</code></pre>
+
+</section>
+:ET

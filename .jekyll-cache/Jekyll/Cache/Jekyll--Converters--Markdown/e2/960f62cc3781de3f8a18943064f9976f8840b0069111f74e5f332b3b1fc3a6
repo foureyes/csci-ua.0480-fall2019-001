@@ -1,0 +1,125 @@
+I"]<section class="intro-slide">
+  <h1 id="about-class-6">About Class #6</h1>
+
+  <h3 id="csci-ua0480-001">CSCI-UA.0480-001</h3>
+
+  <p><small></small></p>
+</section>
+<section>
+  <h1 id="hey-so-you-turned-in-your-homework">Hey. So You Turned in Your Homework.</h1>
+
+  <h3 id="nice">(nice)</h3>
+</section>
+
+<section>
+  <h2 id="a-few-additional-notes">A Few Additional Notes</h2>
+
+  <ul>
+    <li><code>indexOf</code></li>
+    <li><code>total += isNaN(+ele.face) ? 10 : +ele.face;</code></li>
+    <li><code>Number</code>, <code>Array</code> &#8230; in function signature</li>
+    <li>avoid using names of built-in objects!</li>
+    <li><em>using git</em> (this deserves a quick run down)</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="using-git">Using Git</h2>
+
+  <p><strong>Um&#8230; why are we using git again (really, though)?</strong> &#8594;</p>
+
+  <ul class="fragment">
+    <li>it become the standard version control system used today</li>
+    <li>you will definitely be using it if you end up working as professional program</li>
+  </ul>
+
+  <p class="fragment"><br />
+<strong>Why github then?</strong> &#8594;</p>
+
+  <ul class="fragment">
+    <li>it&#39;s an easy, centralized way for me to collect your homework</li>
+    <li>it also keeps track of meta data (commit messages and dates, diffs, etc.)</li>
+    <li>can be used as <em>your</em> portfolio (and often, employers/interviewers look for sample code)</li>
+    <li>widely used as platform to host projects</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="whats-the-general-workflow">What&#39;s the General Workflow?</h2>
+
+  <p>If we want to change some files and send them to our <em>remote repository</em>, <strong>what are the steps that should be followed?</strong> &#8594;</p>
+
+  <ol class="fragment">
+    <li>make changes</li>
+    <li>stage your changes</li>
+    <li>save your changes</li>
+    <li>send your changes to the remote repository</li>
+  </ol>
+
+</section>
+
+<section>
+  <h2 id="git-workflow-continued">Git Workflow Continued</h2>
+
+  <p>Loosely, that translates to the following commands&#8230; <strong>(Anyone know?)</strong> &#8594;</p>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+# make changes
+
+# what changes are there?
+git status
+
+# stage
+git add --all
+
+# save to local repository
+git commit -m 'a commit message'
+
+# send to remote repository
+git push
+</code></pre>
+</section>
+
+<section>
+  <h2 id="git-continued">Git Continued</h2>
+
+  <ul>
+    <li>I&#39;ll set up a quick guide</li>
+    <li>watch out for dropping off the -m flag
+      <ul>
+        <li>you can quit vim by <ESC>:q!</ESC></li>
+        <li>or you can export your EDITOR environment variable to <em>whatevs</em> in .bash_profile (or is it .bashrc)?</li>
+      </ul>
+    </li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="topics">Topics</h2>
+
+  <p>So&#8230; today, only two things:</p>
+
+  <ul>
+    <li>finish up higher order functions (I&#39;m sure you can&#39;t wait)</li>
+    <li>objects revisited, start looking at prototypes</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="back-to-homework">Back to Homework</h2>
+
+  <ul>
+    <li>the next homework should be posted by 11pm this evening
+      <ul>
+        <li>most likely based off of exercises in chapters 5 and 6 in the book</li>
+        <li>&#8230; or on the project from Chapter 7, Electronic Life</li>
+      </ul>
+    </li>
+    <li>grades for homework #1 should be posted by end of next week</li>
+  </ul>
+
+</section>
+:ET

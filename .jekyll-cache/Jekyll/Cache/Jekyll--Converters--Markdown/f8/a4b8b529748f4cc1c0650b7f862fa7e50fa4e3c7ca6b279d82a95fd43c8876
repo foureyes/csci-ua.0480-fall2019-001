@@ -1,0 +1,66 @@
+I" <section class="intro-slide">
+  <h1 id="tools-web-browsers-and-debugging">Tools, Web Browsers, and Debugging</h1>
+
+  <h3 id="csci-ua0480-001">CSCI-UA.0480-001</h3>
+
+  <p><small></small></p>
+</section>
+
+<section>
+  <h2 id="paths">Paths</h2>
+
+  <ul>
+    <li>absolute vs relative</li>
+    <li>on your computer</li>
+    <li>on your site, relative to a url</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="redirects">Redirects</h2>
+
+  <ul>
+    <li>what&#39;s a 301?</li>
+    <li>why redirect?</li>
+    <li>how does a redirect work</li>
+    <li>let&#39;s try curl&#8230;</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="speed-up-slow-down">Speed Up, Slow Down</h2>
+
+  <p><strong>Name some browser features that speed up page load times / browsing experience. Name one that makes our development tricky!</strong> &#8594;</p>
+
+  <p class="fragment">Caching&#8230;</p>
+
+  <ul class="fragment">
+    <li>use incognito mode</li>
+    <li>command (or ctrl) shift + r</li>
+    <li>even redirects get cached(!)</li>
+    <li>304s (Not Modified?)</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="tools">Tools</h2>
+
+  <ul>
+    <li>curl</li>
+    <li>browser</li>
+    <li>stack trace</li>
+    <li>node debugger</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="some-problems">Some Problems</h2>
+
+  <ul>
+    <li>html isn&#39;t showing up!</li>
+    <li>where&#39;s my css?</li>
+    <li>initialized handlebars incorrectly (that&#39;s a crazy stack trace!)</li>
+  </ul>
+</section>
+:ET

@@ -1,0 +1,23 @@
+I"¦<div class="panel panel-default">
+	<div class="panel-heading">Homework #0</div>
+	<div class="panel-body">
+
+    <h1 id="installation-github-username">Installation, GitHub Username</h1>
+
+    <p>Do this so I can assign you <em>real</em> homework next class!</p>
+
+    <ul>
+      <li><a href="">Fill out this form to submit your GitHub username</a> (which you should have already done in class)</li>
+      <li>Please install Node.js:
+        <ul>
+          <li><a href="https://nodejs.org/en/download/package-manager/">via package manager</a></li>
+          <li><a href="https://nodejs.org/en/download/">or by download</a></li>
+        </ul>
+      </li>
+    </ul>
+
+  </div>
+
+</div>
+
+:ET

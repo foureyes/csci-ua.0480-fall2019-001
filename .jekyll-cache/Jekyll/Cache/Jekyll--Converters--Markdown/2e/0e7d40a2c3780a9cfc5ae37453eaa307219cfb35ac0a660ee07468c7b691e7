@@ -1,0 +1,390 @@
+I":<section class="intro-slide">
+  <h1 id="global-object-methods-this">Global Object, Methods, This</h1>
+
+  <h3 id="csci-ua0480-001">CSCI-UA.0480-001</h3>
+
+  <p><small></small></p>
+</section>
+
+<section>
+  <h2 id="a-closer-look">A Closer Look</h2>
+
+  <p>Let&#39;s check out:</p>
+
+  <ul>
+    <li>global object</li>
+    <li>methods</li>
+    <li>and this</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="the-global-object">The Global Object</h2>
+
+  <p><strong>What&#39;s the name of the global object in node (pssst&#8230; the answer is right there)?</strong> &#8594;</p>
+
+  <p class="fragment">I gave that one away; it&#39;s&#8230; <code>global</code></p>
+
+  <p class="fragment">Let&#39;s check out what&#39;s in the <strong>global</strong> object right now!</p>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+console.log(global)
+</code></pre>
+
+  <p class="fragment">And let&#39;s try (inadvertently, of course. oops!) adding something to the global object:</p>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+function makeMessage() {
+	// oops, forgot var/let/const... I'm a global!
+	message = 'hello there';
+}
+makeMessage();
+console.log(message);
+console.log(global.message);
+</code></pre>
+
+  <p class="fragment">(oh yeah, in the browser, the global object is <code>window</code>)</p>
+</section>
+
+<section>
+  <h2 id="a-variable-thats-not-there-yet">A Variable That&#39;s Not There Yet</h2>
+
+  <p><strong>And&#8230; what do I get if I try to print out a property on the global object that doesn&#39;t exist?</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+console.log(global.surprise);
+</code></pre>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+undefined
+</code></pre>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+// just like accessing a property that doesn't exist
+// on any ol' object:
+
+obj = {};
+console.log(obj.unicorn);
+</code></pre>
+
+</section>
+<section>
+  <h2 id="methods">Methods</h2>
+
+  <p><strong>What&#39;s a method?</strong> &#8594;</p>
+
+  <ul class="fragment">
+    <li>a <strong>method</strong> is an object property that is a function (or <em>a function within the context of an object</em>).</li>
+    <li>you can create methods pretty easily&#8230;</li>
+  </ul>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+const person = {};
+person.emote = function() {
+	console.log('(っ˘̩╭╮˘̩)っ'); 
+};
+person.emote(); // sad face - (っ˘̩╭╮˘̩)っ
+</code></pre>
+
+  <p class="fragment">To call a method on an object, use:</p>
+
+  <ul class="fragment">
+    <li>the <strong>object&#39;s name</strong></li>
+    <li>followed by a <strong>dot</strong>,</li>
+    <li>then a <strong>method name</strong></li>
+    <li>&#8230;and finally <strong>parentheses</strong> (with an optional list of arguments!)</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="functions">Functions</h2>
+
+  <p>When a function is invoked, it has access to its declared parameters. It also has access to <strong>two additional parameters</strong>.  <strong>What are they?</strong> &#8594;</p>
+
+  <ul class="fragment">
+    <li><code>this</code></li>
+    <li><code>arguments</code></li>
+  </ul>
+
+  <p class="fragment"><br />
+<strong>What&#39;s the <code>arguments</code> object?</strong> &#8594;</p>
+
+  <p class="fragment"><strong>arguments</strong> is an array like object that contains all of the arguments (surprise!) passed in to a function. <strong>What is the preferred way of declaring an arbiratry number of parameters for a function in ES6, though</strong> &#8594;</p>
+
+  <p class="fragment">use the <strong>rest operator</strong>: <code class="highlighter-rouge">...args</code></p>
+
+  <p class="fragment"><br />
+<strong>With <code>arguments/...args</code> out of the way, let&#39;s talk about <code>this</code></strong> (but before we do, a detour)&#8594;</p>
+</section>
+
+<section>
+  <h2 id="executing-a-function">Executing a Function</h2>
+
+  <p>There are actually a few different ways (<em>patterns</em>) that a function can be called. <strong>What are some ways of executing a function that we&#39;ve seen so far?</strong> &#8594;</p>
+
+  <ul class="fragment">
+    <li>as a <em>regular</em> <strong>function</strong>: <code>myFunction()</code></li>
+    <li>as a <strong>method</strong> if the function is attached to an object: <code>obj.myFunction()</code></li>
+    <li>via a <strong>method on a function object</strong> (!) (<strong>you remember those, right</strong>? &#8594;)
+      <ul>
+        <li class="fragment"><code>call</code></li>
+        <li class="fragment"><code>apply</code></li>
+        <li class="fragment"><code>bind</code></li>
+      </ul>
+    </li>
+  </ul>
+
+  <p class="fragment"><br />
+<strong>Depending on which invovaction pattern we use, a function&#39;s <code>this</code> is bound to a different value.</strong> &#8594;</p>
+</section>
+
+<section data-background="#440000">
+  <h1 id="a-functions-this-varies-based-on-how-the-function-is-invoked">A function&#39;s <code>this</code> varies based on how the function is invoked!</h1>
+</section>
+
+<section>
+  <h2 id="calling-a-method-this">Calling a Method, This</h2>
+
+  <p>When a function is invoked as a method, <code>this</code> is bound to the object that it&#39;s called on. <strong>Here&#39;s an example.</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+function showEmotion() {
+	console.log(this.emotion);
+}
+
+const person1 = {emotion:"(• ε •)", emote: showEmotion};
+const person2 = {emotion:"(╯°□°）╯︵ ┻━┻", emote: showEmotion};
+
+person1.emote(); // (• ε •)
+person2.emote(); // (╯°□°）╯︵ ┻━┻
+</code></pre>
+</section>
+
+<section data-background="#440000">
+  <h1 id="in-methods-this-refers-to-the-object-that-the-method-was-called-on">In methods, <code>this</code> refers to the object that the method was called on.</h1>
+
+</section>
+
+<section>
+  <h2 id="what-about-regular-functions">What About &#39;Regular&#39; Functions?</h2>
+
+  <p>If a function that&#39;s not attached to an object is invoked, its <code>this</code> refers to the global object (uh, bad. maybe?). <strong>What will the following code print out?</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+function returnThis() {
+	return this;	
+}
+
+console.log("Is global the same as function? " + (returnThis() === global));
+</code></pre>
+  <pre class="fragment"><code data-trim="" contenteditable="">
+Is global the same as function? true
+</code></pre>
+
+  <p class="fragment"><br />
+<code>this</code> refers to the global object when a <em>regular</em> function is invoked.</p>
+</section>
+
+<section>
+  <h2 id="let-const-and-the-global-object"><code class="highlighter-rouge">let</code>, <code class="highlighter-rouge">const</code> and the global object</h2>
+
+  <p>Note that <strong><code class="highlighter-rouge">let</code> and <code class="highlighter-rouge">const</code> declared variables</strong> in the <em>top level</em> of a file (outside of functions, in the <em>global</em> scope) <strong>actually do not properties to the global object.</strong></p>
+
+  <ul>
+    <li class="fragment">they just create variables in the global scope</li>
+    <li class="fragment">but, of course, <code class="highlighter-rouge">var</code> behaves differently</li>
+    <li class="fragment">(and it depends on whether you&#39;re using node or browser based JavaScript!)</li>
+  </ul>
+
+</section>
+<section>
+  <h2 id="var-and-the-global-object"><code class="highlighter-rouge">var</code> and the global object</h2>
+
+  <p>In node, when a variable is declared with <code>var</code> outside of a function, <strong>it is placed in the module (or file level) scope</strong>. Check out the following example:</p>
+
+  <ul>
+    <li>the variable, <code>moduleScope</code> is not actually attached to the global object</li>
+    <li>&#8230; but the variable, <code>globalScope</code> is</li>
+  </ul>
+
+  <pre><code data-trim="" contenteditable="">
+var moduleScope = 'hi, I\'m in yr module';
+globalScope = 'hey there, I\'m a global';
+
+function printThis() {
+	console.log("this.moduleScope: " + this.moduleScope);
+	console.log("this.globalScope: " + this.globalScope);
+}
+
+printThis();
+</code></pre>
+
+  <p>Output:</p>
+
+  <pre><code data-trim="" contenteditable="">
+this.moduleScope: undefined
+this.globalScope: hey there, I'm a global
+</code></pre>
+</section>
+
+<section>
+  <h2 id="what-about-javascript-in-your-browser">What About JavaScript in Your Browser?</h2>
+
+  <p>There&#39;s no module level scope in browser implementations, so both variables are global. <strong>Here&#39;s what happened in Chrome&#39;s console.</strong> &#8594;</p>
+
+  <div class="img">
+    <p><img src="../../resources/img/global-this.png" alt="global this" /></p>
+  </div>
+
+  <p>There&#39;s some more info in: <a href="http://nodejs.org/api/globals.html#globals_global">the node docs</a>&#8230; <a href="http://stackoverflow.com/questions/19850234/node-js-variable-declaration-and-scope">and, of course, SO</a>.</p>
+
+  <p><br />
+<strong>Of course, that doesn&#39;t change the fact that a <em>regular</em> function&#39;s <code>this</code> points to the global object.</strong></p>
+</section>
+
+<section>
+  <h2 id="looks-the-same-but-different">Looks the Same, But Different</h2>
+
+  <p>Let&#39;s go back to the function we defined before.</p>
+
+  <pre><code data-trim="" contenteditable="">
+function showEmotion() {
+	console.log(this.emotion);
+}
+</code></pre>
+
+  <p>In our previous slides, we invoked this function as a method on an object.</p>
+
+  <pre><code data-trim="" contenteditable="">
+const whyYouNo = {emotion:"ლ(ಠ益ಠლ)", emote: showEmotion};
+whyYouNo.emote(); // y u no - ლ(ಠ益ಠლ)
+</code></pre>
+
+  <p><strong>What gets printed out if we just call the <code>showEmotion</code> function without it being attached to an object?</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+showEmotion();
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="continued">&#8230;Continued</h2>
+
+  <p><strong>So here&#39;s our function and function call again:</strong></p>
+
+  <pre><code data-trim="" contenteditable="">
+function showEmotion() {
+	console.log(this.emotion);
+}
+
+showEmotion();
+</code></pre>
+
+  <p class="fragment">Hmmm. <strong>First we have to figure out what <code>this</code> refers to when the function that&#39;s not the property of an object is invoked</strong> &#8594;</p>
+
+  <p class="fragment">It refers to the <code>global</code> object. <strong>Accessing a value that doesn&#39;t exist will yield&#8230;</strong> &#8594;</p>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+// our good friend...
+undefined
+</code></pre>
+</section>
+
+<section data-background="#440000">
+  <h1 id="in-regular-functions-not-bound-to-an-object-this-refers-to-the-global-object">In <em>regular</em> functions (not bound to an object), <code>this</code> refers to the global object.</h1>
+</section>
+
+<section>
+  <h2 id="using-apply-call-bind">Using Apply, Call, Bind</h2>
+
+  <p>The last way (at least the last way <em>we&#39;ve seen</em>&#8230; we&#39;ll see another shortly) we can invoke a function is by calling the following methods on a function object: <strong><code>apply</code></strong>, <strong><code>call</code></strong> or <strong><code>bind</code></strong></p>
+
+  <p>Let&#39;s review what these functions do. <strong>Does anyone remember?</strong> &#8594;</p>
+
+  <ul class="fragment">
+    <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/call">call</a> - calls a function with given <code>this</code> and individual arguments</li>
+    <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/apply">apply</a> - calls a function with given <code>this</code> and array as arguments</li>
+    <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind">bind</a> - creates a new function with given <code>this</code>, and optionally with set argument values</li>
+  </ul>
+
+  <p class="fragment"><br />
+<strong>What argument does each of these methods have in common!?</strong> &#8594;</p>
+
+  <p class="fragment"><strong><code>this</code></strong> one &#8592;, right here.</p>
+</section>
+
+<section>
+  <h2 id="apply-call-bind-and-this">Apply, Call, Bind and This</h2>
+
+  <h3 id="so-theres-a-clue">So. There&#39;s a clue!</h3>
+
+  <p><strong>What will this code print out?</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+function showEmotion() {
+	console.log(this.emotion);
+}
+const justAnotherObject = {emotion:'(=^ェ^=)'};
+showEmotion.call(justAnotherObject);
+</code></pre>
+  <pre class="fragment"><code data-trim="" contenteditable="">
+(=^ェ^=)
+</code></pre>
+</section>
+
+<section>
+  <h2 id="another-example">Another Example</h2>
+
+  <p>This time, with <code>bind</code>. <strong>Notice that bind returns a new function that&#39;s bound to the object that&#39;s passed in.</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+function showEmotion() {
+	console.log(this.emotion);
+}
+
+const justAnotherObject = {emotion:'(=^ェ^=)'};
+
+const boundShowEmotion = showEmotion.bind(justAnotherObject);
+
+boundShowEmotion();
+</code></pre>
+  <pre><code data-trim="" contenteditable="">
+// prints out:
+(=^ェ^=)
+</code></pre>
+</section>
+
+<section data-background="#440000">
+  <h1 id="neat-eh-call-apply-and-bind-allow-a-functions-this-object-to-be-explicitly-set">Neat, eh? Call, Apply, and Bind allow a function&#39;s this object to be explicitly set.</h1>
+</section>
+
+<section>
+  <h2 id="now-that-were-done-with-that">Now That We&#39;re Done With That</h2>
+
+  <h3 id="since-ive-been-using-so-much-emoticons-emoji-and-unicode-symbols">Since I&#39;ve been using so much emoticons, emoji, and unicode symbols&#8230;</h3>
+
+  <p>My current favorite is: <a href="http://www.unicode.org/reports/tr51/full-emoji-list.html?_ga=1.264356175.114587267.1411437595#1f645">Face with no good gesture</a></p>
+
+  <p>Apparently, this could be the symbol for <a href="http://qz.com/250350/the-origins-of-two-cryptic-emoji/">incorrect, bad, wrong or false</a>.</p>
+
+  <div class="img">
+    <p><img src="../../resources/img/face-no-good.png" alt="face no good" /></p>
+  </div>
+
+</section>
+
+<section>
+  <h2 id="summary">Summary</h2>
+
+  <p>There are three patterns we&#39;ve seen for invoking functions. <strong>Name those three patterns, and what <code>this</code> refers to each.</strong> &#8594;</p>
+
+  <ul class="fragment">
+    <li><strong>method</strong> invocation - <code>this</code> refers to the object the method was called on</li>
+    <li><strong>function</strong> invocation - <code>this</code> refers to the global object</li>
+    <li><strong>apply</strong>, <strong>call</strong>, and <strong>bind</strong> - <code>this</code> is whatever you pass in as the first argument</li>
+  </ul>
+
+</section>
+:ET

@@ -1,0 +1,234 @@
+I"Œ<section class="intro-slide">
+  <h1 id="questions-on-default-values-splice-cloning-and-logging">Questions on Default Values, Splice, Cloning and Logging</h1>
+
+  <h3 id="csci-ua0480-001">CSCI-UA.0480-001</h3>
+
+  <p><small></small></p>
+</section>
+
+<section>
+  <h2 id="miscellaneous-topics">Miscellaneous Topics</h2>
+
+  <p>Some questions from the previous class brought up the following topics:</p>
+
+  <ol>
+    <li>I mentioned that <strong>default values for function parameters exist for ES6</strong>. Thankfully, <em>that was not a lie</em>. Let&#39;s see how it works and where it&#39;s possible to use.</li>
+    <li>We played around with <code>splice</code> (different from <code>slice</code>), but it wasn&#39;t clear what exactly was going on! I&#39;ll clarify the behavior of the <code>splice</code> method.</li>
+    <li>How do you copy an Array?</li>
+    <li>Is it just me, or does logging nested objects look <em>funny</em>?</li>
+  </ol>
+</section>
+
+<section>
+  <h2 id="default-parameter-values">Default Parameter Values</h2>
+
+  <p>We already know one way to set default parameter values when we create a function. <strong>What was it?</strong> &#8594;</p>
+
+  <p class="fragment">Use <code>||</code> (logical or) to check if a parameter has a value, otherwise, use some default value.</p>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+function myFunc(a) {
+	a = a || 'my default value';
+	console.log(a);
+}
+myFunc();
+myFunc("hello");
+</code></pre>
+
+  <p class="fragment"><strong>Basically, we just test if somethings is undefined</strong></p>
+
+</section>
+
+<section>
+  <h2 id="a-quick-aside-on-testing-for-undefined">A Quick Aside on Testing for Undefined</h2>
+
+  <p>In a previous class, we learned that you can test for <code>undefined</code> by checking the type:</p>
+
+  <pre><code data-trim="" contenteditable="">
+if(typeof a == 'undefined') {
+	a = 'my default value';
+}
+
+// ternary operator (as in Java, PHP, etc. also works)
+a = typeof a ? a : "my default value";
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="default-parameter-values-in-es6">Default Parameter Values in ES6</h2>
+
+  <p>In ES6, the ability to define default values for function parameters with the function signature itself has been introduced. The syntax should look familiar if you&#39;ve used Python <em>keyword</em> arguments:</p>
+
+  <pre><code data-trim="" contenteditable="">
+function myFunc(a='my default value') {
+	console.log(a);
+}
+</code></pre>
+
+  <ul>
+    <li>Um. <a href="https://kangax.github.io/compat-table/es6/">But no one really supports that yet</a> (except for FireFox)</li>
+    <li>Check out <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Default_parameters">the full docs on MDN</a></li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="splice">Splice</h2>
+
+  <p><code>splice</code> <strong>removes elements</strong> (in place) from an Array, and <strong>optionally inserts elements</strong>.</p>
+
+  <ul>
+    <li>1st parameter, <code>start</code> specifies the index (inclusive) to start modifying the Array
+      <ul>
+        <li>negative indexes start from left</li>
+        <li>indexes greater than last index is set to the last index</li>
+      </ul>
+    </li>
+    <li>2nd parameter, <code>deleteCount</code> specifies the number of elements to be deleted
+      <ul>
+        <li>omitting this argument will cause all elements after <code>start</code> to be removed</li>
+      </ul>
+    </li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="splice-continued">Splice Continued</h2>
+
+  <ul>
+    <li><strong>all arguments after the second parameter are elements that will be added to the original Array</strong>
+      <ul>
+        <li>these elements will be inserted at the <code>start</code> specified</li>
+        <li>if there are no parameters after the second, <code>splice</code> will only remove elements</li>
+      </ul>
+    </li>
+    <li><strong>returns the elements removed as an Array</strong></li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="tldr">TL;DR</h2>
+
+  <ul>
+    <li><code>splice</code> removes elements from an existing Array</li>
+    <li>it optionally replaces those elements with <em>other</em> elements</li>
+    <li>it gives back the elements that were removed as an Array</li>
+  </ul>
+
+</section>
+<section>
+  <h2 id="splice-examples">Splice Examples</h2>
+
+  <p>Using the following code, <code>a = [2, 4, 6, 8, 10, 12]</code>,  <strong>what is the new content of a&#8230; and what is returned&#8230; after calling splice (assume a is reset each time)?</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+a.splice(2);
+a.splice(2, 2);
+a.splice(-2);
+a.splice(2, 2, 1, 1);
+</code></pre>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+returned: [ 6, 8, 10, 12 ], a: [ 2, 4 ]
+returned: [ 6, 8 ],         a: [ 2, 4, 10, 12 ]
+returned: [ 10, 12 ],       a: [ 2, 4, 6, 8 ]
+returned: [ 6, 8 ],         a: [ 2, 4, 1, 1, 10, 12 ]
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="splice-vs-slice">Splice vs Slice</h2>
+
+  <p>They sound the same! <strong>They do different stuff though!</strong> &#8230; totally different stuff.</p>
+
+  <p>Think of <code>slice</code> as a way of copying a sub-Array from an existing an Array.</p>
+
+  <ul>
+    <li>parameter 1, <code>begin</code>, is the start index (inclusive) of the sub-Array to be copied out
+      <ul>
+        <li>begins at index 0 if it is not specified</li>
+        <li>negative starts from end</li>
+      </ul>
+    </li>
+    <li>parameter 2, <code>end</code>, is the end of the sub-Array (exclusive &#8230; so goes up to, but does not include)
+      <ul>
+        <li>ends at last index if not specified</li>
+        <li>negative starts from end</li>
+      </ul>
+    </li>
+    <li>think slices in Python lists</li>
+    <li><strong>it does not alter the original Array</strong></li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="slice-examples">Slice Examples</h2>
+
+  <p><strong>What is the output of the following code?</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+a = [2, 4, 6, 8];
+console.log(a.slice());
+console.log(a.slice(1));
+console.log(a.slice(1, 3));
+console.log(a.slice(-1));
+console.log(a);
+</code></pre>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+[ 2, 4, 6, 8 ]
+[ 4, 6, 8 ]
+[ 4, 6 ]
+[ 8 ]
+[ 2, 4, 6, 8 ]
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="cloning">Cloning</h2>
+
+  <p><strong>What&#39;s the output of this code?</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+a = [1, 2, 3];
+b = a;
+a.push(4);
+console.log(b);
+</code></pre>
+
+  <p class="fragment"><code>[1, 2, 3, 4]</code>! &#8230; In the previous class, I mentioned one possible technique for cloning. <strong>What was it?</strong> &#8594;</p>
+
+  <p class="fragment">Use <code>slice</code>.</p>
+
+  <p class="fragment">Turns out this is <em>actually</em> a common way of duplicating an Array.</p>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+a = [1, 2, 3];
+b = a.slice();
+a.push(4);
+console.log(b);
+</code></pre>
+</section>
+
+<section>
+  <h2 id="logging-out-nested-objects">Logging Out Nested Objects</h2>
+
+  <p>When using printing out nested objects for than 2 levels deep, the third object is just represented by <code>[Object]</code>. <strong>Let&#39;s check out this example.</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+var nested = {a:{b:{c:{d:{}}}}};
+console.log()
+</code></pre>
+
+  <p>Don&#39;t worry&#8230; all of the nested objects still exist. If you want the full details, you can check out <a href="http://www.2ality.com/2011/10/node-print-json.html">this article on printint out nested objects</a></p>
+
+  <pre><code data-trim="" contenteditable="">
+console.log('%j', nested); // json in the format string
+console.log(util.inspect(nested, false, null)); // don't show hidden, no depth
+</code></pre>
+
+</section>
+:ET

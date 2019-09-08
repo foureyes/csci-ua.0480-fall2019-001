@@ -1,0 +1,605 @@
+I"<q<div class="panel panel-default">
+	<div class="panel-heading">Homework #6</div>
+	<div class="panel-body">
+
+    <h1 id="image-posting-board---due-thursday-november-3rd-by-11pm">Image Posting Board - <strong>Due Thursday, November 3rd, by 11PM</strong></h1>
+
+    <h2 id="overview">Overview</h2>
+
+    <h3 id="description">Description</h3>
+
+    <h4 id="create-an-image-posting-site-called-480chan">Create an image posting site called &quot;480chan&quot;</h4>
+
+    <p>Image posting boards are kind of the worst and best part of the web (mostly worst). For example, a well known image board was the origin of lolcats (text on cat pictures), as well as the birthplace of the <em>hacker group</em>, Anonymous.</p>
+
+    <p>We&#39;re going to implement an image board where anyone visiting the site can create a post containing several images (via url, not by upload). Any user can then add an image to a post or remove images from a post.</p>
+
+    <p>To implement the features above, we&#39;ll use the following techniques:</p>
+
+    <ul>
+      <li>creating a schema / data model</li>
+      <li>using a mongoose plugin to add a slug to your schema</li>
+      <li>connecting to MongoDB with Mongoose</li>
+      <li>creating and reading data from MongoDB</li>
+      <li>extracting parameters from a URL path</li>
+      <li>adding and removing embedded documents with Mongoose</li>
+    </ul>
+
+    <p>And, as extra credit:</p>
+
+    <ul>
+      <li>user input validation</li>
+      <li>using references to other documents instead of embedded</li>
+      <li>user authentication</li>
+    </ul>
+
+    <h4 id="in-this-application-any-user-will-be-able-to">In this application, any user will be able to:</h4>
+
+    <ul>
+      <li>view all image posts</li>
+      <li>create image posts (with 0 to 3 images initially, but more can be added later)</li>
+      <li>add additional images to an image post</li>
+      <li>remove images from a post</li>
+    </ul>
+
+    <p>Aaaand, if you do the extra credit&#8230;</p>
+
+    <ul>
+      <li>validation</li>
+      <li>authentication</li>
+    </ul>
+
+    <h4 id="youll-only-have-2-pages-and-3-forms">You&#39;ll only have 2 pages and 3 forms:</h4>
+
+    <ul>
+      <li><strong>/image-posts</strong>
+        <ul>
+          <li>a list of image posts as well as all of the images contained in each post</li>
+          <li>contains a form to add another image post (with at most 3 images)</li>
+          <li>links to an <strong>individual</strong> image-post page&#8230; that allows you to add images or remove images from that image-post</li>
+        </ul>
+      </li>
+      <li><strong>/image-post/&lt;slug&gt;</strong>
+        <ul>
+          <li>displays the images in a single image-post</li>
+          <li>contains a form to add an image to the image-post</li>
+          <li>contains a form to remove images by checking checkboxes</li>
+        </ul>
+      </li>
+    </ul>
+
+    <h4 id="example-interaction">Example Interaction</h4>
+
+    <p>Here&#39;s an example of adding an image post that has 1 image in it:</p>
+
+    <p><img src="../resources/img/hw06-01-add-one-post.gif" alt="add post with multiple images" /></p>
+
+    <h3 id="submission-process">Submission Process</h3>
+
+    <p>You will be given access to a private repository on GitHub. Generate an Express application using express-generator (see instructions below) when you clone it.</p>
+
+    <p>The final version of your assignment should be in GitHub</p>
+
+    <ul>
+      <li><strong>Push</strong> your changes to the homework repository on GitHub.</li>
+      <li>Add the URL of the repository to your assignment submission in NYU Classes.</li>
+    </ul>
+
+    <h3 id="points-make-at-least-3-commits">(3 points) Make at Least 3 Commits</h3>
+
+    <ul>
+      <li>Commit multiple times throughout your development process.</li>
+      <li>Make at least 3 separate commits - (for example, one option may be to make one commit per part in the homework).</li>
+    </ul>
+
+    <h2 id="part-1---setup">Part 1 - Setup</h2>
+
+    <h3 id="points-installing-tools-starting-project">(2 points) Installing Tools, Starting Project</h3>
+
+    <p>Specifically, we&#39;ll be using the following tools to help with our development process:</p>
+
+    <ul>
+      <li><strong>nodemon</strong> to automatically restart your server</li>
+      <li><strong>express-generator</strong> to create a bare-bones application</li>
+    </ul>
+
+    <p>Install both globally:</p>
+
+    <ul>
+      <li><code>npm install -g nodemon</code></li>
+      <li><code>npm install -g express-generator</code></li>
+    </ul>
+
+    <p>Generate scaffolding (this will create a folder called image-board, along with app.js, a views directory, a public directory, etc.). Remember to use the <code>--hbs</code> flag to tell the generator that we&#39;ll be using handlebars:</p>
+
+    <ul>
+      <li><code>express --hbs image-board</code></li>
+    </ul>
+
+    <p>Install the dependencies that are required by the generated code:</p>
+
+    <ul>
+      <li><code>cd image-board &amp;&amp; npm install</code></li>
+    </ul>
+
+    <p>Within the image-board directory, we&#39;ll be using a couple of tools to help with database access and creating <em>url slugs</em>:</p>
+
+    <ul>
+      <li><code>npm install --save mongoose</code></li>
+      <li><code class="highlighter-rouge">npm install --save mongoose-url-slugs</code></li>
+    </ul>
+
+    <p>Of course, add your jshint configuration file:</p>
+
+    <ul>
+      <li><code class="highlighter-rouge">.jshintrc</code></li>
+    </ul>
+
+    <p>Lastly, start your server in a different terminal window using <strong>nodemon</strong> to automatically restart whenever a file changes:</p>
+
+    <ul>
+      <li><code>nodemon bin/www</code></li>
+      <li>to explicity set extensions that nodemon will watch for:</li>
+      <li><code class="highlighter-rouge">nodemon -e js,hbs bin/www</code></li>
+    </ul>
+
+    <h2 id="part-2---installing-mongodb-creating-a-schema-connecting-to-the-database">Part 2 - Installing MongoDB, Creating a Schema, Connecting to the Database</h2>
+
+    <h3 id="install-mongodb">Install MongoDB</h3>
+
+    <ul>
+      <li>if you haven&#39;t already installed it, follow the <a href="http://docs.mongodb.org/manual/installation/">install instructions</a> for your operating system</li>
+      <li>ensure that it is up and running by connecting to it using a commandline client:
+        <ul>
+          <li>connect to the test database by typing in <code>mongo</code> (in any directory)</li>
+          <li>you should be given a message with the version number of the Mongo shell</li>
+          <li>&#8230;.along with a prompt</li>
+          <li><code>CTRL-D</code> quits</li>
+        </ul>
+      </li>
+    </ul>
+
+    <h3 id="points-connect-to-the-database">(2 points) Connect to the Database</h3>
+
+    <p>Create a file called <code>db.js</code> within the root of your project directory. <code>db.js</code> will contain the following:</p>
+
+    <ul>
+      <li>the required data related modules for our project
+        <ul>
+          <li>mongoose - our <strong>Object to Document Mapper</strong>, which we&#39;ll use to access MongoDB from our app</li>
+          <li>mongoose-url-slugs - a plugin for mongoose that automatically creates a unique slug property in a specified object
+            <ul>
+              <li>a slug is a string that serves as a short, human readable name</li>
+              <li>usually contains dashes to separate words, and a number suffix</li>
+              <li>for example, <code>this-is-a-slug</code></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+
+    <p>Add the required modules:</p>
+
+    <pre><code data-trim="" contenteditable="">var mongoose = require('mongoose'),
+	URLSlugs = require('mongoose-url-slugs');
+</code></pre>
+
+    <p>Leave a placeholder for your schema&#8230;</p>
+
+    <pre><code data-trim="" contenteditable="">// my schema goes here!</code></pre>
+
+    <p>Here&#39;s the connection string&#8230; we&#39;ll connect to the local instance of MongoDB, and we&#39;ll use a database called <code>hw06</code> (this will be created for you once you start inserting documents!).</p>
+
+    <pre><code data-trim="" contenteditable="">mongoose.connect('mongodb://localhost/hw06');
+</code></pre>
+
+    <h3 id="points-schema">(3 points) Schema</h3>
+
+    <p>For larger projects, there is usually one file per schema, all located in a separate folder called models. For now, however, define the following Schema within <code>db.js</code>. Check out the slides on:</p>
+
+    <ul>
+      <li><a href="http://mongoosejs.com/docs/guide.html">check out the docs!</a></li>
+      <li><a href="../slides/11/mongo.html">the MongoDB Demo</a></li>
+      <li><a href="../slides/15/mongoose.html">and/or the Mongoose API</a></li>
+    </ul>
+
+    <p>Your model should accommodate the following requirements:</p>
+
+    <ul>
+      <li>for a single image in your image-post, <code>Image</code>, you&#39;ll need the following fields:
+        <ul>
+          <li><code>caption</code> - a caption for the image</li>
+          <li><code>url</code> - the url to the image</li>
+        </ul>
+      </li>
+      <li>for an image-post (a group of images), <code>ImagePost</code>, you&#39;ll need the following fields:
+        <ul>
+          <li><code>title</code></li>
+          <li><code>images</code> (an Array of embedded documents&#8230; you can use the following syntax): <code>images: [Image]</code></li>
+        </ul>
+      </li>
+      <li>outside of the <code>ImagePost</code> schema, use the <code>mongoose-url-slugs</code> plugin to automatically generate a <code>slug</code> property:
+        <ul>
+          <li><code>&lt;your schema name&gt;plugin(URLSlugs('&lt;what properties your slug should consist of&gt;'));</code></li>
+          <li>(don&#39;t include the angle brackets, come up with your own schema name, etc.)</li>
+        </ul>
+      </li>
+    </ul>
+
+    <p>Drop this under your <code>// my schema goes here!</code> comment.</p>
+
+    <p>Then, use your schemas to define your models&#8230; these will be used as constructors later on in our project. You can place this code after your schema and before the connection (assuming that you&#39;re schema looks something like this):</p>
+
+    <pre><code data-trim="" contenteditable="">mongoose.model('Image', Image);
+mongoose.model('ImagePost', ImagePost);
+</code></pre>
+
+    <h2 id="part-3---adding-an-imagepost-with-images-and-displaying-all-imageposts-and-their-images">Part 3 - Adding an ImagePost with Images and Displaying All ImagePosts and Their Images</h2>
+
+    <h3 id="overview-1">Overview</h3>
+
+    <p>We&#39;ll be using mongoose to create, read and modify data from MongoDB, and we&#39;ll be doing this in the functions that handle our routes.</p>
+
+    <p>Consequently, in a file that contains your router (one of the files in the routes directory, your choice!):</p>
+
+    <ul>
+      <li>require mongoose</li>
+      <li>retrieve a model (to be used as a constructor later)</li>
+    </ul>
+
+    <pre><code data-trim="" contenteditable="">var mongoose = require('mongoose'),
+var ImagePost = mongoose.model('ImagePost');
+</code></pre>
+
+    <ul>
+      <li>you&#39;ll have to create route, <code>/image-posts</code>; it&#39;ll contain:
+        <ul>
+          <li>a form to add an image-post</li>
+          <li>a list of all of the image-posts, along with their images</li>
+        </ul>
+      </li>
+      <li>you&#39;ll also need to create another route to handle a <code>POST</code> request from the form to add an image-post; <strong>you can make the path whatever you like</strong></li>
+    </ul>
+
+    <p>The flow of the image-post create form should follow the conventional POST, redirect, GET workflow:</p>
+
+    <ul>
+      <li><code>GET /image-posts</code> (to display all image-posts and the form)</li>
+      <li><code>POST /some/path/you/choose</code> (to actually process the submitted form)</li>
+      <li><code>redirect to GET /image-posts</code> (to go back to the listing of all image-posts)</li>
+    </ul>
+
+    <h3 id="points-form-to-create-an-imagepost-with-images">(6 points) Form to Create an ImagePost with Images</h3>
+
+    <p>In this route handler, <code>GET /image-posts</code>:</p>
+
+    <ol>
+      <li>render a template that displays a form (it&#39;ll also display all image posts&#8230; but we&#39;ll get to that later)</li>
+      <li>add the fields necessary to create an image post along with 3 images
+        <ul>
+          <li>it should have the title of the post</li>
+          <li>and 3 fields, each with a url (a link to an image) and a caption
+  <img src="../resources/img/hw06-00-form.png" alt="form" /></li>
+        </ul>
+      </li>
+      <li>have the form post to a path of your choosing (you&#39;ll define this route handler later in the next part)</li>
+      <li><strong>test that your form renders by going to</strong> <code>/image-posts</code></li>
+    </ol>
+
+    <h3 id="points-handling-the-image-post-form">(10 points) Handling the Image-Post Form</h3>
+
+    <p>In this route handler, <code>POST /path/of/your/choosing</code>:</p>
+
+    <ul>
+      <li>use your mongoose model for an image-post to create a new <code>ImagePost</code> instance
+        <ul>
+          <li>create a new <code>ImagePost</code> first, and just populate the title</li>
+          <li>then&#8230; you can use <code>.push</code> to add each image to the <code class="highlighter-rouge">images</code> property on your newly created <code class="highlighter-rouge">ImagePost</code> object</li>
+          <li>the initial form allows up to 3 images to be initially included in the <code>ImagePost</code></li>
+          <li>if a url for an image is blank, don&#39;t add it to the list of images</li>
+          <li>since an <code>ImagePost</code> can have up to 3 images, it&#39;s a pain to check each url individually&#8230;</li>
+          <li>instead, you can use a loop - remember that you can dynamically access object properties using bracket (<code>obj[prop]</code>) notation instead of dot (<code>obj.prop</code>notation</li>
+          <li>for example, if your form names for each image url is: <code>image-url-1, image-url-2, ... image-url-n</code>:
+            <pre><code data-trim="" contenteditable="">
+// you can use a loop, and reference each property on body as:
+req.body['image-url-' + n]
+</code></pre>
+          </li>
+        </ul>
+      </li>
+      <li>&#8230; and, of course, save it (<a href="../slides/15/mongoose.html#/14">here&#39;s an example from our pizza demo</a>)</li>
+      <li>this should create a single <code>ImagePost</code> with up to 3 embedded <code>Image</code>s in it</li>
+      <li>within your callback for save, redirect to <code>/image-posts</code> (only redirect page when we&#39;re sure the new list has been saved - that is, within the callback, if there are no errors)</li>
+    </ul>
+
+    <h3 id="testing-out-imagepost-creation">Testing Out ImagePost Creation</h3>
+
+    <p>Testing Process</p>
+
+    <ol>
+      <li>got to <code>/image-posts</code></li>
+      <li>fill in:
+        <ul>
+          <li>title</li>
+          <li>two images - both url and caption</li>
+        </ul>
+      </li>
+      <li>submit</li>
+      <li>verify that you&#39;re redirected back to image-posts
+        <ul>
+          <li>in the network tab in Chrome&#8230;</li>
+          <li>you should have:
+            <ul>
+              <li><code>GET /image-posts</code> - <code>200</code></li>
+              <li><code>POST /image-posts</code> - <code>302</code> or <code>303</code></li>
+              <li><code>GET /image-posts</code> - <code>200</code> again</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>verify that a new <code>ImagePost</code> object is created in your database
+        <ul>
+          <li>run <code>mongo</code> to start a commandline database client</li>
+          <li>use <code>.find</code> to search for any created documents:</li>
+          <li>(the collection name should be all lowercase, plural: <code>db.imageposts.find()</code>)</li>
+        </ul>
+      </li>
+    </ol>
+
+    <p>Troubleshooting if No Documents Are Found</p>
+
+    <ol>
+      <li>verify that your collection name and schema name match (remember, the collection name is the lowercase, plural version of your schema name: <code>ImagePost</code> &#8594; <code>imageposts</code>)</li>
+      <li>in the route handler that deals with your POST, either log out the error from your save callback or send it back as a response:
+        <ul>
+          <li><code>console.log(err)</code></li>
+          <li><code>res.send(err)</code></li>
+        </ul>
+      </li>
+    </ol>
+
+    <h3 id="points-displaying-all-image-posts">(10 Points) Displaying All Image Posts</h3>
+
+    <p>The list of all <code>ImagePost</code>s should appear underneath your form. Retrieve all of the image-posts from the database (see <a href="../slides/15/mongoose.html">the slides on the mongoose API</a>), and for every image-post:</p>
+
+    <ul>
+      <li>display the title of the image-post as a header and a link</li>
+      <li>the link should go to /image-posts/&lt;slug&gt; (where do you think you get the image-post slug from?)</li>
+      <li>display all of the images in the image-post
+        <ul>
+          <li>show each image&#39;s caption</li>
+          <li>&#8230;and use the url to add an <code>img</code> tag underneath the caption (to display the image, of course!)</li>
+        </ul>
+      </li>
+      <li>if you were to place a list of <code>ImagePost</code>s into your template context, you could access every individual <code>ImagePost</code> in an <code>#each</code> loop</li>
+      <li><strong>within that loop, you can use</strong>:
+        <ul>
+          <li><code>&#123;&#123;fieldName&#125;&#125;</code> to access a property named <code>fieldName</code> (note that there&#39;s no need to use dot, <code>.</code>, or square brackets, <code>[]</code>&#39;s)
+            <ul>
+              <li>you can also <strong>nest</strong> <code>#each</code> loops to go over all of the embedded <code>Image</code> documents in an <code>ImagePost</code></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+
+    <h3 id="testing-that-imageposts-can-be-read-from-the-database">Testing That ImagePosts Can be Read from the Database</h3>
+
+    <ul>
+      <li>try going to <code>/image-posts</code> in your browser</li>
+      <li>see that the image post that you created earlier is displayed below the form</li>
+      <li>try adding a new image-post with three images</li>
+      <li>verify that you&#39;re redirected back to <code>image-posts</code> with your new post added to the bottom of the page.</li>
+      <li>see the example below:</li>
+    </ul>
+
+    <p><img src="../resources/img/hw06-02-add-multi-pizza-party.gif" alt="add post with multiple images" /></p>
+
+    <h2 id="part-4---single-imagepost-detail-page-adding-new-images-to-imagepost-deleting-iamges-from-imagepost">Part 4 - Single ImagePost Detail Page, Adding New Images to ImagePost, Deleting Iamges from ImagePost</h2>
+
+    <h3 id="points-single-imagepost-detail-page">(6 points) Single ImagePost Detail Page</h3>
+
+    <p>In this route handler, <code>GET /image-post/[slug-name]</code>:</p>
+
+    <ul>
+      <li>you&#39;ll use the slug in the url to render an <strong>image-post details</strong> page</li>
+      <li>find <strong>exactly one image-post</strong> that matches the slug in the url
+        <ul>
+          <li>remember to use <a href="../slides/15/params.html">route parameters</a></li>
+          <li>use <code>:slug</code> in your path to specify a part of the path as a parameter</li>
+          <li>you can find this part of the path in your request object (<code>req.params.slug</code>)</li>
+        </ul>
+      </li>
+      <li>display the title of the <code>ImagePost</code></li>
+      <li>place all of the images below the title</li>
+      <li>in the next two parts, add a couple of forms this page to add more images and delete images</li>
+    </ul>
+
+    <div class="img">
+      <p><img src="../resources/img/hw06-03-detail-slug.gif" alt="go to detail page" /></p>
+    </div>
+
+    <h3 id="points-adding-images">(10 points) Adding Images</h3>
+
+    <p>Instead of creating a separate page for adding items to your list, embed your form directly underneath your image-post in your image-post details page</p>
+
+    <p>The flow of the <strong>image create form</strong> should be:</p>
+
+    <ul>
+      <li><code>GET /image-post/[slug-name]</code></li>
+      <li><code>POST /path/of/your/choosing</code></li>
+      <li><code>redirect to GET /image-post/[slug-name]</code> (go back to page that you came from)</li>
+    </ul>
+
+    <p><strong>First, add a form to create a new image in your image-post:</strong></p>
+
+    <ul>
+      <li>create a form that posts to <code>/path/of/your/choosing</code></li>
+      <li>your form will have the following fields
+        <ul>
+          <li>url</li>
+          <li>caption</li>
+        </ul>
+      </li>
+      <li><strong>you&#39;ll have to let the server know which image-post you&#39;re adding this new image to</strong> &#8230; and you can do this by:
+        <ul>
+          <li>having the slug in the url that you&#39;re posting to</li>
+          <li>or by having a hidden input field that contains the slug <a href="../slides/11/forms-revisited.html#/16">(check out the slides on revisiting forms)</a></li>
+        </ul>
+      </li>
+    </ul>
+
+    <p><strong>you&#39;ll have to handle this post, so&#8230;</strong></p>
+
+    <ul>
+      <li>create a route handler to accept a <code>POST /path/of/your/choosing</code>&#8230;</li>
+      <li>(depending on how you&#39;ve structured your application this may need to go into a different router file than the one you used for list creation)</li>
+      <li>use one of these methods to add an image (assuming that you&#39;ve embedded images into image-list in your schema):
+        <ul>
+          <li><a href="../slides/15/mongoose.html#/18">findOneAndUpdate</a></li>
+          <li><a href="../slides/15/mongoose.html#/17">lots of callbacks</a></li>
+        </ul>
+      </li>
+      <li>in your last callback, redirect back to the original <strong>image-post detail</strong> page</li>
+      <li>here&#39;s the example interaction:</li>
+    </ul>
+
+    <p><img src="../resources/img/hw06-04-add-image.gif" alt="add image to existing" /></p>
+
+    <h2 id="part-5---deleting-images">Part 5 - Deleting Images</h2>
+
+    <h3 id="points-deleting-images">(10 points) Deleting Images</h3>
+
+    <p>Create another form for deleting images from an image-post. The flow of the <strong>image delete form</strong> should be:</p>
+
+    <ul>
+      <li><code>GET /image-posts/[slug-name]</code></li>
+      <li><code>POST /path/of/your/choosing</code></li>
+      <li><code>redirect to GET /image-posts/[slug-name]</code></li>
+    </ul>
+
+    <p><strong>You&#39;ll have to modify your template a bit to integrate this additional form</strong>:</p>
+
+    <ul>
+      <li>in addition to your add image form, you&#39;ll have another separate form on the same page</li>
+      <li>the item check form will start above all of your image</li>
+      <li>and end after the last image</li>
+      <li>populate your form with some form elements:
+        <ul>
+          <li>a checkbox before each image
+            <ul>
+              <li>the <code>name</code> of all of your checkboxes should be the same</li>
+              <li>however, the value of each should be <code>_id</code></li>
+              <li>(<code>_id</code> is automatically generated for you by mongodb, so every document you create has this field)</li>
+            </ul>
+          </li>
+          <li>a submit button</li>
+        </ul>
+      </li>
+      <li>decide whether you&#39;ll use a hidden input or url parameter (if using a hidden input, add the slug of the image-post as a hidden input form element&#8230; if you&#39;re using a url parameter, make sure your form posts to the appropriate url)</li>
+    </ul>
+
+    <p><strong>Finally, in your route handler, you&#39;ll have to remove all of the images that were checked</strong>:</p>
+
+    <ul>
+      <li>once again, get the image-post that these images belong to
+        <ul>
+          <li>based on the slug, which comes through as:</li>
+          <li>a url param</li>
+          <li>&#8230; or a hidden input</li>
+        </ul>
+      </li>
+      <li>checkbox inputs come in as an Array or a string
+        <ul>
+          <li>(<a href="../slides/11/forms-revisited.html">see checkbox behavior in these slides</a>)</li>
+          <li>if there&#39;s only one image checked, the id comes in as a single string</li>
+          <li>otherwise, if you have more than one image checked, you&#39;ll have an array</li>
+          <li><strong>you can see this by logging out the contents of req.body.[name of your checkbox fields]</strong></li>
+          <li>you can use <code>Array.isArray</code> to check what you have (<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/isArray">see the docs</a>)</li>
+        </ul>
+      </li>
+      <li>go through all of the ids and remove the images with the incoming ids:
+        <ul>
+          <li><a href="http://mongoosejs.com/docs/subdocs.html">see the docs on using .remove()</a></li>
+          <li>for example, if you have a <code>Factory</code> schema</li>
+          <li>&#8230;that has an array of <code>Widget</code> objects called <code>widgets</code></li>
+          <li>removing a single widget would be:</li>
+          <li><code>factoryObj.widgets.id(varWithId).remove()</code></li>
+        </ul>
+      </li>
+      <li>here&#39;s what the interaction should look like:</li>
+    </ul>
+
+    <p><img src="../resources/img/hw06-05-remove.gif" alt="remove images" /></p>
+
+    <h2 id="extra-credit">Extra Credit</h2>
+
+    <p>Do <strong>one or two</strong> of the following for extra credit. Partial credit will be given.</p>
+
+    <p><strong>If you&#39;re doing extra credit, add a REAMDE.md file that specifies which extra credit you&#39;ll be doing</strong> (otherwise, the graders won&#39;t check for it!):</p>
+
+    <ol>
+      <li>Validation and Error Messages (25 points)</li>
+      <li>Referenced Documents (30 points)</li>
+      <li>Authentication (30 points)</li>
+    </ol>
+
+    <h3 id="validation-and-error-messages">Validation and Error Messages</h3>
+
+    <ol>
+      <li>make all fields in every schema required except for caption</li>
+      <li>if a required field is blank, send back an error message to the user
+        <ul>
+          <li>check the <code>err</code> object in the callback to your mongoose related functions like <code>save</code></li>
+          <li>if it exists, and it has to do with a required field&#8230;</li>
+          <li>populate a template variable so that the error message can be displayed in red above your form</li>
+        </ul>
+      </li>
+    </ol>
+
+    <h3 id="referenced-documents">Referenced Documents</h3>
+
+    <p>Instead of embedding <code>Image</code>s in <code>ImagePost</code>s, make them separate documents linked together by some id field. Check out <a href="http://mongoosejs.com/docs/populate.html">the mongoose docs</a>.</p>
+
+    <p>This is more difficult than just changing the schema, as you&#39;ll have to change all of your route handlers that modify or add data.</p>
+
+    <h3 id="authentication">Authentication</h3>
+
+    <h4 id="overview-2">Overview</h4>
+
+    <p>Add users to the site. Instead of showing all lists, when a user is logged in:</p>
+
+    <ul>
+      <li>they will only the lists they created</li>
+      <li>when they create a list, the list will be associated with them (rather than having a createdBy field)</li>
+    </ul>
+
+    <h4 id="add-the-following-urls">Add the following URLs:</h4>
+
+    <ul>
+      <li><code>GET and POST /register</code> - display registration form and register, respectively</li>
+      <li><code>GET and POST /login</code> - display login form and login, respectively</li>
+      <li><code>GET /logout</code> - logout</li>
+    </ul>
+
+    <h4 id="modify-the-following-urls">Modify the following URLs</h4>
+
+    <ul>
+      <li><code>/</code> &#8230; no longer redirects to /image-posts, just displays links to login or register if user not logged in</li>
+      <li><code>/image-posts</code> &#8230; displays a username after the image-post&#39;s title</li>
+      <li>when image-post is created, associate with user</li>
+      <li>adding and removing images can only be done by the user that created it</li>
+    </ul>
+
+    <h4 id="modify-your-existing-code">Modify your existing code:</h4>
+
+    <ul>
+      <li>add a User schema; it should reference your list (see <a href="https://github.com/nyu-csci-ua-0480-001-fall-2016/examples/blob/master/class16/user-image/db.js">example repository for user with images demo</a> - you&#39;ll need to be logged in to view)</li>
+      <li>integrate passport-local-mongoose (see <a href="https://github.com/nyu-csci-ua-0480-001-fall-2016/examples/tree/master/class16/passport-demo">bare bones authentication demo</a>)</li>
+    </ul>
+
+  </div>
+
+</div>
+
+:ET

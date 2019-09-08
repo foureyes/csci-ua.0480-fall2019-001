@@ -1,0 +1,711 @@
+I">f<section class="intro-slide">
+  <h1 id="nodes-http-module">Node&#39;s HTTP Module</h1>
+
+  <h3 id="csci-ua0480-001">CSCI-UA.0480-001</h3>
+
+  <p><small></small></p>
+</section>
+
+<section>
+  <h2 id="a-step-back">A Step Back</h2>
+
+  <p><strong>What&#39;s the internet?</strong> &#8594; <span class="fragment"> a global network of networks</span></p>
+
+  <p><strong>What&#39;s the underlying protocol that computer&#39;s on the internet use to communicate?</strong> &#8594; <span class="fragment">TCP/IP</span></p>
+
+  <p><strong>What&#39;s the world wide web?</strong> &#8594; <span class="fragment"> a bunch of documents connected by hyperlinks &#8230; that are retrievable by url</span></p>
+
+  <p><strong>What protocol is the web based on?</strong> &#8594; <span class="fragment"> HTTP</span></p>
+
+  <p><span class="fragment">The web is a service built on top of the internet. HTTP is a protocol built on top of TCP/IP (TCP/IP handles the connection, sending/routing/transmitting of data, etc. &#8230; while HTTP is the message).</span></p>
+
+</section>
+
+<section>
+  <h2 id="a-tcpip-server--web-server">A TCP/IP Server &#8594; Web Server</h2>
+
+  <p>So&#8230; previously, we made a simple web server using nothing more than the <code class="highlighter-rouge">net</code> module. The TCP/IP part was taken care of by the module, but we had to build http on top of it. <strong>That meant:</strong> &#8594;</p>
+
+  <ul>
+    <li class="fragment">parsing a request</li>
+    <li class="fragment">manually writing a response back</li>
+  </ul>
+
+  <p class="fragment"><br />
+Also, it had a lot of shortcomings:</p>
+
+  <ul>
+    <li class="fragment">trailing slashes, casing</li>
+    <li class="fragment">html as strings!?</li>
+    <li class="fragment">etc. (NOT FUN!)</li>
+  </ul>
+
+</section>
+<section>
+  <h2 id="the-http-module">The HTTP Module</h2>
+
+  <p>Sooo&#8230; let&#39;s use another module that takes care of the http bits for us. <strong>The built-in HTTP module gives us:</strong> &#8594;</p>
+
+  <p><a href="http://nodejs.org/api/http.html#http_http">(From the docs, on the http module)</a> is</p>
+
+  <ul>
+    <li>a low-level API for creating HTTP
+      <ul>
+        <li><strong>servers</strong></li>
+        <li><strong>clients</strong></li>
+      </ul>
+    </li>
+    <li>it only parses a message into headers and a body
+      <ul>
+        <li>it <strong>does not</strong> work with the <em>actual</em> headers</li>
+        <li>or <em>actual</em> body</li>
+      </ul>
+    </li>
+  </ul>
+
+</section>
+<section>
+  <h2 id="using-the-http-module">Using the HTTP Module</h2>
+
+  <p><strong>How do we bring in a module in node?</strong> &#8594;</p>
+
+  <p class="fragment">Use the <code>require</code> function.</p>
+
+  <ul class="fragment">
+    <li><strong>&#8230;so, how do we bring in the http module?</strong> &#8594;</li>
+    <li><strong>do we have to install it first?</strong> &#8594;</li>
+  </ul>
+
+  <p><br /></p>
+  <pre class="fragment"><code data-trim="" contenteditable="">
+// http is a core node module 
+// it's compiled in to the node binary
+
+const http = require('http');
+</code></pre>
+</section>
+
+<section>
+  <h2 id="lets-look-at-what-http-can-do">Let&#39;s Look at What HTTP Can Do</h2>
+
+  <p><strong>How can we see what&#39;s in the node module?</strong> &#8594;</p>
+
+  <p class="fragment">Just try importing it in the interactive shell, and typing out http:</p>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+const http = require('http');
+http
+</code></pre>
+
+  <p class="fragment">We&#39;ll be going over:</p>
+
+  <ul class="fragment">
+    <li>status codes constant</li>
+    <li>a Server object and its methods</li>
+    <li>the Request object and its methods</li>
+    <li>the Response object and its methods</li>
+    <li>(and a brief detour <em>in time</em>)</li>
+  </ul>
+</section>
+
+<section>
+  <h1 id="about-reading-nodes-documentation">About Reading Node&#39;s Documentation</h1>
+
+</section>
+<section>
+  <h2 id="reading-function-signatures">Reading Function Signatures</h2>
+
+  <p>When reading node documentation, note that:</p>
+
+  <ul>
+    <li>all arguments are shown within parentheses after the function name</li>
+    <li>arguments surrounded by brackets are optional</li>
+  </ul>
+
+  <p><br /></p>
+  <pre><code data-trim="" contenteditable="">
+functionName(requiredArg1, [optionalArg2], [optionalArg3]);
+
+// an example from the docs
+response.writeHead(statusCode, [reasonPhrase], [headers])
+</code></pre>
+
+</section>
+<section>
+  <h2 id="so-lets-take-a-look-at-some-details">So, Let&#39;s Take a Look at Some Details</h2>
+
+  <p>It&#39;s pretty spartan:</p>
+
+  <ul>
+    <li><code>http.STATUS_CODES</code></li>
+    <li><code>http.createServer</code></li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="httpstatuscodes">http.STATUS_CODES</h2>
+
+  <p><strong>http.STATUS_CODES</strong> is an object that contains:</p>
+
+  <ul>
+    <li>all of the standard HTTP response status codes as properties</li>
+    <li>and their short descriptions as values</li>
+  </ul>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+{ '100': 'Continue',
+  '101': 'Switching Protocols',
+  '102': 'Processing',
+  '200': 'OK',
+  '201': 'Created',
+  .
+  .
+  '418': 'I\'m a teapot',
+  .
+  .
+  '510': 'Not Extended',
+  '511': 'Network Authentication Required' }
+</code></pre>
+
+  <p class="fragment"><a href="http://en.wikipedia.org/wiki/Hyper_Text_Coffee_Pot_Control_Protocol">I&#39;m</a> a <a href="http://tools.ietf.org/html/rfc2324">teapot</a></p>
+
+</section>
+<section>
+  <h2 id="createserver">createServer</h2>
+
+  <p><strong>createServer</strong> returns a new <em>web server</em> object:</p>
+
+  <pre><code data-trim="" contenteditable="">
+http.createServer([requestListener])
+</code></pre>
+
+  <ul>
+    <li>note that <a href="http://nodejs.org/api/http.html#http_http_createserver_requestlistener">it takes</a> one optional parameter - a function that handles <a href="http://nodejs.org/api/http.html#http_event_request">request events</a></li>
+    <li>the callback function takes two arguments, a <code>request</code> object and a <code>response</code> object</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="server-object">Server Object</h2>
+
+  <p>The server object that results from calling <code>http.createServer</code> is simply an object that emits (generates) events, some of which include:</p>
+
+  <ul>
+    <li><strong>request</strong> - whenever a new request is received</li>
+    <li><strong>connection</strong> - when a tcp connection is made</li>
+    <li><strong>close</strong> - emitted when a server stops listening and closes</li>
+  </ul>
+
+  <p><br />
+Additionally, some useful methods that it has are:</p>
+
+  <ul>
+    <li><a href="http://nodejs.org/api/http.html#http_server_listen_port_hostname_backlog_callback">server.listen</a> - accept connections at the given port number and hostname</li>
+    <li><strong>server.close</strong> - stop the server from accepting new connections</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="back-to-createserver">Back to createServer</h2>
+
+  <p><code>http.createServer</code> binds a callback function to a <code>request</code> event. <strong>What are the two arguments that this callback function takes?</strong> &#8594;</p>
+
+  <ul class="fragment">
+    <li><strong>request</strong> - an instance of <code>http.IncomingMessage</code></li>
+    <li><strong>response</strong> - an instance of <code>http.ServerResponse</code></li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="httpincomingmessage">http.IncomingMessage</h2>
+
+  <p><strong>http.IncomingMessage</strong> is an object that represents a client&#39;s <a href="http://nodejs.org/api/http.html#http_http_incomingmessage">HTTP request</a>.</p>
+
+  <ul>
+    <li>it&#39;s the <strong>first argument</strong> passed in to the <em>request event&#39;s</em> callback</li>
+    <li>some of its properties include:
+      <ul>
+        <li><strong>httpVersion</strong> - the HTTP version sent by the client</li>
+        <li><strong>url</strong> - the url that the client requested</li>
+        <li><strong>headers</strong> - the request headers sent by the client (as an object with lowercase header names as properties)</li>
+        <li><strong>method</strong> - the request method used by the client (GET, POST, PUT, DELETE, etc.)</li>
+      </ul>
+    </li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="httpserverresponse">http.ServerResponse</h2>
+
+  <p><strong>https.ServerResponse</strong> is an object that represents the <a href="http://nodejs.org/api/http.html#http_class_http_serverresponse">HTTP response</a> that the server will return.</p>
+
+  <ul>
+    <li>it&#39;s the <strong>second argument</strong> passed in to the <em>request event&#39;s</em> callback</li>
+    <li>it&#39;s created internally by the HTTP server (not by the user)</li>
+    <li>has two methods of sending headers - explicit and implicit</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="httpserverresponse-continued">http.ServerResponse Continued</h2>
+
+  <p>Some useful properties and methods that a <code>ServerResponse</code> object has are:</p>
+
+  <ul>
+    <li><strong>writeHead(statusCode, [reasonPhrase], [headers])</strong> - explicitly send a response header (status code and headers) to the request</li>
+    <li><strong>setHeader(name, value)</strong> - sets a single header value for response for implicit sending of headers</li>
+    <li><strong>getHeader(name)</strong> - reads out a header that&#39;s been queued for implicit sending (if <code>writeHead</code> wasn&#39;t called) to the client</li>
+    <li><strong>removeHeader(name)</strong> - removes a header that&#39;s been queued for implicit sending (if <code>writeHead</code> wasn&#39;t called) to the client</li>
+    <li><strong>write(chunk, [encoding])</strong> - sends a chunk of the response body (causes implicit headers to be sent if <code>writeHead</code> wasn&#39;t called</li>
+    <li><strong>end([data], [encoding])</strong> - signals to the server that all of the response headers and body have been sent</li>
+    <li><strong>statusCode</strong> - the status code of the response for implicit sending (if <code>writeHead</code> wasn&#39;t called)</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="responsewritehead">response.writeHead()</h2>
+
+  <p><code>writeHead(200, {'Content-Type':'text/plain'})</code></p>
+
+  <ul>
+    <li><a href="http://nodejs.org/api/http.html#http_response_writehead_statuscode_reasonphrase_headers">writeHead</a> has one required argument, the 3-digit HTTP status code (as a <code>Number</code>)</li>
+    <li>last argument is headers (an object with property names as HTTP response header names)</li>
+    <li>there&#39;s an optional second argument for a human readable version of the status code</li>
+    <li><strong>this method must only be called once on a message and it must be called before <code>end()</code> is called</strong></li>
+    <li>if you call <code>write()</code> or <code>response.end()</code> before <code>writeHead</code>, the implicit headers will be determined and <code>writeHead</code> will be called with those headers</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="responseend">response.end()</h2>
+
+  <p><code>end('&lt;!DOCTYPE html&gt;&lt;html&gt;&lt;body&gt;hello&lt;/body&gt;&lt;/html&gt;')</code></p>
+
+  <ul>
+    <li><a href="http://nodejs.org/api/http.html#http_response_end_data_encoding">end</a> has one required argument, the body of the HTTP response that&#39;s being sent back to the client</li>
+    <li>signals to server that the message, the response, is complete</li>
+    <li><strong><code>end()</code>, must be called on each response</strong></li>
+  </ul>
+</section>
+
+<section data-background="#440000">
+  <h1 id="writehead-will-either-explicitly-or-implicitly-be-called-before-end"><code>writeHead()</code> will (either explicitly or implicitly) be called before end</h1>
+</section>
+
+<section data-background="#440000">
+  <h1 id="end-must-be-called-on-each-response"><code>end()</code> must be called on each response</h1>
+</section>
+
+<section>
+  <h2 id="a-web-server-in-node-revisited">A Web Server in Node (Revisited)</h2>
+
+  <p><strong>Let&#39;s try writing our own web server, with help from the http module!</strong> &#8594;</p>
+
+  <ul>
+    <li>bring in the http module</li>
+    <li>create a web server object and listen on port 3000&#8230; use the callback below</li>
+    <li>create a callback function
+      <ul>
+        <li>the function will send back a 200 OK, and the header Content-Type set to &#39;text/plain&#39;</li>
+        <li>the body will just be &#39;hello world&#39;</li>
+      </ul>
+    </li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="a-web-server-in-node-implemented">A Web Server in Node, Implemented</h2>
+
+  <pre><code data-trim="" contenteditable="">
+const http = require('http');
+const port = 3000;
+
+http.createServer(handleRequest).listen(port);
+console.log('starting server on ' + port);
+
+</code></pre>
+
+  <pre><code data-trim="" contenteditable="">
+function handleRequest(req, res) {
+	const responseStatusCode = 200;
+	res.writeHead(responseStatusCode, {'Content-Type':'text/plain'});
+	res.end('hello');
+}
+</code></pre>
+</section>
+
+<section>
+  <h2 id="adding-some-features">Adding Some Features</h2>
+
+  <p><strong>Let&#39;s try adding some logging. On the server side, output the requested url to the console whenever a request is made.</strong> &#8594;</p>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+// in handleRequest
+console.log(req.url);
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="and-moar-features">AND MOAR FEATURES</h2>
+
+  <p><strong>How about sending back some html?</strong> &#8594;</p>
+
+  <p class="fragment"><strong>First let&#39;s try actually sending back html in the body&#8230;</strong> &#8594;</p>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+// in handleRequest
+res.end('&lt;!DOCTYPE html&gt;<html><body><strong>Hi</strong> there!</body></html>');
+</code></pre>
+
+  <p class="fragment"><strong>What happened?</strong> &#8594; <span class="fragment">The content type needs to be changed to text/html</span></p>
+
+</section>
+
+<section>
+  <h2 id="response-headers">Response Headers?</h2>
+
+  <p><a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html">Check out the rfc</a>&#8230; here are few that you&#39;ll commonly see:</p>
+
+  <ul>
+    <li><strong>cache-control</strong> - specifies directives that <strong>MUST</strong> be obeyed by all caching mechanisms (for example, don&#39;t cache this page if no-cache)</li>
+    <li><strong>content-encoding</strong> - type of encoding used on data - primarily used to allow a document to be compressed</li>
+    <li><strong>content-type</strong> - the MIME type of the response
+      <ul>
+        <li>standard identifier used on Internet to indicate the type of data that file contains</li>
+        <li>signals to client (browser, email client) how to display content</li>
+      </ul>
+    </li>
+    <li><strong>date</strong> - the date and time at which the message was originated</li>
+    <li><strong>last-modified</strong> - date and time at which the origin server believes the resource was last modified</li>
+    <li><strong>server</strong> - server&#39;s name</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="some-sample-response-headers">Some Sample Response Headers</h2>
+
+  <pre><code data-trim="" contenteditable="">
+cache-control:no-cache
+content-encoding:gzip
+content-type:text/html; charset=utf-8
+date:Mon, 29 Sep 2014 01:15:00 GMT
+server:cloudflare-nginx
+status:200 OK
+vary:Accept-Encoding
+version:HTTP/1.1
+</code></pre>
+
+</section>
+<section>
+  <h2 id="sending-back-html">Sending Back HTML</h2>
+
+  <p><strong>Which header(s) will fix our problem, again?</strong> &#8594;</p>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+// change Content-Type header to text/html
+res.writeHead(200, {'Content-Type':'text/html'});
+</code></pre>
+</section>
+
+<section>
+  <h2 id="aaaand-an-aside-on-node">Aaaand An Aside on Node</h2>
+
+  <p>Node&#39;s primary programming paradigm is <strong>event driven programming</strong>. <strong>Event driven programming</strong> is a way of programming where:</p>
+
+  <ul>
+    <li>rather than just the conventional top-to-bottom execution, the flow of the programming is determined by events
+      <ul>
+        <li>these events are usually some sort of I/O</li>
+        <li>&#8230;such as user input</li>
+        <li>or network events</li>
+      </ul>
+    </li>
+    <li>there&#39;s generally a main loop (in node&#39;s case, that&#39;s the event loop)
+      <ul>
+        <li>the main loop triggers a callback function when an event is detected</li>
+        <li><strong>what&#39;s the event that&#39;s being handled in our web server?</strong> &#8594; <span class="fragment"><a href="http://nodejs.org/api/http.html#http_event_request">a request event</a></span></li>
+      </ul>
+    </li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="additional-urls">Additional URLs</h2>
+
+  <p>Great. So, <em>usually</em> there&#39;s more than one page on a site, so <strong>let&#39;s figure out how to serve up additional URLs.</strong> &#8594;</p>
+
+  <ul>
+    <li>serve up different text based on a case insensitive URL</li>
+    <li>the urls and their corresponding response code and text/html body should be as follows:
+      <ul>
+        <li><strong>/</strong> or <strong>/home</strong> &#8594; 200 OK, &quot;homepage v2, now with routing!&quot;</li>
+        <li><strong>/about</strong> &#8594; 200 OK, &quot;made with node&quot;</li>
+        <li><strong>any other page</strong> &#8594; 404 Not Found, &quot;nothing to see here!&quot;</li>
+      </ul>
+    </li>
+    <li>on the server side, log both the url and the response code</li>
+    <li>test with <code>/</code>, <code>/home</code>, <code>/about</code>, <code>/about/</code>, <code>/about?q=something</code>, <code>/blog</code></li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="additional-urls-implementation">Additional URLs Implementation</h2>
+
+  <p><strong>In <code>handleResponse:</code></strong> &#8594;</p>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+  const resCode,
+    body,
+    headers = {'Content-Type':'text/html'},
+    path = req.url.toLowerCase();
+  if(path === '/about') {
+    resCode = 200;
+    body = 'made with node';    
+  } else if (path === '/' || path === '/home') {
+    resCode = 200;
+    body = 'homepage v2, now with routing';    
+  } else {
+    resCode = 404;
+    body = 'nothing to see here'
+  }
+</code></pre>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+  res.writeHead(resCode, headers);
+  res.end(body);
+  console.log(req.url, res.statusCode);
+</code></pre>
+</section>
+
+<section>
+  <h2 id="hm-something-feels-wrong">Hm&#8230; Something Feels Wrong</h2>
+
+  <p>Hardcoding html in our code, doesn&#39;t seem great.  <strong>How about we just read some files, and serve them up?</strong> &#8594;</p>
+
+</section>
+<section>
+  <h2 id="the-file-system-module">The File System Module</h2>
+
+  <p>The code node module, <strong>fs</strong>, <a href="http://nodejs.org/api/fs.html">allows general file I/O</a>. It allows the reading and manipulation of files.</p>
+
+  <p>As usual, bring it in to your program by using <code>require</code>.</p>
+
+  <pre><code data-trim="" contenteditable="">
+const fs = require('fs');
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="lets-use-the-file-system-module">Let&#39;s Use the File System Module</h2>
+
+  <p>In order to have our web server read static files, we&#39;ll use <strong>fs.readFile()</strong>. <a href="http://nodejs.org/api/fs.html#fs_fs_readfile_filename_options_callback">fs.readFile()</a> <strong>asynchronously</strong> reads the entire contents of a file. <strong>You know what that means, right?</strong> &#8594; <span class="fragment">callback time!</span></p>
+
+  <pre><code data-trim="" contenteditable="">
+fs.readFile(filename, [options], callback)#
+</code></pre>
+
+  <ul>
+    <li>the <strong>filename</strong> is the full path to the file.</li>
+    <li><strong>options</strong> is an object specifying details such as encoding <code>{'encoding':'utf-8'}</code></li>
+    <li>the <strong>callback</strong> takes two parameters:
+      <ul>
+        <li><strong>err</strong> - an error object (present if something goes wrong)</li>
+        <li><strong>data</strong> - the contents of the file</li>
+      </ul>
+    </li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="using-fsreadfile">Using fs.readFile</h2>
+
+  <p><strong>Let&#39;s try printing out the contents of a file&#8230;</strong> &#8594;</p>
+
+  <ul>
+    <li>create a file</li>
+    <li>bring in the fs module</li>
+    <li>use readFile by passing in the path to your file, an encoding (use utf-8), and your callback</li>
+    <li>your callback should check if there&#39;s an error
+      <ul>
+        <li>if there&#39;s an error, log a message</li>
+        <li>otherwise, log the contents of the file</li>
+      </ul>
+    </li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="using-fsreadfile-example">Using fs.readFile Example</h2>
+
+  <pre><code data-trim="" contenteditable="">
+const fs = require('fs');
+
+fs.readFile('./public/index.html', {'encoding':'utf-8'}, function(err, data) {
+	if (err) {
+		console.log('uh oh!');
+	} else {
+		console.log(data);
+	}
+});
+</code></pre>
+</section>
+
+<section>
+  <h2 id="back-to-serving-static-files">Back to Serving Static Files</h2>
+
+  <p>We&#39;ll serve 3 pages and an image:</p>
+
+  <ul>
+    <li><strong>/</strong>, <strong>home</strong> - read from public/index.html</li>
+    <li><strong>about</strong> - read from public/about.html</li>
+    <li><strong>404</strong> - read from public/404.html</li>
+    <li><strong>magicman.png</strong> - an image &#8230; read from <a href="../../resources/img/magicman.png">public/img/magicman.png</a></li>
+  </ul>
+
+</section>
+<section>
+  <h2 id="static-files-implementation">Static Files Implementation</h2>
+
+  <p>Define a function called <code>serverStatic</code>&#8230; it should:</p>
+
+  <ul>
+    <li>read a file and send it out as an http response
+      <ul>
+        <li>if there&#39;s an error, send out a 500</li>
+        <li>if it reads the file successfully, use the file&#39;s contents as the body of the response</li>
+      </ul>
+    </li>
+    <li>it&#39;ll have 4 parameters
+      <ul>
+        <li><strong>res</strong> - the response object</li>
+        <li><strong>path</strong> - the path of the file to read</li>
+        <li><strong>contentType</strong> - the file&#39;s content type</li>
+        <li><strong>resCode</strong> - the response code that will be sent back
+          <ul>
+            <li>it will default to a 200</li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="lets-create-our-static-files">Let&#39;s Create Our Static Files</h2>
+
+  <p><strong>We&#39;ll have to create a couple of folders and files:</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+mkdir -p public/img
+</code></pre>
+
+  <p>Sample body for index.html, home.html</p>
+
+  <pre><code data-trim="" contenteditable="">
+		<h1>homepage v3, now with static files!</h1>
+		<img src="img/magicman.png" />
+
+</code></pre>
+
+  <p>And, of course, drop <a href="../../resources/img/magicman.png">magicman.png</a> into img.</p>
+
+</section>
+
+<section>
+  <h2 id="servestatic">serveStatic</h2>
+
+  <pre><code data-trim="" contenteditable="">
+function serveStatic(res, path, contentType, resCode) {
+	fs.readFile(path, function(err, data) {
+		if (err) {
+			res.writeHead(500, { 'Content-Type': 'text/plain' }); 
+			res.end('500 - Internal Error');
+		} else {
+			res.writeHead(resCode, { 'Content-Type': contentType }); 
+			res.end(data);
+		}
+	});
+}
+</code></pre>
+</section>
+
+<section>
+  <h2 id="using-servestatic">Using serveStatic</h2>
+
+  <p><strong>Let&#39;s modify our handleRequest so that it uses serveStatic.</strong> &#8594;</p>
+</section>
+
+<section>
+  <h2 id="using-servestatic-continued">Using serveStatic Continued</h2>
+  <pre><code data-trim="" contenteditable="">
+const http = require('http'),
+	fs = require('fs');
+const port = 3000;
+http.createServer(handleRequest).listen(3000);
+console.log('Started server on port', port);
+</code></pre>
+
+  <pre><code data-trim="" contenteditable="">
+function handleRequest(req, res) {
+	if (req.url === '/home' || req.url === '/') {
+		serveStatic(res, './public/index.html', 'text/html', 200);
+	} else if (req.url === '/about') {
+		serveStatic(res, './public/about.html', 'text/html', 200);
+	} else if (req.url === '/img/magicman.png') {
+		serveStatic(res, './public/img/magicman.png', 'image/png', 200);
+	} else {
+		serveStatic(res, './public/404.html', 'text/html', 404);
+	}
+}
+</code></pre>
+</section>
+
+<section>
+  <h1 id="btw-can-we-move-the-callback-out-to-a-function-declaration">BTW, Can We Move the Callback Out to a Function Declaration?</h1>
+</section>
+
+<section>
+  <h2 id="callbacks">Callbacks</h2>
+
+  <p><strong>Let&#39;s try it.</strong></p>
+
+  <p class="fragment">In this case, not really (mainly because of the way we&#39;ve structured our program):</p>
+
+  <ul class="fragment">
+    <li>it depends on the closure to get the context of the function that calls it</li>
+    <li>specifically, the callback needs access to res</li>
+    <li>maybe we could use bind&#8230; but seems little gross</li>
+  </ul>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+fs.readFile(path, handleFileRead.bind(
+	{res:res, contentType:contentType, resCode:resCode}));
+</code></pre>
+
+  <p class="fragment">We&#39;ll see a better way to do this later&#8230;</p>
+</section>
+
+<section>
+  <h2 id="well-that-was-fun">Well. That Was Fun.</h2>
+
+  <p>Great. We just implemented a <strong>terrible</strong> static file web server (we already have Apache, Nginx, etc. to handle that).</p>
+
+  <p><strong>What was difficult to deal with&#8230; and what were some shortcomings?</strong> &#8594;</p>
+
+  <ul>
+    <li>urls (we didn&#39;t use regexes, trailing slash and query strings)</li>
+    <li>mapping to specific static files</li>
+    <li>rewrites / aliases</li>
+    <li>just to name a few&#8230;</li>
+    <li>seems like not so great for static sites&#8230; but for <strong>dynamic</strong>?</li>
+    <li class="fragment">that&#39;s where express comes in</li>
+    <li class="fragment">but before that, I mentioned Apache and Nginx&#8230;</li>
+  </ul>
+</section>
+
+:ET

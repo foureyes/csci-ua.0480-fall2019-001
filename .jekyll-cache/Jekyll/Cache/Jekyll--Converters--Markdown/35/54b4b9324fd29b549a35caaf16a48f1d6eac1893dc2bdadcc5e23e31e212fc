@@ -1,0 +1,20 @@
+I"n<p><strong>Due Monday 9/9, by 11pm</strong></p>
+
+<p>Homework #0</p>
+
+<ul>
+  <li><a href="{{ site.survey_intro }}">Fill out this survey / use of GitHub consent form</a></li>
+  <li>(Must be logged in to NYU Google Drive)</li>
+  <li>(Required for future homeworks! ^^^)</li>
+  <li><a href="{{ site.piazza }}">Sign up for piazza</a></li>
+  <li><a href="https://nodejs.org/en/">Install Node {{ site.node_version }}</a></li>
+  <li>(you can also use homebrew on MacOS or apt/yum/etc. on Linux)</li>
+</ul>
+
+<p><strong>Due Monday 9/9, by 11pm</strong></p>
+
+<ul>
+  <li>Quizzes #2 and #3</li>
+  <li>(Quizz #1 is Optional)</li>
+</ul>
+:ET

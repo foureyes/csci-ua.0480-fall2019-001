@@ -1,0 +1,461 @@
+I">H<section class="intro-slide">
+
+  <h1 id="applied-internet-technology">Applied Internet Technology</h1>
+
+  <h3 id="csci-ua0480-001">CSCI-UA.0480-001</h3>
+
+  <p>
+<small>
+	<strong>(By the way, I'm Joe Versoza. <a href="http://emojicons.com/funfunfunfun">Nice to meet you.</a></strong> (・_・)ノ<strong>)</strong>
+</small>
+</p>
+</section>
+
+<section>
+
+  <h2 id="soooo-what-class-is-this-again">Soooo&#8230; What Class Is This Again?</h2>
+
+  <p>Just to make sure you&#39;re in the right place:</p>
+
+  <ul>
+    <li>Special Topics - <strong>Applied Internet Technology</strong></li>
+    <li><em>Someone</em> started calling it AIT (not me, I have enough acronyms in my life!), and for some reason, that caught on</li>
+    <li>Course Number <strong>CSCI-UA.0480</strong>, Section <strong>001</strong></li>
+  </ul>
+
+  <aside class="notes">
+* hold on, are you in the right place?
+</aside>
+</section>
+
+<section>
+  <h2 id="whats-it-about">What&#39;s it About?</h2>
+
+  <h3 id="its-about-making-websites">It&#39;s about making <a href="http://csszengarden.com/?cssfile=http://www.brucelawson.co.uk/zen/sample.css">websites</a>.</h3>
+
+  <h3 class="fragment" id="or-web-apps-if-you-want-to-get-fancy">(Or <strong>web apps</strong> if you want to get fancy)</h3>
+
+  <div class="img">
+    <p class="fragment"><img src="http://media.giphy.com/media/StYTkwUST4HUQ/giphy.gif" alt="or bacon pancakes" /></p>
+  </div>
+
+</section>
+
+<section>
+  <h2 id="full-stack-web-development">Full Stack Web Development</h2>
+
+  <p>This course is <strong>a practical introduction</strong> to creating <strong>modern web applications</strong>. We&#39;ll cover (roughly in this order):</p>
+
+  <ul>
+    <li>JavaScript</li>
+    <li>Server Side Programming</li>
+    <li>Storing Data</li>
+    <li>Client Side <em>Build-Out</em> (HTML and CSS)</li>
+    <li>Client Side Programming</li>
+    <li>A Few <em>Trendy</em> Frameworks / Libraries</li>
+    <li>Development Tools *</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="this-may-be-ambitious">This May be Ambitious!</h2>
+
+  <h3 class="fragment" id="or-not-depending-on-your-past-experience-">(Or Not&#8230; Depending on Your Past Experience. <strong>¯\<em>(ツ)</em>/¯</strong>)</h3>
+
+  <h4 class="fragment" id="lets-get-into-some-specifics">Let&#39;s Get Into Some Specifics</h4>
+</section>
+
+<section>
+  <h2 id="javascript">JavaScript</h2>
+
+  <ul>
+    <li class="fragment">Basics (<strong>Types</strong>, <strong>Operators</strong>, <strong>Control Structures</strong>, etc.)</li>
+    <li class="fragment">Object Oriented Programming (<strong>Objects</strong>, <strong>Prototypes</strong>)</li>
+    <li class="fragment">Functional Programming (<strong>Functions</strong> as <em>First Class Objects</em>)</li>
+    <li class="fragment">Patterns (<strong>Encapsulation</strong>, <strong>Namespacing</strong>, <strong>Interfaces</strong>, etc.)</li>
+  </ul>
+
+  <aside class="notes">
+* Who already knows js?
+* Describe - type system, tools for abstraction... like inheritance,
+</aside>
+</section>
+
+<section>
+
+  <h2 id="server-side-programming">Server Side Programming</h2>
+
+  <ul>
+    <li class="fragment">Server Side Framework/Language - <strong>Node.js</strong></li>
+    <li class="fragment">HTTP</li>
+    <li class="fragment">Web Framework - <strong>Express</strong></li>
+    <li class="fragment">Session Management</li>
+    <li class="fragment">Building and Consuming APIs</li>
+    <li class="fragment">Forms</li>
+    <li class="fragment">MVC</li>
+    <li class="fragment">Deployment</li>
+  </ul>
+
+  <aside class="notes">
+* Request Methods / Response Codes?
+* What's MVC stand for? Examples?
+</aside>
+</section>
+
+<section>
+
+  <h2 id="storing-data">Storing Data</h2>
+
+  <ul>
+    <li class="fragment">NoSQL Database - <strong>MongoDB</strong> (<a href="http://db-engines.com/en/ranking">btw, database rankings!</a>)</li>
+    <li class="fragment">Database Design</li>
+    <li class="fragment">Using a Database Abstraction Layer - <strong>Mongoose</strong></li>
+  </ul>
+
+  <aside class="notes">
+* has anyone use NoSQL data stores?
+* what about traditional databases? Postgres? MySQL?
+* some [comparisons](https://www.digitalocean.com/community/tutorials/sqlite-vs-mysql-vs-postgresql-a-comparison-of-relational-database-management-systems)
+* Hooooowzzzz about JSON?
+</aside>
+</section>
+
+<section>
+  <h2 id="client-side-build-out">Client Side <em>Build-Out</em></h2>
+
+  <ul>
+    <li class="fragment">Quick Review - <strong>DOM/HTML5/CSS3</strong></li>
+    <li class="fragment">CSS Layout</li>
+    <li class="fragment">Flexbox</li>
+    <li class="fragment">Using JavaScript to Manipulate Styles (which brings us to&#8230;)</li>
+  </ul>
+
+  <aside class="notes">
+* know html? 
+* know css?
+* who's built a mobile ready site? what are some considerations when going from desktop to tablet or phone? think interaction design?
+	* perhaps touch vs click/hover
+	* resolution, obvs
+	* performance / size
+</aside>
+</section>
+
+<section>
+  <h2 id="client-side-programming">Client Side Programming</h2>
+
+  <ul>
+    <li class="fragment">DOM Manipulation - <strong>Plain JavaScript, ES5 (we&#39;re not using JQuery)</strong></li>
+    <li class="fragment">Ajax</li>
+    <li class="fragment">JavaScript Framework - Hm&#8230; maybe <strong>React</strong> for this one</li>
+    <li class="fragment">A Quick Look at Some ES6/ES2015 Features</li>
+  </ul>
+
+  <aside class="notes">
+* anyone ever use JQuery
+* what about backbone or angular?
+</aside>
+</section>
+
+<section>
+  <h2 id="development-tools">Development Tools</h2>
+
+  <ul>
+    <li class="fragment">Version Control - <strong>Git</strong></li>
+    <li class="fragment">Task Runner - one of these: <strong>Grunt</strong>, <strong>Gulp</strong> &#8230; or <strong>webpack</strong>?</li>
+    <li class="fragment">Linter - <strong>JSHint/JSLint</strong></li>
+    <li class="fragment">Unit Testing Tools</li>
+    <li class="fragment">(Optionally) Debugger - <strong>Node Debugger, Inspector</strong> and <strong>Chrome Developer Tools</strong></li>
+  </ul>
+
+  <aside class="notes">
+* what's version control? why?
+* ever used git?
+</aside>
+</section>
+
+<section>
+  <h2 id="whew---thats-a-lot-of-stuff">Whew - That&#39;s a Lot of Stuff!</h2>
+</section>
+
+<section>
+  <h2 id="me">Me?</h2>
+
+  <h3 id="joe-versoza">Joe Versoza</h3>
+
+  <ul>
+    <li class="fragment">I think I know some of you / you know me (uh-oh &#8230; why would you want take another <em>class</em> with me?)!</li>
+    <li class="fragment"><strong>Clinical Assistant Professor</strong> (you can find me at: WWH 422 on Mon/Wed&#8230; Lobby, 60 5th Ave on Tues)</li>
+    <li class="fragment">Before teaching&#8230;
+      <ul>
+        <li>part-time adjunct at <strong>NYU</strong> and <strong>City-Tech</strong></li>
+        <li>IT Manager at non-profit (wrangling developers / herding cats) 
+  <br />
+  <img src="http://i.imgur.com/Yj9Xe2A.gif" alt="herding cats" /></li>
+      </ul>
+    </li>
+    <li class="fragment">also worked as software engineer for a looong time mostly with Python (<a href="http://webpy.org/">web.py</a> and <a href="https://www.djangoproject.com/">Django</a>), but some <a href="http://rubyonrails.org/">Rails</a>, <a href="http://en.wikipedia.org/wiki/PHP">PHP</a>, <a href="http://en.wikipedia.org/wiki/JavaServer_Pages">Java/JSP</a>, etc.</li>
+  </ul>
+
+  <aside class="notes">
+Why would you ever take another class with me?
+Really love teaching. Left great full time job management/programming job to teach!
+FYI, also - for coders - management is difficult, but it's a legit career track
+</aside>
+</section>
+
+<section>
+  <h2 id="about-you">About&#8230; You</h2>
+
+  <h3 id="some-non--expectations">Some (non-) expectations:</h3>
+
+  <p class="fragment">Only <strong>minimal</strong> experience with</p>
+
+  <ul class="fragment">
+    <li><strong>JavaScript</strong></li>
+    <li><strong>server-side web development</strong></li>
+    <li><em>modern</em> <strong>front-end development</strong></li>
+  </ul>
+
+  <h3 class="fragment" id="if-you-already-know-this-stuff">If you already know this stuff&#8230;</h3>
+
+  <ul>
+    <li class="fragment">like&#8230; maybe you do this professionally (seriously, I&#39;ve had people who get paid to do this take this class???)</li>
+    <li class="fragment">or&#8230; you&#39;ve already taken several web minor courses, including web programming and databases</li>
+    <li class="fragment"><strong>what are you doing here? GET OUT!</strong></li>
+    <li class="fragment">really, though, you won&#39;t get much out of the class</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="more-about-you">More About You&#8230;</h2>
+
+  <h3 id="additionally-i-expect-that-you-would">Additionally, I expect that you would:</h3>
+
+  <ul class="fragment">
+    <li>be very comfortable using the <strong>commandline</strong></li>
+    <li>have the ability to install tools, software, etc. &#8230; and troubleshoot installations (basically <em>know how to use a computer</em>)</li>
+    <li>be able navigate to navigate your file system</li>
+    <li>have basic/rudimentary knowledge of <strong>HTML</strong> and <strong>CSS</strong> (even a <a href="https://www.google.com/search?q=90%27s+website&amp;espv=2&amp;tbm=isch&amp;tbo=u&amp;source=univ&amp;sa=X&amp;ei=wegEVMjPJcPxgwTA5YDICg&amp;ved=0CCgQsAQ&amp;biw=1307&amp;bih=729">late 90&#39;s notion</a> of how this stuff works <em>may be</em> fine)</li>
+    <li><em>actually do homework and come to class</em></li>
+    <li>low bar, I know&#8230;</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="technologies">Technologies</h2>
+
+  <p><strong>If you&#39;ve been following along, the specific tools, languages and frameworks we&#39;ll be using include:</strong></p>
+
+  <ul>
+    <li><a href="http://eloquentjavascript.net/">JavaScript</a></li>
+    <li><a href="http://nodejs.org/">Node.js</a></li>
+    <li><a href="http://expressjs.com/">Express</a></li>
+    <li><a href="http://www.mongodb.org/">MongoDB</a> (and Mongoose)</li>
+    <li><a href="http://getskeleton.com/">Skeleton</a> (maybe)</li>
+    <li><a href="http://facebook.github.io/react/">React</a></li>
+    <li><a href="http://gulpjs.com/">Gulp</a> (or maybe Grunt&#8230; or maybe webpack)</li>
+    <li><a href="http://git-scm.com/">Git</a></li>
+    <li>etc.</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="motivation-for-technologies">Motivation for Technologies</h2>
+
+  <p><strong>Why use JavaScript, Node.js and Express over Ruby and Ruby on Rails or Python and Django?</strong></p>
+
+  <p>The concepts and theory remain roughly the same across all of these <em>technology stacks</em>, but here&#39;s why I chose what I did:</p>
+
+  <ol>
+    <li class="fragment">we only need to learn one language throughout the course for server side development, front end development&#8230; and even for querying the database</li>
+    <li class="fragment">pretty straightforward to install the entire stack (node, mongodb) on Windows, Linux and OSX</li>
+    <li class="fragment">seems like there&#39;s a lot of opportunity out there (I&#39;ve had former students contact me to let me know that they&#39;re working with node professionally!)</li>
+    <li class="fragment">work with tools that are either currently or becoming industry standards (<strong>git</strong>, <strong>jshint</strong>, etc.)</li>
+    <li class="fragment">a <strong>fun</strong> stack to learn (really! &#8230;I&#39;m excited about delving into it too!)</li>
+    <li class="fragment">we&#39;ll talk about the technical trade-offs for using this stack next week</li>
+  </ol>
+</section>
+
+<section>
+  <h2 id="too-easy-or-too-difficult">Too Easy or Too Difficult?</h2>
+
+  <ul>
+    <li><strong>You may consider choosing a different class if you:</strong>
+      <ul>
+        <li><em>are a professional web developer</em>?</li>
+        <li>already know this stuff</li>
+        <li>think this may be too much work</li>
+        <li>not comfortable with the requirements</li>
+      </ul>
+    </li>
+    <li class="fragment"><strong>(There are some non major courses around as well)</strong>
+      <ul>
+        <li><strong>CSCI-UA.60</strong> Database Design &amp; Web Implementation</li>
+        <li><strong>CSCI-UA.61</strong> Web Development &amp; Programming</li>
+      </ul>
+    </li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="this-is-the-4th-run-of-this-course">This is the 4th Run of This Course</h2>
+
+  <ul>
+    <li>I&#39;m trying to compress the beginning part of the course to make sure I get through all of the topics</li>
+    <li>Some common themes throughout the comments from previous versions of this course were:
+      <ul>
+        <li class="fragment">&quot;<strong>Hard class for me (no previous exp to webdev) but is fair. There should be a prereq to this class not to let people like me take the class.</strong>&quot;</li>
+        <li class="fragment">&quot;<strong>General pace was good - could have maybe been a little faster.</strong>&quot;</li>
+        <li class="fragment">drawing of a cat (????)</li>
+      </ul>
+    </li>
+    <li class="fragment">All that is to say - I&#39;m catering to a wide variety of skills/backgrounds, so just let me know if you think I&#39;m going to fast or too slow
+      <ul class="fragment">
+        <li>come see me during my <a href="../../index.html">office hours</a></li>
+        <li>contact me at <strong>jversoza</strong> at <strong>cs</strong> dot <strong>nyu</strong> dot <strong>edu</strong></li>
+      </ul>
+    </li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="a-tentative-schedule">A Tentative Schedule</h2>
+
+  <p>Let&#39;s check out the <a href="../../schedule.html">schedule on the course site</a></p>
+
+  <ul>
+    <li>the broad sections are:
+      <ul>
+        <li><strong>JavaScript</strong></li>
+        <li><strong>Node / Express</strong></li>
+        <li><strong>MongoDB</strong></li>
+        <li><strong>Client Side Build-Out</strong></li>
+        <li><strong>Client Side Programming</strong></li>
+        <li><strong>Frameworks and Libraries</strong></li>
+      </ul>
+    </li>
+    <li class="fragment">(all this could change based on class progress / existing class experience)</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="logistics--course-info--office-hours">Logistics / Course Info / Office Hours</h2>
+
+  <ul>
+    <li><strong>Course Site</strong>: <a href=""> </a></li>
+    <li><strong>Easier Link (Maybe)</strong>: <a href="http://cs.nyu.edu/~jversoza"> http://cs.nyu.edu/~jversoza</a></li>
+    <li><strong>Course Title:</strong> Applied Internet Technology</li>
+    <li><strong>Course Number:</strong> CSCI-UA.0480-001</li>
+    <li><strong>Semester:</strong> Fall 2019</li>
+    <li><strong>Meeting Time:</strong> Mon and Wed, 12:3PAM - 1:45PM</li>
+    <li><strong>Room:</strong> WWH 202</li>
+    <li><strong>Instructor:</strong> Joe Versoza</li>
+    <li><strong>Email:</strong> jversoza at cs dot nyu dot edu</li>
+    <li><strong>Office Hours:</strong> <br />Mon/Wed 11:25am - 12:25pm at WWH 422<br />Thurs 12:15PM - 1:15PM at 60 5th Ave</li>
+    <li><strong>Office Hours Room:</strong>  WWH 422 on Mon/Wed&#8230; Lobby, 60 5th Ave on Tues</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="grading">Grading</h2>
+
+  <ul>
+    <li><strong>5%</strong> - Quizzes / Class Participation / Activities</li>
+    <li><strong>25%</strong> - Homework</li>
+    <li><strong>25%</strong> - Midterm Exam</li>
+    <li><strong>15%</strong> - Final Project</li>
+    <li><strong>30%</strong> - Final Exam</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="homework">Homework</h2>
+
+  <ul>
+    <li>about <strong>one homework</strong> every <strong>week or so</strong></li>
+    <li>turned in <strong>electronically via GitHub</strong> and <strong>NYU Classes</strong>
+      <ul>
+        <li>we&#39;ll discuss this submission process next class</li>
+      </ul>
+    </li>
+    <li>homework assignments are <strong>due about one two week after posting</strong></li>
+    <li>read the <a href="http://www.cs.nyu.edu/webapps/content/academic/undergrad/academic_integrity">page on academic integrity</a>
+      <ul>
+        <li><strong>collaboration</strong> in terms of help debugging, discussing potential solutions, etc. is ok</li>
+        <li><strong>but write your own code!</strong></li>
+      </ul>
+    </li>
+  </ul>
+</section>
+
+<section data-background="#440000">
+  <h2 id="oh-yes---did-you-remember-the-part-about-writing-your-own-code">Oh Yes - Did You Remember the Part About <strong>Writing Your Own Code</strong>?</h2>
+
+</section>
+<section>
+  <h2 id="books">Books</h2>
+
+  <p>Readings will be assigned in the required books.</p>
+
+  <ul>
+    <li><strong>Required:</strong>
+      <ul>
+        <li><a href="http://speakingjs.com/es5/index.html">Speaking JavaScript</a> by Axel Rauschmayer (available <a href="http://speakingjs.com/es5/index.html">free, online</a>)</li>
+        <li><a href="http://exploringjs.com/es6/index.html">Exploring ES6</a> by Axel Rauschmayer</li>
+      </ul>
+    </li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="required-software">Required Software</h2>
+
+  <h3 id="nodejs-obvs">Node.js (obvs)</h3>
+
+  <ol>
+    <li>Suggested install - use the package manager on your OS
+      <ul>
+        <li><strong>OSX</strong>
+          <ul>
+            <li><a href="https://github.com/Homebrew/homebrew/wiki/Installation">install</a> <a href="http://brew.sh/">homebrew</a></li>
+            <li>
+              <pre><code data-trim="" contenteditable="">brew install node</code></pre>
+            </li>
+          </ul>
+        </li>
+        <li><strong>Linux</strong> (Specifically Debian/Ubuntu)
+          <ul>
+            <li>
+              <pre><code data-trim="" contenteditable="">sudo apt-get install nodejs
+sudo apt-get install npm</code></pre>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li>Use the Node.js installer:
+      <ul>
+        <li><strong>Windows</strong>, <strong>OSX</strong>, and <strong>Linux</strong>: see the <a href="http://nodejs.org/">downloads page on the Node.js site</a></li>
+      </ul>
+    </li>
+  </ol>
+</section>
+
+<section>
+  <h2 id="this-site-these-slides">This Site, These Slides</h2>
+
+  <ul>
+    <li>you can find my courses at <a href="http://cs.nyu.edu/~jversoza/">http://cs.nyu.edu/~jversoza/</a></li>
+    <li>these slides were built with <a href="http://revealjs.com/">reveal.js</a> for HTML/CSS slides
+      <ul>
+        <li>use arrow keys to navigate</li>
+        <li>(or click on arrow buttons)</li>
+      </ul>
+    </li>
+    <li>add a <code>?print-pdf</code> to the end of the slide deck&#39;s url to see the <a href="intro.html?print-pdf">one page version of the slides</a></li>
+  </ul>
+</section>
+:ET

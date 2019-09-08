@@ -1,0 +1,8 @@
+I"s
+<ul>
+  <li><a href="slides/26/react.html">React Basics</a></li>
+  <li><a href="slides/26/react-state-parent.html">React Revisited</a></li>
+  <li>(Optional) <a href="slides/26/react-webpack-continued.html">React and Express / Using Webpack</a></li>
+  <li>Example Code: <a href="examples/react/demo/src/index.js">index.js / Clicker Component</a> (React Basics)</li>
+</ul>
+:ET

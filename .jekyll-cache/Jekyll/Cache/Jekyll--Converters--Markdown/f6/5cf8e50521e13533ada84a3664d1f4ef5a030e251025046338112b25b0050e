@@ -1,0 +1,51 @@
+I"ƒ<section class="intro-slide">
+  <h1 id="about-class-16">About Class #16</h1>
+
+  <h3 id="csci-ua0480-001">CSCI-UA.0480-001</h3>
+
+  <p><small></small></p>
+</section>
+
+<section>
+  <h2 id="topics">Topics</h2>
+
+  <ul>
+    <li>review scaffolding</li>
+    <li>MongoDB demo (really this time!)</li>
+    <li>extracting values from paths</li>
+    <li>additional form elements</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="grading">Grading</h2>
+
+  <ul>
+    <li>graders are finished with homework 2, should be posted this evening</li>
+    <li>midterms will be returned thursday morning</li>
+    <li>homework 3 grades posted on thursday</li>
+    <li>midterm grades posted thursday evening</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="homework">Homework</h2>
+
+  <ul>
+    <li>homework initial draft posted</li>
+    <li><strong>let&#39;s take a look</strong> &#8594;</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="a-quick-review">A Quick Review</h2>
+
+  <ul>
+    <li>scaffolding with express-generator</li>
+    <li>routers</li>
+    <li>creating modules</li>
+    <li>project layout, starting your app</li>
+    <li>a diversion: <strong>nodemon</strong></li>
+  </ul>
+</section>
+:ET

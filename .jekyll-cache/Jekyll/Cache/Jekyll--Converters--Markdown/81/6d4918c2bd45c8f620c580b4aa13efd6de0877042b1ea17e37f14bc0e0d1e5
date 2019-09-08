@@ -1,0 +1,383 @@
+I"(<section class="intro-slide">
+  <h1 id="about-the-exam-review">About the Exam, Review</h1>
+
+  <h3 id="csci-ua0480-001">CSCI-UA.0480-001</h3>
+
+  <p><small></small></p>
+</section>
+
+<section>
+  <h2 id="first">First&#8230;</h2>
+
+  <p>This goes without saying, but <strong>please prepare adquately for the exam</strong>:</p>
+
+  <ul>
+    <li>it&#39;s definitely not super <em>difficult</em></li>
+    <li>but it&#39;s also not <em>easy</em></li>
+  </ul>
+
+  <p><br /></p>
+
+  <p>If you&#39;re a graduating senior&#8230; or if you&#39;re a major that <strong>needs</strong> a particular grade in this elective, <strong>you know what you have to do!</strong></p>
+
+  <ul>
+    <li>I&#39;ve had issues in the past regarding both situations!</li>
+    <li>don&#39;t be that person</li>
+  </ul>
+
+  <p><br /></p>
+
+  <p>Ask me any questions if you have any concerns - in class or via email. For office hours today, I&#39;ll be around at 3:15 instead for of 12:30 due to committee meeting.</p>
+
+</section>
+<section>
+  <h2 id="exam-details">Exam Details</h2>
+
+  <ul>
+    <li>
+      <p><strong>4/10</strong></p>
+    </li>
+    <li>in this room, WWH 202</li>
+    <li>during regular class time (11:00-12:15am)</li>
+    <li>please come on time to get full amount of time for exam</li>
+    <li>pen/pencil and paper, no laptops</li>
+    <li>some notes will be provided (just a list of String, Array, Request and Response methods and properties)</li>
+  </ul>
+</section>
+
+<section>
+  <h1 id="topics">Topics</h1>
+
+</section>
+<section>
+  <h2 id="sources">Sources</h2>
+
+  <p>The material for the exam will come from:</p>
+
+  <ul>
+    <li>slides (1 - 12)</li>
+    <li>homework (1 - 5)</li>
+    <li>Speaking JavaScript (1 through 5, 6, 8, 13, 17 up to browsers and http, and 20 up to streams)</li>
+  </ul>
+
+  <p><br />
+(of course, see the sample questions to get an idea of the types of questions on the exam)</p>
+</section>
+
+<section>
+  <h2 id="some-more-details-on-slides">Some More Details on Slides</h2>
+
+  <ul>
+    <li>slides from classes 1 through 12 will be on the exam</li>
+    <li>exceptions (these will <strong>not</strong> be on the exam):
+      <ul>
+        <li>Static Sites, Remote Server (using ssh, scp, etc.)</li>
+        <li>Forms Revisted (using <em>other</em> form elements)</li>
+      </ul>
+    </li>
+    <li>note that you can append a ?print-pdf to the end of the url for a printable version (the formatting is slightly off, though)</li>
+    <li>for example:<a href="http://foureyes.github.io/csci-ua.0480-fall2015-001/slides/09/request-response.html?print-pdf#/">http://foureyes.github.io/csci-ua.0480-fall2015-001/slides/09/request-response.html?print-pdf#/</a></li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="will-not-be-on-exam">Will Not Be on Exam</h2>
+
+  <p>No need to memorize exact setup code for built-in middleware and templating engines:</p>
+
+  <ul>
+    <li>express handlebars</li>
+    <li>body-parser</li>
+    <li>express-static</li>
+    <li>express-session</li>
+  </ul>
+
+  <p><br /></p>
+
+  <p><strong>However</strong> your should know conceptually what do they do, as well as why / when you&#39;d use them.</p>
+</section>
+
+<section>
+  <h2 id="javascript-basics">JavaScript Basics</h2>
+
+  <ul>
+    <li>values, types, operators</li>
+    <li>type coercion and type casting (including +, + &#39;&#39;, parseInt, etc.)</li>
+    <li>undefined, checking for</li>
+    <li>loops, conditionals, switch case</li>
+    <li>variables</li>
+    <li>functions</li>
+  </ul>
+
+</section>
+<section>
+  <h2 id="functions">Functions</h2>
+
+  <ul>
+    <li>functions as values</li>
+    <li>nested functions</li>
+    <li>function declaration syntax vs declare variable and assign to function</li>
+    <li>variable scope</li>
+    <li>hoisting</li>
+    <li>closures</li>
+    <li>arguments object</li>
+    <li>higher order functions (and their implementations)</li>
+    <li>function invocation (function call, method, call/apply)and  <em>this</em></li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="objects">Objects</h2>
+
+  <ul>
+    <li>objects, properties and methods</li>
+    <li><em>this</em></li>
+    <li>&#39;call by sharing&#39;</li>
+    <li>looping over properties, hasOwnProperty</li>
+    <li>mutability / aliasing, get around this by slicing</li>
+    <li>JSON</li>
+    <li>String and Array, properties and methods</li>
+    <li>prototypal inheritance, prototype chain</li>
+    <li>Object.prototype, Object methods and properties</li>
+    <li>constructors</li>
+    <li>console object</li>
+    <li>modules (export, require)</li>
+    <li>readline-sync, request</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="nodenpm">Node/npm</h2>
+
+  <ul>
+    <li>what&#39;s node?</li>
+    <li>non-blocking io</li>
+    <li>using npm</li>
+    <li>package.json</li>
+    <li>node_modules directory</li>
+    <li>finding modules</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="web">Web</h2>
+
+  <ul>
+    <li>internet, www, hypertext</li>
+    <li>URLs</li>
+    <li>protocols</li>
+    <li>servers / clients</li>
+    <li>HTTP&#8230; (continued)</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="http">HTTP</h2>
+
+  <ul>
+    <li>request message (request line, headers, body)</li>
+    <li>response message (status line, headers, body)</li>
+    <li>request headers (ones mentioned in class/slides)</li>
+    <li>response headers (ones mentioned in class/slides)</li>
+    <li>response codes, response classes (ones mentioned in class/slides)</li>
+    <li>tools
+      <ul>
+        <li>netcat</li>
+        <li>curl</li>
+        <li>web inspector</li>
+      </ul>
+    </li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="nodes-http-module">Node&#39;s http module</h2>
+
+  <ul>
+    <li>createServer</li>
+    <li>writeHead</li>
+    <li>send</li>
+    <li>using fs module</li>
+    <li>mainly homework</li>
+    <li>&#8230;and difference between http and using Express&#8230;</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="express">Express</h2>
+
+  <ul>
+    <li>request/response objects</li>
+    <li>routes</li>
+    <li>middleware</li>
+    <li>serving static files (middleware) &#8230;not exact code, but <em>how</em> it works</li>
+    <li>templating</li>
+    <li>paths</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="forms">Forms</h2>
+
+  <ul>
+    <li>form markup, form elements</li>
+    <li>post/redirect/get</li>
+    <li>session and body parsing middleware</li>
+    <li>accessing data from request originating from form (via query and body)</li>
+    <li>storing in session, cookies</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="mongodb-and-mongoose">MongoDB and Mongoose</h2>
+
+  <ul>
+    <li>background information on databases</li>
+    <li>mongodb commandline client insert, find and findOne</li>
+    <li>mongoose - find and find with criteria</li>
+  </ul>
+
+</section>
+
+<section>
+  <h1 id="format">Format</h1>
+
+</section>
+
+<section>
+  <h2 id="penpencil-and-paper">Pen/Pencil and Paper</h2>
+
+  <ul>
+    <li>no laptops</li>
+    <li>no books/notes (except provided notes)</li>
+    <li>4 ~ 5 pages (12 ~ 16 questions)</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="types-of-questions">Types of Questions</h2>
+
+  <ul>
+    <li>true / false</li>
+    <li>short answer</li>
+    <li>code comprehension</li>
+    <li>code from scratch</li>
+    <li>fill-in-the-blanks</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="true-or-false">True or False</h2>
+
+  <p><strong>Are the following statements true or false. If false, why?</strong> &#8594;</p>
+
+  <ul>
+    <li><strong>HTTP is a request-response protocol</strong> &#8594;
+      <ul>
+        <li class="fragment">true</li>
+      </ul>
+    </li>
+    <li><strong><code>(typeof 9 === 'int')</code></strong> &#8594;
+      <ul>
+        <li class="fragment">false - JavaScript&#39;s numeric type is <em>number</em>, there are not types specifically for ints, floats and doubles</li>
+      </ul>
+    </li>
+    <li><strong>Node.js is usually multi-threaded, even though I/O is always blocking</strong>  &#8594;
+      <ul>
+        <li class="fragment"><strong>false</strong> - node is usually single-threaded, and I/O is asynchronous</li>
+      </ul>
+    </li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="short-answer">Short Answer</h2>
+
+  <p><strong>What is function and variable hoisting. Give an example of each.</strong> &#8594;</p>
+
+  <ul class="fragment">
+    <li><strong>function / variable</strong> hoisting is when a function or variable declaration is brought to the top of the enclosing scope.</li>
+    <li>an example of function hoisting:</li>
+  </ul>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+f(); // function declaration syntax gets hoisted
+
+function f() {
+	console.log('I\'m a function!');
+}
+
+console.log(x); // undefined (but no reference error)
+
+var x = 12; // definition stays, but declaration hoisted
+</code></pre>
+</section>
+
+<section>
+  <h2 id="code-comprehension">Code Comprehension</h2>
+
+  <pre><code data-trim="" contenteditable="">
+if ('5' == 5) {
+	console.log('first');
+}
+
+if ('5' === 5) {
+	console.log('second');
+}
+</code></pre>
+
+  <p><strong>What is the output of the code above?</strong> <strong>Why?</strong> &#8594;</p>
+
+  <p class="fragment"><code>first</code> - <code>===</code> checks for both type and value</p>
+
+</section>
+
+<section>
+  <h2 id="code-from-scratch">Code From Scratch</h2>
+
+  <p>Expect small programs or functions, such as:</p>
+
+  <ul>
+    <li>create a hello world Express app that responds to GET requests on /
+      <ul>
+        <li>needs require, app creation, simple route and listen</li>
+      </ul>
+    </li>
+    <li>write a function called only_large_arrays&#8230; that takes two arguments:
+      <ul>
+        <li>an Array of Arrays and a number</li>
+        <li>it will return a new Array composed of Arrays that have more elements than the number passed in</li>
+        <li>example: only_large_arrays([[1, 2], [3, 4, 5], [6, 7, 8], [9]], 2) &#8594; [[3, 4, 5], [6, 7, 8]]</li>
+      </ul>
+    </li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="fill-in-the-blank">Fill in the Blank</h2>
+
+  <p>What&#39;s missing from this <code>views/layouts/main.handlebars</code> template? <strong>Fill in the missing line</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+&lt;!doctype html&gt;
+
+&lt;html&gt;
+
+&lt;body&gt;
+
+&lt;/body&gt;
+
+&lt;/html&gt;
+
+</code></pre>
+
+  <p class="fragment">(It needs {{{body}}}) between the body tags</p>
+</section>
+
+:ET

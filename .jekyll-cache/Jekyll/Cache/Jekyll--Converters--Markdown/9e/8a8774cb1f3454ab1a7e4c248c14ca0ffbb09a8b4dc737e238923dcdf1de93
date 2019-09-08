@@ -1,0 +1,290 @@
+I"ø$<section class="intro-slide">
+  <h1 id="objects-addendum">Objects Addendum</h1>
+
+  <h3 id="csci-ua0480-001">CSCI-UA.0480-001</h3>
+
+  <p><small></small></p>
+</section>
+<section>
+  <h2 id="objects-and-mutability">Objects and Mutability</h2>
+
+  <p><strong>Objects are <em>mutable</em>.</strong> (<strong>What does that mean?</strong>) &#8594;</p>
+
+  <ul>
+    <li class="fragment">objects can be changed</li>
+    <li class="fragment">&#8230;for example, creating new properties on-the-fly: <br /> <code>obj.newProp = 5</code></li>
+    <li class="fragment"><strong>arrays are objects; they&#39;re mutable too!</strong></li>
+  </ul>
+
+  <p class="fragment"><br />
+Numbers, strings and booleans are all immutable!</p>
+</section>
+
+<section data-background="#440000">
+  <h2 id="numbers-strings-and-booleans-are-immutable">Numbers, strings and booleans are immutable!</h2>
+</section>
+
+<section>
+  <h2 id="working-with-arrays">Working With Arrays</h2>
+
+  <p>Because <strong>arrays are mutable</strong>, we have to be careful when we work with them.</p>
+
+  <p>For example, we can create functions that work on arrays:</p>
+
+  <ul>
+    <li><strong>in place</strong>  (that is, change the elements in the array itself)</li>
+    <li>&#8230; or <strong>return an entirely new array</strong> with the elements of the original array changed</li>
+  </ul>
+
+  <p><br />
+(<strong>Let&#39;s see&#8230;</strong> &#8594;)</p>
+</section>
+
+<section>
+  <h2 id="double-values-new-array">Double Values, New Array</h2>
+
+  <p><strong>Create a function called doubleValues.</strong> &#8594;</p>
+
+  <ul>
+    <li>it should have one parameter, an array called <code>arr</code></li>
+    <li>it should return an entirely new array, with the elements of the original array doubled</li>
+    <li>double each element by multiplying by 2 (regardless of the type)</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="double-values-new-array-implementation">Double Values, New Array, Implementation</h2>
+
+  <p><strong>What do you think the following code prints out?</strong> &#8594;</p>
+  <pre><code data-trim="" contenteditable="">
+var numbers = [1, 2, 3];
+var doubleValues = function(arr) {
+	var doubled = [];
+	for(var i = 0; i &lt; arr.length; i++) {
+		doubled.push(arr[i] * 2);
+	}
+	return doubled;
+};
+result = doubleValues(numbers);
+console.log(numbers);
+console.log(result);
+</code></pre>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+[1, 2, 3]
+[2, 4, 6]
+</code></pre>
+</section>
+
+<section>
+  <h2 id="double-values-in-place">Double Values, In Place</h2>
+
+  <p><strong>Create a function called doubleValuesInPlace.</strong> &#8594;</p>
+
+  <ul>
+    <li>it should have one parameter, an array called <code>arr</code></li>
+    <li>it should double each element in place by multiplying each element by 2 (regardless of the type)</li>
+    <li>it does not return a value</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="double-values-in-place-implementation">Double Values, In Place, Implementation</h2>
+
+  <p><strong>What do you think the following code prints out?</strong> &#8594;</p>
+  <pre><code data-trim="" contenteditable="">
+var numbers = [1, 2, 3];
+var doubleValuesInPlace = function(arr) {
+	for(var i = 0; i &lt; arr.length; i++) {
+		arr[i] *= 2;
+	}
+};
+result = doubleValuesInPlace(numbers);
+console.log(numbers);
+console.log(result);
+</code></pre>
+
+  <pre><code data-trim="" contenteditable="">
+[2, 4, 6]
+undefined
+</code></pre>
+</section>
+
+<section>
+  <h1 id="which-leads-us-to-call-by-sharing">Which leads us to call-by-sharing</h1>
+
+</section>
+<section>
+  <h2 id="call-by-sharing">Call By Sharing</h2>
+
+  <p>It&#39;s not quite <strong>pass-by-value</strong>, and it&#39;s not quite <strong>pass-by-reference</strong>:</p>
+
+  <ul>
+    <li>&quot;assignments to function arguments within the function aren&#39;t visible to the caller&quot;</li>
+    <li>&quot;however since the function has access to the same object as the caller (no copy is made), mutations to those objects, if the objects are mutable, within the function are visible to the caller&quot;</li>
+  </ul>
+
+  <p><br />
+Um ok. <strong>What does that mean?</strong> &#8594;</p>
+
+</section>
+
+<section>
+  <h2 id="call-by-sharing-continued">Call By Sharing Continued</h2>
+
+  <p><strong>What is the output of the following code?</strong> &#8594;</p>
+  <pre><code data-trim="" contenteditable="">
+var p = {'x':5, 'y':3}; 
+var changePoint = function(point, distance) {
+	point.x = 0;
+	console.log('in function:', point);
+};
+changePoint(p);
+console.log('outside', p);
+</code></pre>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+in function: { x: 0, y: 3 }
+outside { x: 0, y: 3 }
+</code></pre>
+
+  <p class="fragment"><strong>We can mutate the original object passed in!</strong></p>
+
+</section>
+<section>
+  <h2 id="and-even-more-call-by-sharing">And Even More Call By Sharing</h2>
+
+  <p><strong>What is the output of the following code?</strong> &#8594;</p>
+  <pre><code data-trim="" contenteditable="">
+var p = {'x':5, 'y':3}; 
+var changePoint = function(point, distance) {
+	point = {};
+	console.log('in function:', point);
+};
+changePoint(p);
+console.log('outside', p);
+</code></pre>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+in function: {}
+outside { x: 5, y: 3 }
+</code></pre>
+
+  <p class="fragment"><strong>The code outside of the function doesn&#39;t see the reassignment!</strong></p>
+</section>
+<section>
+  <h2 id="a-quick-summary">A Quick Summary</h2>
+
+  <p><strong>A function&#8230;</strong> &#8594;</p>
+
+  <ul>
+    <li>can mutate a mutable object passed in as a parameter</li>
+    <li>can reassign a mutable or an immutable object
+      <ul>
+        <li>but that reassignment is only within the scope of the function</li>
+        <li>(the caller is not affected by the reassignments)</li>
+      </ul>
+    </li>
+    <li>can&#39;t mutate an immutable object (obvs!) passed in as a parameter</li>
+  </ul>
+
+  <p><br />
+Some references:</p>
+
+  <ul>
+    <li><a href="http://skilldrick.co.uk/2010/12/clearing-up-the-confusion-around-javascript-references/">an article on JavaScript references</a></li>
+    <li><a href="http://en.wikipedia.org/wiki/Evaluation_strategy#Call_by_sharing">the wikipedia article on call by sharing</a></li>
+    <li><a href="http://effbot.org/zone/call-by-object.htm">call by sharing in Python</a></li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="arguments-object">Arguments Object</h2>
+
+  <p>When a function is called, it gets an <strong>arguments</strong> object in its context, along with its defined parameters (and <strong>this</strong>, but we&#39;ll talk about that later). <strong>Let&#39;s see this in action.</strong> &#8594;</p>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+var f = function() {
+    // btw... ok - I get the funny coercion rules now
+    console.log("number of args " + arguments.length);
+    for (var i = 0, j = arguments.length; i &lt; j; i++) {
+        console.log(arguments[i]);
+    }
+};
+f(1, 2, 3);
+</code></pre>
+</section>
+
+<section>
+  <h2 id="arguments-object-continued">Arguments Object Continued</h2>
+
+  <p>The arguments object is array-like, but not an array. (<strong>Let&#39;s see.</strong> &#8594;)</p>
+
+  <ul>
+    <li>you can index into it</li>
+    <li>you can get it&#39;s length</li>
+    <li>you can loop over it (with a <em>regular</em> <code>for</code> loop)</li>
+    <li>no methods, though (no <code>slice</code>, <code>pop</code>, <code>forEach</code>, etc.)</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="using-the-arguments-object">Using the Arguments Object</h2>
+
+  <p>Create a function called <code>mySum</code> that takes an arbitrary number of numbers as separate arguments and returns the sum of all of the arguments</p>
+
+  <pre><code data-trim="" contenteditable="">
+console.log(mySum(1, 2, 3)); // --&gt; 6
+</code></pre>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+var mySum = function() {
+	var total = 0;
+	for(var i = 0; i &lt; arguments.length; i++) {
+		total += arguments[i];
+	}
+	return total;
+}
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="mutability-and-references">Mutability and References</h2>
+
+  <p><strong>What will this print out?</strong> &#8594;</p>
+  <pre><code data-trim="" contenteditable="">
+a = [1, 2, 3];
+b = a;
+b.push(4);
+console.log(a, b);
+</code></pre>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+[ 1, 2, 3, 4 ] [ 1, 2, 3, 4 ]
+</code></pre>
+
+  <p class="fragment">(We can use the slice method to copy an Array instead of <em>aliasing</em>: <code>a.slice()</code>)</p>
+</section>
+
+<section>
+  <h2 id="and-finally-json">And Finally&#8230; JSON</h2>
+
+  <p>JSON or <em>JavaScript Object Notation</em> is a data storage and communication format based off of JavaScript object literals&#8230; but with a few modifications:</p>
+
+  <ul>
+    <li>all property names are surrounded by double quotes</li>
+    <li>values are restricted to simple data: no function calls, variables, comments or computations</li>
+  </ul>
+
+  <p><br />
+Conversion to-and-from JSON can be done using the following methods on the built-in JSON object:</p>
+
+  <ul>
+    <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify">stringify(value)</a> - returns a JSON string representation of the value passed in</li>
+    <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse">parse(text)</a> - returns an object created from the supplied JSON text</li>
+  </ul>
+
+</section>
+:ET

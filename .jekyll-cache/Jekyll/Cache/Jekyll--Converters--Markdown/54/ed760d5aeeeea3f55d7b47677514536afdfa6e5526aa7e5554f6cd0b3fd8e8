@@ -1,0 +1,29 @@
+I"Ê<section class="intro-slide">
+  <h1 id="about-class-15">About Class #15</h1>
+
+  <h3 id="csci-ua0480-001">CSCI-UA.0480-001</h3>
+
+  <p><small></small></p>
+</section>
+
+<section>
+  <h2 id="topics">Topics</h2>
+
+  <ul>
+    <li>scaffolding</li>
+    <li>a mongodb demo</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="midterms">Midterms</h2>
+
+  <ul>
+    <li>grading over the weekend</li>
+    <li>expect results on Monday</li>
+    <li>feedback?</li>
+  </ul>
+
+</section>
+:ET

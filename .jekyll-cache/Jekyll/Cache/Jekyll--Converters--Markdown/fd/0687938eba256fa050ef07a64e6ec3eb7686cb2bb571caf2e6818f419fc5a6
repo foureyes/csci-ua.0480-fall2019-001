@@ -1,0 +1,107 @@
+I"Ï
+<section class="intro-slide">
+  <h1 id="about-class-17">About Class #17</h1>
+
+  <h3 id="csci-ua0480-001">CSCI-UA.0480-001</h3>
+
+  <p><small></small></p>
+</section>
+
+<section>
+  <h2 id="topics">Topics</h2>
+
+  <ul>
+    <li>HTML Primer, JavaScript and the Browser</li>
+    <li>Document Object Model</li>
+    <li>Miscellaneous Stuff:
+      <ul>
+        <li>Checkboxes and Hidden Input</li>
+        <li>Nodemon Demo</li>
+        <li>Homework</li>
+        <li>Quiz Demo</li>
+        <li>Final Projects</li>
+        <li>Midterm</li>
+        <li>(Moving on to Client Side)</li>
+      </ul>
+    </li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="checkboxes-and-hidden-input">Checkboxes and Hidden Input</h2>
+
+  <p>Check out the previous slides on <a href="../slides/11/forms-revisited.html">revisiting forms</a></p>
+
+</section>
+<section>
+  <h2 id="nodemon">Nodemon</h2>
+
+  <p>Use <strong>nodemon</strong> to automatically restart your server whenever file changes occur:</p>
+
+  <pre><code data-trim="" contenteditable="">
+# install it
+npm install -g nodemon
+</code></pre>
+
+  <pre><code data-trim="" contenteditable="">
+# run your project calling nodemon... and the executable for your project
+nodemon bin/www
+</code></pre>
+
+  <pre><code data-trim="" contenteditable="">
+# sometimes you have to specify the exact extensions to monitor
+nodemon bin/www -e "js hbs css html"
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="homework">Homework</h2>
+
+  <p>Homework #6 is posted:</p>
+
+  <ul>
+    <li>it&#39;s about creating grocery lists</li>
+    <li><strong>let&#39;s check it out</strong> &#8594;</li>
+    <li>&#8230; authentication is extra credit
+      <ul>
+        <li>because it&#39;s a bit lengthy and covers a few more topics that we haven&#39;t gotten a chance to go over</li>
+        <li>and I wanted to assign a take-from-home quiz (finally)</li>
+      </ul>
+    </li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="quiz">Quiz</h2>
+
+  <p>Since we&#39;re easing out of server side development, I want to make sure everyone&#39;s caught up with HTML/CSS. I&#39;ve put gathered some tutorials / articles in case you need a refresher.</p>
+
+</section>
+
+<section>
+  <h2 id="final-projects">Final Projects</h2>
+
+  <p>Initial requirements to be posted this evening&#8230; but bascially:</p>
+
+  <ul>
+    <li>open ended, database backed site</li>
+    <li>a few milestones throughout the semester</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="midterm-exams">Midterm Exams</h2>
+
+  <ul>
+    <li>60 points total</li>
+    <li>average was around 46 points (77-78%)</li>
+    <li>median was close&#8230; 48 points (80%)</li>
+    <li>minor curve - 2 points</li>
+    <li>solutions are posted</li>
+    <li>midterm grades (mostly from exam based on split between exams and homework)</li>
+  </ul>
+
+</section>
+:ET

@@ -1,0 +1,20 @@
+I"±<ul>
+  <li>Node and NPM (above)
+    <ul>
+      <li>package.json</li>
+      <li>package-lock.json</li>
+      <li>npm (init, install, list)</li>
+    </ul>
+  </li>
+  <li>Arrays (above)
+    <ul>
+      <li>constructor / holes</li>
+      <li>mutability, slice</li>
+    </ul>
+  </li>
+  <li><a href="slides/js/higher-order-functions.html">Higher Order Functions</a></li>
+  <li><a href="slides/js/higher-order-functions-continued.html">Higher Order Functions Continued</a></li>
+  <li><a href="slides/js/objects-prototypes.html">Objects Revisited, Arrow Functions with &quot;this&quot;</a></li>
+  <li><a href="slides/js/globals-methods-this.html">A Detour: Globals, Methods, and This</a></li>
+</ul>
+:ET

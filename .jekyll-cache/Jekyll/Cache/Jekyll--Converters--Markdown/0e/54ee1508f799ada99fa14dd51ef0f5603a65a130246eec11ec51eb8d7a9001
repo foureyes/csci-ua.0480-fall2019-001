@@ -1,0 +1,667 @@
+I"_<div class="panel panel-default">
+	<div class="panel-heading">Homework #3</div>
+	<div class="panel-body">
+
+    <h1 id="nodes-http-module-first-express-project-due-friday-feb-26th-by-11pm">Node&#39;s HTTP Module, First Express Project, <strong>Due Friday, Feb 26th, by 11PM</strong></h1>
+
+    <h2 id="overview">Overview</h2>
+
+    <h3 id="description">Description</h3>
+
+    <p><strong>stringy.js</strong> - Design objects</p>
+
+    <p><strong>testStringy.js</strong> - Test your work in <code>stringy.js</code></p>
+
+    <p><strong>demo.js</strong> - Create a demo site using node&#39;s http module.</p>
+
+    <p><strong>test.js</strong> - Create a browser test page site using Express.</p>
+
+    <h3 id="submission-process">Submission Process</h3>
+
+    <p>You will be given access to a private repository on GitHub. It will contain the following files: <strong>stringy.js</strong>, <strong>testStringy.js</strong>,  <strong>demo.js</strong> and <strong>test.js</strong>.</p>
+
+    <ul>
+      <li><strong>Push</strong> your changes to the homework repository on GitHub.</li>
+      <li>Commits later than the deadline will not be included in grading</li>
+    </ul>
+
+    <h3 id="points-make-at-least-4-commits">(3 points) Make at Least 4 Commits</h3>
+
+    <ul>
+      <li>Commit multiple times throughout your development process.</li>
+      <li>Make at least 3 separate commits - (for example, one option may be to make one commit per part in the homework).</li>
+    </ul>
+
+    <h2 id="part-1---designing-objects">Part 1 - Designing Objects</h2>
+
+    <p>Design two objects - one that represents a mutable string and a palindrome (a word that is spelled the same backwards and forwards). Create constructors for both objects: <code>MutableString</code> for mutable strings and <code>Palindrome</code> for palindromes. Every <code>Palindrome</code> object should have a <code>MutableString</code> as its prototype.</p>
+
+    <p>Read the following for help on creating objects:</p>
+
+    <ul>
+      <li><a href="http://foureyes.github.io/csci-ua.0480-spring2016-010/slides/06/prototypes.html#/22">slides</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Inheritance_and_the_prototype_chain">mdn</a></li>
+      <li><a href="http://eloquentjavascript.net/06_object.html">chapter 6 in our book</a></li>
+    </ul>
+
+    <h3 id="object-specifications">Object Specifications</h3>
+
+    <p>In <strong>stringy.js</strong>, create objects, functions and methods that meet the specifications below. You can add as many helper functions or methods as needed. Keep methods on the <code>.prototype</code> property of the appropriate constructor.</p>
+
+    <p><strong>Remember to add your constructors to module.exports so that they&#39;re accessible when you perform a require.</strong> &#8594;</p>
+
+    <pre><code data-trim="" contenteditable="">module.exports.Palindrome = Palindrome;
+module.exports.MutableString = MutableString;
+</code></pre>
+
+    <h4 id="points-mutablestring">(15 points) MutableString</h4>
+
+    <p><br /></p>
+
+    <p><code>MutableString(s)</code> - constructor for <code>MutableString</code> objects</p>
+
+    <p>A <code>MutableString</code> object is a string that can be modified and added to. <strong>Empty strings are not supported</strong>.</p>
+
+    <ul>
+      <li>parameters:
+        <ul>
+          <li><code>s</code> {string} - string to base this mutable string off of</li>
+        </ul>
+      </li>
+      <li>returns:
+        <ul>
+          <li>{MutableString} a new <code>MutableString</code> object</li>
+        </ul>
+      </li>
+      <li>examples:
+        <pre><code data-trim="" contenteditable="">var ms = new MutableString("hello");
+</code></pre>
+      </li>
+    </ul>
+
+    <p><br /></p>
+
+    <p><code>concat(s)</code> - adds a string to this mutable string object</p>
+
+    <ul>
+      <li>parameters:
+        <ul>
+          <li><code>s</code> {string} - string to add</li>
+        </ul>
+      </li>
+      <li>returns:
+        <ul>
+          <li>no return value</li>
+        </ul>
+      </li>
+      <li>example:
+        <ul>
+          <li>
+            <pre><code data-trim="" contenteditable="">ms.concat(" world");
+</code></pre>
+          </li>
+        </ul>
+      </li>
+    </ul>
+
+    <p><br /></p>
+
+    <p><code>validIndex(i)</code> - determines whether or not index, <code>i</code>, exists with this mutable string.</p>
+
+    <p>A valid index is an index from 0 up to the length of the string - 1. <strong>Negative values are also valid indexes.</strong> -1 is the last character and -length of the string is the first character.</p>
+
+    <ul>
+      <li>parameters:
+        <ul>
+          <li><code>i</code> {number} - the index to check for</li>
+        </ul>
+      </li>
+      <li>returns:
+        <ul>
+          <li>{boolean}</li>
+        </ul>
+      </li>
+      <li>example:
+        <pre><code data-trim="" contenteditable="">ms = new MutableString("hello");
+ms.validIndex(-5); // --&gt; true (h)
+ms.validIndex(1); // --&gt; true (e)
+ms.validIndex(-7); // --&gt; false (does not exist)
+</code></pre>
+      </li>
+    </ul>
+
+    <p><br /></p>
+
+    <p><code>charAt(i)</code> - return the character at index, <code>i</code>.</p>
+
+    <p>For positive indexes, 0 is the first character, length of string -1 is the last character. For negative indexes, -1 is the last character and -length of string is the first character.</p>
+
+    <p>If the index doesn&#39;t exist, <code>charAt</code> will return <code>undefined</code></p>
+
+    <ul>
+      <li>parameters:
+        <ul>
+          <li><code>i</code> {number} - the index of the character to retrieve</li>
+        </ul>
+      </li>
+      <li>returns:
+        <ul>
+          <li>{string} - the character at the index specified</li>
+        </ul>
+      </li>
+      <li>example:
+        <pre><code data-trim="" contenteditable="">ms = new MutableString("hello");
+ms.validIndex(-5); // --&gt; h
+ms.validIndex(1); // --&gt; e
+ms.validIndex(-7); // --&gt; undefined
+</code></pre>
+      </li>
+    </ul>
+
+    <p><br /></p>
+
+    <p><code>set(i, ch ... i, ch)</code> - sets character at index, <code>i</code>, to string <code>ch</code>.</p>
+
+    <p><code>set can take an arbitrary number of arguments. Every even argument is an index, every odd is the character to set it to. </code>If an index doesn&#39;t exist, then the character is not set. If the last argument is only an index (that is, there is no corresponding character), ignore it. Negative indexes are allowed.</p>
+
+    <ul>
+      <li>parameters:
+        <ul>
+          <li><code>i</code> {number} - the index where the new character will be set</li>
+          <li><code>ch</code> {string} - the value to set the character to (no validation is required to make sure that <code>ch</code> is only one character long).</li>
+        </ul>
+      </li>
+      <li>returns:
+        <ul>
+          <li>no return value</li>
+        </ul>
+      </li>
+      <li>examples:
+        <pre><code data-trim="" contenteditable="">var ms = new MutableString("hello");
+ms.set(0, "c", -1, "s"); // --&gt; ms will represent "cells"
+var ms = new MutableString("hello");
+ms.set(0, "c", -1); // --&gt; ms will represent "cello" (-1 is ignored)
+var ms = new MutableString("hello");
+ms.set(-100, "c"); // --&gt; ms will represent "hello" (-100 is ignored)
+</code></pre>
+      </li>
+    </ul>
+
+    <p><br /></p>
+
+    <p><code>toString()</code> - gives back a &quot;<em>normal</em>&quot; string representation of the mutable string.</p>
+
+    <ul>
+      <li>parameters:
+        <ul>
+          <li>none</li>
+        </ul>
+      </li>
+      <li>returns:
+        <ul>
+          <li>{string} a string that represents the mutable string</li>
+        </ul>
+      </li>
+      <li>examples:
+        <pre><code data-trim="" contenteditable="">var ms = new MutableString("hello");
+console.log(ms.toString()) // --&gt; hello
+</code></pre>
+      </li>
+    </ul>
+
+    <p><br /></p>
+
+    <p><code>toCharArray()</code> - gives back an array of string representation of the mutable string. Each element represents a single character in the mutalbe string.</p>
+
+    <ul>
+      <li>parameters:
+        <ul>
+          <li>none</li>
+        </ul>
+      </li>
+      <li>returns:
+        <ul>
+          <li>{Array} an Array of strings that represents the mutable string</li>
+        </ul>
+      </li>
+      <li>examples:
+        <pre><code data-trim="" contenteditable="">var ms = new MutableString("cat");
+console.log(ms.toCharArray()) // --&gt; ['c', 'a', 't']
+</code></pre>
+      </li>
+    </ul>
+
+    <h4 id="points-palindrome">(10 points) Palindrome</h4>
+
+    <p><code>Palindrome</code> objects will support all of the same methods that <code>MutableString</code> does (hey - this sounds like <em>inheritance</em>). However, there are three major differences:</p>
+
+    <ul>
+      <li>the constructor will throw an exception if the string passed in is not the same forward and backwards (not symmetric)
+        <ul>
+          <li><code>var p = new Palindrome("nope!")</code> - throw an exception</li>
+        </ul>
+      </li>
+      <li><code>set</code> will throw an exception if setting all of the indexes to the characters breaks the symmetry of the palindrome (and no characters will be set)
+        <pre><code data-trim="" contenteditable="">var p = new Palindrome("racecar");
+p.set(-1, "t"); // throws an exception
+</code></pre>
+      </li>
+      <li><code>concat</code> will throw an exception if adding the string breaks the symmetry of the palindrome (and nothing will be added)
+        <pre><code data-trim="" contenteditable="">var p = new Palindrome("racecar");
+p.concat("s"); // throws an exception
+</code></pre>
+      </li>
+    </ul>
+
+    <h4 id="points-testing-your-module">(5 points) Testing Your Module</h4>
+
+    <p>Import the module that you created&#8230;</p>
+
+    <pre><code data-trim="" contenteditable="">var stringy = require('./stringy.js');
+var MutableString = stringy.MutableString;
+var Palindrome = stringy.Palindrome;
+</code></pre>
+
+    <p>And run these tests:</p>
+
+    <pre><code data-trim="" contenteditable="">
+console.log("testing MutableString constructor\n-----");
+var s = new MutableString("hello");
+console.log(s.toString());
+
+console.log("\ntesting charAt\n-----");
+console.log(s.charAt(4));
+console.log(s.charAt(-1));
+console.log(s.charAt(-5));
+console.log(s.charAt(-7));
+console.log(s.charAt(7));
+
+console.log("\ntesting toCharArray\n-----");
+console.log(s.toCharArray());
+
+console.log("\ntesting concat\n-----");
+s.concat(" world!");
+console.log(s.toString());
+
+console.log("\ntesting set\n-----");
+s.set(0, 'c');
+console.log(s.toString());
+s.set(-1, '?');
+console.log(s.toString());
+s.set(-100, 'X');
+console.log(s.toString());
+s.set(-1, 'd', -2, 'e', -3, 'k');
+console.log(s.toString());
+s.set(0, 'b', -100, 'X', -101, 'Y', 4, 's', 5 );
+console.log(s.toString());
+
+
+console.log("\ntesting Palindrome constructor\n-----");
+var p1 = new Palindrome('minim');
+console.log(p1.toString());
+
+console.log("\ntesting charAt\n-----");
+console.log(p1.charAt(0));
+console.log(p1.charAt(-1));
+
+console.log("\ntesting set\n-----");
+p1.set(1, 'a', 2, 'd', 3, 'a');
+console.log(p1.toString());
+
+console.log("\ntesting set with exception\n-----");
+try {
+  p1.set(0, 1);
+} catch(e) {
+  console.log('exception caught: ' + e.message);
+}
+
+console.log("\ntesting toCharArray\n-----");
+console.log(p1.toCharArray());
+
+console.log("\ntesting concat\n-----");
+p1.concat('imadam');
+console.log(p1.toString());
+
+console.log("\ntesting concat exception:\n-----");
+try {
+  p1.concat('!');
+} catch(e) {
+  console.log('exception caught: ' + e.message);
+}
+
+console.log("\ntesting constructor exception\n-----");
+try {
+  var p2 = new Palindrome('car');
+} catch(e) {
+  console.log('Exception caught: ' + e.message);
+}
+</code></pre>
+
+    <p>The resulting output should be:</p>
+
+    <pre><code data-trim="" contenteditable="">
+testing MutableString constructor
+-----
+hello
+
+testing charAt
+-----
+o
+o
+h
+undefined
+undefined
+
+testing toCharArray
+-----
+[ 'h', 'e', 'l', 'l', 'o' ]
+
+testing concat
+-----
+hello world!
+
+testing set
+-----
+cello world!
+cello world?
+cello world?
+cello worked
+bells worked
+
+testing Palindrome constructor
+-----
+minim
+
+testing charAt
+-----
+m
+m
+
+testing set
+-----
+madam
+
+testing set with exception
+-----
+exception caught: Result from set is not symmetric
+
+testing toCharArray
+-----
+[ 'm', 'a', 'd', 'a', 'm' ]
+
+testing concat
+-----
+madamimadam
+
+testing concat exception:
+-----
+exception caught: Result from concatentation is not symmetric
+
+testing constructor exception
+-----
+Exception caught: Palindrome not symmetric
+</code></pre>
+
+    <h2 id="part-2---demo-site">Part 2 - Demo Site</h2>
+
+    <p>Create a small demo site using node&#39;s <code>http</code> module. Use the <code>fs</code> module to serve static files.</p>
+
+    <p>Note that this part of the assignment is based off of slides from <strong>class 7</strong> and Chapter 2 - <strong>Getting Started With Node</strong> from .</p>
+
+    <h3 id="web-server-and-routing">Web Server and Routing</h3>
+
+    <ul>
+      <li>(12 points) The site should respond to the following urls with the specified status code, content-type and body:
+        <ul>
+          <li><code>/</code> - <strong>homepage</strong>
+            <ul>
+              <li><code>200</code></li>
+              <li><code>text/html</code></li>
+              <li>body from <code>./public/index.html</code></li>
+            </ul>
+          </li>
+          <li><code>/home</code> - <strong>homepage</strong>
+            <ul>
+              <li><code>200</code></li>
+              <li><code>text/html</code></li>
+              <li>body from <code>./public/index.html</code></li>
+            </ul>
+          </li>
+          <li><code>/about</code> - <strong>about page</strong>
+            <ul>
+              <li><code>200</code></li>
+              <li><code>text/html</code></li>
+              <li>body from <code>./public/about.html</code></li>
+            </ul>
+          </li>
+          <li><code>/me</code>  - <strong>about page (redirect)</strong>
+            <ul>
+              <li><code>301</code></li>
+              <li>this should redirect to <code>/about</code></li>
+              <li>do this by setting an appropriate response header</li>
+              <li><strong>(you&#39;ll need to do some research to find out which header you should set)</strong>
+                <ul>
+                  <li><strong>TRY USING  <code>curl</code> or Chrome&#39;s web developer tools while making a request to google.com (no www)</strong></li>
+                  <li>what status code does it give back?</li>
+                  <li>what body does it give back (if any)?</li>
+                  <li>does it include any additional headers? (hint: <strong>it does, and it&#39;s important!</strong>)</li>
+                  <li>use the above information to craft an appropriate response</li>
+                  <li><strong>don&#39;t just send back the same template as about</strong> &#8230; instead, just send back the response code and appropriate header</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li><code>/img/image1.png</code> - <strong>image1</strong>
+            <ul>
+              <li><code>200</code></li>
+              <li><code>image/png</code></li>
+              <li>body from <code>./public/img/image1.png</code></li>
+            </ul>
+          </li>
+          <li><code>/img/image2.png</code> - <strong>image2</strong>
+            <ul>
+              <li><code>200</code></li>
+              <li><code>image/png</code></li>
+              <li>body from <code>./public/img/image2.png</code></li>
+            </ul>
+          </li>
+          <li><code>/css/base.css</code> - <strong>stylesheet</strong>
+            <ul>
+              <li><code>200</code></li>
+              <li>this is a stylesheet, so set your content-type appropriately</li>
+              <li><strong>(do some research to find the right content-type)</strong></li>
+              <li>contents of file should come from <code>./public/css/base.css</code></li>
+            </ul>
+          </li>
+          <li><code>[any other url]</code> - <strong>page not found</strong>
+            <ul>
+              <li><code>404</code></li>
+              <li><code>text/html</code></li>
+              <li>body from <code>/public/404.html</code></li>
+            </ul>
+          </li>
+          <li><code>[server error]</code>
+            <ul>
+              <li>if a static file can&#39;t be loaded&#8230;</li>
+              <li>respond with a 500</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>(2 points) <strong>Every url should respond to any casing</strong> (for example both <code>ABOUT</code> and <code>about</code> should work)</li>
+      <li>(2 points) <strong>Every url should work with or without a trailing slash</strong> (for example both <code>about</code> and <code>about/</code> should work)</li>
+    </ul>
+
+    <h3 id="pointsstatic-file-content">(3 points)Static File Content</h3>
+
+    <ul>
+      <li>The contents of the static files are as follows:
+        <ul>
+          <li><strong>index.html</strong>
+            <ul>
+              <li>a heading (an h1) that says: <code>Home</code></li>
+              <li>a paragraph with any text (whatever text you like)</li>
+              <li>an image named image1.png (whatever image you like)</li>
+            </ul>
+          </li>
+          <li><strong>about.html</strong>
+            <ul>
+              <li>a heading (an h1) that says: <code>About</code></li>
+              <li>a paragraph with any text (whatever text you like)</li>
+              <li>an image named image2.png (whatever image you like)</li>
+            </ul>
+          </li>
+          <li>both pages should use the <strong>base.css</strong> stylesheet:
+            <ul>
+              <li>sets the body font to 1.5em</li>
+              <li>center aligns everything</li>
+              <li>sets the font to sans-serif</li>
+              <li>sets the background to light gray (#aaaaaa)</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>See some example screen shots below:</li>
+    </ul>
+
+    <p><img src="../resources/img/hw3-demo-home.png" alt="screen 1" /></p>
+
+    <p><img src="../resources/img//hw3-demo-about.png" alt="screen 2" /></p>
+
+    <h3 id="points-logging">(3 points) Logging</h3>
+
+    <ul>
+      <li><strong>log every request to the console</strong></li>
+      <li>a log line should consist of:
+        <ul>
+          <li>the date and time of the request (do research on the <strong>Date</strong> object and its <strong>toLocaleString</strong> method)</li>
+          <li>the request method (GET, POST, etc.)</li>
+          <li>the url requested (for example, <code>/about</code>)</li>
+          <li>the status code of the response (for example, <code>200</code>)</li>
+        </ul>
+      </li>
+      <li><strong>Here&#39;s an example of the format to follow:</strong> &#8594;</li>
+    </ul>
+
+    <pre><code data-trim="" contenteditable="">Tue Sep 28 2015 23:02:37 GMT-0400 (EDT) GET / 200 OK
+Tue Sep 28 2015 23:02:37 GMT-0400 (EDT) GET /img/image1.png 200 OK
+Tue Sep 28 2015 23:02:43 GMT-0400 (EDT) GET /doesnotexist 404 Not Found
+Tue Sep 28 2015 23:03:10 GMT-0400 (EDT) GET /me 301 Moved Permanently
+Tue Sep 28 2015 23:03:10 GMT-0400 (EDT) GET /about 200 OK
+Tue Sep 28 2015 23:03:10 GMT-0400 (EDT) GET /img/image2.png 200 OK
+</code></pre>
+
+    <h3 id="points-testing-your-site">(4 points) Testing Your Site</h3>
+
+    <ul>
+      <li>Create a file called <strong>output.txt</strong></li>
+      <li><strong>Use curl -I to run the following requests</strong> &#8230; copy and paste the output (it should only be the headers) to your output.txt file
+        <ul>
+          <li><code>/</code></li>
+          <li><code>/about</code></li>
+          <li><code>/ABOUT</code></li>
+          <li><code>/about/</code></li>
+          <li><code>/me</code></li>
+          <li><code>/css/base.css</code></li>
+          <li><code>/img/image1.png</code></li>
+        </ul>
+      </li>
+    </ul>
+
+    <h2 id="part-3---browser-test-page">Part 3 - Browser Test Page</h2>
+
+    <p>Create a small site using Express. The site will only have two pages&#8230; the index page which will show all of the headers that a browser requested&#8230; and an about page.</p>
+
+    <p>The index page will display all of the headers that the browser sent to the server.</p>
+
+    <p>Note that this part of the assignment is based off of slides from <strong>class 8</strong> and Chapter 3 - <strong>Saving Time With Express</strong> from .</p>
+
+    <h3 id="points-project-setup-requirements">(5 points) Project Setup Requirements</h3>
+
+    <ul>
+      <li>Create a <code>package.json</code> by running <code>npm init</code> in your project directory. You can use the default answers to all of the questions</li>
+      <li>Install your web framework, <code>express</code> and your templating library, <code>express3-handlebars</code> using the <code>--save</code> flag to save your dependencies</li>
+      <li>For example: <code>npm install --save express</code></li>
+      <li>Make sure you do this in your project&#39;s root directory</li>
+      <li>You should see a <code>node_modules</code> directory</li>
+      <li>Ignore it using .gitignore</li>
+    </ul>
+
+    <h3 id="points-web-server-and-routing">(4 points) Web Server and Routing</h3>
+
+    <p>The site should respond to the following urls with the specified views (the path is relative to your project&#39;s root directory):</p>
+
+    <ul>
+      <li><code>/</code> - <strong>browser test page / index</strong>
+        <ul>
+          <li><code>views/index.handlebars</code></li>
+        </ul>
+      </li>
+      <li><code>/about</code> - <strong>about</strong>
+        <ul>
+          <li><code>views/about.handlebars</code></li>
+        </ul>
+      </li>
+      <li><code>[any other url]</code> - <strong>404</strong>
+        <ul>
+          <li>explicitly send back a <code>404</code></li>
+          <li><code>views/404.handlebars</code></li>
+        </ul>
+      </li>
+    </ul>
+
+    <h3 id="points-content">(7 points) Content</h3>
+
+    <ul>
+      <li><strong>all of your views should be in a directory called <code>views</code> in the root of your project directory</strong></li>
+      <li>all of the views should be based off of a layout
+        <ul>
+          <li>this layout is <code>main.handlebars</code></li>
+          <li>which should be located in <code>views/layouts</code></li>
+          <li>it should contain all of the surrounding tags - (html, head, body, etc.)</li>
+          <li>as well as links to both of the other pages <code>/</code> and <code>about</code></li>
+        </ul>
+      </li>
+      <li>the about page should contain
+        <ul>
+          <li>a single heading that says <code>About</code></li>
+          <li>some text in a paragraph tag underneath</li>
+        </ul>
+      </li>
+      <li>the index page should contain
+        <ul>
+          <li>a single heading that says <code>Browser Test Page</code></li>
+          <li>within a <code>pre</code> tag, all of the headers that were sent as part of the browser&#39;s request</li>
+          <li>you can do this by:
+            <ul>
+              <li>handing the headers to over to the view (as part of the the 2nd argument passed into <code>res.render()</code>)</li>
+              <li>in your view, using the each helper to iterate over the <code>headers</code> object</li>
+              <li><a href="http://handlebarsjs.com/builtin_helpers.html">see the docs on the each helper</a></li>
+            </ul>
+          </li>
+          <li>an example of the contents of the index page, as well as some screens:</li>
+        </ul>
+      </li>
+    </ul>
+
+    <pre><code data-trim="" contenteditable="">host: localhost:3000
+connection: keep-alive
+accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.124 Safari/537.36
+referer: http://localhost:3000/about
+accept-encoding: gzip,deflate,sdch
+accept-language: en-US,en;q=0.8
+</code></pre>
+
+    <div class="img">
+      <p><img src="../resources/img/hw3-test-index.png" alt="screen 1" /></p>
+    </div>
+
+    <div class="img">
+      <p><img src="../resources/img/hw3-test-about.png" alt="screen 1" /></p>
+    </div>
+
+  </div>
+
+</div>
+:ET

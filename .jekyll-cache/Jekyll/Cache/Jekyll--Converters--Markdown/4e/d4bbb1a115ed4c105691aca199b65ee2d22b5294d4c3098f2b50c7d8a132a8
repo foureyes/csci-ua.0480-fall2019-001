@@ -1,0 +1,1810 @@
+I"�f<style>
+pre.board {
+	font-family: monospace !important;
+	font-size: 1.01em !important;
+}
+</style>
+
+<!--
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+	const tx = document.getElementsByTagName('textarea');
+	for (let i = 0; i < tx.length; i++) {
+  		tx[i].setAttribute('style', 'height:' + (tx[i].scrollHeight) + 'px;overflow-y:hidden;');
+		tx[i].addEventListener("input", OnInput, false);
+	}
+
+	function OnInput() {
+  		this.style.height = 'auto';
+		this.style.height = (this.scrollHeight) + 'px';
+	}
+});
+</script>
+-->
+<div class="panel panel-default">
+	<div class="panel-heading">Homework #1</div>
+	<div class="panel-body">
+
+    <h1 id="connectmoji">Connectmoji</h1>
+
+    <h2 id="due-sep-16th-by-11pm">Due <strong>Sep 16th, by 11PM</strong></h2>
+
+    <div class="img">
+      <p><img src="../resources/img/connectmoji/full-play.gif" alt="full play" /></p>
+    </div>
+
+    <h2 id="overview">Overview</h2>
+
+    <h3 id="description">Description</h3>
+
+    <p><strong>There are multiple parts to this homework:</strong></p>
+
+    <p><strong>Parts 1 and 2</strong> - Connectmoji</p>
+
+    <p>Create an interactive 2-player (computer vs human player) &quot;connection&quot; game.</p>
+
+    <ul>
+      <li>the game is played on a vertical grid of cells (imagine a board stood on its side)</li>
+      <li>players take alternate turns dropping a piece in a column</li>
+      <li>the piece dropped will occupy the lowest unoccupied cell of the grid</li>
+      <li>when a player drops a piece that results in an uninterrupted vertical, horizontal or diagonal line of adjacent identical pieces of an agreed upon length, that player wins</li>
+      <li>for example, the board below shows that 😎 has won the game by creating a vertical line of four consecutive pieces in column C
+        <pre class="board"><code data-trim="" contenteditable="">|    |    |    |    |    |    |    |
+|    |    | 😎 |    |    |    |    |
+| 💻 |    | 😎 |    |    |    |    |
+| 💻 | 😎 | 😎 |    | 💻 |    | 💻 |
+| 😎 | 😎 | 😎 | 💻 | 💻 | 😎 | 💻 |
+|----+----+----+----+----+----+----|
+| A  | B  | C  | D  | E  | F  | G  |
+</code></pre>
+      </li>
+      <li>(note that this game can be played to any length of consecutive pieces or any number of rows / columns)</li>
+    </ul>
+
+    <p>You&#39;ll create this game in 2 parts. The first part will guide you through creating several helper functions for your game. The second part deals with implementing the game using the helper functions you made for part 1. It&#39;ll be a bit over-engineered, but don&#39;t worry - you don&#39;t have to use all of the functions you create (and you definitely won&#39;t use every feature in each function). Of course, you&#39;re encouraged to create your own helper functions as well!</p>
+
+    <p>See the example animated gif at the top of these instructions to see how a single game may be played.</p>
+
+    <h3 id="objectives">Objectives</h3>
+
+    <ol>
+      <li>Write some ES6!
+        <ul>
+          <li>control structures</li>
+          <li>functions</li>
+          <li>Array and string manipulation</li>
+        </ul>
+      </li>
+      <li>Learn how to run node programs</li>
+      <li>Learn about node built-ins:
+        <ul>
+          <li><code class="highlighter-rouge">process</code></li>
+          <li><code class="highlighter-rouge">exports</code></li>
+          <li><code class="highlighter-rouge">require</code></li>
+        </ul>
+      </li>
+      <li>Install and use modules, create your own</li>
+      <li>Run unit tests to check your work</li>
+      <li>Use a static analysis tool (eslint) to help prevent bugs / errors</li>
+    </ol>
+
+    <h3 id="submission-process">Submission Process</h3>
+
+    <p>The final version of your assignment should be in GitHub.</p>
+
+    <ul>
+      <li><strong>push</strong> your changes to the homework repository on GitHub</li>
+      <li>all repositories will be cloned on the due date</li>
+      <li>after the due date, no further commits will be seen by the graders (even if you continue to commit your work)</li>
+    </ul>
+
+    <h2 id="preparation">Preparation</h2>
+
+    <p>Ensure that node and npm are installed (this should have been done for <em>homework #0</em>). You should be able to open up your terminal or DOS Shell and run <code class="highlighter-rouge">node -v</code> and <code class="highlighter-rouge">npm -v</code>. Both commands should output a version number (probably something like <code class="highlighter-rouge">10.10.0</code> for <code class="highlighter-rouge">node</code> and <code class="highlighter-rouge">5.7.1</code> for <code class="highlighter-rouge">npm</code>).</p>
+
+    <ol>
+      <li>use git / clone the repository</li>
+      <li>install development modules
+        <ul>
+          <li>mocha and chai for running the supplied unit tests</li>
+          <li>eslint for cleaning up your JavaScript / spotting common sources of bugs and errors in your code</li>
+        </ul>
+      </li>
+      <li>install modules required by your game</li>
+    </ol>
+
+    <h3 id="use-git--clone-the-repository">Use Git / Clone the repository</h3>
+
+    <p>Make sure you have git / a git client!</p>
+
+    <ul>
+      <li><a href="https://git-scm.com/book/en/v1/Getting-Started-Installing-Git">commandline git</a></li>
+      <li><a href="https://www.sourcetreeapp.com/">SourceTree</a></li>
+      <li><a href="https://www.gitkraken.com/">GitKraken</a></li>
+    </ul>
+
+    <p>Assuming that you&#39;ve already:</p>
+
+    <ul>
+      <li>submitted your github username via the form/survey</li>
+      <li>accepted the invitation that adds you to the github organization for this course</li>
+    </ul>
+
+    <p>You can then go through the following steps to clone your repository and commit your first changes:</p>
+
+    <ol>
+      <li>&#8230;go to the <a href="https://github.com/nyu-csci-ua-0480-008-spring-2019">class github page</a></li>
+      <li>find the repository that starts with your github username and ends with homework01 (for example, mygithubusername-homework01)</li>
+      <li>on the repository&#39;s page, use the green &quot;Clone or download&quot; button on the right side of the screen to copy the HTTPS clone URL to <strong>clone</strong> the homework. To use the commandline client (with GITHUB_REPOSITORY_URL being the url you copied from the green button):
+        <pre><code data-trim="" contenteditable=""> git clone GITHUB_REPOSITORY_URL
+</code></pre>
+      </li>
+      <li>create a file called <code>.gitignore</code> in the same directory</li>
+      <li>add the following line to the file so that git ignores any locally installed node modules: <code> node_modules </code></li>
+      <li>in the same project directory, create a file called README.md, and edit it so that it includes:
+        <ul>
+          <li>your github username</li>
+          <li>the title of your project: Homework #01 - Connectmoji</li>
+        </ul>
+      </li>
+      <li>again, in the same project directory, run <code>git add README.md</code> to let git know that we&#39;re ready to &quot;save&quot;</li>
+      <li>save your work locally by running <code>git commit -m "add homework meta information"</code>&#8230; everything within the quotes after <code>-m</code> is any commit message you&#39;d like
+        <ul>
+          <li>please make your commit messages descriptive</li>
+          <li>(what features have been added, what bug has been fixed, etc.)</li>
+        </ul>
+      </li>
+      <li>finally, send your work to github by running <code>git push</code> (or <code>git push origin master</code>)</li>
+    </ol>
+
+    <h3 id="install-development-modules">Install Development Modules</h3>
+
+    <p>You&#39;ll have to install a couple of node modules to help you run tests and use static analysis tools on your code. These tools won&#39;t be required for your program to run, but they will be useful while you&#39;re writing your programs.</p>
+
+    <p>You&#39;ll be installing the following modules globally:</p>
+
+    <ul>
+      <li><code class="highlighter-rouge">mocha</code> - for running unit tests</li>
+    </ul>
+
+    <p>You&#39;ll also install the following modules locally in your project directory:</p>
+
+    <ul>
+      <li><code class="highlighter-rouge">chai</code> - supplies assertions for unit tests</li>
+      <li><code class="highlighter-rouge">eslint</code> - for catching potential errors in your code</li>
+      <li><code class="highlighter-rouge">eslint-plugin-mocha</code> - to support linting test code</li>
+    </ul>
+
+    <p>Go into the directory of your cloned repository (<code class="highlighter-rouge">cd username-homework01</code>), and create <code class="highlighter-rouge">package.json</code></p>
+
+    <pre><code data-trim="" contenteditable="">
+npm init
+# follow the prompts to create a package.json... you can 
+# just use the default answers to the questions that are asked
+# (for our purposes, the answers don't really matter)
+</code></pre>
+
+    <p>You can add dependencies to <code class="highlighter-rouge">package.json</code> using the following commands:</p>
+
+    <pre><code data-trim="" contenteditable="">npm install --save-dev mocha
+npm install --save-dev eslint
+npm install --save-dev chai
+npm install --save-dev eslint-plugin-mocha
+# can also be installed in a single line
+npm install --save-dev eslint mocha chai eslint-plugin-mocha
+</code></pre>
+
+    <p>Note that these will all be installed locally to your project directory:</p>
+
+    <ul>
+      <li>It will create a <code class="highlighter-rouge">package-lock.json</code> file that stores exact versions</li>
+      <li>It will make a modification to an existing file, <code class="highlighter-rouge">package.json</code>, within your project folder</li>
+      <li>It will create a <code class="highlighter-rouge">node_modules</code> folder where your downloaded modules are stored (this folder is included in your <code class="highlighter-rouge">.gitignore</code> file because these external libraries are not meant to be in your project&#39;s version control</li>
+    </ul>
+
+    <p><strong>Troubleshooting errors</strong></p>
+
+    <ul>
+      <li>On some systems (for example, Ubuntu 18.04), you may have to use <code class="highlighter-rouge">sudo</code> to run <code class="highlighter-rouge">npm</code> as the super user</li>
+      <li>If any part of your code complains about a missing package, try installing it with <code class="highlighter-rouge">npm</code> either locally or globally (do your best to keep everything local at first, of course)</li>
+    </ul>
+
+    <h3 id="install-required-modules">Install Required Modules</h3>
+
+    <p>You&#39;ll also need a few modules to help you ask the user for input, clear the screen and determine the space that string takes up on on screen.</p>
+
+    <ul>
+      <li><code class="highlighter-rouge">readline-sync</code>
+        <ul>
+          <li>in your repository directory, install the node module, <code>readline-sync</code>, by running this command in your project&#39;s directory:
+  	&lt;pre&gt;<code> npm install --save readline-sync
+</code>&lt;/pre&gt;</li>
+          <li>note that the <code>readline-sync</code> module allows you to prompt for user input <strong>synchronously</strong>
+            <ul>
+              <li>this is very different from how node.js apps usually operate</li>
+              <li>however, for our purposes, using sync prompt is fine (for now), and it mimics the browser&#39;s prompt functionality well</li>
+            </ul>
+          </li>
+          <li>check out the example usage on <a href="https://www.npmjs.com/package/readline-sync">readline-sync&#39;s npm page</a>
+  	* essentially: <code class="highlighter-rouge">const readlineSync = require('readline-sync');</code>
+  	* which imports the function <code>question</code> from the <code>readline-sync</code> module into your program</li>
+          <li>note that installing <code class="highlighter-rouge">readline-sync</code> will make a modification to <code class="highlighter-rouge">package.json</code> as well. This modification to <code class="highlighter-rouge">package.json</code> should be committed and pushed as well!</li>
+        </ul>
+      </li>
+      <li><code class="highlighter-rouge">clear</code>
+        <ul>
+          <li>in your repository directory, install the node module, <code>clear</code>, by running this command in your project&#39;s directory:
+  	&lt;pre&gt;<code> npm install --save clear
+</code>&lt;/pre&gt;</li>
+          <li>the <code>clear</code> module allows you to &quot;clear&quot; the screen for a command line program (across different platforms)</li>
+          <li>check out the example usage on <a href="https://www.npmjs.com/package/clear">clear&#39;s npm page</a>
+  	* essentially: <code class="highlighter-rouge">const clear = require('clear');</code>
+  	* which imports the function <code>clear</code> which can be used by simply calling it: <code class="highlighter-rouge">clear()</code></li>
+          <li>installing <code class="highlighter-rouge">clear</code> will make a modification to <code class="highlighter-rouge">package.json</code>; again, it should be committed and pushed along with your other files</li>
+        </ul>
+      </li>
+      <li><code class="highlighter-rouge">wcwidth</code>
+        <ul>
+          <li>in your repository directory, install the node module, <code>wcwidth</code>, by running this command in your project&#39;s directory:
+  	&lt;pre&gt;<code> npm install --save wcwidth
+</code>&lt;/pre&gt;</li>
+          <li>the <code>wcwidth</code> module calculates the number of columns a string of characters needs to be represented onscreen (for example, in a monospace font, a single character may take up multiple cells, like a emoji smiley face 😃)</li>
+          <li>check out the example usage on <a href="https://www.npmjs.com/package/wcwidth">wcwidth&#39;s npm page</a>
+  	* essentially: <code class="highlighter-rouge">const wcwidth = require('wcwidth');</code>
+  	* which imports the function <code>wcwidth</code> which can be used by simply calling it: <code class="highlighter-rouge">wcwidth('😃')</code></li>
+          <li>installing <code class="highlighter-rouge">wcwidth</code> will make a modification to <code class="highlighter-rouge">package.json</code>; again, it should be committed and pushed along with your other files</li>
+        </ul>
+      </li>
+    </ul>
+
+    <h3 id="minimum-number-of-commits">Minimum Number of Commits</h3>
+
+    <p>As you write your code, make sure that you make at least four commits total (more commits are better; if you can, try to commit per feature added).</p>
+
+    <ul>
+      <li>the commits should be meaningful (that is, do not just add a newline, commit and push to make up the requirements for commits).</li>
+      <li>make sure your commit messages describe the changes in the commit; for example:
+        <ul>
+          <li><code class="highlighter-rouge">add config file reader and set board based on config file</code></li>
+          <li><code class="highlighter-rouge">fix bug that prevented vertical lines of tiles from being flipped</code></li>
+        </ul>
+      </li>
+    </ul>
+
+    <pre><code data-trim="" contenteditable="">git add --all
+git commit -m 'your commit message'
+</code></pre>
+    <ul>
+      <li>push your code frequently</li>
+    </ul>
+    <pre><code data-trim="" contenteditable="">git push
+</code></pre>
+
+    <h3 id="running-your-programs-linting-and-testing">Running Your Programs, Linting, and Testing</h3>
+
+    <p>To run your programs, use the commandline (Terminal.app, DOS, etc.):</p>
+
+    <pre><code data-trim="" contenteditable=""># in your project directory
+# change directory to src folder
+cd src
+node myfile.js
+
+# or, without changing directory
+node src/myfile.js
+</code></pre>
+
+    <p>Use a utility called <code class="highlighter-rouge">npx</code> to run any executable tools that you&#39;ve installed, like your linting tool (<code class="highlighter-rouge">eslint</code>) and your testing tool (<code class="highlighter-rouge">mocha</code>).</p>
+
+    <p><code class="highlighter-rouge">npx</code> is included with <code class="highlighter-rouge">npm</code> (around version 5.2.0), which, on some platforms is automatically installed with <code class="highlighter-rouge">node</code>. It&#39;s used to find the binary of the argument passed to it within your project&#39;s <code class="highlighter-rouge">node_modules</code> so that you don&#39;t have to execute it from <code class="highlighter-rouge">node_modules/package_name/bin/executable</code>.</p>
+
+    <p>After installing <code class="highlighter-rouge">eslint</code> and <code class="highlighter-rouge">mocha</code>:</p>
+
+    <pre><code data-trim="" contenteditable="">
+# to test, from the root of the repository:
+npx mocha tests/connectmoji-test.js
+
+# to lint, from the root of the repository:
+npx eslint src/*
+</code></pre>
+
+    <!-- \* -->
+
+    <h2 id="part-1---connectmoji">Part 1 - Connectmoji</h2>
+
+    <h3 id="background">Background</h3>
+
+    <p>For your implementation, you&#39;ll break down the game into several functions. These helper functions will be written in a <em>module</em> (a file separate from the file that actually runs your game), which you&#39;ll use in a later part: <code class="highlighter-rouge">src/connectmoji.js</code></p>
+
+    <p>The helper functions you&#39;ll be implementing are described below. Unit tests have been included in your repository in the file, <code class="highlighter-rouge">test/connectmoji-test.js</code>.</p>
+
+    <h3 id="creating-a-module--exporting-functions">Creating a Module / Exporting Functions</h3>
+
+    <p>You&#39;ll be creating a module that contains a bunch of helper functions. The file that you&#39;ll be writing your module in is already included in your repository in <code class="highlighter-rouge">src/connectmoji.js</code>. Both your <em>actual</em> interactive game (in Part 2) and the supplied unit tests will use this module. Note that we are <strong>not using ES6 modules</strong> (they are only available in the latest version of node, and they are not enabled by default&#8230; and the node docs still use <code class="highlighter-rouge">require</code> rather than ES6 <code class="highlighter-rouge">import</code>).</p>
+
+    <p>To make the functions you write available when your module is brought into another program (that is, required or <em>imported</em>), you&#39;ll have to <em>export</em> your functions. See <a href="https://www.sitepoint.com/understanding-module-exports-exports-node-js/">this sitepoint tutorial</a> or this <a href="http://openmymind.net/2012/2/3/Node-Require-and-Exports/">article</a> to get a primer on modules, <code class="highlighter-rouge">exports</code> and using <code class="highlighter-rouge">require</code>. There are a few ways to do export your functions (all of the examples use <code class="highlighter-rouge">module.exports</code>, but they should work with just <code class="highlighter-rouge">exports</code> as well):</p>
+
+    <ol>
+      <li>create all of your functions &#8230; then, at the end, assign <code class="highlighter-rouge">module.exports</code> to an object literal containing all of the functions that you want to export:
+        <pre><code data-trim="" contenteditable="">function foo(x, y) {
+    // implementation
+} 
+    
+function bar(z) { 
+    // implementation
+} 
+
+// define more functions
+
+module.exports = {
+    foo: foo,
+    bar: bar,
+    // add more property name to function mappings...
+}
+</code></pre>
+      </li>
+      <li>create all of your functions in an object and assign that object to <code class="highlighter-rouge">module.exports</code>:
+        <pre><code data-trim="" contenteditable="">const c = { 
+    foo: function(x, y) {
+        // implementation
+    },
+    
+    bar: function(z) {
+        // implementation
+    },
+    
+    // add more properties and their associated functions
+}
+    
+module.exports = c;
+</code></pre>
+      </li>
+      <li>Create functions as properties on <code class="highlighter-rouge">module.exports</code>
+        <pre><code data-trim="" contenteditable="">module.exports.foo = function(x, y) {
+    // implementation
+}
+    
+module.exports.bar = function(z) {
+    // implementation
+},
+    
+// add more properties on module.exports
+</code></pre>
+      </li>
+    </ol>
+
+    <p>When you <code class="highlighter-rouge">require</code> your module, the object you create for <code class="highlighter-rouge">exports</code> will be given back. In the example below, the module, <code class="highlighter-rouge">some-module.js</code> is brought in to the current file (the <code class="highlighter-rouge">./</code> specifies that the file is in the same directory as the current file) and is represented by the variable, <code class="highlighter-rouge">someModule</code>. The functions can be accessed by using regular dot notation on the <code class="highlighter-rouge">someModule</code> object:</p>
+
+    <pre><code data-trim="" contenteditable="">const someModule = require('./some-module.js');
+someModule.someFunction();
+</code></pre>
+
+    <p><strong>You should make sure your exports are up to date as you implement your functions</strong> so that you can run your unit tests as you complete your function implementations.</p>
+
+    <h3 id="unit-tests">Unit Tests</h3>
+
+    <p>You can use the supplied unit tests (in <code class="highlighter-rouge">tests/connectmoji.js</code>) to check that your functions are:</p>
+
+    <ul>
+      <li>are named correctly
+        <ul>
+          <li>have the required parameters</li>
+        </ul>
+      </li>
+      <li>return the appropriate value(s)</li>
+      <li>meet the minimum requirements according to the specifications</li>
+    </ul>
+
+    <p>The given unit tests use Mocha as a testing framework and Chai for assertions. While you don&#39;t have to know how to write these tests, you should read through them (the api is very <em>human readable</em>) to get a feel for how your functions are being tested. If you&#39;re curious about writing unit tests, check out <a href="https://www.codementor.io/nodejs/tutorial/unit-testing-nodejs-tdd-mocha-sinon">this article on codementor</a>.</p>
+
+    <p>You can <strong>run the included unit tests by using this command</strong> in your project directory:</p>
+
+    <p><code class="highlighter-rouge">npx mocha test/connectmoji.js</code></p>
+
+    <p>If you run these tests before starting, you&#39;ll get a bunch of reference errors. This is because you have no functions implemented yet. Additionally, you&#39;ll have to export the functions you create so that the tests have access to them.</p>
+
+    <p><strong>Please try continually running the unit tests as you develop your program.</strong></p>
+
+    <h3 id="only-running-a-subset-of-unit-tests">Only Running a Subset of Unit Tests</h3>
+
+    <p>To clear out the noise of dealing with many failing tests due to unimplemented functions, use <code class="highlighter-rouge">.only()</code>:</p>
+
+    <p>Any time that you see the functions <code class="highlighter-rouge">describe()</code> or <code class="highlighter-rouge">it()</code> in <code class="highlighter-rouge">tests/connectmoji.js</code>, you can follow it with <code class="highlighter-rouge">.only()</code> to limit the tests being run to those contained in the call to <code class="highlighter-rouge">describe</code> or <code class="highlighter-rouge">it</code>. For example:</p>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># describe('generateBoard', function() { });
+describe.only(('generateBoard', function() { });
+# or
+# it('generates a board with specified number of rows and columns', function() { });
+it.only('generates a board with specified number of rows and columns', function() { });
+</code></pre></div>    </div>
+
+    <p>Alternatively, you can simply comment out unused tests until you&#39;re ready to implement them.</p>
+
+    <h3 id="assumptions">Assumptions</h3>
+
+    <p>The functions make some assumptions about how you&#39;ll be representing a Connectmoji grid:</p>
+
+    <ol>
+      <li>first, <strong>we won&#39;t be using a 2-dimensional array</strong>; instead, use a an object that contains 3 properties: a 1-dimensional <code class="highlighter-rouge">Array</code> representing the board&#39;s data, and the number of rows and columns in the board (more details later)</li>
+      <li>the width of the grid is based on the number of columns; the number of rows specifies height)</li>
+      <li>each column can be identified by using an uppercase letter (for example, <code class="highlighter-rouge">A</code> for the first column)</li>
+      <li>although some functions allow for an arbitrary number of columns, you can assume that the board will always have at least 1 column, but no more than 26 columns</li>
+      <li>we can name a cell / square based on its row number and column number
+        <ul>
+          <li>rows start from the top with row number 0</li>
+          <li>cols start from the left with column number 0&#8230; or alternatively, the letter <code class="highlighter-rouge">A</code></li>
+          <li>the diagram below shows a board with row and column labels
+            <pre><code data-trim="" contenteditable="">
+       +---+---+---+
+  r  0 | 0 | 1 | 2 |
+  o    +---+---+---+
+  w  1 | 3 | 4 | 5 |
+  s    +---+---+---+
+     2 | 6 | 7 | 8 |
+       +---+---+---+
+         0   1   2
+         A   B   C
+          columns
+</code></pre>
+          </li>
+          <li>in this example, the middle cell (containing 4) is at row 1, column 1</li>
+          <li>the cell containing 2 (the last column of the first row) is at row 0, column 2</li>
+        </ul>
+      </li>
+      <li>Again, although a 2-dimensional <code class="highlighter-rouge">Array</code> is a natural fit for representing a board with cells, __your implementation will use an object that contains:
+        <ul>
+          <li>a property called <code class="highlighter-rouge">data</code>: a one dimensional <code class="highlighter-rouge">Array</code> used to represent the board</li>
+          <li>two additional properties, <code class="highlighter-rouge">rows</code> and <code class="highlighter-rouge">cols</code> that specify how many rows and columns the board contains</li>
+          <li>wait a second! how can we represent a grid with a one-dimensional <code class="highlighter-rouge">Array</code>?</li>
+          <li>in this representation, imagine all of the rows of the board placed adjacent to each other</li>
+          <li>see the diagram below for a board with 3 columns and 3 rows:
+            <pre><code data-trim="" contenteditable="">           +-----+-----+-----+-----+-----+-----+-----+-----+-----+
+row, col   | 0,0 | 0,1 | 0,2 | 1,0 | 1,1 | 1,2 | 2,0 | 2,1 | 2,2 |
+           +-----+-----+-----+-----+-----+-----+-----+-----+-----+
+index      |  0  |  1  |  2  |  3  |  4  |  5  |  6  |  7  |  8  |
+           +-----+-----+-----+-----+-----+-----+-----+-----+-----+
+</code></pre>
+            <ul>
+              <li>the upper left corner would be at index 0 (or row 0, column 0)
+ 	* the upper left corner would be at index 2 (or row 0, column 2)
+ 	* the center square would be at index 4 (or row 1, column 1)</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li><code class="highlighter-rouge">null</code> will be used to mark an empty cell</li>
+      <li>Using the examples above, a full board object that has 2 rows and 3 columns with all empty cells may look like this
+        <pre><code data-trim="" contenteditable="">{ 
+  data: [null, null, null, null, null, null],
+  rows: 2,
+  cols: 3
+}
+</code></pre>
+      </li>
+      <li>you can assume that all of the code examples below use <code class="highlighter-rouge">c</code> as the name of the imported module of your Connectmoji functions</li>
+    </ol>
+
+    <p><br /></p>
+
+    <h3 id="functions-to-implement">Functions to Implement</h3>
+
+    <h3 id="generateboardrows-cols-fill"><code class="highlighter-rouge">generateBoard(rows, cols, fill)</code></h3>
+
+    <p>// modify parameters to allow for a default value for fill (specified below)`</p>
+
+    <p><strong>Parameters:</strong></p>
+
+    <ul>
+      <li><code class="highlighter-rouge">rows</code> - the number of rows in the board</li>
+      <li><code class="highlighter-rouge">cols</code> - the number of columns in the board</li>
+      <li><code class="highlighter-rouge">fill</code> (optional) - the initial value contained in each cell
+        <ul>
+          <li>default value should be empty string (<code class="highlighter-rouge">null</code>)</li>
+        </ul>
+      </li>
+    </ul>
+
+    <p><strong>Returns:</strong></p>
+
+    <p>An object containing 3 properties:</p>
+
+    <ul>
+      <li><code class="highlighter-rouge">data</code>: single dimensional <code class="highlighter-rouge">Array</code> containing the number of elements that would be in a rows x columns board&#8230; with each cell containing the initial value, <code class="highlighter-rouge">initialCellValue</code></li>
+      <li><code class="highlighter-rouge">rows</code>: the number of rows in the board (its height)</li>
+      <li><code class="highlighter-rouge">cols</code>: the number of columns in the board (its width)</li>
+    </ul>
+
+    <p><strong>Description:</strong></p>
+
+    <p>Creates and returns an object with the three properties specified above. Note that <code class="highlighter-rouge">data</code> will be a single dimensional <code class="highlighter-rouge">Array</code> representation of the board. The number of elements in the <code class="highlighter-rouge">Array</code> is the same as the number of cells in the board based on the supplied number of <code class="highlighter-rouge">rows</code> and <code class="highlighter-rouge">columns</code>. The initial value in each cell is the <code class="highlighter-rouge">fill</code> passed in. If <code class="highlighter-rouge">fill</code> is not passed in, default to  (<code class="highlighter-rouge">null</code>).</p>
+
+    <p>A <code class="highlighter-rouge">for</code> loop and generous use of <code class="highlighter-rouge">push</code> works here, but an alternative would be to use an <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array#Syntax"><code class="highlighter-rouge">Array</code> constructor</a> (not typical, but worth doing in this case) with the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/fill"><code class="highlighter-rouge">fill</code> method</a> for creating the <code class="highlighter-rouge">data</code> property.</p>
+
+    <p>The <code class="highlighter-rouge">rows</code> and <code class="highlighter-rouge">cols</code> property can be set directly from the arguments passed in!</p>
+
+    <p><strong>Example:</strong></p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>const board1 = c.generateBoard(2, 3);
+// board1 is filled with default value, null
+{ 
+  data: [null, null, null, null, null, null],
+  rows: 2,
+  cols: 3
+}
+
+const board2 = c.generateBoard(2, 3, false);
+// board2 is filled with false
+{ 
+  data: [false, false, false, false, false, false],
+  rows: 2,
+  cols: 3
+}
+</code></pre></div>    </div>
+
+    <hr />
+
+    <h3 id="rowcoltoindexboard-row-col"><code class="highlighter-rouge">rowColToIndex(board, row, col)</code></h3>
+
+    <p><strong>Parameters:</strong></p>
+
+    <ul>
+      <li><code class="highlighter-rouge">board</code> - the board object where the <code class="highlighter-rouge">row</code> and <code class="highlighter-rouge">col</code> come from</li>
+      <li><code class="highlighter-rouge">row</code> - the row number to be converted to an index in a one dimensional <code class="highlighter-rouge">Array</code> representation</li>
+      <li><code class="highlighter-rouge">col</code> - the column number to be converted to an index in a one dimensional a<code class="highlighter-rouge">Array</code> representation</li>
+    </ul>
+
+    <p><strong>Returns:</strong></p>
+
+    <ul>
+      <li>a <code class="highlighter-rouge">Number</code>, the index that&#39;s mapped to by the given <code class="highlighter-rouge">row</code> and <code class="highlighter-rouge">col</code> based on the board&#39;s data and internal <code class="highlighter-rouge">rows</code> and <code class="highlighter-rouge">cols</code> properties</li>
+    </ul>
+
+    <p><strong>Description:</strong></p>
+
+    <p>A cell in the board object&#39;s <code class="highlighter-rouge">data</code> <code class="highlighter-rouge">Array</code> can be specified by a row number and a column number. Again, <code class="highlighter-rouge">data</code> is a one dimensional <code class="highlighter-rouge">Array</code>, so to retrieve a value from data only a single index can be used. This function translates a row and a column into an index in the one dimensional <code class="highlighter-rouge">Array</code> stored in the <code class="highlighter-rouge">board</code> object&#39;s data property</p>
+
+    <p>Hint: Use the <code class="highlighter-rouge">board</code> object&#39;s <code class="highlighter-rouge">rows</code> and <code class="highlighter-rouge">cols</code> properties to calculate the appropriate index, <code class="highlighter-rouge">i</code>, from the <code class="highlighter-rouge">board</code> object&#39;s <code class="highlighter-rouge">data</code> property</p>
+
+    <p><strong>Example:</strong></p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// translates a row and col to an index
+const board = c.generateBoard(3, 3);
+
+const i = c.rowColToIndex(board, 1, 1);
+// 4
+
+const j = c.rowColToIndex(board, 0, 2);
+// 2
+</code></pre></div>    </div>
+
+    <hr />
+
+    <h3 id="indextorowcolboard-i"><code class="highlighter-rouge">indexToRowCol(board, i)</code></h3>
+
+    <p><strong>Parameters:</strong></p>
+
+    <ul>
+      <li><code class="highlighter-rouge">board</code> - the board where the <code class="highlighter-rouge">rowNumber</code> and <code class="highlighter-rouge">columnNumber</code> come from</li>
+      <li><code class="highlighter-rouge">i</code> - the index to be converted into a row and column</li>
+    </ul>
+
+    <p><strong>Returns:</strong></p>
+
+    <ul>
+      <li>an object containing two properties, <code class="highlighter-rouge">row</code> and <code class="highlighter-rouge">col</code>, representing the row and column numbers that the <code class="highlighter-rouge">index</code> maps to</li>
+    </ul>
+
+    <p><strong>Description:</strong></p>
+
+    <p>Using the <code class="highlighter-rouge">rows</code>, <code class="highlighter-rouge">cols</code> and <code class="highlighter-rouge">data</code> property of the <code class="highlighter-rouge">board</code> object passed in, translates a single index in the <code class="highlighter-rouge">data</code> <code class="highlighter-rouge">Array</code> of the board to the cell&#39;s row and column number.</p>
+
+    <p>Hint: If you need integer division or if you need to always round down, you can just call <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/floor">Math.floor</a> after dividing (which will give you the largest integer less than or equal to a given number).</p>
+
+    <p><strong>Example:</strong></p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// translates an index to a row and col (as an object)
+const board = c.generateBoard(3, 3);
+
+const rowCol1 = c.indexToRowCol(board, 4);
+// {"row": 1, "col": 1}
+
+const rowCol2 = c.indexToRowCol(board, 2);
+// {"row": 0, "col": 2}
+</code></pre></div>    </div>
+
+    <hr />
+
+    <h3 id="setcellboard-row-col-value"><code class="highlighter-rouge">setCell(board, row, col, value)</code></h3>
+
+    <p><strong>Parameters:</strong></p>
+
+    <ul>
+      <li><code class="highlighter-rouge">board</code> - the board where a cell will be set to <code class="highlighter-rouge">letter</code></li>
+      <li><code class="highlighter-rouge">row</code> - the row number of the cell to be set</li>
+      <li><code class="highlighter-rouge">col</code> - the column number of the cell to be set</li>
+      <li><code class="highlighter-rouge">value</code>` - the value to set the cell to</li>
+    </ul>
+
+    <p><strong>Returns:</strong></p>
+
+    <ul>
+      <li>a <strong>new</strong> <code class="highlighter-rouge">board</code> that contains a <strong>new</strong> <code class="highlighter-rouge">data</code> <code class="highlighter-rouge">Array</code> representing the board where the cell at <code class="highlighter-rouge">row</code> and <code class="highlighter-rouge">col</code> is set to the value of <code class="highlighter-rouge">value</code></li>
+    </ul>
+
+    <p><strong>Description:</strong></p>
+
+    <p>Sets the value of the cell at the specified row and column numbers on the board (<code class="highlighter-rouge">board</code>) object&#39;s <code class="highlighter-rouge">data</code> <code class="highlighter-rouge">Array</code> to the value, <code class="highlighter-rouge">letter</code>.</p>
+
+    <p>Instead of modifying the <code class="highlighter-rouge">board</code> object passed in, create a copy of the <code class="highlighter-rouge">board</code>, mutate the copy (place the values), and return the copy.</p>
+
+    <p>To create a new object, you can manually recreate keys and assign values. Note that if a value is a reference type, like the <code class="highlighter-rouge">data</code> <code class="highlighter-rouge">Array</code>, you&#39;ll have to take care to copy the values rather than the reference. One way to do this is to use the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax#Copy_an_array">spread operator</a> or the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/slice">slice</a> method. Note that both of these methods produce a shallow copy.</p>
+
+    <p><strong>Example:</strong></p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// sets the cell to the value specified by row and col
+let board = c.generateBoard(2, 3);
+board = c.setCell(board, 1, 1, 'X');
+board = c.setCell(board, 0, 2, 'O');
+
+// after setting cells, board should now look like this:
+{
+	data: [null, null, 'O', null, 'X', null],
+	rows: 2,
+	cols: 3
+}
+    
+// note that this does not mutate the original board passed in
+const board = c.generateBoard(2, 3, ' ');
+const updatedBoard = c.setCell(board, 1, 1, 'X');
+
+// setCell returns a new board, updatedBoard
+{
+  data: [' ', ' ', ' ', ' ', 'X', ' '],
+  rows: 2,
+  cols: 3
+}
+
+// but the original variable, board, does not change
+{
+  data: [' ', ' ', ' ', ' ', ' ', ' '],
+  rows: 2,
+  cols: 3
+}
+</code></pre></div>    </div>
+
+    <hr />
+
+    <h3 id="setcellsboard-any-number-of-move-objects"><code class="highlighter-rouge">setCells(board, &lt;any number of move objects&gt;)</code></h3>
+
+    <p><code class="highlighter-rouge">// modify the parameters to allow for an arbitrary number of arguments after board</code></p>
+
+    <p><strong>Parameters:</strong></p>
+
+    <ul>
+      <li><code class="highlighter-rouge">board</code> - an object with a <code class="highlighter-rouge">data</code> <code class="highlighter-rouge">Array</code>, <code class="highlighter-rouge">rows</code>, and <code class="highlighter-rouge">cols</code> as properties</li>
+      <li>an arbitrary number of objects, each containing <code class="highlighter-rouge">row</code>, <code class="highlighter-rouge">col</code>, and <code class="highlighter-rouge">val</code> properties specifiying where to place a value on the board&#8230; for example: <code class="highlighter-rouge">{row: 2, col: 3, val: '😎'}, {row: 3, col: 3, val: '💻'}</code></li>
+    </ul>
+
+    <p><strong>Returns:</strong></p>
+
+    <ul>
+      <li>a new <code class="highlighter-rouge">board</code> object with the elements in its <code class="highlighter-rouge">data</code> <code class="highlighter-rouge">Array</code> set to the values specified by the objects in <code class="highlighter-rouge">moves</code></li>
+    </ul>
+
+    <p><strong>Description:</strong></p>
+
+    <p>Using the row, column and value properties of every object in the <code class="highlighter-rouge">moves</code> <code class="highlighter-rouge">Array</code>, sets the value of the cells at the specified row and column numbers on the board (<code class="highlighter-rouge">board</code>) object&#39;s <code class="highlighter-rouge">data</code> <code class="highlighter-rouge">Array</code>.</p>
+
+    <p>Instead of modifying the <code class="highlighter-rouge">board</code> object passed in, create a copy of the <code class="highlighter-rouge">board</code>, mutate the copy (set the values), and return the copy.</p>
+
+    <p><strong>Example:</strong></p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// places multiple values on board
+const board = c.generateBoard(3, 3, ' ');
+
+// setCells is called with 3 objects... but there can be an arbitrary number 
+// of moves passed in 
+const updatedBoard = c.setCells(
+  board, 
+  {row:0, col:1, val: 'X'},
+  {row:1, col:2, val: 'X'}, 
+  {row:2, col:2, val: 'O'}, 
+);
+
+// updatedBoard should have values set based on moves
+{
+  data: [' ', 'X', ' ', ' ', ' ', 'X', ' ', ' ', 'O'],
+  rows: 3,
+  cols: 3
+}
+
+// original board should remain unchanged
+{
+  data: [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+  rows: 3,
+  cols: 3
+}
+</code></pre></div>    </div>
+
+    <hr />
+
+    <h3 id="boardtostringboard"><code class="highlighter-rouge">boardToString(board)</code></h3>
+
+    <p><strong>Parameters:</strong></p>
+
+    <ul>
+      <li><code class="highlighter-rouge">board</code> - the board to be converted to a <code class="highlighter-rouge">String</code></li>
+    </ul>
+
+    <p><strong>Returns:</strong></p>
+
+    <ul>
+      <li>a <code class="highlighter-rouge">String</code> representation of the board</li>
+    </ul>
+
+    <p><strong>Description:</strong></p>
+
+    <p><strong>Note:</strong> both <code class="highlighter-rouge">wcwidth</code> and <code class="highlighter-rouge">.length</code> give varying values depending on emoji passed in due to some single emoji consisting of multiple emoji plus <em>joining</em> and <em>variation characters</em>! Consequently, lengths and wcwidth are inconsistent; There&#39;s currently no <em>easy</em> way to deal with this. So, if your code or test fails due to something like the ❤️ emoji, it&#39;s ok; the graders will not use that character. Feel free to replace that character in the text.</p>
+
+    <p><code class="highlighter-rouge">boardToString</code> reates a <em>text drawing</em> representation of the Connectmoji <code class="highlighter-rouge">board</code> passed in. The board should have:</p>
+
+    <ul>
+      <li>borders between cells</li>
+      <li>the contents of each cell</li>
+      <li>labels on the rows and columns</li>
+    </ul>
+
+    <p>Printing out an example result would yield:</p>
+
+    <pre class="board"><code data-trim="" contenteditable="">|    |    |    |    |    |    |    |
+|    |    |    |    |    |    |    |
+|    |    |    |    |    |    |    |
+|    |    |    |    |    |    |    |
+|    |    |    |    |    |    |    |
+| 😄 | ❤️ |    |    |    |    |    |
+|----+----+----+----+----+----+----|
+| A  | B  | C  | D  | E  | F  | G  |
+</code></pre>
+
+    <p>It should work for boards of any size! Here&#39;s an example of a board with 4 rows and 5 columns (A through E)</p>
+
+    <pre class="board"><code data-trim="" contenteditable="">|    |    |    |    |    |
+|    |    |    |    |    |
+|    |    |    |    |    |
+| 😄 | ❤️ |    |    |    |
+|----+----+----+----+----+
+| A  | B  | C  | D  | E  |
+</code></pre>
+
+    <p>A few rules for displaying</p>
+
+    <ul>
+      <li>if the value in the <code class="highlighter-rouge">board</code> object&#39;s <code class="highlighter-rouge">data</code> <code class="highlighter-rouge">Array</code> is null, treat it as a blank cell; display <em>some number of spaces</em> in the string</li>
+      <li>pad each value of an occupied cell with a space, before and after</li>
+      <li>some emoji take up more than one &quot;character width&quot;, even though they&#39;re one character&#8230; so you&#39;ll have to dynamically size the grid by using the <code class="highlighter-rouge">wcwidth</code> function
+        <ul>
+          <li>for example <code class="highlighter-rouge">wcwidth('😃')</code> gives back 2, meaning the emoji character, while counted as 1 for string length purposes, actually takes up the width of two characters in the display</li>
+          <li>this means that the width (not the string length) between the pipes (<code class="highlighter-rouge">|</code>), must be 4:</li>
+          <li>4 spaces for empty cell</li>
+          <li>a smiling emoji with a space before and after)</li>
+        </ul>
+      </li>
+      <li>if a character padded with single spaces causes a misalignment (is narrower than other cells), <strong>add additional padding on the right</strong> (that is, add spaces to the end to match width of widest cell)
+        <ul>
+          <li>in the example below, notice how the emoji is centered, where as the X has extra padding</li>
+        </ul>
+        <pre class="board"><code data-trim="" contenteditable="">| 😄 |    |    |    |    |    |    |
+| X  |    |    |    |    |    |    |
+</code></pre>
+      </li>
+      <li>the column labels should be shown as letters underneath the grid
+        <ul>
+          <li>they should also be padded with a space</li>
+          <li>add additional padding at the end to match width of widest cell
+            <ul>
+              <li>in the example below, again, the emoji is centered because it takes up two character widths, whereas the labels have extra padding on the right to account for the added column width</li>
+            </ul>
+            <pre class="board"><code data-trim="" contenteditable="">| 😄 |    |    |    |    |    |    |
+|----+----+----+----+----+----+----|
+| A  | B  | C  | D  | E  | F  | G  |
+</code></pre>
+          </li>
+        </ul>
+      </li>
+      <li>there are no leading or trailing newlines or spaces before and after the board</li>
+      <li><strong>not all terminals and editors will show emoji width for monospace fonts correctly!</strong>
+        <ul>
+          <li>&#8230; for example, terminal.app on MacOS and MinTTY on Windows displays the alignment properly</li>
+          <li>&#8230; while iTerm2 on MacOS and cmder on Windows, emoji will not align! (but that&#39;s ok)</li>
+          <li>if you have the padding correct in the code, you can assume that the implementation is correct even if your application makes it seem like it isn&#39;t aligned</li>
+          <li>a passing test is greater guarantee of correct implementation</li>
+        </ul>
+      </li>
+    </ul>
+
+    <p>This one is actually quite challenging (and tedious) to get exactly right, so if you&#39;re not getting the test passing, but it <em>looks like</em> the expected output, there won&#39;t be any penalties &#8230; and if there are other issues (for example, not adding labels), there will only be small point penalties.</p>
+
+    <p>Again, you can <strong>assume that the numbers of columns will not be greater than 26</strong>.</p>
+
+    <p>Hint: One way of dealing with the row label is to use one of the following functions that returns the unicode code point of the character given:</p>
+
+    <ul>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/fromCodePoint">String.fromCodePoint</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/fromCharCode">String.fromCharCode</a></li>
+      <li>&#8230;and a little bit about <a href="https://stackoverflow.com/questions/34680898/can-you-use-string-fromcodepoint-just-like-string-fromcharcode">how they&#39;re different</a> (tl;dr&#8230; <code class="highlighter-rouge">fromCodePoint</code> can deal with all legal unicode values, but may not be as widely supported as <code class="highlighter-rouge">fromCharCode</code>)</li>
+    </ul>
+
+    <p><strong>Example:</strong></p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// a string representation of a board with two moves
+let board = c.generateBoard(6, 7);
+board = c.setCells(
+  board, 
+  {row: 5, col: 0, val: 'X'},
+  {row: 4, col: 0, val: '😄'}
+);
+
+// board is exactly the string below
+// (backticks show that this is a multiline string)
+</code></pre></div>    </div>
+
+    <pre class="board"><code data-trim="" contenteditable="">`|    |    |    |    |    |    |    |
+|    |    |    |    |    |    |    |
+|    |    |    |    |    |    |    |
+|    |    |    |    |    |    |    |
+| 😄 |    |    |    |    |    |    |
+| X  |    |    |    |    |    |    |
+|----+----+----+----+----+----+----|
+| A  | B  | C  | D  | E  | F  | G  |`
+</code></pre>
+    <hr />
+
+    <h3 id="lettertocolletter"><code class="highlighter-rouge">letterToCol(letter)</code></h3>
+
+    <p><strong>Parameters:</strong></p>
+
+    <ul>
+      <li><code class="highlighter-rouge">letter</code> - the uppercase letter to be translated to a numeric value</li>
+    </ul>
+
+    <p><strong>Returns:</strong></p>
+
+    <ul>
+      <li>the column number associated with the <code class="highlighter-rouge">letter</code></li>
+      <li><code class="highlighter-rouge">null</code> (if <code class="highlighter-rouge">letter</code> is not a valid column)</li>
+    </ul>
+
+    <p><strong>Description:</strong></p>
+
+    <p>Translates a column letter to a column number. The possible letters are uppercase A through Z, and their corresponding numeric column values are 0 - 25. An invalid <em>letter</em> will result in <code class="highlighter-rouge">null</code>.</p>
+
+    <p><strong>Example:</strong></p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// translates a letter to a column value (A = 0, B = 1)
+
+c.letterToCol("A");
+// 0
+
+c.letterToCol("Z");
+// 25
+
+// all of the following will return null
+c.letterToCol("1");
+c.letterToCol("a");
+c.letterToCol("😄");
+c.letterToCol("AB");
+</code></pre></div>    </div>
+
+    <hr />
+
+    <h3 id="getemptyrowcolboard-letter-empty-"><code class="highlighter-rouge">getEmptyRowCol(board, letter, empty) </code></h3>
+
+    <p><code class="highlighter-rouge">default empty to null</code></p>
+
+    <p><strong>Parameters:</strong></p>
+
+    <ul>
+      <li><code class="highlighter-rouge">board</code> - the board to examine for an empty cell</li>
+      <li><code class="highlighter-rouge">letter</code> - the name of the column to check for an empty cell</li>
+      <li><code class="highlighter-rouge">empty</code> - the value contained in the <code class="highlighter-rouge">data</code> <code class="highlighter-rouge">Array</code> of <code class="highlighter-rouge">board</code> that represents an empty cell in that board; the default is <code class="highlighter-rouge">null</code> (that is, treat <code class="highlighter-rouge">null</code> values as empty)</li>
+    </ul>
+
+    <p><strong>Returns:</strong></p>
+
+    <ul>
+      <li>an object with two properties: <code class="highlighter-rouge">row</code> and <code class="highlighter-rouge">col</code>&#8230; specifying the row and column numbers of an empty cell in the column identified by <code class="highlighter-rouge">letter</code></li>
+      <li><code class="highlighter-rouge">null</code> (if <code class="highlighter-rouge">letter</code> is not a valid column or if there are no empty cells in the specified column)</li>
+    </ul>
+
+    <p><strong>Description:</strong></p>
+
+    <p>Finds the next empty cell in the column identified by <code class="highlighter-rouge">letter</code> in the board object:</p>
+
+    <ul>
+      <li>this empty cell must be the nearest empty cell to the <em>bottom</em> of the board (the <em>lowest</em> unoccupied cell)</li>
+      <li>in terms of actual row numbers, it&#39;s the highest row number that doesn&#39;t have a piece in it</li>
+      <li>if there are no occupied cells in the column, is the highest row number / lowest location on the board</li>
+      <li>do not count a cell as empty if it&#39;s between two occupied cells vertically (this situation should not be possible anyway!)
+        <ul>
+          <li>for example, in the board below, row 1 would not be counted as empty</li>
+        </ul>
+        <pre class="board"><code data-trim="" contenteditable="">
+| 😄 | ...this is row 0
+|    | ...then row 1
+| 😄 | ...and finally row 2
+|----+
+| A  |
+</code></pre>
+      </li>
+      <li>if the entire column is occupied, then no empty cells are in that column; return null</li>
+    </ul>
+
+    <p><strong>Example:</strong></p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// gives back an empty cell's row and column with row number less 
+// than lowest occupied row number in column (think of this as the
+// highest unoccupied cell)
+let board = c.generateBoard(3, 2);
+board = c.setCells(
+  	  board, 
+  	  {row: 2, col: 0, val: '😄'},
+  	  {row: 2, col: 1, val: '😄'},
+  	  {row: 1, col: 1, val: '😄'}
+);
+c.getEmptyRowCol(board, "A");
+// {row: 1, col: 0}
+c.getEmptyRowCol(board, "B");
+// {row: 0, col: 1}
+
+
+// gives back row and column with row being highest row number 
+// if column is completely empty (essentially, bottom-most cell
+// in column)
+let board = c.generateBoard(3, 2);
+c.getEmptyRowCol(board, "A");
+// {row: 2, col: 0}
+
+// gives back null if column is full
+let board = c.generateBoard(2, 2);
+board = c.setCells(
+  board, 
+  {row: 1, col: 0, val: '😄'},
+  {row: 1, col: 1, val: '😄'},
+  {row: 0, col: 0, val: '😄'},
+  {row: 0, col: 1, val: '😄'}
+);
+c.getEmptyRowCol(board, "A");
+// null
+
+// does not count holes in columns
+let board = c.generateBoard(4, 3);
+board = c.setCells(
+  board, 
+  {row: 3, col: 0, val: '😄'},
+  {row: 1, col: 0, val: '😄'},
+);
+c.getEmptyRowCol(board, "A");
+// {row: 0, col: 0}
+
+
+// does not fill holes in columns even if min row num is filled
+let board = c.generateBoard(4, 3);
+board = c.setCells(
+  board, 
+  {row: 0, col: 0, val: '😄'},
+);
+c.getEmptyRowCol(board, "A");
+// null
+
+
+// gives back null if column does not exist
+let board = c.generateBoard(2, 2);
+c.getEmptyRowCol(board, "C");
+// null
+
+// gives back null if column is invalid - not a letter or more 
+// than 1 character
+let board = c.generateBoard(2, 2);
+c.getEmptyRowCol(board, "1");
+// null
+c.getEmptyRowCol(board, "AA");
+// null
+</code></pre></div>    </div>
+
+    <hr />
+
+    <h3 id="getavailablecolumnsboard"><code class="highlighter-rouge">getAvailableColumns(board)</code></h3>
+
+    <p><strong>Parameters:</strong></p>
+
+    <ul>
+      <li><code class="highlighter-rouge">board</code> - the board to examine for a winner</li>
+    </ul>
+
+    <p><strong>Returns:</strong></p>
+
+    <ul>
+      <li>gives back all columns that have an empty cell as an <code class="highlighter-rouge">Array</code> of uppercase letters</li>
+    </ul>
+
+    <p><strong>Description:</strong></p>
+
+    <p>Examines the <code class="highlighter-rouge">board</code> passed in to see if any valid empty cells exist (see <code class="highlighter-rouge">getEmptyRowCol</code> above for rules regarding what counts as a valid empty cell).</p>
+
+    <p>It returns an <code class="highlighter-rouge">Array</code> of letters representing the columns where the empty cells are.</p>
+
+    <p>If there are no valid empty cells, an empty <code class="highlighter-rouge">Array</code> is returned.</p>
+
+    <p><strong>Example:</strong></p>
+
+    <p>Given the following board as <code class="highlighter-rouge">board</code> in the code below:</p>
+
+    <pre class="board"><code data-trim="" contenteditable="">| 😄 |    |    |    |
+| 🤮 | 😄 |    |    |
+| 😄 | 🤮 | 🤮 |    |
+|----+----+----+----+
+| A  | B  | C  | D  |
+</code></pre>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// gives back all column letters that can be used as a valid move (for dropPiece, for example)
+c.getAvailableColumns(board)
+// returns an Array that contains the following letters: 'B', 'C', and 'D'
+</code></pre></div>    </div>
+
+    <pre class="board"><code data-trim="" contenteditable="">| 😄 | 🤮 | 🤮 | 😄 |
+| 🤮 | 😄 | 😄 | 🤮 |
+| 😄 | 🤮 | 🤮 | 😄 |
+|----+----+----+----+
+| A  | B  | C  | D  |
+</code></pre>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// gives back an empty list of no valid empty columns are in board
+// (essentially, no legal moves can be played)
+c.getAvailableColumns(board)
+// []
+</code></pre></div>    </div>
+
+    <hr />
+
+    <h3 id="hasconsecutivevaluesboard-row-col-n"><code class="highlighter-rouge">hasConsecutiveValues(board, row, col, n)</code></h3>
+
+    <p><strong>Parameters:</strong></p>
+
+    <ul>
+      <li><code class="highlighter-rouge">board</code> - the board to examine for a winner</li>
+      <li><code class="highlighter-rouge">row</code> - the row number of the cell to examine for consecutive values</li>
+      <li><code class="highlighter-rouge">col</code> - the column number of the cell to examine for consecutive values</li>
+      <li><code class="highlighter-rouge">n</code> - the number of consecutive values for a win</li>
+    </ul>
+
+    <p><strong>Returns:</strong></p>
+
+    <ul>
+      <li><code class="highlighter-rouge">true</code> if there are <code class="highlighter-rouge">n</code> consecutive values horizontally, vertically or diagonally; otherwise, returns <code class="highlighter-rouge">false</code></li>
+    </ul>
+
+    <p><strong>Description:</strong></p>
+
+    <p>Given a <code class="highlighter-rouge">row</code> and <code class="highlighter-rouge">col</code> number, determine if the value in that cell is repeated consecutively horizontally, vertically or diagonally for <code class="highlighter-rouge">n</code> number of times: <code class="highlighter-rouge">true</code> if the number of consecutive values is greater than or equal to <code class="highlighter-rouge">n</code>, <code class="highlighter-rouge">false</code> otherwise.</p>
+
+    <p>Note that when looking for consecutive repeated values, the <code class="highlighter-rouge">row</code> and <code class="highlighter-rouge">col</code> can be anywhere in the series of consecutive values. If you&#39;re looking for a vertical line, look above and below the specified <code class="highlighter-rouge">row</code> and <code class="highlighter-rouge">col</code>.</p>
+
+    <p><strong>Example:</strong></p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// determines if value at location is repeated x times vertically
+const board = c.generateBoard(3, 4);
+const updatedBoard = c.setCells(
+  board, 
+  {row:2, col:1, val: '😄'},
+  {row:1, col:1, val: '😄'}, 
+  {row:0, col:1, val: '😄'}, 
+);
+c.hasConsecutiveValues(updatedBoard, 2, 1, 3);
+// true
+c.hasConsecutiveValues(updatedBoard, 1, 1, 3);
+// true
+c.hasConsecutiveValues(updatedBoard, 0, 1, 3);
+// true
+
+
+// determines if value at location is repeated x times horizontally
+const board = c.generateBoard(3, 4, ' ');
+const updatedBoard = c.setCells(
+  board, 
+  {row:2, col:2, val: '😄'},
+  {row:2, col:1, val: '😄'}, 
+  {row:2, col:0, val: '😄'}, 
+);
+c.hasConsecutiveValues(updatedBoard, 2, 2, 3);
+// true
+c.hasConsecutiveValues(updatedBoard, 2, 1, 3);
+// true
+c.hasConsecutiveValues(updatedBoard, 2, 0, 3);
+// true
+
+
+// determines if value at location is repeated x times diagonally
+const board = c.generateBoard(3, 4, ' ');
+const updatedBoard = c.setCells(
+  board, 
+  {row:2, col:2, val: '😄'},
+  {row:2, col:1, val: '🤮'},
+  {row:1, col:1, val: '😄'}, 
+  {row:2, col:0, val: '🤮'},
+  {row:1, col:0, val: '🤮'}, 
+  {row:0, col:0, val: '😄'}, 
+);
+c.hasConsecutiveValues(updatedBoard, 2, 2, 3);
+// true
+c.hasConsecutiveValues(updatedBoard, 1, 1, 3);
+// true
+c.hasConsecutiveValues(updatedBoard, 0, 0, 3);
+// true
+
+
+// gives back false if value at location is not repeated x times
+const board = c.generateBoard(3, 4, ' ');
+const updatedBoard = c.setCells(
+  board, 
+  {row:2, col:2, val: '😄'},
+  {row:2, col:1, val: '🤮'},
+  {row:1, col:1, val: '🤮'}, 
+  {row:2, col:0, val: '🤮'},
+  {row:1, col:0, val: '🤮'}, 
+  {row:0, col:0, val: '😄'},
+);
+c.hasConsecutiveValues(updatedBoard, 2, 2, 3);
+// false
+c.hasConsecutiveValues(updatedBoard, 2, 1, 3);
+// false
+c.hasConsecutiveValues(updatedBoard, 1, 1, 3);
+// false
+c.hasConsecutiveValues(updatedBoard, 2, 0, 3);
+// false
+c.hasConsecutiveValues(updatedBoard, 1, 0, 3);
+// false
+c.hasConsecutiveValues(updatedBoard, 0, 0, 3);
+// false
+</code></pre></div>    </div>
+
+    <hr />
+
+    <h3 id="autoplayboard-s-numconsecutive"><code class="highlighter-rouge">autoplay(board, s, numConsecutive)</code></h3>
+
+    <p><strong>Parameters:</strong></p>
+
+    <ul>
+      <li><code class="highlighter-rouge">board</code> - the board object that will be used for <code class="highlighter-rouge">autoplay</code></li>
+      <li><code class="highlighter-rouge">s</code> - a string containing the values (pieces) for each player, along with their moves, in the format of <code class="highlighter-rouge">vwABCDE...</code> where v and w are the single characters representing each player&#39;s associated value, and the letters are the columns played by each player, alternating (v plays A first, then w plays B next&#8230; and the third move is v to column C)</li>
+      <li><code class="highlighter-rouge">numConseuctive</code> - the number of consecutive values necessary for a win</li>
+    </ul>
+
+    <p><strong>Returns:</strong></p>
+
+    <ul>
+      <li>a result object that contains board data and metadata about the game played on the board (see description below)</li>
+    </ul>
+
+    <p><strong>Description:</strong></p>
+
+    <p>Using the board object, <code class="highlighter-rouge">board</code>, and a string of moves, <code class="highlighter-rouge">s</code>, play out a series of moves automatically. The returned <code class="highlighter-rouge">result</code> object will have the following properties:</p>
+
+    <ul>
+      <li><code class="highlighter-rouge">board</code> - a board object consisting of the usual properties, <code class="highlighter-rouge">data</code>, <code class="highlighter-rouge">rows</code>, and <code class="highlighter-rouge">cols</code>&#8230; this should be <code class="highlighter-rouge">null</code> if there&#39;s a move that produces an error (see <code class="highlighter-rouge">error</code> property below)</li>
+      <li><code class="highlighter-rouge">lastPieceMoved</code> - the value of the last placed piece
+        <ul>
+          <li>this can remain unset / <code class="highlighter-rouge">undefined</code> if there were no moves!</li>
+          <li>for example, if the move string were <code class="highlighter-rouge">vwABC</code>, then the last piece moved would be v (it moves to A, w moves to B, and the third move is v to C)</li>
+        </ul>
+      </li>
+      <li><code class="highlighter-rouge">error</code> - if any of the moves results in an error, this field is set to an object described below; otherwise, it should not be set at all (remain <code class="highlighter-rouge">undefined</code>)
+        <ul>
+          <li>the error object should contain the following properties&#8230;</li>
+          <li><code class="highlighter-rouge">num</code> - the number of the move where the error occurred, with the first move starting at 1 (for example, <code class="highlighter-rouge">vwABCD</code>&#8230; and C produces an invalid move / error, then <code class="highlighter-rouge">num</code> should be 3 as it was the third move)</li>
+        </ul>
+      </li>
+      <li><code class="highlighter-rouge">winner</code> - the value of the piece that wins the game, if applicable; otherwise, it should not be set at all (remain <code class="highlighter-rouge">undefined</code>)
+        <ul>
+          <li>for example, if <code class="highlighter-rouge">s</code> were <code class="highlighter-rouge">vwAABBC</code> and the last move for v to C produces a win, then <code class="highlighter-rouge">winner</code> would be set to <code class="highlighter-rouge">v</code></li>
+        </ul>
+      </li>
+      <li>if a win occurs, but there are more moves specified, then the move immediately after a win should produce an error</li>
+      <li>if there&#39;s an error or invalid move, the function can return immediately with the appropriate fields filled (for example, a <code class="highlighter-rouge">null</code> <code class="highlighter-rouge">board</code> property, a filled <code class="highlighter-rouge">error</code> property, etc.)</li>
+    </ul>
+
+    <p>Again, the second parameter, <code class="highlighter-rouge">s</code>, will supply the pieces and moves (that is, which columns to drop the piece in).</p>
+
+    <ul>
+      <li>the first two characters in <code class="highlighter-rouge">s</code> are the pieces, and every character after should be an uppercase letter indicating which column to place the piece in (for example <code class="highlighter-rouge">XOAABB</code>)
+        <ul>
+          <li>⚠️⚠️⚠️  &#8230; to deal with emoji convert the string to an <code class="highlighter-rouge">Array</code> first rather than using <code class="highlighter-rouge">charAt</code> or <code class="highlighter-rouge">codePointAt</code></li>
+          <li>from there, you can access by <code class="highlighter-rouge">Array</code> index</li>
+        </ul>
+      </li>
+      <li>the piece is then set by <em>dropping</em> it to the lowest unoccupied cell in that column.</li>
+      <li>so, <code class="highlighter-rouge">😎OAABB</code> would result in a board that looks like this (since the emoji is first dropped into column A, and then the letter O is dropped on top of that):
+        <pre class="board"><code data-trim="" contenteditable="">|    |    |    |    |    |    |    |
+|    |    |    |    |    |    |    |
+|    |    |    |    |    |    |    |
+|    |    |    |    |    |    |    |
+| O  | O  |    |    |    |    |    |
+| 😎 | 😎 |    |    |    |    |    |
+|----+----+----+----+----+----+----|
+| A  | B  | C  | D  | E  | F  | G  |
+</code></pre>
+      </li>
+    </ul>
+
+    <p><strong>Example:</strong></p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// autoplays a series of moves based on string
+const s = '😄🤮ABAACD';
+let board = c.generateBoard(3, 4, null);
+const result = c.autoplay(board, s, 4);
+// result is
+{
+  board: {
+    data: ['🤮', null, null, null, '😄', null, null, null, '😄', '🤮', '😄', '🤮'],
+    rows: 3,
+    cols: 4,
+  },
+  pieces: ['😄', '🤮'],
+  lastPieceMoved: '🤮',
+  // no winner key!
+  // no error key!
+}
+
+// autoplays a series of moves based on string and shows winner if last move wins game
+const s = '😄🤮AABBCCD';
+let board = c.generateBoard(3, 4);
+const result = c.autoplay(board, s, 4);
+// result is
+{
+  board: {
+    data: [null, null, null, null, '🤮', '🤮', '🤮', null, '😄', '😄', '😄', '😄'],
+    rows: 3,
+    cols: 4,
+  },
+  pieces: ['😄', '🤮'],
+  lastPieceMoved: '😄',
+  winner: '😄',
+  // no error key!
+}
+
+// gives back null board property if autoplayed moves result in a win, but there are more moves after win
+const s = '😄🤮AABBCCDD';
+let board = c.generateBoard(3, 4);
+const result = c.autoplay(board, s, 4);
+// result is
+{
+  board: null,
+  pieces: ['😄', '🤮'],
+  lastPieceMoved: '🤮',
+  error: {num: 8, val: '🤮', col: 'D'},
+}
+
+// gives back null board property if autoplayed moves result in an invalid move
+const s = '😄🤮D';
+let board = c.generateBoard(3, 3);
+const result = c.autoplay(board, s, 4);
+// result is
+{
+  board: null,
+  pieces: ['😄', '🤮'],
+  lastPieceMoved: '😄',
+  error: {num: 1, val: '😄', col: 'D'},
+}
+</code></pre></div>    </div>
+
+    <hr />
+
+    <h3 id="checking-your-code-pushing-your-changes">Checking Your Code, Pushing Your Changes</h3>
+
+    <ol>
+      <li>JavaScript (ES5) is kind of crazy (read: has some really <em>bad</em>, but valid parts), so it&#39;s useful to use a static analysis tool, like <code class="highlighter-rouge">eslint</code> to check your code
+        <ul>
+          <li>ideally, you&#39;d be doing this periodically while you develop</li>
+          <li>the commandline usage is described here, but there are eslint integrations for some editors (see the plugins section in the <a href="https://eslint.org/docs/user-guide/integrations">eslint installation guide</a>)</li>
+          <li>from your project directory run: <code class="highlighter-rouge">npx eslint src/*</code> to check all of the code in the <code class="highlighter-rouge">src</code> directory</li>
+          <li>(you <em>did install</em> <code class="highlighter-rouge">eslint</code>, right?)</li>
+          <li>check the output; <strong>make sure you fix all warnings / errors</strong></li>
+          <li><strong>some minor number of points will be deducted for eslint warnings0</strong></li>
+        </ul>
+      </li>
+      <li>Run your tests one last time to make sure that they&#39;re all (or&#8230; <em>mostly</em>) passing.
+        <ul>
+          <li><code class="highlighter-rouge">npx mocha test/connectmoji-test.js</code></li>
+          <li>note that in the tests, <code class="highlighter-rouge">null</code> is displayed as <code class="highlighter-rouge">[null]</code></li>
+        </ul>
+      </li>
+      <li>Fix unit test errors
+        <ul>
+          <li>if you have test failure, examine the output of each failure&#8230;</li>
+          <li>it&#39;ll describe what was expected vs what was actually given back by your function&#8230;</li>
+          <li>in the example below, +/green shows expected, while -/red shows the incorrect output
+  <br />
+  <img src="../resources/img/connectmoji/hw01-tests-01.png" alt="observed / expected" /></li>
+          <li>in the following example, the diff of expected and observed shows a very subtle difference in spacing!
+  <br />
+  <img src="../resources/img/connectmoji/hw01-tests-02.png" alt="spaces!" /></li>
+          <li>if you get <code class="highlighter-rouge">TypeError ... is not a function</code>
+  <br />
+  <img src="../resources/img/connectmoji/hw01-tests-03.png" alt="reference error" />
+  <br />
+  &#8230;you may have:
+            <ul>
+              <li>not implemented the function (!)</li>
+              <li>named the function differently than what was specified in the instructions</li>
+              <li>did not export the function from your module</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>finally make sure your changes are saved and pushed
+        <ul>
+          <li><strong>use git to add and commit</strong> to continually save changes</li>
+          <li>push your changes so that they&#39;re available on the remote repository (github)</li>
+        </ul>
+      </li>
+    </ol>
+
+    <h2 id="part-2---connectmoji">Part 2 - Connectmoji</h2>
+
+    <p>Whew. That was a lot of work. But, ummmm&#8230; there&#39;s no Connectmoji game yet. What?
+<strong>Let&#39;s use the module / helper functions you created in part 1 to implement an interactive game that supports the following features:</strong></p>
+
+    <ol>
+      <li>Scripted moves for both players</li>
+      <li>User controlled game settings</li>
+      <li>An interactive game</li>
+    </ol>
+
+    <p>You don&#39;t have to use <em>all</em> of the function you created in your <code class="highlighter-rouge">connectmoji.js</code> module (and you definitely won&#39;t need to use all of the features of each function). However, you&#39;ll likely end up doing a lot of redundant work. Of course, you are encouraged to create your own additional functions as well!</p>
+
+    <h2 id="you-must-implement-1-scripted-moves">You MUST IMPLEMENT #1, Scripted Moves</h2>
+
+    <ul>
+      <li>in order for this game to be tested properly, scripted moves must be implemented for both the computer and the human player</li>
+      <li>consequently, this feature will be worth a  <strong>significant</strong> number of points</li>
+      <li>make sure you&#39;ve implemented it (see the section below, &quot;Scripted Moves&quot;)</li>
+    </ul>
+
+    <h3 id="prep">Prep</h3>
+
+    <p>You&#39;ll write your Connectmoji game in the file called <code class="highlighter-rouge">src/game.js</code>. Your first step is to bring in some required modules. Open up <code class="highlighter-rouge">src/game.js</code> and&#8230;</p>
+
+    <ol>
+      <li>bring in the module you created by using <code class="highlighter-rouge">require</code>
+        <pre><code data-trim="" contenteditable="">// you can name the object whatever you like
+// "tic" is used below...
+const c = require('./connectmoji.js');
+</code></pre>
+      </li>
+      <li>bring in the module, <code class="highlighter-rouge">readline-sync</code>, which you installed in the preparation portion of the homework
+        <pre><code data-trim="" contenteditable="">const readlineSync = require('readline-sync');
+</code></pre>
+      </li>
+    </ol>
+
+    <h3 id="scripted-moves">Scripted Moves</h3>
+
+    <p>Testing your game against a computer player that makes random moves can be pretty annoying because you can&#39;t reliably repeat tests!</p>
+
+    <p>To deal with this, add a feature to your game that allows you to pass in the game&#39;s configuration, as well as a series of moves. That is, when you run your game on the commandline, you can add an extra option to configure the game and control the computer and player moves.</p>
+
+    <p>To pick up commandline arguments, use the built-in variable <code class="highlighter-rouge">process.argv</code>. <code class="highlighter-rouge">process.argv</code> is an array that contains parts of the command used to run your program. For example, if you run your program with <code class="highlighter-rouge">node my-program.js</code>, <code class="highlighter-rouge">process.argv[0]</code> will be <code class="highlighter-rouge">node</code> and <code class="highlighter-rouge">process.argv[1]</code> will be <code class="highlighter-rouge">my-prgoram.js</code>.</p>
+
+    <p>We can use this feature to supply some options and moves to a new game by adding those options and moves to the line you use to run your game:</p>
+
+    <ul>
+      <li><code class="highlighter-rouge">node filename.js OPTIONS_AND_MOVES</code></li>
+      <li>&#8230; where <code class="highlighter-rouge">OPTIONS_AND_MOVES</code> is in the following format:</li>
+      <li><code class="highlighter-rouge">PLAYER_VALUE,MOVE_STRING,NUMBER_ROWS,NUMBER_COLUMNS,NUMBER_CONSECUTIVE</code></li>
+    </ul>
+
+    <p>For example, the following string for <code class="highlighter-rouge">OPTIONS_AND_MOVES</code>:</p>
+
+    <p><code class="highlighter-rouge">😎,😎💻AABBCC,6,7,4</code></p>
+
+    <p>Represents:</p>
+
+    <ul>
+      <li><code class="highlighter-rouge">😎</code> - <code class="highlighter-rouge">PLAYER_VALUE</code>: the value that the player will use for the game</li>
+      <li><code class="highlighter-rouge">😎💻AABBCC</code> - <code class="highlighter-rouge">MOVE_STRING</code>: a string where the first characters represent the values to played on the board, and the remaining characters are alternating column letters that represent moves for those values</li>
+      <li><code class="highlighter-rouge">6</code> - <code class="highlighter-rouge">NUMBER_ROWS</code>: the number of rows in the board</li>
+      <li><code class="highlighter-rouge">7</code> - <code class="highlighter-rouge">NUMBER_COLUMNS</code>: the number of columns in the board</li>
+      <li><code class="highlighter-rouge">4</code> - <code class="highlighter-rouge">NUMBER_CONSECUTIVE</code>: the number of repeated consecutive values needed for a win</li>
+    </ul>
+
+    <p>To capture the commandline argument, you can use this line:</p>
+    <pre><code data-trim="" contenteditable="">const arr = process.argv[2]
+</code></pre>
+
+    <p>You can assume that if the <code class="highlighter-rouge">OPTIONS_AND_MOVES</code> commandline argument is supplied, it will be in the valid format specified above.</p>
+
+    <p><strong>Example</strong></p>
+
+    <p>Finally, an example of running the game with options would be like this (from the root of your repository):</p>
+
+    <p><code class="highlighter-rouge">node src/games.js 😎,😎💻AABBCC,6,7,4</code></p>
+
+    <p>Now&#8230; instead of just randomly choosing the computer&#39;s move or prompting the user for above, the moves are drawn from the <code class="highlighter-rouge">MOVE_STRING</code>. The board is automatically set and displayed at the point where automatic play ends (no intervention is needed from the user).</p>
+
+    <p><strong>Example: Player Goes Next After Scripted Moves</strong></p>
+
+    <p>Here&#39;s an example of scripted play (<code class="highlighter-rouge">AABBCC</code>), with the next <em>manual</em> move for the player (of course, the scripted moves can also result in the computer going next too)&#8230;</p>
+
+    <p><img src="../resources/img/connectmoji/autoplay-player-turn.gif" alt="autoplay, player goes" /></p>
+
+    <p>In the example above, the player&#39;s next move wins the game, but its manual. The moves were <code class="highlighter-rouge">AABBCC</code> (with a win condition of 4), the player merely has to move to <code class="highlighter-rouge">D</code> to win.</p>
+
+    <p><strong>Example: Player Wins Immediately After Scripted Moves</strong></p>
+
+    <p>Note, however, if the automated moves resulted in a win without requiring a move from the player or computer - for example <code class="highlighter-rouge">AABBCCD</code> - then:</p>
+
+    <ul>
+      <li>display the final state of the board</li>
+      <li>print out who won (as you would in a normal game)</li>
+      <li>do not prompt for any further moves</li>
+    </ul>
+
+    <p>Only do this if the last move results in a win (otherwise, if there&#39;s a win and further moves, the further moves are invalid, and autplay should not work / print out an error message!).</p>
+
+    <p>See an example of scripted moves that results in a win below, where the automatic moves end with the player winning against the computer. Again, the scripted moves are <code class="highlighter-rouge">AABBCCD</code>, so the player does not even need to move to get the win!</p>
+
+    <p><img src="../resources/img/connectmoji/autoplay-player-win.gif" alt="autoplay, player wins" /></p>
+
+    <p><strong>To implement this feature&#8230;</strong></p>
+
+    <ul>
+      <li>at the beginning of your file, use <code class="highlighter-rouge">process.argv</code> to access the passed in argument&#8230;</li>
+      <li>create the board based on the rows and columns</li>
+      <li>use the moves string to play out the automated moves
+        <ul>
+          <li>you can assume that the move string does not contain any errors and will always have valid moves</li>
+          <li>this can be done behind-the-scenes (no need to show each individual move)
+            <ul>
+              <li>(hint: use the <code class="highlighter-rouge">autoplay</code> function you&#39;ve created from above!)</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>once the moves have played out (again, automatically; no need to show each move)&#8230;
+        <ul>
+          <li>show a message that says: press <code class="highlighter-rouge">ENTER</code> to continue&#8230;</li>
+          <li>once the user presses <code class="highlighter-rouge">ENTER</code>&#8230;</li>
+          <li>display the board (it should reflect the state of the board after all of the scripted moves)
+            <ul>
+              <li>if there&#39;s a winner, simply show the board and show the winner</li>
+              <li>but if there&#39;s no winner yet, show the board and prompt for the next move from the player or randomly generate the computer&#39;s next move (depending on who has the next turn)</li>
+              <li>&#8230;again, based on who should play the next move after the moves from the <code class="highlighter-rouge">MOVE_STRIMG</code> are exhausted</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+
+    <h3 id="user-controlled-game-settings">User Controlled Game Settings</h3>
+
+    <p>If there are no commandline options (that is, <code class="highlighter-rouge">OPTIONS_AND_MOVES</code> are not specified), ask the user to configure the game. Use <code class="highlighter-rouge">readline-sync</code> to ask the user for input synchronously (very different from how node usually works in terms of io, but more in line with how we&#39;re accustomed to seeing how programs flow). Check out the <a href="https://www.npmjs.com/package/readline-sync">documentation on <code class="highlighter-rouge">readline-sync</code> on npm</a>.</p>
+
+    <p>Here&#39;s some example usage:</p>
+
+    <pre><code data-trim="" contenteditable="">
+const readlineSync = require('readline-sync');
+ 
+const answer = readlineSync.question('What is the meaning of life?');
+console.log(answer);
+</code></pre>
+
+    <ol>
+      <li>Ask the player for rows, columns and consecutive pieces
+        <pre><code data-trim="" contenteditable="">Enter the number of rows, columns, and consecutive "pieces" for win
+(all separated by commas... for example: 6,7,4)
+&gt;
+</code></pre>
+        <ul>
+          <li>the player should respond with ROWS,COLUMNS,CONSECUTIVE</li>
+          <li>assume that the player always puts in a valid format</li>
+          <li>or alternatively, if the user enters nothing&#8230; in which case, default to 6 rows, 7 columns, and 4 for the win</li>
+          <li>finally, output the values that will be used for rows, columns, and consecutive values:
+            <pre><code data-trim="" contenteditable="">Using row, col and consecutive: 6 7 4</code></pre>
+          </li>
+        </ul>
+      </li>
+      <li>Ask the user for two values - one to represent the player and one to represent the computer
+        <pre><code data-trim="" contenteditable="">Enter two characters that represent the player and computer
+(separated by a comma... for example: P,C)
+&gt;
+</code></pre>
+        <ul>
+          <li>emoji are acceptable</li>
+          <li>again, assume that the player inputs a value that&#39;s a valid format (P,C)</li>
+          <li>alternatively if the user enters nothing, default to the following emoji: 😎 💻</li>
+          <li>finally, output the values that will be used for each player:
+  Using player and computer characters: 😎 💻</li>
+        </ul>
+      </li>
+      <li>Finally, ask the player to choose who will go first
+        <pre><code data-trim="" contenteditable="">Who goes first, (P)layer or (C)omputer?
+&gt;
+</code></pre>
+        <ul>
+          <li>if they choose an invalid value, then default to having the player go first</li>
+          <li>output who&#39;s going first
+            <pre><code data-trim="" contenteditable="">Player goes first
+</code></pre>
+          </li>
+        </ul>
+      </li>
+      <li>To continue, ask the user to press <code class="highlighter-rouge">ENTER</code>:
+        <pre><code data-trim="" contenteditable="">Press &lt;ENTER&gt; to start game
+</code></pre>
+      </li>
+    </ol>
+
+    <p>A full run of asking for options, but having the player enter nothing to use default values would go like this:</p>
+
+    <pre><code data-trim="" contenteditable="">Enter the number of rows, columns, and consecutive "pieces" for win
+(all separated by commas... for example: 6,7,4)
+&gt;
+Using row, col and consecutive: 6 7 4
+
+Enter two characters that represent the player and computer
+(separated by a comma... for example: P,C)
+&gt;
+Using default player and computer characters: 😎 💻
+
+Who goes first, (P)layer or (C)omputer?
+&gt;
+Player goes first
+Press &lt;ENTER&gt; to start game
+</code></pre>
+
+    <h3 id="an-interactive-game">An Interactive Game</h3>
+
+    <p>Now&#8230; for the actual game. The player and the computer will take turns dropping pieces until the board is full or the player and computer have reached the number set for consecutive values.</p>
+
+    <ol>
+      <li>Regardless of whether or not options were created via the commandline or supplied interactively by the player, the player and computer will alternate turns</li>
+      <li>If it&#39;s the player&#39;s turn, ask the player for a letter:
+        <pre><code data-trim="" contenteditable="">Choose a column letter to drop your piece in
+&gt;
+</code></pre>
+        <ul>
+          <li>(as described in a later step, board is still shown in state prior to move, above this prompt)</li>
+          <li>if the user enters an invalid move, ask for another column</li>
+          <li>here&#39;s an example where the player puts in a column that doesn&#39;t exist (note that an error message is shown, and a prompt is used to ask for a column again)</li>
+          <li>don&#39;t clear the screen in this case</li>
+          <li>
+            <pre><code data-trim="" contenteditable="">|    |    |    |    |    |    |    |
+|    |    |    |    |    |    |    |
+|    |    |    |    |    |    |    |
+|    |    |    |    |    |    |    |
+| O  | O  |    |    |    |    |    |
+| 😎 | 😎 |    |    |    |    |    |
+|----+----+----+----+----+----+----|
+| A  | B  | C  | D  | E  | F  | G  |
+Choose a column letter to drop your piece in
+&gt; H
+Oops, that is not a valid move, try again!
+Choose a column letter to drop your piece in
+&gt;     
+</code></pre>
+          </li>
+          <li>And, obligatory animated gif version&#8230;
+  <br />
+  <img src="../resources/img/connectmoji/bad-move-bro.gif" alt="bad move bro" /></li>
+        </ul>
+      </li>
+      <li>If it&#39;s the computer&#39;s turn,
+        <pre><code data-trim="" contenteditable="">Press &lt;ENTER&gt; to see computer move
+</code></pre>
+        <ul>
+          <li>(as described in the next step, board is still shown in state prior to move, above this prompt)</li>
+          <li>tell the user to press ENTER to see the computer move to allow them to see what the board look like before the computer goes</li>
+          <li>you can assume that the computer makes valid moves (if the board were full, the computer shouldn&#39;t move)</li>
+          <li>aaand&#8230; another gif 
+  <br />
+  <img src="../resources/img/connectmoji/press-enter.gif" alt="press enter for computer" /></li>
+        </ul>
+      </li>
+      <li>In either case:
+        <ul>
+          <li><strong>the piece is placed in the lowest unoccupied column on the board</strong> (think of it as being dropped down the column)</li>
+          <li>display the column that the piece was just dropped in
+            <pre><code data-trim="" contenteditable="">...dropping in column A
+</code></pre>
+          </li>
+          <li>display the board as a string
+            <pre class="board"><code data-trim="" contenteditable="">|    |    |    |    |    |    |    |
+|    |    |    |    |    |    |    |
+|    |    |    |    |    |    |    |
+|    |    |    |    |    |    |    |
+|    |    |    |    |    |    |    |
+| 😎 |    |    |    |    |    |    |
+|----+----+----+----+----+----+----|
+| A  | B  | C  | D  | E  | F  | G  |
+</code></pre>
+          </li>
+          <li>&#8230;so combined, along with a prompt for the next move for the player
+            <pre class="board"><code data-trim="" contenteditable="">...dropping in column A
+|    |    |    |    |    |    |    |
+|    |    |    |    |    |    |    |
+|    |    |    |    |    |    |    |
+|    |    |    |    |    |    |    |
+| 💻 |    |    |    |    |    |    |
+| 😎 |    |    |    |    |    |    |
+|----+----+----+----+----+----+----|
+| A  | B  | C  | D  | E  | F  | G  |
+&nbsp; 
+Choose a column letter to drop your piece in
+&gt;
+</code></pre>
+          </li>
+        </ul>
+      </li>
+      <li>After the player moves or the computer presses ENTER, use the <code class="highlighter-rouge">clear</code> function (mentioned above in the setup; it must be brought in using <code class="highlighter-rouge">require</code>) to clear the previous display of the board and show the resulting board state of the move</li>
+      <li>Again, if the last move results in a winner a winner, stop play, <strong>display the board</strong>&#8230; and display which value was the winner:
+        <pre><code data-trim="" contenteditable="">Winner is 😎
+</code></pre>
+        <p><img src="../resources/img/connectmoji/winner.png" alt="winner display" /></p>
+      </li>
+      <li>If the last move results in a full board, <strong>display the board</strong> &#8230; and display a message saying that it was a tie:
+        <pre><code data-trim="" contenteditable="">No winner. So sad 😭
+</code></pre>
+      </li>
+    </ol>
+
+    <p><strong>Example</strong></p>
+
+    <p>The following is an example of a full game manually configured and played to a tie:</p>
+
+    <p><br /></p>
+
+    <p><img src="../resources/img/connectmoji/end-example.gif" alt="game tied example" /></p>
+
+    <!--
+__Here's an example game:__
+
+<div markdown="block" class="img" id="hw01-tic-tac-toe-sample">
+![example game](../resources/img/hw01-example-game.gif)
+</div>
+-->
+
+    <!--
+<br>
+__And the text-only version of the game above:__
+
+<pre><code data-trim contenteditable>Shall we play a game? TIC-TAC-TOE!
+
+How wide should the board be? (1 - 26)
+> 3
+Pick your letter: X or O
+> O
+Player is O
+     1   2   3
+   +---+---+---+
+ A |   |   |   |
+   +---+---+---+
+ B |   |   |   |
+   +---+---+---+
+ C |   |   |   |
+   +---+---+---+
+
+Press &lt;ENTER&gt; to show computer's move...
+     1   2   3
+   +---+---+---+
+ A | X |   |   |
+   +---+---+---+
+ B |   |   |   |
+   +---+---+---+
+ C |   |   |   |
+   +---+---+---+
+
+What's your move?
+> B2
+     1   2   3
+   +---+---+---+
+ A | X |   |   |
+   +---+---+---+
+ B |   | O |   |
+   +---+---+---+
+ C |   |   |   |
+   +---+---+---+
+
+Press &lt;ENTER&gt; to show computer's move...
+     1   2   3
+   +---+---+---+
+ A | X | X |   |
+   +---+---+---+
+ B |   | O |   |
+   +---+---+---+
+ C |   |   |   |
+   +---+---+---+
+
+What's your move?
+> C3
+     1   2   3
+   +---+---+---+
+ A | X | X |   |
+   +---+---+---+
+ B |   | O |   |
+   +---+---+---+
+ C |   |   | O |
+   +---+---+---+
+
+Press &lt;ENTER&gt; to show computer's move...
+     1   2   3
+   +---+---+---+
+ A | X | X | X |
+   +---+---+---+
+ B |   | O |   |
+   +---+---+---+
+ C |   |   | O |
+   +---+---+---+
+
+Computer won!!!
+</code></pre>
+
+<br>
+__Remember, the game should work with variable widths... here's the beginning of a game on a 5 x 5 board:__
+
+<pre><code data-trim contenteditable>
+Shall we play a game? TIC-TAC-TOE!
+
+How wide should the board be? (1 - 26)
+> 5
+Pick your letter: X or O
+> X
+Player is X
+     1   2   3   4   5
+   +---+---+---+---+---+
+ A |   |   |   |   |   |
+   +---+---+---+---+---+
+ B |   |   |   |   |   |
+   +---+---+---+---+---+
+ C |   |   |   |   |   |
+   +---+---+---+---+---+
+ D |   |   |   |   |   |
+   +---+---+---+---+---+
+ E |   |   |   |   |   |
+   +---+---+---+---+---+
+
+What's your move?
+> E4
+     1   2   3   4   5
+   +---+---+---+---+---+
+ A |   |   |   |   |   |
+   +---+---+---+---+---+
+ B |   |   |   |   |   |
+   +---+---+---+---+---+
+ C |   |   |   |   |   |
+   +---+---+---+---+---+
+ D |   |   |   |   |   |
+   +---+---+---+---+---+
+ E |   |   |   | X |   |
+   +---+---+---+---+---+
+
+Press &lt;ENTER&gt; to show computer's move...
+     1   2   3   4   5
+   +---+---+---+---+---+
+ A | O |   |   |   |   |
+   +---+---+---+---+---+
+ B |   |   |   |   |   |
+   +---+---+---+---+---+
+ C |   |   |   |   |   |
+   +---+---+---+---+---+
+ D |   |   |   |   |   |
+   +---+---+---+---+---+
+ E |   |   |   | X |   |
+   +---+---+---+---+---+
+
+What's your move?
+>
+</code></pre>
+-->
+
+  </div>
+
+</div>
+
+:ET

@@ -1,0 +1,27 @@
+I"q<p><a href="{{ site.book_js_link }}">{{ site.book_js }}</a></p>
+
+<ul>
+  <li><a href="http://speakingjs.com/es5/ch17.html#prototype_relationship">Chapter 17 -  Layer 2: The Prototype Relationship Between Objects</a></li>
+</ul>
+
+<p><a href="{{ site.book_js_2_link }}]">{{ site.book_js_2 }}</a></p>
+
+<ul>
+  <li><a href="http://exploringjs.com/es6/ch_destructuring.html">Chapter 10 - Destructuring</a></li>
+  <li><a href="http://exploringjs.com/es6/ch_classes.html">Chapter 15 - Classes</a></li>
+</ul>
+
+<p><a href="{{ site.book_js_6_link }}">{{ site.book_js_6 }}</a></p>
+
+<ul>
+  <li><a href="http://chimera.labs.oreilly.com/books/1234000001808/ch02.html">Chapter 2. Doing Interesting Things</a> - Only Section on &quot;Building a Chat Server&quot;</li>
+  <li><a href="http://chimera.labs.oreilly.com/books/1234000001808/ch04.html#chap6_id35817215">Chapter 4. Core APIs</a> - Only Section on I/O</li>
+</ul>
+
+<p><a href="{{ site.book_js_5_link }}">{{ site.book_js_5 }}</a> (Optional, similar content to Speaking JS chapter above)</p>
+
+<ul>
+  <li>Chapter 6 - The Secret Life of Objects</li>
+  <li>Chapter 8 - Bugs and Error Handling</li>
+</ul>
+:ET

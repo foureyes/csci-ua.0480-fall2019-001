@@ -1,0 +1,27 @@
+I""<section class="intro-slide">
+  <h1 id="express-quickly">Express Quickly</h1>
+
+  <h3 id="csci-ua0480-001">CSCI-UA.0480-001</h3>
+
+  <p><small></small></p>
+</section>
+<p>basic app</p>
+<ol>
+  <li>bring in express: `var express = require(&#39;express&#39;);</li>
+  <li>create app: <code class="highlighter-rouge">var app = express()</code>;</li>
+  <li><code class="highlighter-rouge">app.listen()</code></li>
+</ol>
+
+<p>handlebars</p>
+<ol>
+  <li>npm install &#8211;save hbs</li>
+  <li><code class="highlighter-rouge">app.set('view engine', 'hbs');</code>:
+    <ul>
+      <li>sets which templating library to use (&quot;engine extension&quot;)</li>
+      <li>http://expressjs.com/en/api.html#app.settings.table</li>
+      <li>A template engine enables you to use static template files in your application. At runtime, the template engine replaces variables in a template file with actual values, and transforms the template into an HTML file sent to the client</li>
+    </ul>
+  </li>
+  <li><code class="highlighter-rouge">req.set</code> - sets a header</li>
+</ol>
+:ET

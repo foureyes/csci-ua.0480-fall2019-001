@@ -1,0 +1,748 @@
+I"bf<section class="intro-slide">
+  <h1 id="mongodb">MongoDB</h1>
+
+  <h3 id="csci-ua0480-001">CSCI-UA.0480-001</h3>
+
+  <p><small></small></p>
+</section>
+
+<section>
+  <h2 id="so-you-want-to-persist-data">So You Want to Persist Data</h2>
+
+  <p>In our homework and class examples, <strong>where did we store our data</strong>? &#8594;</p>
+
+  <ul>
+    <li class="fragment">in a global variable in our Express application</li>
+    <li class="fragment"><strong>and where does that application live?</strong> &#8594;</li>
+    <li class="fragment">in memory!</li>
+  </ul>
+
+  <p class="fragment"><br />
+<strong>What are some downsides to storing data as part of our application in memory?</strong> &#8594;</p>
+
+  <ul class="fragment">
+    <li>when you restart the server, you lose that data!</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="storing-data">Storing Data</h2>
+
+  <p><strong>What are some other options&#8230; let&#39;s list as many as we can.</strong> &#8594;</p>
+
+  <ul>
+    <li class="fragment">on the filesystem</li>
+    <li class="fragment"><em>in the cloud</em> (S3, firebase, <strike>parse</strike>, SalesForce)</li>
+    <li class="fragment">in a database</li>
+  </ul>
+
+  <p><br /></p>
+
+  <p class="fragment"><strong>We&#39;ll be using a database in this part of the class&#8230;</strong></p>
+</section>
+
+<section>
+  <h2 id="so-many-databases">SO MANY DATABASES</h2>
+
+  <p><strong>We can categorize databases as:</strong> &#8594;</p>
+
+  <ul class="fragment">
+    <li>relational</li>
+    <li>nosql (also <em>non-relational</em>)</li>
+  </ul>
+
+  <p class="fragment"><br />
+<strong>nosql databases can be further categorized by the data model they use:</strong> &#8594;</p>
+
+  <ul>
+    <li class="fragment">key-value</li>
+    <li class="fragment">document</li>
+    <li class="fragment">column</li>
+    <li class="fragment">graph</li>
+  </ul>
+
+</section>
+<section>
+  <h2 id="warning-broad-generalizations-coming-up">Warning: Broad Generalizations Coming Up!</h2>
+
+  <p>So, the following slides include high level overviews of different kinds of databases.</p>
+
+  <ul>
+    <li>I&#39;m going to use <strong>broad generalizations</strong></li>
+    <li><strong>but there are <em>always</em> exceptions</strong> &#8594;</li>
+    <li class="fragment">for example:
+      <ul>
+        <li class="fragment">although PostgreSQL is considered a relational databases, it has a built-in data type for key-value storage!</li>
+        <li class="fragment">many document stores can be used as key-value stores</li>
+        <li class="fragment">some document stores are also relational!</li>
+      </ul>
+    </li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="relational-databases">Relational Databases</h2>
+
+  <p><strong>Relational databases</strong> organize data in a collection of tables (relations).  <strong>Can you describe characterstics of a relational database?</strong> &#8594;</p>
+
+  <ul>
+    <li class="fragment">each table has named columns&#8230; with the actual data that populates the table in separate rows</li>
+    <li class="fragment">each table row has <strong>primary key</strong> that:
+      <ul>
+        <li class="fragment">uniquely identifies that row</li>
+        <li class="fragment">allows data in one table to be <em>related</em> to data in another (via <em>foreign key</em> relationships)</li>
+      </ul>
+    </li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="relational-databases-continued">Relational Databases Continued</h2>
+
+  <p><strong>Regarding additional relational database features&#8230;</strong> &#8594;</p>
+
+  <ul>
+    <li class="fragment">relational databases are typically pretty rigid:
+      <ul>
+        <li class="fragment">highly structured</li>
+        <li class="fragment">you have to define the columns and the types of columns before inserting rows</li>
+        <li class="fragment">has a lot of features for maintaining  <em>data integrity</em> (such user defined data constraints, foreign keys, etc.)</li>
+      </ul>
+    </li>
+    <li class="fragment">some relational databases guarantee that transactions (or changes in the database) are reliable</li>
+    <li class="fragment">see <a href="https://en.wikipedia.org/wiki/ACID">ACID compliance</a> - Atomicity, Consistency, Isolation, Durability</li>
+    <li class="fragment"><a href="http://r937.com/relational.html">this database consultant has a pretty good write-up on relational databases</a></li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="aside-on-acid">Aside on ACID</h2>
+
+  <ul>
+    <li><strong>Atomicity</strong> - each <em>transaction</em> / (series of operations in a transaction) is all or nothing</li>
+    <li><strong>Consistency</strong> - every <em>transaction</em> ensures that the resulting database state is valid (goes from one valid state to another)</li>
+    <li><strong>Isolation</strong> - a failed <em>transaction</em> should have no effect on other transactions (even if the transactions are concurrent)</li>
+    <li><strong>Durability</strong> - once a <em>transaction</em> / operation is done, the results will remain persistent even through crash, power loss, etc.</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="quick-demo-of-designing-a-data-model-for-a-relational-database">Quick Demo of Designing a Data Model for a Relational Database</h2>
+
+  <p>Maybe we want to store these fields:</p>
+
+  <ul>
+    <li>first name</li>
+    <li>last name</li>
+    <li>street address</li>
+    <li>city</li>
+    <li>state</li>
+    <li>zip</li>
+  </ul>
+
+  <p><br />
+<strong>Let&#39;s get to it!</strong> &#8594;</p>
+
+</section>
+
+<section>
+  <h2 id="examples-of-relational-databases">Examples of Relational Databases</h2>
+
+  <p><strong>What are some examples of relational databases?</strong> &#8594;</p>
+
+  <ul>
+    <li class="fragment">MySQL</li>
+    <li class="fragment">PostgreSQL</li>
+    <li class="fragment">Oracle</li>
+    <li class="fragment">Microsoft SQL Server</li>
+  </ul>
+
+  <p class="fragment"><br />
+These are all great choices for storing highly structured data, related data.</p>
+
+  <p class="fragment">They are all in common usage for conventional web applications. However, there&#39;s a bit of a learning curve, and some are difficult to set up.</p>
+
+</section>
+
+<section>
+  <h2 id="nosql-databases">NoSQL Databases</h2>
+
+  <p><strong>NoSQL</strong> databases can be categorized by how they store their data:</p>
+
+  <ul>
+    <li>key-value</li>
+    <li>document</li>
+    <li>column</li>
+    <li>graph</li>
+    <li>there are others
+      <ul>
+        <li>(such as object, tuple store, etc.)</li>
+        <li><a href="https://en.wikipedia.org/wiki/NoSQL#Types_and_examples_of_NoSQL_databases">check out a whole list</a></li>
+      </ul>
+    </li>
+    <li>note that nosql databases <em>can</em> have reliable transactions as well, but this is usually not the focus of a nosql database</li>
+  </ul>
+
+  <p><br />
+We&#39;ll focus on <strong>key-value</strong> and <strong>document stores</strong>&#8230;</p>
+
+</section>
+
+<section>
+  <h2 id="key-value-store">Key Value Store</h2>
+
+  <p>Probably the most simple conceptually&#8230; data is stored in key/value pairs. <strong>This should sound similar to some data structures that you&#39;ve seen before.</strong> &#8594;</p>
+
+  <ul>
+    <li class="fragment">maybe a hash</li>
+    <li class="fragment">or a dictionary</li>
+    <li class="fragment">or an associative array</li>
+  </ul>
+
+  <p class="fragment"><br />
+They&#39;re typically good at scaling to handle large amounts of data and dealing with high volumes of changes in data.</p>
+
+  <p class="fragment"><br />
+<strong>What may be some good applications for key value stores?</strong> &#8594;</p>
+
+  <ul>
+    <li class="fragment">caching</li>
+    <li class="fragment">storing sessions!</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="key-value-store-examples">Key Value Store Examples</h2>
+
+  <p>Some key value databases include:</p>
+
+  <ul>
+    <li>Redis (a popular backend for queuing)</li>
+    <li>Memcache (as the name implies, typically used for caching)</li>
+    <li>Riak</li>
+    <li><a href="https://en.wikipedia.org/wiki/Key-value_database#KV_-_eventually_consistent">many others</a></li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="document-stores">Document Stores</h2>
+
+  <p>As you might guess by the name, <strong>document stores</strong> organize data semi-structured documents.</p>
+
+  <ul>
+    <li>think JSON (but there are many possible formats, such as XML, YAML, etc.)</li>
+    <li>or&#8230; a <em>richer</em> key-value store (there&#39;s <em>meta data</em> within the document&#8230; the keys are usually meaningful)</li>
+    <li>typically, no schema is required (that is, data types of values are inferred from values)</li>
+    <li>typically, semi structured (documents, property names, etc&#8230; do not have to be pre-defined)</li>
+    <li>some document stores are particularly featureful when it comes to high availability and scaling (through replication/redundancy and sharding/separating large databases into smaller ones)</li>
+  </ul>
+
+  <p><br />
+They&#39;re particularly good for applications where flexible data storage or constantly changing data storage is required.</p>
+</section>
+
+<section>
+  <h2 id="document-store-examples">Document Store Examples</h2>
+
+  <p>Two of the most popular NoSQL databases are:</p>
+
+  <ul>
+    <li>MongoDB</li>
+    <li>CouchDB</li>
+  </ul>
+
+  <p><br />
+Of course, there are a <a href="https://en.wikipedia.org/wiki/Document-oriented_database#Implementations">bunch of others</a></p>
+
+  <p><br />
+Some use cases for document stores include:</p>
+
+  <ul>
+    <li>applications that require semi structured data / data that has does not have rigid requirements (perhaps a resume)</li>
+    <li>again, large volumes of data</li>
+    <li><em>fluid</em> data or data whose structure is prone to change</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="so-which-one-are-we-using">So Which One are We Using?</h2>
+
+  <p>We&#39;re using MongoDB. Not for all of the reasons we previously mentioned, though&#8230; <strong>We&#39;re using it because&#8230;</strong> &#8594;</p>
+
+  <ul>
+    <li class="fragment">it uses a <strong>JSON</strong> like data structure (we know JSON)</li>
+    <li class="fragment">it&#39;s <strong>query language is JavaScript</strong> (we know JavaScript syntax)</li>
+    <li class="fragment">it&#39;s not very rigid when it comes to dealing with data (we don&#39;t have to be so precise/exacting)</li>
+    <li class="fragment">it&#39;s fairly straightforward to set up, usually with <strong>little / no configuration required</strong></li>
+    <li class="fragment">(to the point where the default installation doesn&#39;t even require a username/password to connect to the database &#8211; wait, that&#39;s not so good!?)</li>
+  </ul>
+
+  <p class="fragment"><br />
+All this can pretty much be summed up by saying that <strong>it&#39;s easy to use</strong>! (As an aside, I&#39;m a bit biased to using relational databases, specifically Postgres)</p>
+</section>
+
+<section>
+  <h2 id="mongodb-1">MongoDB</h2>
+
+  <ul>
+    <li>MongoDB will be our data store that we use for this part of the course</li>
+    <li>It&#39;s a nosql database&#8230;</li>
+    <li>Specifically, it&#39;s a document store
+      <ul>
+        <li>a single <strong>record</strong> in Mongo is a <strong>document</strong> (a <em>user</em>, a <em>bird</em> in the case of our homework!)</li>
+        <li>a document is a bunch of key value pairs&#8230;</li>
+        <li>hey&#8230; <strong>that sounds like&#8230;</strong> &#8594;</li>
+        <li class="fragment">documents are similar to JSON objects (actually BSON?)</li>
+      </ul>
+    </li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="documents-and-collections">Documents and Collections</h2>
+
+  <p>A couple of terms to remember (yay, definitions again!)</p>
+
+  <ul>
+    <li><strong>key</strong> - a field name - analogous to a column in a relational database</li>
+    <li><strong>value</strong> - obvs, a value</li>
+    <li><strong>document</strong> - a single object or record in our database,
+      <ul>
+        <li>consists of key value pairs</li>
+        <li>similar to a single row in a relational database</li>
+      </ul>
+    </li>
+    <li><strong>collection</strong> - a group of documents
+      <ul>
+        <li>analogous to tables in relational databases</li>
+      </ul>
+    </li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="data-types">Data Types</h2>
+
+  <p>Although MongoDB doesn&#39;t require you to pre-define the types of values that your documents will have, it does have data types. These types <strong>are inferred from the value</strong>. Some available types include:</p>
+
+  <ul>
+    <li><strong>string</strong> - an empty string or an ordered sequence characters</li>
+    <li><strong>numeric types</strong> - such as integer, double (float)</li>
+    <li><strong>boolean</strong> - true / false</li>
+    <li><strong>array</strong> -  a list of values</li>
+    <li><strong>timpestamp</strong> - 64 bit value where first 32 bits are seconds since the Unix epoch</li>
+    <li><strong>Object ID</strong> every MongoDB object or document must have an Object ID which is unique</li>
+  </ul>
+
+  <p><br />
+More about <strong>Object ID</strong>: a 12-byte value, consists of: a 4-byte timestamp (seconds since epoch), a 3-byte machine id, a 2-byte process id, and a 3-byte counter</p>
+
+</section>
+
+<section>
+  <h2 id="installation">Installation</h2>
+
+  <p><a href="http://docs.mongodb.org/manual/installation/">Comprehensive docs are here</a></p>
+
+  <ul>
+    <li>basically, just <a href="http://www.mongodb.org/downloads?_ga=1.39460320.233151851.1414030989">use the appropriate installer from their downloads page</a></li>
+    <li>if you use a package manager, do that instead
+      <ul>
+        <li>they have .debs for Debian and Ubuntu</li>
+        <li>since I&#39;m on OSX, and I use homebrew, I used <code>brew install mongodb</code></li>
+      </ul>
+    </li>
+    <li>starting will vary based on OS</li>
+    <li>you may need to create and/or specify a directory where your data will be stored, so if mongo doesn&#39;t start up, it&#39;s missing its data directory</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="a-whirlwind-tour">A Whirlwind Tour</h2>
+
+  <p>Working with MongoDB on the commandline&#8230;</p>
+
+  <p>If your OS doesn&#39;t autostart by default, you can run:</p>
+
+  <pre><code data-trim="" contenteditable="">
+mongod
+</code></pre>
+
+  <p>To connect via the commandline MongoDB client and connect to a locally running instance:</p>
+
+  <pre><code data-trim="" contenteditable="">
+mongo
+</code></pre>
+
+  <p>This drops you into the MongoDB shell (yay&#8230; more shell). You can issue commands that</p>
+
+  <ul>
+    <li>inspect the database</li>
+    <li>modify and create documents and collections</li>
+    <li>find documents</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="some-commands">Some Commands</h2>
+
+  <p><strong>The following commands can be used to navigate, create and remove databases and collections</strong> &#8594;</p>
+
+  <ul>
+    <li><code class="highlighter-rouge">show databases</code> - show available databases (remember, there can be more than one database)</li>
+    <li><code class="highlighter-rouge">use db</code> - work with a specific database (if unspecified, the default database connected to is test)</li>
+    <li><code class="highlighter-rouge">show collections</code> - once a db is selected, show the collections within the database</li>
+    <li><code class="highlighter-rouge">db.dropDatabase()</code> - drop (remove) the database that you&#39;re currently in</li>
+    <li><code class="highlighter-rouge">db.collectionName.drop()</code> - drop (remove) the collection named <code class="highlighter-rouge">collectionName</code></li>
+  </ul>
+
+  <p>To get some inline help:</p>
+
+  <ul>
+    <li><code class="highlighter-rouge">help</code> - get help on available commands</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="starting-out">Starting Out</h2>
+
+  <p><strong>To begin using the commandline client to inspect your data:</strong> &#8594;</p>
+
+  <ol>
+    <li>make sure that <code class="highlighter-rouge">mongod</code> is running in a different window (or running <em>in the background</em> or as a daemon)</li>
+    <li>start up the commandline client with <code class="highlighter-rouge">mongo</code></li>
+    <li>type in <code class="highlighter-rouge">use databaseName</code> to switch to the database that you&#39;re looking through</li>
+  </ol>
+
+  <p>From there, you can start querying for data, inserting documents, etc. These basic create, read, update, and delete operations are called <strong>CRUD</strong> operations&#8230;</p>
+
+</section>
+<section>
+  <h2 id="crud">CRUD!?</h2>
+
+  <p><strong>(C)reate, (R)ead, (U)pdate, and (D)elete operations:</strong> &#8594;</p>
+
+  <ul>
+    <li class="fragment">db.[collection].insert(obj)
+      <ul>
+        <li><code>db.Person.insert({'first':'bob', 'last':'bob'})</code></li>
+      </ul>
+    </li>
+    <li class="fragment">db.[collection].find(queryObj)
+      <ul>
+        <li><code>db.Person.find({'last':'bob'})</code></li>
+        <li><code>db.Person.find() // finds all!</code></li>
+      </ul>
+    </li>
+    <li class="fragment">db.[collection].update(queryObj, queryObj)
+      <ul>
+        <li><code>db.Person.update({'first':'foo'}, {$set: {'last':'bar'}})</code></li>
+      </ul>
+    </li>
+    <li class="fragment">db.[collection].remove(queryObj)
+      <ul>
+        <li><code>db.Person.remove({'last':'bob'})</code></li>
+      </ul>
+    </li>
+  </ul>
+
+  <p class="fragment"><br />
+Where <code class="highlighter-rouge">queryObj</code> is a name value pair that represents the property you&#39;re searching on&#8230; with a value that matches the value you specify</p>
+</section>
+
+<section>
+  <h2 id="more-examples">More Examples</h2>
+
+  <p><strong>As prep for the next part, some insert and finds (with a test for greater than!)</strong> &#8594;</p>
+
+  <p class="fragment">Inserting, finding all, then finding by exact number of lives:</p>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+&gt; db.Cat.insert({name:'foo', lives:9})
+WriteResult({ "nInserted" : 1 })
+&gt; db.Cat.find()
+{ "_id" : ObjectId("57ff86a14639d0fd263f87a0"), "name" : "foo", "lives" : 9 }
+&gt; db.Cat.find({lives:9})
+{ "_id" : ObjectId("57ff86a14639d0fd263f87a0"), "name" : "foo", "lives" : 9 }
+</code></pre>
+
+  <p class="fragment">Inserting more, then using greater than!</p>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+&gt; db.Cat.insert({name:'bar', lives:2})
+WriteResult({ "nInserted" : 1 })
+&gt; db.Cat.insert({name:'qux', lives:5})
+WriteResult({ "nInserted" : 1 })
+&gt; db.Cat.find({lives: {$gt: 4}})
+{ "_id" : ObjectId("57ff86a14639d0fd263f87a0"), "name" : "foo", "lives" : 9 }
+{ "_id" : ObjectId("57ff86c14639d0fd263f87a2"), "name" : "qux", "lives" : 5 }
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="using-mongodb-in-express">Using MongoDB in Express</h2>
+
+  <p>As with everything else we&#39;ve done in node, there&#39;s a module for our specific task. If we&#39;d like to use MongoDB in our application, there are <a href="http://docs.mongodb.org/ecosystem/drivers/node-js/">a few options</a>:</p>
+
+  <ul>
+    <li><strong>mongodb</strong> - the officially supported driver from MongoDB; optimized for simplicity</li>
+    <li><strong>mongoose</strong> - lots of features, more complex, based on mongodb</li>
+    <li><strong>monk</strong> - somewhere between mongoose and mongodb in terms of features and complexity (for example, no models)</li>
+  </ul>
+
+  <p><br />
+We&#39;ll be using mongoose, as it seems to have the most traction out of the three. (But it&#39;s a bit more complicated than it needs to be).</p>
+</section>
+
+<section>
+  <h2 id="orm--odm">ORM / ODM</h2>
+
+  <p><strong>Has anyone heard of ORM or ODM before?</strong> &#8594;</p>
+
+  <ul class="fragment">
+    <li><strong>ORM</strong> - object relational mapper</li>
+    <li><strong>ODM</strong> - object document mapper</li>
+  </ul>
+
+  <p class="fragment"><br />
+Both map objects in your application to their counterparts in your database (tables, collections). Mongoose is our <strong>ODM</strong>.</p>
+</section>
+
+<section>
+  <h2 id="mongoose-concepts">Mongoose Concepts</h2>
+
+  <ul>
+    <li><strong>schema</strong> - analogous to a collection</li>
+    <li><strong>model</strong> - the actual constructors that we use to create objects</li>
+    <li><strong>object</strong> - a single document</li>
+  </ul>
+
+</section>
+
+<section>
+  <h1 id="a-quick-example-of-storing-cat-names">A Quick Example of Storing Cat Names!</h1>
+
+  <p>Let&#39;s use MongoDB and Mongoose to store our classic list of cat names.</p>
+</section>
+
+<section>
+  <h2 id="install-mongoose">Install Mongoose</h2>
+
+  <pre><code data-trim="" contenteditable="">
+npm install --save mongoose
+</code></pre>
+
+</section>
+<section>
+  <h2 id="set-up-your-connection">Set Up Your Connection</h2>
+
+  <p>For simplicity, we&#39;ll dump everything in a file called <code>[PROJECT ROOT]/db.js</code> for now. We&#39;ll see other ways of laying things out.</p>
+
+  <p><br />
+In <code>db.js</code>:</p>
+
+  <pre><code data-trim="" contenteditable="">
+// as always, require the module
+const mongoose = require('mongoose'); 
+
+// some extra stuff goes here...
+
+// connect to the database (catdb)
+mongoose.connect('mongodb://localhost/catdb');
+
+</code></pre>
+</section>
+
+<section>
+  <h2 id="create-a-schema">Create a Schema</h2>
+
+  <p>Between your require and connect&#8230; create a <strong>schema</strong>. A schema represents a MongoDB collection. Here we&#39;re specifying a collection for Cats.</p>
+
+  <ul>
+    <li>the cat schema will allow us to read objects from the collection</li>
+    <li>as well as modify and add objects to the collection</li>
+  </ul>
+
+  <p><br /></p>
+  <pre><code data-trim="" contenteditable="">
+// define the data in our collection
+const Cat = new mongoose.Schema({
+	name: String,
+	updated_at: Date
+});
+
+// "register" it so that mongoose knows about it
+mongoose.model('Cat', Cat);
+</code></pre>
+</section>
+
+<section>
+  <h2 id="using-our-db-module">Using Our db Module</h2>
+
+  <p>In <code>app.js</code>, simply:</p>
+
+  <pre><code data-trim="" contenteditable="">
+require( './db' );
+</code></pre>
+
+  <p><br /></p>
+
+  <ul>
+    <li>this will initialize our connection to the database when our application runs</li>
+    <li>it also sets up our schemas, so we can use them in our routes</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="using-schemas">Using Schemas</h2>
+
+  <p>Ostensibly, we would want to create, update, read or delete data based on what page (path/url/etc.) we&#39;re on. <strong>Let&#39;s start by adding some setup to our <code>index.js</code> routes.</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+const mongoose = require('mongoose');
+const Cat = mongoose.model('Cat');
+</code></pre>
+</section>
+
+<section>
+  <h2 id="cats-because-why-not">Cats. Because Why Not?</h2>
+
+  <p><strong>Let&#39;s create a simple site that saves a bunch of cat names.</strong> &#8594;</p>
+
+  <p class="fragment">(for when we adopt three new adorable cats for our class)</p>
+
+  <p class="fragment"><strong>What pages do you think we should have?</strong> &#8594;</p>
+
+  <ul class="fragment">
+    <li>minimally&#8230;</li>
+    <li>a list of cat names</li>
+    <li>a form that allows you to add cat names</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="urls-and-routes">URLs and Routes</h2>
+
+  <p><strong>So what kind of routes will we need?</strong> &#8594;</p>
+
+  <ul class="fragment">
+    <li><strong>GET</strong> a form (perhaps /cats/create)</li>
+    <li>accept <strong>POSTs</strong> to that form (/cats/create again)</li>
+    <li><strong>GET</strong> a list of cat names (how about&#8230; just /cats? yeeaah.)</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="cats">/cats</h2>
+
+  <p>Use the schema&#39;s find method to read objects (of course, we have to define a callback that gets triggered when the read is done)!</p>
+
+  <pre><code data-trim="" contenteditable="">
+router.get('/cats', function(req, res) {
+	Cat.find(function(err, cats, count) {
+		res.render( 'cats', {
+			cats: cats
+		});
+	});
+});
+
+</code></pre>
+</section>
+
+<section>
+  <h2 id="catcreate">/cat/create</h2>
+
+  <p>We&#39;ll also need a form. <strong>We can handle this one pretty easily.</strong> &#8594;</p>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+
+router.get('/cat/create', function(req, res) {
+  res.render('create');
+});
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="catscreate">/cats/create</h2>
+
+  <p>Let&#39;s accept posts to <code>/cat/create</code>. We&#39;ll use our schema to create an object:</p>
+
+  <ul>
+    <li>create a new Cat object</li>
+    <li>set its properties</li>
+    <li>call save</li>
+    <li>tell save what to do when it finishes saving (callback, ftw)</li>
+  </ul>
+
+  <pre><code data-trim="" contenteditable="">
+router.post('/cat/create', function(req, res) {
+	console.log(req.body.catName);
+	new Cat({
+		name: req.body.catName,
+		updated_at : Date.now()
+	}).save(function(err, cat, count){
+		res.redirect('/cats');
+	});
+});
+</code></pre>
+</section>
+
+<section>
+  <h2 id="and-some-templates">And Some Templates&#8230;.</h2>
+
+  <p><strong>Our is essentially the same as all of the previous forms we&#39;ve had</strong> &#8594;</p>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+&lt;form method="POST" action=""&gt;
+cat name plz
+&lt;input type="text" name="catName"&gt;
+&lt;input type="submit"&gt;
+&lt;/form&gt;
+</code></pre>
+</section>
+
+<section>
+  <h2 id="and-a-template-for-the-list">And a Template for the List</h2>
+
+  <p><strong>As with our previous templates, we&#39;ll just loop through all of the objects that we retrieve.</strong> &#8594;</p>
+
+  <ul>
+    <li>note that because we have a list of objects&#8230;</li>
+    <li>we can reference each property name, rather than using this</li>
+    <li>for our example, name is a property of each object</li>
+  </ul>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+&lt;ul&gt;
+{{#each cats}}
+&lt;li&gt;{{name}}&lt;/li&gt;
+{{/each}}
+&lt;/ul&gt;
+</code></pre>
+</section>
+<!--
+<section markdown="block">
+## 
+
+Wait, what's JSON again?
+
+</section>
+<section markdown="block">
+## BSON
+
+Binary JSON
+portmanteau, frankenword
+ugh... another format
+
+</section>
+-->
+:ET

@@ -1,0 +1,315 @@
+I"�B<style>
+.warning {
+    background-color: #ffaabb;
+}
+
+img {
+	width: 890px;
+}
+</style>
+
+<div class="panel panel-default">
+  <div class="panel-heading">Homework #7</div>
+  <div class="panel-body">
+
+    <h1 id="anonymous-qait-ajax---due-saturday-april-20th-by-11pm">ANONYMOUS Q&amp;AIT (AJAX) - <strong>Due Saturday, April 20th by 11pm</strong></h1>
+
+    <h2 id="overview">Overview</h2>
+
+    <h3 id="goals--topics-covered">Goals / Topics Covered</h3>
+
+    <p>You&#39;ll be using the following concepts:</p>
+
+    <ul>
+      <li>XMLHttpRequest (or fetch)</li>
+      <li>sending back json from Express</li>
+    </ul>
+
+    <h3 id="description">Description</h3>
+
+    <p>Create a question-and-answer site where users post questions and answers to these questions anonymously. You will create this &quot;single page app&quot; using AJAX calls instead of regular page rendering and form submission.</p>
+
+    <p>You will:</p>
+
+    <ol>
+      <li>Implement routes to create an API for retrieving reviews and adding new ones</li>
+      <li>Use JavaScript to trigger background requests to the API from the form submit buttons</li>
+    </ol>
+
+    <p>Use the following resources as reference:</p>
+
+    <ol>
+      <li><a href="../slides/20/ajax.html">Slides on AJAX Part 1</a></li>
+      <li><a href="../slides/21/ajax-express.html">Slides on AJAX Part 2</a></li>
+      <li><a href="../slides/21/ajax-express.html#/47">AJAX POST (from Part 2)</a></li>
+    </ol>
+
+    <p>Check out the animation below to see how the site should work. Pay attention to:</p>
+
+    <ul>
+      <li>the button presses and the corresponding changes in the ui</li>
+      <li>&#8230;as well as the  network tab</li>
+      <li>(notice that there are no page refreshes!)</li>
+    </ul>
+
+    <p>The animation below shows:</p>
+
+    <ol>
+      <li>loading the initial page / data</li>
+      <li>asking a question</li>
+      <li>adding answers to a question</li>
+    </ol>
+
+    <p><img src="../resources/img/hw07-qandait/all.gif" /></p>
+
+    <h3 id="submission-process">Submission Process</h3>
+
+    <p>You will be given access to a private repository on GitHub.  The final version of your assignment should be in GitHub</p>
+
+    <ul>
+      <li><strong>Push</strong> your changes to the homework repository on GitHub.</li>
+      <li>Commits later than that date will be handled on a case-by-case basis.</li>
+    </ul>
+
+    <h3 id="make-at-least-3-commits">Make at Least 3 Commits</h3>
+
+    <ul>
+      <li>Commit multiple times throughout your development process.</li>
+      <li>Make at least 3 separate commits</li>
+    </ul>
+
+    <h3 id="code-structure">Code Structure:</h3>
+
+    <p><strong>You should first create an express application that will be served on port 3000</strong></p>
+
+    <p>The structure of the directory you&#39;re given looks like this:</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>package.json
+src
+ ├── app.js
+ ├── db.js
+ └── public
+      ├── index.html  // the 'single' page in your single page web app
+      ├── js
+      │    └── index.js // write your client side JavaScript here
+      └── stylesheets
+           └── style.css
+</code></pre></div>    </div>
+
+    <p>Note that this will be implemented <strong>as a single page web app</strong>. This means that to implement these features:</p>
+
+    <ol>
+      <li><strong>create routes that send back JSON</strong> (essentially create an API)</li>
+      <li>utilize the API by writing client side JavaScript that:
+        <ul>
+          <li>constructs an http request by retrieving the values of form elements</li>
+          <li>requests data from url constructed in the background (AJAX)</li>
+          <li>parses the result of the background request</li>
+          <li>modifies the DOM appropriately</li>
+        </ul>
+      </li>
+    </ol>
+
+    <h3 id="some-of-this-project-is-already-built-for-you">Some of This Project is Already Built for You!</h3>
+
+    <ol>
+      <li>Server side code
+        <ul>
+          <li>database setup (a mongoose model, database connection, etc.) is provided through <code class="highlighter-rouge">db.js</code></li>
+          <li>a partially implemented Express application is in <code class="highlighter-rouge">app.js</code>
+            <ul>
+              <li>it has basic setup for body parsing, static files, etc.</li>
+              <li>it has stubs for route handlers, but the implementations are left out</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>Client side code
+        <ul>
+          <li>there are static files present in <code class="highlighter-rouge">public</code></li>
+          <li>the html is already present in <code class="highlighter-rouge">index.html</code>, and <strong>you can add markup if you like</strong></li>
+          <li>there are some suggested css rules in <code class="highlighter-rouge">style.css</code>, but feel free to discard these in favor of your own css</li>
+          <li>the client side JavaScript is mostly left unimplemented (<code class="highlighter-rouge">index.js</code>), so you&#39;ll have to write the majority of it</li>
+        </ul>
+      </li>
+    </ol>
+
+    <h3 id="getting-existing-questions-reading-data">Getting Existing Questions (Reading Data)</h3>
+
+    <ol>
+      <li>Check out the schema in <code class="highlighter-rouge">db.js</code> to familiarize yourself with the &quot;data model&quot;</li>
+      <li>if you&#39;d like (this may make other parts easier), you can remove the <code class="highlighter-rouge">_id</code> field from the <code class="highlighter-rouge">Question</code> schema in <code class="highlighter-rouge">db.js</code> since the <code class="highlighter-rouge">_id</code> field is automatically created for you without having to explicitly add it to the schema</li>
+      <li>Add some questions to the database (use the commandline client to do the following)&#8230; here&#39;s an example (feel free to add your own questions/answers)
+        <pre><code data-trim="" contenteditable="">db.questions.insert({
+  "question": "What's the most delicious dessert?", 
+  "answers": ["ice cream on a pizza", "choco taco"]
+})
+</code></pre>
+      </li>
+      <li>In the server side code (<code class="highlighter-rouge">app.js</code>), fill in the route for <code class="highlighter-rouge">GET /questions/</code> so that it gives back all of the questions (and their answers) from the database as json (you can use <code class="highlighter-rouge">res.json</code> or <code class="highlighter-rouge">res.send</code> with a JavaScript object&#8230; and express will stringify the object and set the appropriate headers)</li>
+      <li>Test this route in your browser; you should get back a json document</li>
+      <li>In the client side JavaScript code (<code class="highlighter-rouge">index.js</code>), once the DOM has been loaded, make a background request (using <code class="highlighter-rouge">XMLHttpRequest</code> or <code class="highlighter-rouge">fetch</code> if you&#39;re already familiar with promises) to get all of the questions
+        <ul>
+          <li>if an error occurs with the request (a 404, or an event listener for error get triggered), minimally use  <code class="highlighter-rouge">console.log</code> to output the error</li>
+          <li>however, feel free to add more robust error handling, such as displaying a friendly error message in the DOM</li>
+        </ul>
+      </li>
+      <li>For every question in the JSON response from the server, create elements for each question and answer, along with a button to add an answer
+ 	* append the elements to the <code class="highlighter-rouge">main</code> element in <code class="highlighter-rouge">index.html</code> (do this using client-side JavaScript)
+        <ul>
+          <li>do not use any libraries to do this (no jQuery, React, vue, etc.)</li>
+          <li>the exact elements to create up to you; the reference solution uses a heading for the question, an unordered list for the answers, and an input button for the submit button, but you can mark up this part any way you like</li>
+        </ul>
+      </li>
+      <li>Opening up <code class="highlighter-rouge">localhost:3000/index.html</code> in your browser, with the network tab open, should:
+        <ul>
+          <li>show a page with all answers and questions</li>
+          <li>along with an extra request in the network tab going to <code class="highlighter-rouge">localhost:3000/questions</code> (this is the background request)</li>
+        </ul>
+      </li>
+      <li>It should look something like this:</li>
+    </ol>
+
+    <p><img src="../resources/img/hw07-qandait/read.gif" /></p>
+
+    <h3 id="modals">Modals</h3>
+
+    <p>Modal dialog boxes can be implemented by creating an element with a z-index higher than other elements. You can have it stretch out to the width and height of the window, and fix it to the upper left-hand corner.</p>
+
+    <p>Some example markup and css is given for this&#8230; but you can style modals any way you like.</p>
+
+    <p>As for the JavaScript implementation&#8230;</p>
+
+    <ol>
+      <li>start off with all modals not visible (the starter css initializes them to <code class="highlighter-rouge">display: none</code>)</li>
+      <li>when the ask button is clicked&#8230; or any of the question&#39;s corresponding answer button is clicked, make the modal visible</li>
+      <li>sooo&#8230; add some click event listeners to the ask and answer buttons
+        <ul>
+          <li>these should either modify the <code class="highlighter-rouge">style</code> attribute of the appropriate modal</li>
+          <li>&#8230; or apply css classes (either your own, or the ones supplied as hints)</li>
+        </ul>
+      </li>
+    </ol>
+
+    <h3 id="asking-new-questions-adding-data">Asking New Questions (Adding Data)</h3>
+
+    <ol>
+      <li>In the route, <code class="highlighter-rouge">POST /questions/</code>,  create a new question in the database
+        <ul>
+          <li>it should give back a JSON response</li>
+          <li>if a new question is successfully created in the database, it should send back the object inserted as the response</li>
+          <li>otherwise, send back an object with a key called error&#8230; with a value containing an error message</li>
+          <li>note that to populate the <code class="highlighter-rouge">_id</code> field, you can either:
+            <ul>
+              <li>remove it from the schema in <code class="highlighter-rouge">db.js</code> to allow it to be automatically created</li>
+              <li>&#8230;or use <code class="highlighter-rouge">_id: mongoose.Types.ObjectId()</code> to manually generate one</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>On the client side, add a on click handler to the <code class="highlighter-rouge">Ask a Question</code> button (if you already haven&#39;t done so)
+        <ul>
+          <li>it should show the provided HTML modal with a form for submitting questions (again, do this if you already haven&#39;t done so from the previous instructions)</li>
+          <li>when the button in the modal&#39;s form is pressed&#8230;.</li>
+          <li>collect the form data (just the question text)</li>
+          <li>use an AJAX POST to send the question text to the server</li>
+          <li>(of course, use the <code class="highlighter-rouge">POST /questions/</code> as the url for your AJAX post; this will cause the new question to be saved in the database if the previous step, 1, were implemented correctly)</li>
+          <li>in the AJAX callback
+            <ul>
+              <li>on a successful result (that is no error key in the JSON response, and an id present for the boject)
+                <ul>
+                  <li>use the returned JSON containing the saved question to&#8230;.</li>
+                  <li>add the <code class="highlighter-rouge">question</code> text to the page</li>
+                  <li>use the <code class="highlighter-rouge">_id</code> attribute as an <code class="highlighter-rouge">id</code> attribute on a new html element that will contain this questions answers (to be used in the next part)</li>
+                  <li>add a button, <code class="highlighter-rouge">Add an Answer</code>, to pop up the modal for answering a question (which will be describe in the next section)
+ 	* close the modal and clear all fields</li>
+                </ul>
+              </li>
+              <li>On failure
+                <ul>
+                  <li>it&#39;s adequate to just log out the error message to the console</li>
+                  <li>&#8230;or you can add a message in the DOM (perhaps in the modal)</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>When testing this&#8230;
+        <ul>
+          <li>keep the network tab open to see the requests being made</li>
+          <li>it&#39;s also helpful to look for errors in the JavaScript console on your browser</li>
+        </ul>
+      </li>
+      <li>Here&#39;s an example of how this may work (pay attention to the network tab)</li>
+    </ol>
+
+    <p><img src="../resources/img/hw07-qandait/ask.gif" /></p>
+
+    <h3 id="adding-new-answers">Adding New Answers</h3>
+
+    <ol>
+      <li>In the route, <code class="highlighter-rouge">POST /questions/:id/answers/</code>, add an answer to an existing question
+        <ul>
+          <li>it should give back JSON as the response</li>
+          <li>it should receive the unique <code>object_id</code>, (<code class="highlighter-rouge">_id</code>) from the client for a particular question</li>
+          <li>use the unique <code>object_id</code> to find associated document (question) in the database</li>
+          <li>update the document with answers sent from the client (by pushing the answer to the array of strings)</li>
+          <li>otherwise, send back an object with a key called error&#8230; with a value containing an error message</li>
+          <li>note: some starter/hint code will be given to you in this route</li>
+        </ul>
+      </li>
+      <li>On the client side, add an on click handler to the button <code class="highlighter-rouge">Add Your Answer</code>
+        <ul>
+          <li>it should show the provided modal with a form for submitting answers</li>
+          <li>it should also set the form&#39;s hidden field for id to the <code class="highlighter-rouge">_id</code> of the question that is being answered
+            <ul>
+              <li>this part may be tricky&#8230; as you&#39;ll have to have the id of the question available as you&#39;re adding an event listener to the modal&#39;s button for submission</li>
+              <li>so it must be done at the time that the question is added back to the DOM</li>
+              <li>which means that you may have to go back to the previous sections on Asking New Questions or Reading Existing Questions to modify your code for adding questions to the DOM</li>
+            </ul>
+          </li>
+          <li>when the button to submit the form is pressed, collect the <code>object_id</code> (the hidden input with id <code class="highlighter-rouge">question-id</code>) and answer text from the form</li>
+          <li>send an AJAX POST to the server with this data (using a url constructed from the question&#39;s id)</li>
+          <li>again, you can get the <code>object_id</code> by</li>
+          <li>using the hidden input (whose value can be filled in by the click callback</li>
+          <li>in the AJAX callback
+            <ul>
+              <li>On success
+                <ul>
+                  <li>the user&#39;s answer is added beneath the question
+ 	* close the modal and clear all fields</li>
+                </ul>
+              </li>
+              <li>On failure
+                <ul>
+                  <li>minimally, log out the error</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>Here&#39;s an example of how it may work:</li>
+    </ol>
+
+    <p><img src="../resources/img/hw07-qandait/answer.gif" /></p>
+
+    <h3 id="extra-credit">Extra Credit</h3>
+
+    <p>Implement either (or both) of the following features for extra credit. <strong>You must link to the exact line of code containing your call(s) to fetch and/or async and await in your README.md</strong>:</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Extra Credit
+
+[example usage of fetch](http://url.to/specific/line/of/code/in/github)
+</code></pre></div>    </div>
+
+    <ol>
+      <li>(5 points) use <a href="https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch">fetch</a> instead of <code class="highlighter-rouge">XMLHttpRequest</code>.</li>
+      <li>(10 points) use <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function">fetch with async functions and await</a> instead of <code class="highlighter-rouge">XMLHttpRequest</code></li>
+    </ol>
+  </div>
+
+</div>
+
+:ET

@@ -1,0 +1,316 @@
+I"º)<section class="intro-slide">
+  <h1 id="objects-and-prototypes-summary">Objects and Prototypes Summary</h1>
+
+  <h3 id="csci-ua0480-001">CSCI-UA.0480-001</h3>
+
+  <p><small></small></p>
+</section>
+
+<section>
+  <h2 id="objects">Objects</h2>
+
+  <p>In JavaScript, an <strong>object</strong> is basically just a container of properties</p>
+
+  <ul>
+    <li>properties have names and values</li>
+    <li>a property can be any string</li>
+    <li>values can be any value, including functions (called methods)</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="accessing-properties">Accessing Properties</h2>
+
+  <p><strong>How can you get / retrieve a value that&#39;s associated with a property name from an object?</strong> &#8594;</p>
+
+  <ul>
+    <li class="fragment">use dot notation: <code>obj.propName</code></li>
+    <li class="fragment">use bracket notation: <code>obj[propName]</code></li>
+    <li class="fragment">(use bracket notation for property names that aren&#39;t valid variable names or for dynamic property names)</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="working-with-objects">Working With Objects</h2>
+
+  <p><strong>How do you add a new property and value pair to an object?</strong> &#8594;</p>
+
+  <ul>
+    <li class="fragment">simply use the dot operator or bracket notation, and assignment</li>
+    <li class="fragment"><code>obj.newProp = newVal</code> or <code>obj[newProp] = newVal</code></li>
+  </ul>
+
+  <p class="fragment"><strong>How do you modify an existing property?</strong> &#8594;</p>
+
+  <ul>
+    <li class="fragment">same as adding&#8230; dot operator or bracket notation, and assignment</li>
+    <li class="fragment"><code>obj.prop = newVal</code> or <code>obj[prop] = newVal</code></li>
+  </ul>
+
+  <p class="fragment"><strong>And finally, how do you remove a property?</strong> &#8594;</p>
+
+  <ul>
+    <li class="fragment">use <code>delete</code> before referencing a property name</li>
+    <li class="fragment"><code>delete obj.prop</code></li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="prototype">Prototype</h2>
+
+  <p>JavaScript&#39;s objects are <strong>prototype</strong> based rather than class based:</p>
+
+  <ul>
+    <li>an object can inherit properties from another object, its <strong>prototype</strong></li>
+    <li>an object&#39;s prototype can also have a prototype!</li>
+    <li>this chain of prototypes usually ends with <code>Object.prototype</code></li>
+    <li>a property is found by:
+      <ul>
+        <li>first looking if the object itself contains the property</li>
+        <li>then the object&#39;s prototype</li>
+        <li>&#8230;and the prototype&#39;s prototype</li>
+        <li>until it reaches an object with null as its prototype (such as <code>Object.prototype</code>)</li>
+      </ul>
+    </li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="objectprototype">Object.prototype</h2>
+
+  <p><strong>What methods does Object.prototype contain (we definitely know two)?</strong> &#8594;</p>
+
+  <ul>
+    <li class="fragment"><code>toString</code></li>
+    <li class="fragment"><code>hasOwnProperty</code></li>
+    <li class="fragment"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/prototype">See others listed in docs on MDN</a></li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="getting-an-objects-prototype">Getting an Object&#39;s Prototype</h2>
+
+  <p><strong>How do you retrieve an object&#39;s original prototype?</strong> &#8594;</p>
+
+  <ul>
+    <li class="fragment">Use <code>Object.getPrototypeOf</code></li>
+    <li class="fragment">(note that attempting to access a property named <code>.prototype</code> on your object does not <em>actually</em> return your object&#39;s prototype!)
+      <ul>
+        <li class="fragment">for example&#8230;</li>
+        <li class="fragment"><code>const obj = {};</code></li>
+        <li class="fragment"><code>console.log(Object.getPrototypeOf(obj));</code></li>
+        <li class="fragment"><code>console.log(obj.prototype); // &lt;-- don't do this, you'll get undefined</code></li>
+      </ul>
+    </li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="creating-objects">Creating Objects</h2>
+
+  <p><strong>Name 4 ways to create objects.</strong> &#8594;</p>
+
+  <ul>
+    <li class="fragment">object literals</li>
+    <li class="fragment"><code>Object.create</code></li>
+    <li class="fragment">constructors</li>
+    <li class="fragment">ES6 classes</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="object-literals">Object Literals</h2>
+
+  <p>You can create objects simply by using curly braces!</p>
+
+  <ul>
+    <li><code>{}</code> is an empty object</li>
+    <li><code>{name1:val1, name2:val2}</code> &#8230; you can create property and value pairs
+      <ul>
+        <li>each property connected to a value with a colon</li>
+        <li>each pair separated by a comma</li>
+      </ul>
+    </li>
+  </ul>
+
+  <p><strong>What do you think the prototype of an object created with an object literal is?</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+Object.getPrototypeOf({}) === Object.prototype
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="objectcreate">Object.create</h2>
+
+  <p><strong>How does Object.create work / what does it do?</strong> &#8594;</p>
+
+  <p class="fragment">You use <code>Object.create(someOtherObject)</code> to create objects with a specified prototype. <strong>The single argument passed in to <code>Object.create</code> becomes the new object&#39;s prototype.</strong> &#8230;<strong>Let&#39;s see an example.</strong> &#8594;</p>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+const cat = {cute: 'very'};
+const kitten = Object.create(cat);
+console.log(kitten.cute); // &lt;-- kitten inherits cute from cat! 
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="constructor">Constructor</h2>
+
+  <p><strong>What&#39;s a constructor?</strong> &#8594;</p>
+
+  <p class="fragment">A <strong>constructor</strong> is a regular function called with <code>new</code> in front of it.</p>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+function Cat() { }
+const c = new Cat();
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="constructors-and-properties">Constructors and Properties</h2>
+
+  <p><strong>How can we set properties on all new objects created by a constructor?</strong> &#8594;</p>
+
+  <p class="fragment">Use <strong>this</strong> to refer to a fresh empty object that&#39;s returned by the constructor. Add properties to <strong>this</strong> to set properties on the newly created object. <strong>Let&#39;s see an example.</strong> &#8594;</p>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+function Cat() { this.cute = 'very'; }
+const c = new Cat();
+const d = new Cat();
+console.log(c.cute, d.cute); // &lt;-- properties on new objects are set!
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="using-this-continued">Using This Continued</h2>
+
+  <p>Using <strong>this</strong> creates a property name and value for every new object instantiated with the constructor. Each object has its own copy. These properties are considered &quot;own&quot; properties (they haven&#39;t been inherited).</p>
+
+  <pre><code data-trim="" contenteditable="">
+function Cat() { this.nicknames = ['katy furry', 'kitty wap']; }
+const c = new Cat();
+const d = new Cat();
+d.nicknames.push('tail-fur swift');
+console.log(c.nicknames, d.nicknames); // &lt;-- properties are different!
+console.log(c.hasOwnProperty('nicknames')); // &lt;-- yup, bar is an 'own' property
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="adding-properties-continued">Adding Properties Continued</h2>
+
+  <p>You can also use the constructor&#39;s (the <em>actual</em> function object) own <strong>prototype</strong> (it&#39;s really called <code>prototype</code>!) property to set the properties on the prototype of all instances created by this constructor.</p>
+
+  <pre><code data-trim="" contenteditable="">
+function Cat() { }
+const c = new Cat();
+Cat.prototype.cute = 'very';
+console.log(c.cute); 
+// ^-- such wow! c gained a new prop even though
+// it was instantiated before setting a property
+// on Cat's prototype object
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="constructors-prototype-property">Constructor&#39;s Prototype Property</h2>
+
+  <p>Note that since we&#39;re setting properties on the prototype object, <strong>these properties are not <em>own</em> properties</strong>.</p>
+
+  <pre><code data-trim="" contenteditable="">
+function Cat() { }
+const c = new Cat();
+Cat.prototype.cute = 'very';
+console.log(c.cute); // &lt;-- cute exists
+console.log(c.hasOwnProperty(c.cute)); // &lt;-- but it's inherited (not an own prop)
+</code></pre>
+</section>
+
+<section>
+  <h2 id="constructors-prototype-property-continued">Constructor&#39;s Prototype Property Continued</h2>
+
+  <p>You can also just assign an entire object to the prototype property&#8230; but this doesn&#39;t change all instances like setting individual properties on the constructor&#39;s prototype property does.</p>
+
+  <pre><code data-trim="" contenteditable="">
+function Cat() { this.cute = 'very' }
+function Kitten() { }
+Kitten.prototype = new Cat();
+const k = new Kitten(); // &lt;-- instantiated *after* setting prototype!
+console.log(k.cute); // &lt;-- cute exists!
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="an-es6-class-example">An ES6 Class Example</h2>
+
+  <p>A base class:</p>
+
+  <pre><code data-trim="" contenteditable="">
+class Monster {
+    constructor(name) {
+        this.name = name;
+    }
+
+    scare(thing) {
+        console.log(this.name, ' scares ', thing); 
+    }
+}
+</code></pre>
+
+  <p>A subclass:</p>
+
+  <pre><code data-trim="" contenteditable="">
+class Werewolf extends Monster {
+    constructor(name, type) {
+        super(name);
+        this.type = type; 
+    }
+
+    howl() {
+        console.log(this.name, this.type, 'werewolf howls at the moon');
+    }
+}
+const w = new Werewolf('wally', 'party');
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="classes-and-prototypes">Classes and Prototypes</h2>
+
+  <p>So&#8230; classes essentially set up a prototype chain and constructor function. <strong>What&#39;s the output of this code?</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+console.log(typeof Werewolf);
+console.log(Object.getPrototypeOf(w) === Werewolf.prototype);
+console.log(Object.getPrototypeOf(w).hasOwnProperty('howl'));
+console.log(Object.getPrototypeOf(w).hasOwnProperty('scare'));
+console.log(Object.getPrototypeOf(Object.getPrototypeOf(w)) === Monster.prototype);
+console.log(w instanceof Werewolf);
+console.log(w instanceof Monster);
+</code></pre>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+Function
+true
+true
+false
+true
+true
+true
+</code></pre>
+
+</section>
+:ET

@@ -1,0 +1,453 @@
+I"Šb<style>
+
+.warning {
+    background-color: #eecccc;
+}
+
+pre {
+  display: inline-block;
+  padding: 9.5px;
+  margin: 0 0 10px;
+  font-size: 15px;
+  word-break: break-all;
+  word-wrap: break-word;
+  background-color: rgb(224, 229, 234);  
+  color: #001446;
+  border-radius: 4px;
+  border: none !important;
+}
+
+#final h3 {
+}
+
+section {
+  padding-left: 1em;
+}
+</style>
+
+<div id="final" class="panel panel-default">
+  <div class="panel-heading">Final Project</div>
+  <div class="panel-body">
+
+    <h2 id="final-project-deployment">Final Project Deployment</h2>
+
+    <p>These instructions detail deployment to Courant&#39;s compute and assignment servers. <strong>If you&#39;d like to deploy elsewhere (your own server, Heroku, AWS, etc.), please let me know by email / message via NYU Classes.</strong> Heroku has been an option that students have used in the past because of the good <a href="https://devcenter.heroku.com/articles/getting-started-with-nodejs#introduction">introductory documentation</a>, and <a href="https://devcenter.heroku.com/articles/deploying-nodejs">deployment tutorial</a>.</p>
+
+    <p>Deployment <strong>to Courant&#39;s compute and assignment servers</strong> involves the following steps:</p>
+
+    <ol>
+      <li>Finding your assigned server and port number</li>
+      <li>Logging in to the server and prepping your home directory</li>
+      <li>Creating a database for your project</li>
+      <li>Getting your project onto the server</li>
+      <li>Installing your project&#39;s dependencies</li>
+      <li>Configuring your project</li>
+      <li>Running your project as a daemon</li>
+      <li>Reinstalling and/or redeploying</li>
+    </ol>
+
+    <h3 id="part-1-finding-your-assigned-server-and-port-number">Part 1: Finding your assigned server and port number</h3>
+
+    <section>
+      <p>Courant&#39;s compute / assignment servers are shared, so other students will be running their projects on it. Consequently, to run your node web application, you&#39;ll have run it on a port number and server that&#39;s been assigned to you.</p>
+
+      <p>There are multiple potential servers that can host assignments. See the <a href="https://cims.nyu.edu/webapps/content/systems/resources/computeservers">documentation</a> on compute servers. These can only be accessed via ssh by going through another host, cims.nyu.edu.</p>
+
+      <p>To determine which port number and server, see the milestone #2 announcement on piazza:</p>
+
+      <ol>
+        <li>Log in piazza</li>
+        <li>Go to the pinned post announcing <code>Final Project Milestone #2</code></li>
+        <li>User the link to the port retrieval page and the password supplied in the post</li>
+      </ol>
+
+    </section>
+
+    <h3 id="part-2-logging-in-to-cims-and-prepping-your-home-directory">Part 2: Logging in to cims and prepping your home directory</h3>
+
+    <section>
+
+      <p>We&#39;ll be using ssh, a commandline tool that allows you to login to and run commands on a remote server, to access your server. If you&#39;re on windows, a popular ssh client is <a href="http://www.putty.org/">putty</a>. You&#39;ll need a &quot;cims&quot; account to log in to any of these compute/assignment servers. You <em>should</em> have one already created for you.</p>
+
+      <ol>
+        <li>You can retrieve your credentials by going to <a href="https://cims.nyu.edu/webapps/password">https://cims.nyu.edu/webapps/password</a> first
+          <ul>
+            <li>use your netid to log in</li>
+            <li>save the credentials that you receive</li>
+            <li>if the above does not work or if you need to reset the password that was given to you from the above page, you can go to <a href="https://cims.nyu.edu/webapps/password/reset">https://cims.nyu.edu/webapps/password/reset</a>
+      * if you receive an error saying that your account does not exist:</li>
+            <li>try using this flowchart to troubleshoot:	https://cims.nyu.edu/cms_content/cims-account-access-troubleshooting.pdf
+              <ul>
+                <li>yes, I know it <em>looks</em> complicated, but follow along to make sure there&#39;s really a system related issue</li>
+              </ul>
+            </li>
+            <li>if that still doesn&#39;t work, send me a note with:
+              <ul>
+                <li>all of the solutions you&#39;ve tried</li>
+                <li>along with your username and netid (do not send me your password)</li>
+              </ul>
+            </li>
+            <li>I will contact helpdesk@ on your behalf</li>
+          </ul>
+        </li>
+        <li>To access your assigned server, you must first ssh to <code class="highlighter-rouge">access.cims.nyu.edu</code>&#8230; and then from there, ssh to your <em>actual</em> server:
+          <ul>
+            <li><code class="highlighter-rouge">ssh your_username@access.cims.nyu.edu</code></li>
+            <li>once you&#39;ve logged in&#8230; use ssh again</li>
+            <li><code class="highlighter-rouge">ssh your_username@your_assigned_server</code></li>
+          </ul>
+        </li>
+        <li>Once you&#39;ve logged in, create the following directories in your home directory:
+          <ul>
+            <li><code>var/log</code> a directory to dump your application logs</li>
+            <li><code>usr/local/lib</code> to store all of your &quot;global&quot; node modules</li>
+            <li><code>opt</code> &#8230; as the directory where you&#39;ll install your web application</li>
+            <li>run the following command to create the directories specified above (note that <code class="highlighter-rouge">~</code> means your <em>home directory</em>):
+ <br /></li>
+          </ul>
+          <pre><code>mkdir -p ~/var/log
+mkdir -p ~/usr/local/lib
+mkdir ~/opt</code></pre>
+        </li>
+        <li>Verify that these directories exist by running:</li>
+      </ol>
+
+      <pre><code>ls ~</code></pre>
+
+      <p>Should show:</p>
+
+      <pre><code>opt  usr  var</code></pre>
+
+      <ol>
+        <li><span class="warning">The version of node on the servers currently doesn&#39;t support ES6.</span>
+          <ul>
+            <li>consequently, you&#39;ll have to install the most current version of node</li>
+            <li>you can do this by installing and using a tool called <a href="https://github.com/creationix/nvm">node version manager, or nvm</a></li>
+            <li>to install:
+              <ul>
+                <li><code class="highlighter-rouge">curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
+</code></li>
+              </ul>
+            </li>
+            <li>to get the latest version of node
+              <ul>
+                <li><code class="highlighter-rouge">. ~/.nvm/nvm.sh</code></li>
+                <li><code class="highlighter-rouge">nvm install node</code></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+      </ol>
+    </section>
+
+    <h3 id="part-3-creating-a-database-for-your-project">Part 3: Creating a database for your project</h3>
+
+    <section>
+
+      <p>You&#39;ll have your own database on an instance of <strong>mongod</strong> running on one of Courant&#39;s server. You don&#39;t have to keep the database running like you do locally; that&#39;s already taken care of for you.</p>
+
+      <ol>
+        <li><a href="https://cims.nyu.edu/webapps/content/systems/userservices/databases/class-mongodb">Follow these instructions for initializing your mongoDB database on the server</a></li>
+        <li><strong>Make sure you keep the password that&#39;s given to you after you follow the above instructions.</strong> (ideally, in a password safe)</li>
+        <li>To test connectivity, you can try connecting to your database while your ssh&#39;d in to the server:</li>
+      </ol>
+
+      <pre><code>module load mongodb-3.2.0
+mongo &lt;dbname&gt; --host class-mongodb.cims.nyu.edu -u &lt;username&gt; -p
+</code></pre>
+
+      <ol>
+        <li>You should see your MongoDB shell if you&#39;re able to successfully connect!</li>
+        <li>If you see the following error <code class="highlighter-rouge">Failed global initialization: BadValue Invalid or no user locale set. Please ensure LANG and/or LC_* environment variables are set correctly.</code> &#8230; try setting your locale (default language - like English) with <code class="highlighter-rouge">export LC_ALL=C</code> before running the <code class="highlighter-rouge">mongo</code> commandline client on the server</li>
+      </ol>
+
+    </section>
+
+    <h3 id="part-4-using-an-external-configuration-file-for-your-database-configuring-the-port-number">Part 4: Using an external configuration file for your database, configuring the port number</h3>
+
+    <section>
+      <p>Because the mongodb server you&#39;ll connect to from the server requires user authentication, the string you pass in to <code class="highlighter-rouge">mongoose.connect</code> (your <strong>database connection string</strong>) will have to include the username and password you were given from the previous section, Part 3. The new connection string will have the following format:</p>
+
+      <pre><code data-trim="" contenteditable="">mongodb://USERNAME:PASSWORD@class-mongodb.cims.nyu.edu/USERNAME
+</code></pre>
+
+      <p>Where:</p>
+
+      <ul>
+        <li><code class="highlighter-rouge">USERNAME</code> - is the username you used for logging it to the server</li>
+        <li><code class="highlighter-rouge">PASSWORD</code> - is the password for <strong>mongodb</strong> that you created from Part 3.</li>
+      </ul>
+
+      <p><span class="warning">The name of your database is the same as your username!</span></p>
+
+      <p>However, you should not put these credentials directly into your <code class="highlighter-rouge">db.js</code> file, and they should not be in a file in version control (you may inadvertently disclose these credentials if your repository becomes public). One way to deal with this issue is to put your credential in an external file that is conditionally read:</p>
+
+      <ol>
+        <li>add a conditional to your database configuration code that&#8230;</li>
+        <li>checks if an environment variable named <code class="highlighter-rouge">NODE_ENV</code> is set to <code class="highlighter-rouge">PRODUCTION</code>
+          <ul>
+            <li><a href="https://www.digitalocean.com/community/tutorials/how-to-read-and-set-environmental-and-shell-variables-on-a-linux-vps">read the excellent digital ocean summary regarding environment variables</a></li>
+            <li>use [process.env.NAME_OF_VARIABLE] to access environment variables through node</li>
+          </ul>
+        </li>
+        <li>if the above is true, then read a file synchronously (blocking) by using <a href="https://nodejs.org/api/fs.html#fs_fs_readfilesync_file_options">fs.readFileSync</a></li>
+        <li>the file that is read in will be a <code class="highlighter-rouge">json</code> file that&#39;s not in version control&#8230; that contains the database connection string for your application when deployed on the server</li>
+      </ol>
+
+      <p>(Note that this is a simple way of managing configuration, so if you plan on <em>actually</em> deploying your app outside of this class, consider using a configuration / configuration management library, like <a href="https://github.com/mozilla/node-convict">node-convict</a>)</p>
+
+      <p><strong>To add an external configuration file, follow these steps</strong> &#8594;</p>
+
+      <ol>
+        <li>add <code class="highlighter-rouge">config.json</code> to your <code class="highlighter-rouge">.gitignore</code> so that your credentials don&#39;t inadvertently get committed</li>
+        <li>in <code class="highlighter-rouge">db.js</code> add the following code before <code class="highlighter-rouge">mongoose.connect</code>:
+          <pre><code data-trim="" contenteditable="">// is the environment variable, NODE_ENV, set to PRODUCTION? 
+let dbconf;
+if (process.env.NODE_ENV === 'PRODUCTION') {
+ // if we're in PRODUCTION mode, then read the configration from a file
+ // use blocking file io to do this...
+ const fs = require('fs');
+ const path = require('path');
+ const fn = path.join(__dirname, 'config.json');
+ const data = fs.readFileSync(fn);
+
+ // our configuration file will be in json, so parse it and set the
+ // conenction string appropriately!
+ const conf = JSON.parse(data);
+ dbconf = conf.dbconf;
+} else {
+ // if we're not in PRODUCTION mode, then use
+ dbconf = 'mongodb://localhost/YOUR_DATABASE_NAME_HERE';
+}
+</code></pre>
+        </li>
+        <li>when you use <code class="highlighter-rouge">mongoose.connect</code>, pass in <code class="highlighter-rouge">dbconf</code> as the argument instead of a hardcoded string
+          <ul>
+            <li><code class="highlighter-rouge">mongoose.connect(dbconf);</code></li>
+          </ul>
+        </li>
+        <li>you can test that everything works by:
+          <ul>
+            <li>try running your application <strong>locally</strong> (on your own computer) without any environment variables (just use <code class="highlighter-rouge">node app.js</code> or <code class="highlighter-rouge">./bin/www</code>)
+              <ul>
+                <li>&#8230; and inserting data</li>
+                <li>via your form</li>
+                <li>(make sure the data persists)</li>
+              </ul>
+            </li>
+            <li>create a <code class="highlighter-rouge">config.json</code> that contains a connection string with a different database name (change the last part, after localhost, to a different database name, like <code class="highlighter-rouge">mongodb://localhost/finalprojectconfig</code>)
+              <ul>
+                <li>the key should be <code class="highlighter-rouge">"dbconf"</code> (remember that json keys are double quoted)</li>
+                <li>the value should be <code class="highlighter-rouge">"mongodb://localhost/SOME_OTHER_DATABASE_NAME"</code></li>
+                <li>`{&quot;dbconf&quot;:&quot;mongodb://localhost/SOME_OTHER_DATABASE_NAME&quot;}</li>
+              </ul>
+            </li>
+            <li>then, run your application again, this time forcing your app to use the config file
+              <ul>
+                <li><code class="highlighter-rouge">NODE_ENV=PRODUCTION node app.js</code> or <code class="highlighter-rouge">NODE_ENV=PRODUCTION ./bin/www</code></li>
+              </ul>
+            </li>
+            <li>the new database shouldn&#39;t have any data that you entered previously!</li>
+            <li><strong>DO NOT COMMIT</strong> <code class="highlighter-rouge">config.json</code> (in fact, it should be in your <code class="highlighter-rouge">.gitignore</code> as the previous instructions specify)</li>
+            <li>(you&#39;ll create a <code class="highlighter-rouge">config.json</code> on the server)</li>
+          </ul>
+        </li>
+        <li>Finally, because you&#39;ll want to use a custom port number, <span class="warning">you&#39;ll have to modify your app.listen call so that it uses an environment variable</span>
+          <ul>
+            <li>change your call to <code class="highlighter-rouge">app.listen</code> so that it checks for an environment variable, <code class="highlighter-rouge">PORT</code>, first&#8230; otherwise, default to 300</li>
+            <li><code class="highlighter-rouge">app.listen(process.env.PORT || 3000);</code></li>
+          </ul>
+        </li>
+        <li>commit and push your code</li>
+      </ol>
+
+    </section>
+
+    <h3 id="part-5-getting-your-project-onto-the-server">Part 5: Getting your project onto the server</h3>
+
+    <section>
+
+      <ol>
+        <li>
+          <p><span class="warning">make sure you&#39;re logged in to you remote server (linserv1 or linserv2)</span> via ssh (remember, you have to ssh to access.cims.nyu.edu first, then ssh to your server)</p>
+        </li>
+        <li>
+          <p>Clone your repository into your opt directory (you can find your full repository name on GitHub). Remember to substitute <code>REPOSITORY_NAME</code> with your actual repository name:</p>
+        </li>
+      </ol>
+
+      <pre><code>cd ~/opt
+git clone https://github.com/nyu-csci-ua-0480-SECTION-SEMESTER-YEAR/REPOSITORY_NAME</code></pre>
+
+      <ol>
+        <li>Alternatively, you can use <code>sftp</code> or <code>scp</code> to transfer files to the server</li>
+      </ol>
+
+    </section>
+
+    <h3 id="part-6-installing-your-projects-dependencies">Part 6: Installing your project&#39;s dependencies</h3>
+
+    <section>
+      <p><span class="warning">Before installing your project&#39;s dependencies, make sure you&#39;re using the right version of node.</span> and that <span class="warning">you&#39;re logged in to the right server - either linserv1 or linserv2</span>.</p>
+
+      <ol>
+        <li>check your node version with <code class="highlighter-rouge">node -v</code></li>
+        <li>it should be grader than <code class="highlighter-rouge">6.x.x</code></li>
+        <li>if it isn&#39;t, make sure that you installed the latest node with <code class="highlighter-rouge">nvm</code> from the beginning of these instructions</li>
+        <li>if you already installed, then try running your installed nvm: <code class="highlighter-rouge">. ~/.nvm/nvm.sh</code></li>
+      </ol>
+
+      <p>Just like local development, you&#39;ll have to install your projects dependencies. Replace <code>REPOSITORY_NAME</code> with your project&#39;s actual repository name in the following command.</p>
+
+      <pre><code>cd ~/opt/REPOSITORY_NAME/ &amp;&amp; npm install</code></pre>
+
+      <p>(basically&#8230; just go to the same directory that your <code class="highlighter-rouge">package.json</code> is in&#8230; and install from there.</p>
+
+    </section>
+
+    <h3 id="part-7-configuring-your-project">Part 7: Configuring your project</h3>
+
+    <section>
+
+      <p>Create a <code>config.js</code> file on the server to add the <code class="highlighter-rouge">PRODUCTION</code> version of your mongodb connection string. You can use a commandline text editor, like <code>nano</code>, <code>vim</code> or <code>emacs</code>. We&#39;ll use <code>nano</code> in these examples (but you can use vim or emacs as well).</p>
+
+      <p>Again, <span class="warning">make sure you&#39;re logged in to you remote server (linserv1 or linserv2)</span> via ssh (remember, you have to ssh to access.cims.nyu.edu first, then ssh to your server). Do not run these commands if your are only logged in to cims.</p>
+
+      <ol>
+        <li>In your project directory, create and open your file by:
+ <br />
+          <pre><code>nano config.json</code></pre>
+        </li>
+        <li>Then add your connection string so that it includes username and password (that you retrieved above):
+  <br />
+          <pre><code>{"dbconf":"mongodb://jversoza:my_password@class-mongodb.cims.nyu.edu/jversoza"}</code></pre>
+        </li>
+        <li><span class="warning">Remember, the name of your database is the same as your username!</span></li>
+        <li>Save it by <code>CONTROL+O</code> to <em>write out</em> the file. Press <code>RETURN/ENTER</code> to accept the file name.</li>
+        <li>Quit <code>nano</code> by <code>CONTROL+X</code></li>
+        <li>Test your application. Substitute <code>APP_PORT_NUMBER</code> with the port number you retrieved from Part 1 and add the environment variable, <code class="highlighter-rouge">NODE_ENV</code>.
+          <ul>
+            <li>Use <code>node app.js</code>. <strong>Don&#39;t use nodemon to run it.</strong>
+ <br />
+              <pre><code>PORT=APP_PORT_NUMBER NODE_ENV=PRODUCTION node app.js</code></pre>
+            </li>
+            <li>If it starts up fine, try connecting to it from your browser: 
+ <br /></li>
+          </ul>
+          <pre><code>http://server_name:APP_PORT_NUMBER/</code></pre>
+          <ul>
+            <li>So something like: <code class="highlighter-rouge">http://linserv1.cims.nyu.edu:NNNNN</code> where <code class="highlighter-rouge">NNNNN</code> is your port number</li>
+          </ul>
+        </li>
+        <li>Troubleshooting:
+          <ul>
+            <li>If you see the following error 
+ <br /></li>
+          </ul>
+          <pre><code data-trim="" contenteditable="">/home/net_id/opt/final-project/node_modules/mongoose/node_modules/mongodb/lib/server.js:235
+     process.nextTick(function() { throw err; })
+Error: connect ECONNREFUSED
+ at errnoException (net.js:905:11)
+ at Object.afterConnect [as oncomplete] (net.js:896:19)</code></pre>
+          <p>You can&#39;t connect to your database; double check your mongoose connection string&#8230; and review part 3.</p>
+          <ul>
+            <li>If you see <code>Error: listen EADDRINUSE</code> &#8230; the port you&#39;ve been assigned is already in use. Either your application is already running or someone inadvertently is running there application on your port. Contact me if it&#39;s the latter.</li>
+          </ul>
+        </li>
+      </ol>
+
+    </section>
+
+    <h3 id="part-8-running-your-project-as-a-daemon">Part 8: Running your project as a daemon</h3>
+
+    <p><span class="warning">Make sure you&#39;re logged in to you remote server (linserv1 or linserv2)</span> via ssh (remember, you have to ssh to access.cims.nyu.edu first, then ssh to your server) before proceeding.</p>
+
+    <section>
+
+      <p>In order to have your project run even when you&#39;re not logged in to the server through an interactive shell, you&#39;ll have to run it as a daemon. We&#39;ll use a node module called <code>forever</code> to do this. It will run your application in the background and give you tools to manage it (start and stop).</p>
+
+      <ol>
+        <li>Install <code>forever</code>:</li>
+      </ol>
+
+      <pre><code>cd ~/usr/local/lib/
+npm install forever</code></pre>
+
+      <ol>
+        <li>Run your app with <code>forever start</code>. Substitute <code>APP_PORT_NUMBER</code> with your actual port number. Note the <code>-o</code> and <code>-e</code> options; they specify where your application&#39;s output (debug and error output) should go. The first version is with <code class="highlighter-rouge">app.js</code> (without express generator), and the second is with <code class="highlighter-rouge">bin/www</code></li>
+      </ol>
+
+      <pre><code>cd ~/opt/final-project/
+export PORT=APP_PORT_NUMBER; export NODE_ENV=PRODUCTION; ~/usr/local/lib/node_modules/.bin/forever -o ~/var/log/app.log -e ~/var/log/app_error.log start app.js</code></pre>
+
+      <pre><code>cd ~/opt/final-project/
+export PORT=APP_PORT_NUMBER; export NODE_ENV=PRODUCTION; ~/usr/local/lib/node_modules/.bin/forever -o ~/var/log/app.log -e ~/var/log/app_error.log start bin/www</code></pre>
+
+      <ol>
+        <li>Check that everything started up fine by looking for the process id, and then checking the log files.</li>
+      </ol>
+
+      <pre><code>ps aux | grep forever | grep -v grep</code></pre>
+
+      <p>Your application would usually log debug lines and errors to the console. However, since you&#39;re running your app as a daemon, all of that output is now dumped into log files, which are in <code>~/var/log</code>. To view the last few lines of the error and app log:</p>
+
+      <pre><code>tail ~/var/log/app.log ~/var/log/app_error.log</code></pre>
+
+      <ol>
+        <li>Listing managed apps and Stopping <code>forever</code> / shutting down your app:</li>
+      </ol>
+
+      <pre><code data-trim="" contenteditable=""># show managed apps
+~/usr/local/lib/node_modules/.bin/forever list
+# stop all apps
+~/usr/local/lib/node_modules/.bin/forever stopall
+</code></pre>
+
+      <ol>
+        <li>Viewing error logs and debug statements.</li>
+      </ol>
+
+      <p>For all logs:</p>
+
+      <pre><code>cat ~/var/log/app.log ~/var/log/app_error.log</code></pre>
+
+      <p>For just the last few lines:</p>
+
+      <pre><code>tail ~/var/log/app.log ~/var/log/app_error.log</code></pre>
+
+      <ol>
+        <li>Viewing error logs and debug statements <em>as they happen</em> use the <code>-f</code> flag with <code>tail</code>. <strong>This is super useful for debugging.</strong></li>
+      </ol>
+
+      <pre><code>tail ~/var/log/app.log ~/var/log/app_error.log</code></pre>
+
+      <ol>
+        <li>(Optional) Want to have <code>forever</code> accessible in your path? Add <code>PATH=$PATH:home/jjv222/usr/local/lib/node_modules/.bin/</code> to your <code>.bash_profile</code></li>
+      </ol>
+
+    </section>
+
+    <h3 id="part-8-reinstalling-andor-redeploying">Part 8: Reinstalling and/or redeploying</h3>
+    <section>
+
+      <ol>
+        <li>
+          <p>If you&#39;d like to <strong>reinstall</strong>  your application (again, with <code>REPOSITORY_NAME</code> replaced with your repository name):</p>
+        </li>
+        <li><code>rm -rf ~/opt/REPOSITORY_NAME</code></li>
+        <li>
+          <p>go back to Part 5</p>
+        </li>
+        <li>If you&#39;d like to simply <strong>redeploy</strong> or <strong>update</strong> your application, run <code>git pull</code> to update your code on the server:
+          <ol>
+            <li><code class="highlighter-rouge">cd ~/opt/REPOSITORY_NAME</code></li>
+            <li><code class="highlighter-rouge">git pull</code></li>
+          </ol>
+        </li>
+      </ol>
+
+    </section>
+  </div>
+</div>
+
+:ET

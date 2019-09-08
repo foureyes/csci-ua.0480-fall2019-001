@@ -1,0 +1,29 @@
+I"“<section class="intro-slide">
+  <h1 id="about-class-18">About Class #18</h1>
+
+  <h3 id="csci-ua0480-001">CSCI-UA.0480-001</h3>
+
+  <p><small></small></p>
+</section>
+
+<section>
+  <h2 id="topics">Topics</h2>
+
+  <ul>
+    <li>review project layout / homework questions</li>
+    <li>validation</li>
+    <li>form elements (finally?)</li>
+    <li>midterm</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="question-from-email">Question from Email</h2>
+
+  <p><strong>Why does topping have to be declared before pizza!?</strong> &#8594;</p>
+
+  <p>(<a href="http://foureyes.github.io/csci-ua.0480-fall2014-002/slides/17/mongoose.html#/5">From the slides</a>)</p>
+
+</section>
+:ET

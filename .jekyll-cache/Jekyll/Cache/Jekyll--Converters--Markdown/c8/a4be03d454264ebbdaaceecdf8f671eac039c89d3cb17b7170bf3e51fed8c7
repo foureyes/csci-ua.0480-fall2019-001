@@ -1,0 +1,1342 @@
+I"%�<section class="intro-slide">
+  <h1 id="node-npm-debugging-git-and-github">Node, NPM, Debugging, Git, and GitHub</h1>
+
+  <h3 id="csci-ua0480-001">CSCI-UA.0480-001</h3>
+</section>
+
+<section>
+  <h1 id="hopefully-this-will-help-contextualize-the-homework">(Hopefully, This Will Help Contextualize the Homework)</h1>
+</section>
+
+<section>
+  <h2 id="node">Node?</h2>
+
+  <p><strong>Hmmmm. For a class on Node, we haven&#39;t really talked about it too much yet. Does anyone know what Node.js is exactly?</strong> &#8594;</p>
+
+  <ul>
+    <li class="fragment">a JavaScript server side and networking framework
+      <ul>
+        <li class="fragment">like JavaScript on the browser, minus the DOM/HTML stuff</li>
+        <li class="fragment">but&#8230; with more I/O and networking support added in</li>
+      </ul>
+    </li>
+    <li class="fragment">designed to maximize throughput and efficiency through <strong>non-blocking I/O and asynchronous events</strong></li>
+    <li class="fragment">some technical details:
+      <ul>
+        <li class="fragment">it&#39;s built on top of V8 (Chrome&#39;s JavaScript engine)</li>
+        <li class="fragment">it&#39;s written in C, C++, and JavaScript</li>
+      </ul>
+    </li>
+  </ul>
+</section>
+
+<section>
+  <h1 id="in-node-all-io-is-non-blocking-and-asynchonous">In Node, All I/O is Non-Blocking and Asynchonous</h1>
+
+</section>
+
+<section>
+  <h2 id="hold-on--io">Hold on &#8230; I/O?</h2>
+
+  <p><strong>What exactly do we mean by I/O</strong> &#8594;</p>
+
+  <ul>
+    <li class="fragment">reading or writing to a database</li>
+    <li class="fragment">requesting data from a web service</li>
+    <li class="fragment">scanning through a file</li>
+    <li class="fragment">waiting for <em>some network connection</em></li>
+    <li class="fragment">you know&#8230; any <strong>input</strong> and <strong>output</strong></li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="what-does-blocking-io-look-like">What does blocking I/O look like?</h2>
+
+  <p>Using Python and the requests module, it may look something like this. <strong>What do you think the following code would print out?</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+import requests
+print('Start')
+response = requests.get('http://www.google.com')
+
+# just print out the first 30 characters of the response body
+print(response.text[0:30])
+print('Done!')
+</code></pre>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+Start
+&lt;!doctype html&gt;&lt;html itemscope
+End
+</code></pre>
+</section>
+
+<section>
+  <h2 id="and-non-blocking-io">And non-blocking I/O</h2>
+
+  <p>This example uses a Node.js library called Request (as well!). <strong>What does this output?</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+var request = require('request');
+console.log("Start");
+request('http://www.google.com', function (error, response, body) {
+    // just print out the first 30 characters of the response body
+    console.log(body.slice(0, 30)) 
+})
+console.log("Done!");
+</code></pre>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+Start
+Done!
+&lt;!doctype html&gt;&lt;html itemscope
+</code></pre>
+</section>
+
+<section>
+  <h2 id="weird-huh">Weird, Huh?</h2>
+
+  <p><strong>Why was &quot;Done&quot; output before the response body?</strong> &#8594;</p>
+
+  <ul class="fragment">
+    <li>the function to print out the body was actually an asynchonous <strong>callback</strong></li>
+    <li>a <strong>callback</strong> is a function passed as an argument to another function that is expected to be executed at some later time (perhaps when an operation is completed, or a specific event occurs)</li>
+    <li><strong>the callback function is not executed immediately</strong></li>
+    <li>instead, <code>console.log("Done!")</code> is executed next</li>
+    <li>when the request to google is done, the callback function is executed, which is at the end of the program</li>
+  </ul>
+
+  <p class="fragment"><br />
+(Other languages have asynchronous, event-driven frameworks as well, including <a href="http://en.wikipedia.org/wiki/Twisted_(software)">Twisted</a> for Python and <a href="http://en.wikipedia.org/wiki/EventMachine">Eventmachine</a> for Ruby)</p>
+</section>
+
+<section>
+  <h2 id="some-more-details">Some More Details</h2>
+
+  <ul>
+    <li>Node applications (your actual JavaScript code) are actually a <strong>single process</strong></li>
+    <li>but all I/O operations are non-blocking and happen in the background</li>
+    <li>this is done through an <strong>event loop</strong>
+      <ul>
+        <li>Node just continues to listen for events</li>
+        <li>you specify what code to execute whenever an event happens</li>
+        <li>if something requires I/O, that&#39;s spun off in the background, so the event loop can handle other callbacks</li>
+      </ul>
+    </li>
+    <li>this is all based on the assumption that I/O is the most expensive operation, so why wait for it when you can move on to other code to execute?</li>
+    <li>your node app can still block, though (even if I/O is asynchronous)&#8230; <strong>how?</strong> &#8594;</li>
+    <li class="fragment">if your code is computationally heavy!</li>
+  </ul>
+</section>
+
+<section>
+
+  <h1 id="everything-runs-in-parallel-except-your-code">&quot;Everything runs in parallel, except your code&quot;</h1>
+
+</section>
+
+<section>
+  <h2 id="aaaand-more-details">Aaaand More Details</h2>
+
+  <p><a href="http://stackoverflow.com/questions/14795145/how-the-single-threaded-non-blocking-io-model-works-in-node-js">Even more about single-threaded, but non-blocking in Node</a></p>
+
+  <p>A challenge with callbacks is that it may be difficult to acquire the context of the original function that spawned the callback. With JavaScript, though, it&#39;s easy! <strong>Why?</strong></p>
+
+  <ul class="fragment">
+    <li>quoted from the SO post above</li>
+    <li>&quot;Every function that requests IO has a signature like function (&#8230; parameters &#8230;, callback)&quot; and needs to be given a callback that will be invoked when the requested operation is completed</li>
+    <li>&quot;Javascript&#39;s support for <strong>closures</strong> allows you to use variables you&#39;ve defined in the outer (calling) function inside the body of the callback - this allows to keep state between different functions that will be invoked by the node runtime independently&quot;</li>
+  </ul>
+</section>
+
+<section>
+  <h1 id="node-works-because-of-javascripts-language-features">Node Works Because of JavaScript&#39;s Language Features!</h1>
+
+</section>
+<section>
+  <h2 id="ok-got-it">OK, Got It&#8230;</h2>
+
+  <p>So&#8230; When should you used Node?</p>
+
+  <ul>
+    <li>I/O bound workloads (not so much for CPU bound!)</li>
+    <li>when you don&#39;t want to deal with the complexities of concurrent programming, and your application can fit into an event-driven framework</li>
+  </ul>
+
+  <p><br />
+Some actual examples</p>
+
+  <ul>
+    <li>for web stuff&#8230;
+      <ul>
+        <li>like high traffic APIs</li>
+        <li><em>soft real time apps</em></li>
+      </ul>
+    </li>
+  </ul>
+</section>
+<section>
+  <h2 id="a-bunch-of-parentheses">A Bunch of Parentheses</h2>
+
+  <ul>
+    <li>(not sure if a console-game was a great use-case&#8230;)</li>
+    <li>(waiting for user input can be considered an I/O bound app, though!)</li>
+    <li>(but we used a synchronous prompt library to gather input)</li>
+    <li>(you can rewrite with another lib if you want!)</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="using-node">Using Node</h2>
+
+  <p><strong>(This is obvs, I know, but just for completeness)</strong>. After you&#39;ve installed via your apt/homebrew/download, you can run node in two ways:</p>
+
+  <ul>
+    <li>as a REPL / interactive shell,  which is just: <code>node</code> (CTRL-D exits)</li>
+    <li>or to execute a program: <code>node filename.js</code></li>
+  </ul>
+
+  <p><br />
+Of course, you can write vanilla Node programs using whatever&#39;s built in, but you&#39;ll probably some libraries</p>
+</section>
+
+<section>
+  <h3 id="npm">NPM</h3>
+
+  <p><strong>NPM</strong> is Node&#39;s official package manager.  <strong>Does anyone know of any other package managers for other languages?</strong>  &#8594;</p>
+
+  <ul>
+    <li class="fragment"><strong>gem</strong> for Ruby</li>
+    <li class="fragment">or <strong>pip</strong>, <strong>easy_install</strong> for Python</li>
+    <li class="fragment">or <strong>CPAN</strong> for Perl</li>
+    <li class="fragment">or <strong>composer</strong> for PHP</li>
+  </ul>
+
+  <p class="fragment"><br />
+Among other things, <code class="highlighter-rouge">npm</code> allows you to download and install packages (<em>modules</em>), as well as remove and upgrade them.</p>
+</section>
+
+<section>
+  <h2 id="installing-packages">Installing Packages</h2>
+
+  <p><code>npm install packagename</code></p>
+
+  <ul>
+    <li>by default, NPM installs packages in a directory called <code>node_modules</code> in the directory that you run it in
+      <ul>
+        <li><strong>let&#39;s see that in action</strong> &#8594;</li>
+        <li>which is why you should <code>.gitignore</code> <code>node_modules</code> (you don&#39;t really want all of the dependencies in your repository)</li>
+      </ul>
+    </li>
+    <li>that means NPM doesn&#39;t install globally by default (nice&#8230; unlike <em>other</em> package management systems)</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="local-vs-global-installation">Local vs Global Installation</h2>
+
+  <p>You can use the <code>-g</code> flag to install globally if you need to (and it will be necessary for some things): <code>npm install packagename -g</code></p>
+
+  <ul>
+    <li>some libraries are actually commandline tools that you want to use throughout your system - install these globally</li>
+    <li>while others are libraries for specific apps that you&#39;re developing (anything that you&#39;d <code>require</code> in your program) should be installed locally</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="more-about-global-package-installation">More About Global Package Installation</h2>
+
+  <p><strong>Why do we want to avoid installing modules globally?</strong> &#8594;</p>
+
+  <ul>
+    <li class="fragment">multiple apps, different dependencies</li>
+    <li class="fragment">maybe even OS level dependencies!</li>
+  </ul>
+
+  <p class="fragment"><br />
+<strong>BTW, what are some analogous tools that we&#39;d use to avoid installing packages globally for python and ruby?</strong> &#8594;</p>
+
+  <ul>
+    <li class="fragment"><strong>rvm</strong></li>
+    <li class="fragment"><strong>virtualenv</strong></li>
+  </ul>
+</section>
+
+<section>
+  <h3 id="packagejson">package.json</h3>
+
+  <p>Lastly <strong>NPM</strong> can use a file called <strong>package.json</strong> to store dependencies. This will usually be placed in the root of your project folder.</p>
+
+  <p>Other languages specify dependencies in specific files too:</p>
+
+  <ul>
+    <li>gemfile - ruby</li>
+    <li>requirements.txt - python</li>
+  </ul>
+
+  <p>Soooo&#8230; if your program depends on a set of modules</p>
+
+  <ul>
+    <li>it may be a good idea to put that module in package.json</li>
+    <li>&#8230; so that you don&#39;t have to remember all of the requirements, and they can be installed all at once!</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="packagejson-continued">package.json Continued</h2>
+
+  <p><strong>A sample package.json for a tic-tac-toe game that requires:</strong></p>
+
+  <ol>
+    <li>synchronous (blocking) i/o for asking for console input (readline-sync)</li>
+    <li>assertions for unit tests (chai)</li>
+  </ol>
+
+  <p><br />
+May look like this:</p>
+
+  <pre><code data-trim="" contenteditable="">
+{
+  "name": "tic-tac-toe",
+  "version": "1.0.0",
+  "dependencies": {
+    "readline-sync": "^1.4.4"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0"
+  },
+}
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="modules">Modules</h2>
+
+  <p>So&#8230; what is npm installing? What are these <em>modules</em> anyway?</p>
+
+  <p class="fragment"><strong>Modules</strong> are just JavaScript files!</p>
+
+  <ul>
+    <li class="fragment">you can bring in the code from one file into another file using the <code class="highlighter-rouge">require</code> function</li>
+    <li class="fragment">however, your module must explicitly export the objects/functions that can be used by the file that&#39;s bringing in the module</li>
+    <li class="fragment">there are <em>built-in</em> modules</li>
+    <li class="fragment">&#8230;and you can, of course, write your own modules!</li>
+  </ul>
+
+</section>
+<section>
+  <h2 id="a-little-more-than-just-files">A Little More Than Just Files</h2>
+
+  <p><strong>From the <a href="https://nodejs.org/api/modules.html">node docs on modules</a>:</strong></p>
+
+  <p>Before a module&#39;s code is executed, Node.js will wrap it with a function wrapper that looks like the following:</p>
+
+  <pre><code data-trim="" contenteditable="">
+(function (exports, require, module, __filename, __dirname) {
+    // Your module code actually lives in here
+});
+</code></pre>
+
+  <p><br /></p>
+
+  <ul>
+    <li>which keeps top level variables scoped to the module than global (so when you require a module, it doesn&#39;t pollute your global name space!)It helps to provide some global-looking variables that are actually specific to the module, such as:</li>
+    <li>the module and exports objects can be used to define what&#39;s accessible by the file bringing in the module</li>
+    <li>convenience variables: __filename and __dirname, the module&#39;s absolute filename and path</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="using-exports">Using <code class="highlighter-rouge">exports</code></h2>
+
+  <ol>
+    <li>Create all of your functions &#8230;</li>
+    <li>Then, at the end, assign module.exports to an object literal containing all of the functions that you want to export</li>
+  </ol>
+
+  <pre><code data-trim="" contenteditable="">function repeat(ele, n) {
+    // implementation
+} 
+    
+function generateBoard(rows, cols, initialValue) {
+    // implementation
+} 
+
+// ...
+
+module.exports = {
+    repeat: repeat,
+    generateBoard: generateBoard,
+    // ...
+}
+</code></pre>
+</section>
+
+<section>
+  <h2 id="another-way">Another Way</h2>
+
+  <p><strong>Create all of your functions in an object and assign that object to module.exports</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+var tic = { 
+    repeat: function(value, n) {
+        // implementation
+    },
+    
+    generateBoard: function(rows, columns, initialCellValue) {
+        // implementation
+    },
+    
+    // ...
+}
+    
+module.exports = tic;
+
+</code></pre>
+
+  <p><br />
+Note that if one function depends on another, you&#39;ll have to prefix with the object name (<code class="highlighter-rouge">module.exports</code> or <code class="highlighter-rouge">this</code>.</p>
+
+</section>
+
+<section>
+  <h2 id="aaaaand">Aaaaand&#8230;</h2>
+
+  <p><strong>Create functions as properties on <code class="highlighter-rouge">module.exports</code></strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+module.exports.repeat = function(value, n) {
+    // implementation
+}
+    
+module.exports.generateBoard = function(rows, columns, initialCellValue) {
+    // implementation
+},
+    
+// ...
+
+</code></pre>
+
+  <p><br />
+Note that if one function depends on another, you&#39;ll have to prefix with the object name (<code class="highlighter-rouge">module.exports</code> or <code class="highlighter-rouge">this</code>.</p>
+</section>
+
+<section>
+  <h3 id="nodejs---require">Node.js - require</h3>
+
+  <p>Node&#39;s built-in function <code class="highlighter-rouge">require</code> is analogous to:</p>
+
+  <ul>
+    <li>PHP&#39;s <strong>include</strong></li>
+    <li>Ruby&#39;s <strong>require</strong></li>
+    <li>Python&#39;s <strong>import</strong></li>
+    <li>Java&#39;s <strong>import</strong></li>
+  </ul>
+
+  <p><br />
+It returns an object&#8230; and that object most likely has some useful methods and properties. From our request example earlier:</p>
+
+  <pre><code data-trim="" contenteditable="">
+var request = require('request');
+</code></pre>
+</section>
+
+<section>
+  <h2 id="modules-continued">Modules Continued</h2>
+
+  <p>Again, modules allow the inclusion of other JavaScript files into your application. From the Node docs:</p>
+
+  <blockquote>
+    <p>Files and modules are in one-to-one correspondence</p>
+  </blockquote>
+
+  <p>In other words, <strong>modules are just JavaScript files</strong>. The <a href="http://nodejs.org/api/modules.html#modules_modules">Node docs</a> are pretty comprehensive about how modules work.</p>
+</section>
+
+<section>
+  <h2 id="core-modules">Core Modules</h2>
+
+  <p>Some modules are <strong>compiled directly into the node binary</strong>. They&#39;re available without having to create or download a module. <strong>A couple of useful core modules include:</strong> &#8594;</p>
+
+  <ul>
+    <li><a href="http://nodejs.org/api/http.html">HTTP</a> - for creating both HTTP clients and servers</li>
+    <li><a href="http://nodejs.org/api/fs.html">File System</a> - for manipulating files and directories</li>
+  </ul>
+
+  <p><br /></p>
+</section>
+
+<section>
+  <h2 id="require-in-detail">Require in Detail</h2>
+
+  <p><strong>Using a module</strong>:</p>
+
+  <ul>
+    <li>the <code>require</code> function loads a file
+      <ul>
+        <li>it takes a single argument, the name of the file to load (the .js extension can optionally be omitted when loading)</li>
+        <li>it gives back an object</li>
+      </ul>
+    </li>
+    <li>&#8230;the object that it returns has all of the exported properties of the module / file loaded</li>
+    <li><strong>let&#39;s try it out with a core module</strong> &#8594;</li>
+  </ul>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+// bring in the http module
+var http = require('http');
+</code></pre>
+</section>
+
+<section>
+  <h2 id="downloaded-modules">Downloaded Modules</h2>
+
+  <p>Of course, we&#39;re not stuck with just using the core modules. We could download pre-built modules as well. <strong>How did we install some Node modules and how did we use them?</strong> &#8594;</p>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+npm install module-name
+</code></pre>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+var prompt = require('readline-sync').prompt;
+var request = require('request');
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="creating-your-own-module">Creating your own module:</h2>
+
+  <ul>
+    <li>there&#39;s an available <strong><code>exports</code></strong> object in Node</li>
+    <li>creating properties on that object makes those properties <em>public</em> to whatever is <em>importing</em> the file</li>
+    <li>variables that aren&#39;t exported are <em>private</em> to the module</li>
+    <li><strong>lets take a look (notice that the <code>exports</code> object is not available in the shell)</strong> &#8594;</li>
+  </ul>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+// showing what's in exports
+console.log(exports);
+</code></pre>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+// adding a property to exports
+exports.foo = 'bar, baz';
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="all-together">All Together</h2>
+
+  <p><strong>Here&#39;s a full example of creating and using a module</strong>: &#8594;</p>
+
+  <p>A module called <strong>creatures.js</strong>:</p>
+
+  <pre><code data-trim="" contenteditable="">
+exports.makeCreatureList = function (r) {
+	return ['narwhale', 'unicorn'];
+};
+</code></pre>
+
+  <p><strong>And&#8230; using that module</strong>: &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+var creaturesModule = require('./creatures.js');
+creaturesModule.makeCreatureList().forEach(function(name) {
+	console.log(name);
+});
+</code></pre>
+</section>
+
+<section>
+  <h2 id="module-location">Module Location</h2>
+
+  <p><strong>Where do you think the <code>require</code> function looks for a module? (we can probably guess 3 places correctly!)</strong> &#8594;</p>
+
+  <p class="fragment">Some hints:</p>
+
+  <ul class="fragment">
+    <li>installing modules for homework</li>
+    <li>consider the examples in the previous slides</li>
+  </ul>
+
+  <ol class="fragment">
+    <li>if it&#39;s a <strong>core module</strong>, just bring the module in (it&#39;s compiled into the node binary)</li>
+    <li>if it&#39;s a <strong>file</strong> (starts with /, ../, ./, etc.),
+      <ul>
+        <li>try to find that file relative to the location of the file that has the call to require</li>
+        <li>or as an absolute path</li>
+      </ul>
+    </li>
+    <li>or load it from the <strong>node_modules</strong> folder (which is where modules are downloaded when you install from npm)</li>
+  </ol>
+
+  <p class="fragment"><br />
+Or&#8230; just <a href="http://nodejs.org/api/modules.html#modules_all_together">check out the crazy docs</a>.</p>
+</section>
+
+<section>
+  <h2 id="notes-about-downloading-and-installing-modules">Notes About Downloading and Installing Modules</h2>
+
+  <ul>
+    <li>modules are downloaded and installed in the <strong>node_modules</strong> directory located in in the directory that you ran npm</li>
+    <li>if it&#39;s not found there, it will look at the parent&#39;s directory&#39;s <strong>node_modules</strong> folder</li>
+    <li>it will continue to look one directory up until the node_modules (if it exists) directory at the root of the filesystem is reached</li>
+    <li><strong>be careful with regards to where things are installed / moving projects around</strong></li>
+  </ul>
+</section>
+
+<section data-background="#440000">
+  <h1 id="you-should-place-your-dependencies-locally-in-nodemodules-folders">You should place your dependencies locally in <code>node_modules</code> folders</h1>
+
+</section>
+
+<section>
+  <h2 id="why-modules">Why Modules?</h2>
+
+  <p><strong>Why do modules exist? Why is certain functionality broken out into modules? Why would we create our own modules?</strong></p>
+
+  <ul>
+    <li class="fragment">modules provide <strong>solutions to commonly encountered programming tasks</strong></li>
+    <li class="fragment">they promote <strong>code reuse</strong></li>
+    <li class="fragment"><strong>namespacing</strong> and preventing naming collisions</li>
+    <li class="fragment">organizing code / <strong>keeping related functionality together</strong></li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="nodes-module-system">Node&#39;s Module System</h2>
+
+  <p>JavaScript, the language, doesn&#39;t actually have a module system!</p>
+
+  <p>Node&#39;s module system is built off of a spec/API called CommonJS.</p>
+
+  <p><strong>You won&#39;t be able to use this same module system in browser implementations of JavaScript without first including other JavaScript files/libraries (and there are a few to choose from) manually on your page.</strong></p>
+</section>
+
+<section>
+  <h1 id="debugging">Debugging</h1>
+
+</section>
+<section>
+  <h2 id="lets-write-a-quick-function">Let&#39;s Write a Quick Function</h2>
+
+  <p><strong>Create a function that determines if a set of parentheses is balanced (what does that mean?):</strong> &#8594;</p>
+
+  <ul>
+    <li><strong>name</strong>: isBalanced</li>
+    <li><strong>signature</strong>: isBalanced(string) &#8594; boolean</li>
+    <li><strong>parameters</strong>: a string (assume that it only consists of &quot;(&quot; and &quot;)&quot;)</li>
+    <li><strong>returns</strong>: true if the parentheses are balanced, false if they aren&#39;t</li>
+    <li class="fragment">a set of parentheses are balanced if there&#39;s exactly one closing parentheses for each open parentheses</li>
+    <li class="fragment"><strong>why wouldn&#39;t comparing counts work?</strong> &#8594;</li>
+    <li class="fragment"><code>)(</code></li>
+    <li class="fragment">one algorithm is to push open parentheses when you see them, but pop them when you see closed parentheses</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="heres-an-implementation">Here&#39;s an Implementation</h2>
+
+  <pre><code data-trim="" contenteditable="">
+var isBalanced = function(s) {
+    var stack = [], balanced = true;
+
+    for(var i = 0; i &lt; s.length; i++) {
+        var ch = s.charAt(i);    
+        if (ch === '(') {
+            stack.push(ch);
+        } else if (ch === ')') {
+            if (stack.length === 0) {
+                balanced = false;
+                break;
+            } 
+            stack.pop();
+        }
+    }
+
+    if (stack.length !== 0) {
+        balanced = false;
+    }
+
+    return balanced;
+};
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="testing-it">Testing It</h2>
+
+  <pre><code data-trim="" contenteditable="">
+console.log(isBalanced('()'));
+console.log(isBalanced(')('));
+console.log(isBalanced('()()'));
+console.log(isBalanced('()())'));
+</code></pre>
+
+</section>
+<section>
+  <h2 id="lets-check-out-some-debugging-tools">Let&#39;s Check Out Some Debugging Tools&#8230;</h2>
+
+  <p>Let&#39;s intentionally create a logical error in our code (perhaps return immediately after popping). <strong>To figure out what went wrong, we can&#8230;</strong> &#8594;</p>
+
+  <ul>
+    <li class="fragment">just print stuff out with console.log (the old fashioned way!)</li>
+    <li class="fragment">use a debugger</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="the-commandline-debugger">The Commandline Debugger</h2>
+
+  <p><code>node debug myscript.js</code></p>
+
+  <p>Let&#39;s give this a whirl&#8230;</p>
+
+  <p class="fragment">Wait&#8230; what? <a href="http://www.nytimes.com/1992/10/21/business/company-news-mattel-says-it-erred-teen-talk-barbie-turns-silent-on-math.html">The commandline is hard.</a>  <a href="http://itre.cis.upenn.edu/~myl/languagelog/archives/002892.html">Let&#39;s go shopping</a></p>
+
+  <p class="fragment"><em>Terrible</em>. Yay 90&#39;s. Though the <strong>&quot;elaborate nationwide publicity stunt designed to ridicule sexual stereotyping in children&#39;s toys&quot;</strong> was pretty neat!</p>
+</section>
+
+<section>
+  <h2 id="dont-worry-there-are-other-debugging-tools-out-there">Don&#39;t Worry, There Are Other Debugging Tools Out There</h2>
+
+  <ul>
+    <li><a href="http://sokolovstas.github.io/SublimeWebInspector/">Sublime Web Inspector</a> (for Sublime, of Course)</li>
+    <li><a href="http://www.jetbrains.com/webstorm/">WebStorm</a> a commercial JavaScript IDE <span class="fragment">(what a spectacular name, though)</span></li>
+    <li><a href="https://github.com/node-inspector/node-inspector">Node Inspector</a> - just like Chrome&#39;s Web Inspector!</li>
+  </ul>
+
+  <p class="fragment"><br />
+I&#39;m partial to <strong>Web Inspector</strong> because it&#39;s IDE agnostic, and as you know, as <strike>an old person</strike> vintage editor enthusiast, I use vim.</p>
+</section>
+
+<section>
+  <h1 id="fail-live-demo-time"><strike>Fail</strike> Live Demo Time</h1>
+</section>
+
+<section>
+  <h2 id="node-inspector">Node Inspector</h2>
+
+  <ul>
+    <li>install node-inspector: <code>sudo npm install -g node-inspector</code></li>
+    <li>(hey did you notice that it&#39;s global&#8230; <strong>why</strong> &#8594;)</li>
+    <li>run node-inspector: <code>node-inspector</code></li>
+    <li>open another terminal window&#8230;</li>
+    <li>start your app, the &#8211;debug-brk option will pause on the first line: <code>node --debug-brk app.js</code></li>
+    <li>open Chrome and go to http://localhost:8080/debug?port=5858</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="node-inspector-continued">Node Inspector Continued</h2>
+
+  <p>Same as Chrome Web Inspector!  <a href="https://developer.chrome.com/devtools/docs/javascript-debugging">See the docs!</a></p>
+
+  <p>Like any other debugger, you can:</p>
+
+  <ul>
+    <li>continue</li>
+    <li>step over</li>
+    <li>step in</li>
+    <li>step out</li>
+    <li>watch (check out the variables in the closure even!)</li>
+    <li>set breakpoints</li>
+    <li>have. lots. of. fun.</li>
+  </ul>
+</section>
+
+<section>
+  <h1 id="great-wrote-some-code-lets-put-it-in-version-control">Great. Wrote Some Code. Let&#39;s Put it in Version Control.</h1>
+</section>
+
+<section>
+  <h2 id="version-control-with-git">Version Control (With Git)</h2>
+
+  <p>The material in these slides was sourced from:</p>
+
+  <ul>
+    <li><a href="http://gitref.org/">gitref.org</a></li>
+    <li><a href="http://git-scm.com/book/en/Getting-Started-About-Version-Control">pro git</a></li>
+    <li><a href="http://rogerdudler.github.io/git-guide/">git - the simple guide</a></li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="um--first-archiving">Um.  First&#8230; Archiving?</h2>
+
+  <p><strong>What are some ways you&#39;ve used to keep / save different versions of files?</strong> &#8594;</p>
+
+  <ul class="fragment">
+    <li>adding a date to a file name?</li>
+    <li>adding extensions to files, like .bak?</li>
+    <li>organizing copies by folders?</li>
+    <li>&#8230;perhaps folders with timestamps / dates</li>
+    <li>ummm&#8230; etc.</li>
+  </ul>
+
+  <p class="fragment"><br />
+<strong>What are some drawbacks of these methods of saving versions of files?</strong> &#8594;</p>
+
+  <ul class="fragment">
+    <li>it&#39;s all manual</li>
+    <li>&#8230; and, consequently, tedious and error prone</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="sharing--collaborating">Sharing / Collaborating</h2>
+
+  <p>Have you ever worked on a programming project with more than one person?  <strong>How did you share your code?</strong> &#8594;</p>
+
+  <ul class="fragment">
+    <li>email?</li>
+    <li>usb?</li>
+    <li>dropbox?</li>
+  </ul>
+
+  <p class="fragment"><br />
+<strong>What are some issues with these methods (well, except for dropbox)?</strong></p>
+
+  <ul class="fragment">
+    <li>hard to find a specific version</li>
+    <li>which one is the latest?</li>
+    <li>how do you deal with conflicting changes?</li>
+  </ul>
+</section>
+
+<section>
+  <h1 id="enter-version-control">Enter: Version Control</h1>
+</section>
+
+<section>
+  <h2 id="whats-version-control">What&#39;s Version Control?</h2>
+
+  <p><strong>Version control software</strong> allows you to record changes to a file or set of files over time so that you can inspect or even revert to specific versions.</p>
+
+  <ul>
+    <li>can be applied to any kind of file, but we&#39;re mostly using text files</li>
+    <li>with version control, you can:
+      <ul>
+        <li>leave <strong>comments</strong> on changes that you&#39;ve made</li>
+        <li><strong>revert</strong> files to a previous state</li>
+        <li><strong>review</strong> changes made over time, and track <strong>who</strong> made them</li>
+        <li><strong>you can easily recover from accidentally breaking or deleting code</strong></li>
+        <li>automatically <strong>merge</strong> changes to the same file</li>
+      </ul>
+    </li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="so-um--why">So&#8230; Um.  Why?</h2>
+
+  <aside>What does this all mean?</aside>
+
+  <p>Version control can help us:</p>
+
+  <ul>
+    <li>stop using .bak files!</li>
+    <li>collaborate with others
+      <ul>
+        <li>share our code</li>
+        <li>merge changes from different sources</li>
+      </ul>
+    </li>
+    <li>document our work</li>
+    <li>group related changes</li>
+  </ul>
+</section>
+
+<section>
+  <h1 id="oh--and-its-kind-of-expected-that-you-know-this-as-a-professional-programmer">Oh.  And it&#39;s kind of <em>expected</em> that you know this as a professional programmer.</h1>
+</section>
+
+<section>
+  <h2 id="were-using-git">We’re Using git!</h2>
+
+  <ul>
+    <li><strong>git</strong> is the version control system that we&#39;re using</li>
+    <li>it’s a <strong>modern distributed version control</strong> system</li>
+    <li>it has emerged as <strong>the standard</strong> version control system to use</li>
+    <li>(some others are&#8230;)
+      <ul>
+        <li>mercurial</li>
+        <li>subversion (svn)</li>
+        <li>cvs</li>
+      </ul>
+    </li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="a-bit-about-git">A Bit About Git</h2>
+
+  <p>It was developed by Linus Torvalds&#8230; <strong>who?</strong> &#8594;</p>
+
+  <div class="img-container">
+    <p><img src="http://cdn.arstechnica.net/wp-content/uploads/2013/02/linus-eff-you-640x363.png" alt="Linux" /></p>
+  </div>
+
+  <div class="fragment">
+    <p>(the guy who made <a href="http://en.wikipedia.org/wiki/Linux">Linux</a>)</p>
+  </div>
+
+  <p class="fragment">What a nice person!</p>
+</section>
+
+<section>
+  <h2 id="github-vs-git">Github vs git</h2>
+
+  <p><strong>GIT AND GITHUB ARE DIFFERENT!</strong></p>
+
+  <ul>
+    <li><strong>github is a website</strong> that hosts git repositories</li>
+    <li>on it&#39;s own, <strong>git is just version control</strong></li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="who-uses-git-and-github">Who Uses Git and Github?</h2>
+
+  <p>Git is used to maintain a variety of projects, like:</p>
+
+  <ul>
+    <li>the <a href="https://github.com/processing/processing">Processing IDE</a></li>
+    <li>or <a href="https://github.com/twbs/bootstrap">Twitter&#39;s Bootstrap</a></li>
+    <li>or <a href="https://github.com/rails/rails">Ruby on Rails</a></li>
+  </ul>
+
+  <p>Some people use github to distribute open source code&#8230; for example:</p>
+
+  <ul>
+    <li><strong>id software</strong> has a bunch of <a href="https://github.com/id-Software">stuff hosted on git</a></li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="local-version-control">Local Version Control</h2>
+
+  <p><a href="http://git-scm.com/book/en/Getting-Started-About-Version-Control">See the diagram on pro git</a></p>
+
+  <ul>
+    <li>equivalent to what we may have done manually:
+      <ul>
+        <li>save files in folder with locally as a <em>snapshot</em> of current state of code</li>
+        <li>recover by going through folders on computer</li>
+        <li>see versions by the timestamped folder name</li>
+      </ul>
+    </li>
+    <li>all of this is automated through software
+      <ul>
+        <li>stores changes to your files in a local database</li>
+        <li>an example of local version control is RCS</li>
+      </ul>
+    </li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="centralized-version-control">Centralized Version Control</h2>
+
+  <p><a href="http://git-scm.com/book/en/Getting-Started-About-Version-Control">See the diagram on pro git</a></p>
+
+  <ul>
+    <li>promoted collaboration; everyone got code from the same place</li>
+    <li>single server that has all of the versioned files</li>
+    <li>everyone working on it had a <em>working copy</em>, but not the full repository</li>
+    <li>an example is subversion (SVN)</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="distributed-version-control">Distributed Version Control</h2>
+
+  <p><a href="http://git-scm.com/book/en/Getting-Started-About-Version-Control">See the diagram on pro git</a></p>
+
+  <ul>
+    <li>everyone has full repository</li>
+    <li>can connect to multiple <strong>remote</strong> repositories</li>
+    <li>can push and pull to individuals, not just <em>shared</em> or <em>centralized</em> servers</li>
+    <li>single server that has all of the versioned files</li>
+    <li>everyone working on it had a <em>working copy</em></li>
+  </ul>
+
+</section>
+
+<section>
+  <h1 id="were-using-git-a-distributed-version-control-system">We&#39;re Using Git, a Distributed Version Control System</h1>
+
+</section>
+
+<section>
+  <h1 id="but-were-really-going-to-use-a-central-repository-anyway">(But We&#39;re Really Going to Use a Central Repository Anyway)</h1>
+
+</section>
+
+<section>
+  <h3 id="a-quote">A Quote&#8230;</h3>
+
+  <p>From a co-worker of mine, a software engineer that builds web apps:</p>
+
+  <p><strong>&quot;Git is the hardest thing we do here&quot;</strong></p>
+
+  <p>(it&#39;s a little complicated, but not for what we&#39;re using it for)</p>
+
+</section>
+
+<section>
+  <h2 id="some-terminology">Some Terminology</h2>
+
+  <p><strong>repository</strong> - the place where your version control system stores the snapshots that you <em>save</em></p>
+
+  <ul>
+    <li>think of it as the place where you store all previous/saved versions of your files</li>
+    <li>this could be:
+      <ul>
+        <li><strong>local</strong> - on your computer</li>
+        <li><strong>remote</strong> - a copy of versions of your files on another computer</li>
+      </ul>
+    </li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="some-more-terminology">Some More Terminology</h2>
+
+  <ul>
+    <li><strong>git</strong> - the distributed version control system that we&#39;re using</li>
+    <li><strong>github</strong> - a website that can serve as a remote <em>repository</em> for your project</li>
+  </ul>
+
+  <p><strong>What&#39;s a remote repository again?</strong> &#8594;</p>
+
+  <div class="fragment">
+    <p>A copy of versions of your files on another computer/server</p>
+  </div>
+</section>
+
+<section>
+  <h2 id="where-are-my-files">Where Are My Files</h2>
+
+  <p>In your <strong>local repository</strong>, git <em>stores</em> your files and versions of your files in a few different <em>conceptual</em> places:</p>
+
+  <ul>
+    <li><strong>the working directory / working copy</strong> - stores the version of the files that you&#39;re currently modifying / working on</li>
+    <li><strong>index</strong> - the staging area where you put stuff that you want to <em>save</em> (or&#8230; that you&#39;re about to <em>commit</em>)</li>
+    <li><strong>HEAD</strong> - the most recent saved version of your files (or&#8230; the last <em>commit</em> that you made)</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="another-way-to-look-at-it">Another Way to Look at It</h2>
+
+  <ul>
+    <li><strong>the working directory / working copy</strong> - stuff you&#39;ve changed but haven&#39;t saved</li>
+    <li><strong>index</strong> - stuff that you&#39;re about to save</li>
+    <li><strong>HEAD</strong> - stuff that you&#39;ve saved</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="aaaaand--more-terminology">Aaaaand.  More Terminology.</h2>
+
+  <ul>
+    <li><strong>commit</strong> - save a snapshot of your work</li>
+    <li><strong>diff</strong> - the line-by-line difference between two files or sets of files</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="two-basic-workflows">Two Basic Workflows</h2>
+
+  <ol>
+    <li>Creating and setting up local and remote repositories</li>
+    <li>Making, saving, and <em>sharing</em> changes</li>
+  </ol>
+</section>
+
+<section>
+  <h2 id="creating-repositories">Creating Repositories</h2>
+
+  <ul>
+    <li>create a local repository</li>
+    <li>configure it to use your name and email (for tracking purposes)</li>
+    <li>create a remote repository</li>
+    <li><em>link</em> the two</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="making-saving-and-sharing-changes">Making, Saving, and Sharing Changes</h2>
+
+  <ul>
+    <li>make changes</li>
+    <li>put them aside so they can staged for saving / committing</li>
+    <li>save / commit</li>
+    <li>send changes from local repository to remote repository</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="ok--great">Ok.  Great!</h2>
+
+  <p><strong>Remind me again, what&#39;s github?</strong> &#8594;</p>
+
+  <ul>
+    <li><strong>github is a website</strong></li>
+    <li>it can serve as a <strong>remote git repository</strong>
+      <ul>
+        <li>that means it can store all versions of your files</li>
+        <li>(after you&#39;ve sent changes to it)</li>
+      </ul>
+    </li>
+  </ul>
+</section>
+
+<section>
+  <h1 id="we-can-now-submit-assignments-using-the-commandline">We can now submit assignments using the commandline</h1>
+
+  <h3 id="um-yay">(Um. Yay?)</h3>
+</section>
+
+<section>
+
+  <h1 id="creating-and-setting-up-repositories">Creating and Setting Up Repositories</h1>
+
+</section>
+
+<section>
+  <h2 id="commands-for-creation-and-set-up-of-repositories">Commands for Creation and Set Up of Repositories</h2>
+
+  <p>We&#39;ll be using this for most of our work&#8230;</p>
+
+  <ul>
+    <li><code>git clone REPO_URL</code></li>
+  </ul>
+
+  <p><br />
+This stuff, not so much, but you should know them too&#8230;</p>
+
+  <ul>
+    <li><code>git init</code></li>
+    <li><code>git config ...</code>
+      <ul>
+        <li><code>git config user.name  "__your user name__"</code></li>
+        <li><code>git config user.email __your@email.address__</code></li>
+      </ul>
+    </li>
+    <li><code>git remote add REMOTE_NAME REMOTE_URL</code></li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="git-clone">git clone</h2>
+
+  <p>Again, for most of our work, you&#39;ll just be cloning an existing repository (creating a local repository from a remote one).</p>
+
+  <pre><code data-trim="" contenteditable="">
+git clone REPOSITORY_URL
+</code></pre>
+
+  <p><strong>REPOSITORY_URL</strong> is usually going to be something that you copy from github.</p>
+</section>
+
+<section>
+  <h2 id="git-init">git init</h2>
+
+  <p><strong>git init</strong> - creates a new <em>local</em> repository (using the files in the existing directory)</p>
+
+  <ul>
+    <li>you can tell a repository is created by running ls -l &#8230; it creates a .git directory</li>
+    <li>again, this creates a new repository - a place to archive / save all versions of your files</li>
+  </ul>
+
+  <pre><code data-trim="" contenteditable="">
+# in the directory of your repository
+git init
+</code></pre>
+</section>
+
+<section>
+  <h2 id="git-config">git config</h2>
+
+  <p><strong>git config</strong> - configure your user name and email for your commits</p>
+
+  <ul>
+    <li>this has nothing to do with your computer&#39;s account or your account on github</li>
+    <li>this information helps track changes</li>
+  </ul>
+
+  <pre><code data-trim="" contenteditable="">
+# in the directory of your repository
+git config user.name  "foo bar baz"
+git config user.email foo@bar.baz
+</code></pre>
+</section>
+
+<section>
+  <h2 id="git-remote-add">git remote add</h2>
+
+  <p><strong>git remote add</strong> - add a remote repository so that you can synchronize changes between it and your local repository</p>
+
+  <pre><code data-trim="" contenteditable="">
+git remote add REPOSITORY_NAME REPOSITORY_URL
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="typical-workflow-for-making-changes">Typical Workflow for Making Changes</h2>
+
+  <ol>
+    <li>make changes</li>
+    <li>git status (to see what changes there are)</li>
+    <li>git add &#8211;all (to stage your changes for committing)</li>
+    <li>git status (to see your staged changes)</li>
+    <li>git commit -m &#39;my message&#39; (to save your changes)</li>
+    <li>git push origin master (optionally send/share your changes to a remote repository)</li>
+  </ol>
+
+  <p>Check out a workflow chart here: <a href="http://rogerdudler.github.io/git-guide/img/trees.png">http://rogerdudler.github.io/git-guide/img/trees.png</a></p>
+</section>
+
+<section>
+  <h2 id="git-status">git status</h2>
+
+  <p><strong>git status</strong> - show what changes are ready to be committed as well as changes that you are working on in your working directory that haven&#39;t been staged yet</p>
+
+  <pre><code data-trim="" contenteditable="">
+git status
+</code></pre>
+</section>
+
+<section>
+  <h2 id="git-add">git add</h2>
+
+  <p><strong>git add</strong> - mark a change to be staged</p>
+
+  <pre><code data-trim="" contenteditable="">
+# in the directory of your repository
+
+# add all
+git add --all 
+
+# add specific file
+git add myfile.txt
+</code></pre>
+</section>
+
+<section>
+  <h2 id="git-commit">git commit</h2>
+
+  <p><strong>git commit</strong> - take a snapshot of your work</p>
+
+  <pre><code data-trim="" contenteditable="">
+# in the directory of your repository
+# don't forget the commit message
+
+git commit -m 'commit message goes here'
+</code></pre>
+</section>
+
+<section>
+  <h2 id="git-log">git log</h2>
+
+  <p><strong>git log</strong> - show commit history of your repository or file</p>
+
+  <pre><code data-trim="" contenteditable="">
+# in the directory of your repository
+
+git log
+
+#you can also colorize the output:
+
+git log --color
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="git-diff">git diff</h2>
+
+  <p><strong>git diff</strong> - show the line-by-line differences between your last commit and your working directory</p>
+
+  <pre><code data-trim="" contenteditable="">
+# in the directory of your repository
+# use --color for syntax highlighting
+
+git diff --color
+
+</code></pre>
+</section>
+
+<section>
+  <h2 id="git-reset">git reset</h2>
+
+  <p><strong>git reset</strong> - revert last commit&#8230; or unstage changes</p>
+
+  <pre><code data-trim="" contenteditable="">
+# unstage changes
+git reset filename.txt
+
+# revert last commit
+git reset HEAD^
+
+</code></pre>
+</section>
+
+<section>
+  <h2 id="git-push">git push</h2>
+
+  <p><strong>git push</strong> - send your code to a remote repository</p>
+
+  <pre><code data-trim="" contenteditable="">
+git push
+
+# or to specify... push master branch to remote 
+# repository called origin
+git push origin master
+</code></pre>
+</section>
+
+<section>
+  <h1 id="ok-how-about-getting-all-of-this-set-up-for-our-assignment">OK&#8230; how about getting all of this set up for our assignment?</h1>
+
+</section>
+
+<section>
+  <h2 id="regarding-submission">Regarding Submission</h2>
+
+  <p>Again, I will clone all of the repositories at the homework&#39;s deadline. <strong>That means&#8230;</strong> &#8594;</p>
+
+  <ul>
+    <li>any commits made after the deadline&#8230;</li>
+    <li>won&#39;t be seen by the graders</li>
+  </ul>
+
+</section>
+<section>
+  <h2 id="details-again">Details Again&#8230;</h2>
+
+  <p>(they may not have made sense at the beginning of class&#8230; but maybe now?)</p>
+
+  <ul>
+    <li>if git clone doesn&#39;t work, use init workflow</li>
+    <li>name the files and function exactly as specified</li>
+    <li>commandline arguments: <code>process.argv[2]</code></li>
+  </ul>
+
+</section>
+
+:ET

@@ -1,0 +1,17 @@
+I"‚<h2 id="composition-and-inheritance-in-javascript">Composition and Inheritance in JavaScript</h2>
+
+<ul>
+  <li>composition</li>
+  <li>inheritance
+    <ul>
+      <li>calling another object&#39;s constructor</li>
+      <li>setting a prototype</li>
+      <li>calling your prototype&#39;s method&#39;s</li>
+    </ul>
+  </li>
+</ul>
+
+<pre><code data-trim="" contenteditable="">
+
+</code></pre>
+:ET

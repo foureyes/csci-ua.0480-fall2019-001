@@ -1,0 +1,253 @@
+I"#<section class="intro-slide">
+  <h1 id="objects-revisited-prototypes">Objects Revisited, Prototypes</h1>
+
+  <h3 id="csci-ua0480-001">CSCI-UA.0480-001</h3>
+
+  <p><small></small></p>
+</section>
+
+<section>
+  <h2 id="object-oriented-programming">Object-Oriented Programming</h2>
+
+  <p><strong>Describe the following object oriented programming concepts</strong>: &#8594;</p>
+
+  <ul>
+    <li><strong>inheritance</strong> <span class="fragment">- basing a class off of another class so that it maintains the same behavior as its super class</span></li>
+    <li><strong>polymorphism</strong> <span class="fragment">- having the same interface to instances of different types</span></li>
+    <li><strong>encapsulation</strong> <span class="fragment">- information hiding, internals/implementation details not accessible publicly</span></li>
+    <li><strong>abstraction</strong>  <span class="fragment">- (again) creating tools / interfaces that allow a programmer to address the actual problem they&#39;re solving rather than having to deal with necessary, but irrelevant (to the problem) details</span></li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="object-oriented-programming-in-java">Object-Oriented Programming in Java</h2>
+
+  <p>In Java, <strong>what language features / constructs allow inheritance, polymorphism, encapsulation, and abstraction?</strong> &#8594;</p>
+
+  <ul class="fragment">
+    <li><strong>inheritance</strong> - subclassing&#8230; using extend</li>
+    <li><strong>polymorphism</strong> - instances of different classes that are subclasses of the same superclass</li>
+    <li><strong>encapsulation</strong> - private methods and private members variables</li>
+    <li><strong>abstraction</strong> - creating classes, interfaces, abstract classes, and methods</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="object-oriented-programming-in-javascript"><em>Object-Oriented Programming</em> in JavaScript</h2>
+
+  <p>Although JavaScript <em>has</em> objects, its approach to <em>object-oriented programming</em> is a bit unconventional.</p>
+
+  <ul>
+    <li>it still supports <strong>encapsulation</strong>, <strong>inheritance</strong>, <strong>polymorphism</strong>, and <strong>abstraction</strong></li>
+    <li>&#8230; but it does so <strong>differently</strong> than Java (and other languages that support <em>classical object-oriented</em> techniques) &#8594;</li>
+  </ul>
+
+  <p><br /></p>
+
+  <ul class="fragment">
+    <li>inheritance - prototypes and/or functions</li>
+    <li>polymorphism - <em>duck typing</em></li>
+    <li>encapsulation - closures</li>
+    <li>abstraction - higher order functions, prototypes, etc.</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="an-aside-on-duck-typing">An Aside on Duck Typing</h2>
+
+  <h3 id="if-it-looks-like-a-duck-and-it-quacks-like-a-duck-its-a-duck"><em>If it looks like a duck and it quacks like a duck&#8230; it&#39;s a duck</em></h3>
+
+  <ul>
+    <li>when an object&#39;s methods and properties determine valid semantics</li>
+    <li>&#8230; rather than its class or the class that it inherits from</li>
+  </ul>
+
+  <div class="img">
+    <p><img src="../../resources/img/duck.jpg" alt="duck" /></p>
+  </div>
+
+</section>
+
+<section>
+  <h1 id="lets-dive-into-objects">Let&#39;s dive into objects</h1>
+
+  <h3 id="ouch">(ouch)</h3>
+</section>
+
+<section>
+  <h2 id="globals">Globals</h2>
+
+  <p>First off, in both Node and browser-based JavaScript implementations a <strong>global object</strong> exists:</p>
+
+  <ul>
+    <li><code>global</code> for node</li>
+    <li><code>window</code> for browsers</li>
+  </ul>
+
+  <p><br />
+<strong>Let&#39;s see what this looks like by</strong>: &#8594;</p>
+
+  <ul>
+    <li>checking out global in the interactive shell</li>
+    <li>inadvertently creating a global variable within a function definition (dropping <code class="highlighter-rouge">var</code>, <code class="highlighter-rouge">let</code> and <code class="highlighter-rouge">const</code>)</li>
+  </ul>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+console.log(global)
+function oopsGlobal() {
+	mistake = "yup";
+}
+oopsGlobal();
+console.log(mistake);
+console.log(global.mistake);
+</code></pre>
+</section>
+
+<section>
+  <h2 id="methods">Methods</h2>
+
+  <p><strong>Methods</strong> are object properties that are functions (a function within the context of an object).</p>
+
+  <pre><code data-trim="" contenteditable="">
+const cat = {};
+cat.speak = function() {
+	console.log("meow"); 
+};
+cat.speak();
+</code></pre>
+
+  <p>Notice that you can attach methods to any arbitrary object instance! (???)</p>
+</section>
+
+<section>
+  <h2 id="this">This</h2>
+
+  <p>&quot;When a function is called as a method—looked up as a property and immediately called, as in object.method()—the special variable <strong><code>this</code></strong> in its body will point to the object that it was called on&quot;. <strong>What will be printed out in the code below?.</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+function speak() {
+	if(this.nationality == "Japanese") {
+		console.log("nyan");
+	} else if (this.nationality == "American") {
+		console.log("meow");
+	} else {
+		console.log("default cat noise");
+	}
+}
+</code></pre>
+  <pre><code data-trim="" contenteditable="">
+const japaneseCat = {nationality:"Japanese", speak:speak};
+const americanCat = {nationality:"American", speak:speak};
+</code></pre>
+  <pre><code data-trim="" contenteditable="">
+japaneseCat.speak();
+americanCat.speak();
+</code></pre>
+  <pre class="fragment"><code data-trim="" contenteditable="">
+nyan
+meow
+</code></pre>
+</section>
+<section data-background="#440000">
+  <h2 id="in-methods-this-refers-to-the-object-that-the-method-was-called-on">In methods, <code>this</code> refers to the object that the method was called on</h2>
+
+</section>
+
+<section>
+  <h2 id="hm-what-if-a-function-isnt-attached-to-an-object">Hm. What if a Function isn&#39;t Attached to an Object?</h2>
+
+  <p>A standalone function&#39;s <strong><code>this</code></strong> refers to the global object. <strong>What will the following code print out?</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+global.outside = 5;
+const f = function() {
+	console.log(this.outside);
+}
+f();
+</code></pre>
+  <pre class="fragment"><code data-trim="" contenteditable="">
+5
+
+// this is the global object!
+</code></pre>
+</section>
+
+<section>
+  <h2 id="standalone-functions-and-this">Standalone Functions and This</h2>
+
+  <p><strong>Aaaand&#8230; what&#39;s the output of our speak function from the previous slide if we call it on its on (not within the context of an object)?</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+function speak() {
+	if(this.nationality == "Japanese") {
+		console.log("nyan");
+	} else if (this.nationality == "American") {
+		console.log("meow");
+	} else {
+		console.log("default cat noise");
+	}
+}
+speak();
+</code></pre>
+  <pre class="fragment"><code data-trim="" contenteditable="">
+default cat noise
+</code></pre>
+
+  <ul class="fragment">
+    <li>if we <code>console.log(this.nationality)</code> &#8230;  we&#39;ll see it&#39;s <code>undefined</code></li>
+    <li>nationality was not yet defined on the global object, so we get <code>undefined</code></li>
+  </ul>
+</section>
+<section>
+  <h2 id="oh-also">Oh. Also&#8230;</h2>
+
+  <p><a href="http://www.eleceng.adelaide.edu.au/personal/dabbott/animal.html">How to say meow in different languages</a></p>
+
+</section>
+
+<section data-background="#440000">
+  <h2 id="in-standalone-functions-this-refers-to-the-global-object">In standalone functions, <code>this</code> refers to the global object</h2>
+</section>
+
+<section>
+  <h2 id="a-magic-trick">A Magic Trick</h2>
+
+  <p><strong>Let&#39;s try running this code&#8230;</strong> &#8594;</p>
+
+  <ul>
+    <li>have we defined any properties on the object called <code>empty</code>?</li>
+    <li>will this produce output or give us an error?</li>
+  </ul>
+
+  <pre><code data-trim="" contenteditable="">
+const empty = {}; 
+console.log(empty.toString);
+console.log(empty.toString());
+</code></pre>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+[Function: toString]
+[object Object]
+</code></pre>
+
+  <div class="img fragment">
+    <p>Magic!<br />
+<img src="../../resources/img/magic.gif" alt="magic" /></p>
+  </div>
+</section>
+
+<section>
+  <h2 id="inherited-properties">Inherited Properties</h2>
+
+  <p><strong>If we started off with an empty object in the previous slide, where did the toString method come from?</strong></p>
+
+  <ul class="fragment">
+    <li>&quot;in addition to their set of properties, almost all objects also have a <strong>prototype</strong>&quot;</li>
+    <li>&quot;a <strong>prototype</strong> is another object that is used as a fallback source of properties&quot;</li>
+    <li>&quot;when an object gets a request for a property that it does not have&#8230;&quot;</li>
+    <li>&quot;its prototype will be searched for the property, then the prototype’s prototype, and so on&quot;</li>
+  </ul>
+
+</section>
+:ET

@@ -1,0 +1,830 @@
+I"�{<section class="intro-slide">
+  <h1 id="values-types-and-operators">Values, Types, and Operators</h1>
+
+  <h3 id="csci-ua0480-001">CSCI-UA.0480-001</h3>
+
+  <p><small> 
+</small></p>
+</section>
+
+<section>
+  <h2 id="some-definitions">Some Definitions</h2>
+
+  <ul>
+    <li><strong>value</strong> <span class="fragment"> - data</span></li>
+    <li><strong>type</strong> <span class="fragment"> - a category or classification of values</span></li>
+    <li><strong>operator</strong> <span class="fragment"> - a language construct that allows the manipulation or combination of a value or values to yield another value</span></li>
+    <li><strong>operand</strong> <span class="fragment"> - a value that an operator works on; the subject of an operator</span></li>
+    <li><strong>unary operator</strong> <span class="fragment"> - an operator that only has one operand</span></li>
+    <li><strong>binary operator</strong> <span class="fragment"> - an operator that has two operands</span></li>
+    <li><strong>prefix operator</strong> <span class="fragment"> - an operator that goes before (to the left) of its operand(s)</span></li>
+    <li><strong>infix operator</strong> <span class="fragment"> - an operator that goes between its operands</span></li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="lets-start-off-with-comments">Let&#39;s Start off with Comments</h2>
+
+  <p><strong>Yup</strong> Similar to comments in C or Java&#8230;</p>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+// a comment
+
+/*
+a multiline
+comment
+*/
+</code></pre>
+</section>
+
+<section>
+  <h2 id="values">Values</h2>
+
+  <ul>
+    <li><strong>What&#39;s a value?</strong> &#8594;
+      <ul class="fragment">
+        <li><strong>values</strong> are just data</li>
+        <li>they&#39;re <em>pieces of information</em>.</li>
+      </ul>
+    </li>
+    <li class="fragment">Some examples of <strong>literal values</strong> in JavaScript:</li>
+  </ul>
+  <pre class="fragment"><code data-trim="" contenteditable="">
+317.0
+"oh, hello"
+true
+{'name': 'Joe'}
+function() {console.log("in here!")};
+undefined
+</code></pre>
+</section>
+
+<section>
+  <h2 id="types-of-values">Types of Values</h2>
+
+  <p><strong>Based on the values in the previous slides, guess what types JavaScript supports?</strong> &#8594;</p>
+
+  <ol class="fragment">
+    <li>number</li>
+    <li>string</li>
+    <li>boolean</li>
+    <li>object</li>
+    <li>function</li>
+    <li>undefined</li>
+  </ol>
+
+  <p class="fragment"><br />
+Actually&#8230; these are the types that the <code>typeof</code> operator returns&#8230; <strong>the specs specify something different</strong> (we&#39;ll see in a minute)</p>
+</section>
+
+<section>
+  <h2 id="typeof">typeof</h2>
+
+  <p>Before we delve into these data types, let&#39;s check out a <strong>unary</strong>, <strong>prefix</strong> <strong>operator</strong>:</p>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+typeof
+</code></pre>
+
+  <p class="fragment">As you might expect, <code>typeof</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/typeof">returns a string that represents the operand&#39;s type</a>:</p>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+&gt; typeof 317.0
+'number'
+</code></pre>
+
+  <p class="fragment">We&#39;ll be using <code>typeof</code> extensively for the next few slides&#8230;.</p>
+</section>
+
+<section>
+  <h2 id="btw-types-according-to-the-specification">BTW&#8230; Types According to the Specification</h2>
+
+  <p><a href="http://www.ecma-international.org/ecma-262/5.1/#sec-8">The ECMAScript 5 specifications list 6 types, but they&#39;re not the ones that typeof returns</a> (of course!)</p>
+
+  <ul>
+    <li><code>Undefined</code></li>
+    <li><code>Null</code></li>
+    <li><code>Boolean</code></li>
+    <li><code>String</code></li>
+    <li><code>Number</code></li>
+    <li><code>Object</code></li>
+  </ul>
+
+  <p><br />
+Wait&#8230; what? Then what&#39;s <code>typeof</code> doing?</p>
+
+</section>
+
+<section>
+  <h2 id="what-does-typeof-do">What Does <code class="highlighter-rouge">typeof</code> Do?</h2>
+
+  <p>Weelllll&#8230;. it behaves <a href="http://www.ecma-international.org/ecma-262/5.1/#sec-11.4.3">exactly according to what&#39;s specified</a>:</p>
+
+  <ul>
+    <li><code>typeof undefined  &rarr; "undefined"</code></li>
+    <li><code>typeof null  &rarr; "object"</code> ???</li>
+    <li><code>typeof false  &rarr; "boolean"</code></li>
+    <li><code>typeof 5  &rarr; "number"</code></li>
+    <li><code>typeof 'foo'  &rarr; "string"</code></li>
+    <li><code>typeof console.log  &rarr; "function"</code></li>
+    <li><code>typeof [1, 2, 3, 4]  &rarr; "object"</code> ???</li>
+  </ul>
+
+  <p><br />
+Seems like <code>null</code> is an object (!? &#8230; <a href="http://javascript.crockford.com/survey.html">a mistake?</a>). <code>Array</code> is also listed as a generic object. ¯\<em>(ツ)</em>/¯.</p>
+
+</section>
+
+<section>
+  <h2 id="types-really">Types Really</h2>
+
+  <h3 id="ok-seriously-stop-messing-around-tell-me-about-the-types">OK, seriously, stop messing around. TELL ME ABOUT THE TYPES!</h3>
+
+  <ul>
+    <li>Undefined - <code class="highlighter-rouge">typeof</code> returns <code class="highlighter-rouge">undefined</code></li>
+    <li>Null - <code class="highlighter-rouge">typeof</code> returns <code class="highlighter-rouge">object</code> because JavaScript is <em>terrible</em> (<a href="http://stackoverflow.com/questions/18808226/why-is-typeof-null-object">or because of backwards compatibility issues with previous versions of the language</a>)</li>
+    <li>Boolean - <code class="highlighter-rouge">typeof</code> returns <code class="highlighter-rouge">boolean</code></li>
+    <li>String - <code class="highlighter-rouge">typeof</code> returns <code class="highlighter-rouge">string</code></li>
+    <li>Number - <code class="highlighter-rouge">typeof</code> returns <code class="highlighter-rouge">number</code></li>
+    <li>Object - <code class="highlighter-rouge">typeof</code> returns <code class="highlighter-rouge">object</code></li>
+  </ul>
+
+  <p><br />
+Functions are actually just objects, but <code class="highlighter-rouge">typeof</code> gives back <code class="highlighter-rouge">function</code> when its operand is a function object.</p>
+
+</section>
+<section>
+  <h2 id="numbers">Numbers</h2>
+
+  <ul>
+    <li>unurpsingly, numbers are just <em>numbers</em>
+      <ul>
+        <li><strong>all numbers in Javascript are 64bit (8 bytes) floating point numbers</strong></li>
+        <li>JavaScript does not distinguish between ints, floats, longs, doubles, etc.</li>
+      </ul>
+    </li>
+    <li>numbers represent&#8230;
+      <ul>
+        <li>positive and negative whole numbers: 23, 42, -10</li>
+        <li>floating point numbers (with a dot): 2.3, 4.2</li>
+      </ul>
+    </li>
+    <li><strong>number literals consist of digits, an optional decimal point, and an optional exponent</strong> &#8594;</li>
+  </ul>
+  <pre><code data-trim="" contenteditable="">
+123 // an integer - just digits
+12.3 // a floating point number - decimal point
+12e3 // (12 times 10 to the 3rd) exponent
+</code></pre>
+</section>
+
+<section>
+  <h2 id="more-about-numbers">More About Numbers</h2>
+
+  <ul>
+    <li><strong>So how many values can 64 bits hold?</strong> (Um&#8230; a lot?) &#8594;</li>
+    <li class="fragment">2 to the power of 64!  About 18 with 18 0&#39;s after it. <strong>However, this doesn&#39;t exactly indicate what numbers can be stored. Why?</strong> &#8594;</li>
+    <li class="fragment">This just means that number of possible values.  This has to include negative numbers, decimals, etc&#8230;
+      <ul class="fragment">
+        <li><strong>52 bits</strong> for the value (<a href="http://www.2ality.com/2012/04/number-encoding.html">er really</a> <a href="http://www.jibbering.com/faq/#FAQ4_7">53</a>)</li>
+        <li>used to represent both integers and real numbers</li>
+        <li><strong>11 bits</strong> for the exponent (for placing the decimal point)</li>
+        <li><strong>1 bit</strong> for the sign</li>
+      </ul>
+    </li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="and-why-does-that-matter">And Why Does That Matter?</h2>
+
+  <ul>
+    <li><strong>integers</strong> are considered to be reliable up to about 15~16 digits &#8594;</li>
+  </ul>
+  <pre><code data-trim="" contenteditable="">
+&gt; Math.pow(2,53)
+&gt; 9007199254740992
+9007199254740992
+&gt; 9007199254740993
+9007199254740992
+</code></pre>
+  <ul>
+    <li>for <strong>floating point numbers</strong> (<a href="http://floating-point-gui.de/">which are <em>difficult</em> to represent!</a>)
+      <ul>
+        <li>if you need precise floating point / decimal point behavior, use a special data type, like <a href="https://github.com/dtrebbien/BigDecimal.js">BigDecimal</a>, otherwise <code>0.1 + 0.2 // ????</code>&#8594;</li>
+        <li>use rounding and number formatting if you&#39;re just concerned about display - maybe <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toPrecision">toPrecision</a></li>
+        <li>use integers!</li>
+      </ul>
+    </li>
+    <li>apparently, <a href="http://www.hunlock.com/blogs/The_Complete_Javascript_Number_Reference">floating point numbers</a> are <a href="http://stackoverflow.com/questions/1458633/elegant-workaround-for-javascript-floating-point-number-problem">tricky</a></li>
+  </ul>
+</section>
+
+<section data-background="#440000">
+  <h2 id="floating-point-operations-may-yield-unexpected-results">Floating Point Operations May Yield Unexpected Results!</h2>
+</section>
+
+<section>
+  <h2 id="operators">Operators</h2>
+
+  <ul>
+    <li>Using operators with values as operands yields values!</li>
+    <li>We&#39;ve learned one operator so far&#8230; <strong>what was it?</strong> &#8594;</li>
+    <li>We&#39;re familiar with some numeric operators (just because we&#39;ve seen them in other languages, and - <em>you know</em>, math) &#8230; <strong>what are they?</strong> &#8594;</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="numeric-operators">Numeric Operators</h2>
+
+  <p>A quick list of <strong>binary</strong>, <strong>infix</strong> arithmetic operators (they take two operands, one on each side of the operator):</p>
+
+  <ul>
+    <li><strong>+</strong> - addition</li>
+    <li><strong>-</strong> - subtraction</li>
+    <li><strong>*</strong> - multiplication</li>
+    <li><strong>/</strong> - division</li>
+    <li><strong>%</strong> - modulo (<strong>what does this do?</strong>)</li>
+    <li class="fragment">(remainder) &#8594;</li>
+    <li class="fragment"><strong>check out these operations in the node REPL</strong> &#8594;</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="numeric-operators-precedence">Numeric Operators, Precedence</h2>
+
+  <p><strong>What order would I evaluate this in?  What is the resulting value?</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+4 + 1 * 5
+</code></pre>
+
+  <ul class="fragment">
+    <li>remember <em>PEMDAS</em>? (modulo is the same precedence as multiplication)</li>
+    <li>multiplication first</li>
+    <li>then addition</li>
+    <li>result is 9</li>
+    <li>you can find more about <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence#Table">operator precedence here</a></li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="use-parentheses-liberally">Use Parentheses Liberally</h2>
+
+  <ul>
+    <li>parentheses allow grouping</li>
+    <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Grouping">grouping operation</a> has highest precedence (always goes first)</li>
+  </ul>
+
+  <pre><code data-trim="" contenteditable="">
+// force addition first
+(4 + 1) * 5
+</code></pre>
+</section>
+
+<section>
+  <h2 id="more-number-operators">More Number Operators</h2>
+
+  <p>A couple more operators - these are <strong>prefix</strong>, <strong>unary</strong> operators that yield numbers:</p>
+
+  <ul>
+    <li><strong>+</strong> - convert to positive number</li>
+    <li><strong>-</strong> - convert to negative number</li>
+    <li><strong>let&#39;s try them out</strong> &#8594;</li>
+  </ul>
+
+  <pre><code data-trim="" contenteditable="">
++12
+-12
+-"12"
++"12"
+-true
+</code></pre>
+
+  <p class="fragment">Note that they work on non-number types as well! <strong>These operators can be used to convert strings to numbers.</strong></p>
+</section>
+
+<section>
+  <h2 id="bitwise-operators">Bitwise Operators</h2>
+
+  <p><strong>What do you think the following operators do?</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+2 &amp; 3 // 10 &amp; 11
+7 ^ 3 // 111 ^ 011
+</code></pre>
+
+  <ul class="fragment">
+    <li><strong>bitwise AND</strong> - a <strong>&amp;</strong> b - returns a one in each bit position for which the corresponding bits of both operands are ones</li>
+    <li><strong>bitwise OR</strong> - a <strong>|</strong> b - returns a one in each bit position for which the corresponding bits of either or both operands are ones</li>
+    <li><strong>bitwise XOR</strong> - a <strong>^</strong> b returns a one in each bit position for which the corresponding bits of either but not both operands are ones</li>
+    <li><strong>bitwise NOT</strong> - <strong>~</strong> a - inverts the bits of its operand</li>
+  </ul>
+
+  <p class="fragment"><br />Note&#8230; bitwise operators work in 32 bits (even though numbers are stored in 64)</p>
+
+  <p class="fragment"><strong>let&#39;s try these</strong> &#8594;</p>
+</section>
+
+<section>
+  <h2 id="more-bitwise-operators">More Bitwise Operators</h2>
+
+  <p><strong>What do you think the following operators do?</strong> &#8594;</p>
+  <pre><code data-trim="" contenteditable="">
+2 &lt;&lt; 3 // 10 &lt;&lt; 11
+</code></pre>
+
+  <ul class="fragment">
+    <li><strong>left shift</strong> - a <strong>&lt;&lt;</strong> b - shifts a in binary representation b (&lt; 32) bits to the left, shifting in zeros from the right.</li>
+    <li><strong>sign-propagating right shift</strong> - a <strong>&gt;&gt;</strong> b - shifts a in binary representation b (&lt; 32) bits to the right, discarding bits shifted off.</li>
+    <li><strong>zero-fill right shift</strong> a <strong>&gt;&gt;&gt;</strong> b - shifts a in binary representation b (&lt; 32) bits to the right, discarding bits shifted off, and shifting in zeros from the left.</li>
+  </ul>
+</section>
+
+<section data-background="#440000">
+  <h2 id="bitwise-operators-treat-their-operands-as-a-sequence-of-32-bits">Bitwise operators treat their operands as a sequence of 32 bits!</h2>
+
+</section>
+
+<section>
+  <h2 id="lets-try-a-few">Let&#39;s Try a Few</h2>
+
+  <p><strong>What are the results of the following expressions?</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+8 | 2 // 1000 | 0010
+8 &gt;&gt; 2 // 1000 &gt;&gt; 0010
+
+</code></pre>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+10
+2
+</code></pre>
+
+  <p class="fragment">(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Bitwise_Operators">More details on MDN</a>)</p>
+
+</section>
+
+<section>
+  <h2 id="some-special-numbers">Some Special Numbers&#8230;</h2>
+
+  <p><strong>Try the following operations&#8230;</strong> &#8594;</p>
+  <pre><code data-trim="" contenteditable="">
+0/0
+9e300 * 25874481
+</code></pre>
+
+  <ul>
+    <li class="fragment">JavaScript has some special number values:
+      <ul class="fragment">
+        <li><strong>NaN</strong> (<em>Not a Number</em>) - this results from any numeric operation that doesn&#39;t give back a meaningful result&#8230;</li>
+        <li><strong>Infinity, -Infintity</strong> - positive and negative infinities</li>
+      </ul>
+    </li>
+    <li class="fragment">Note that these special values are <em>actually</em> numbers! (really!)</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="about-nan-and-infinity">About NaN and Infinity</h2>
+
+  <p><strong>Both Nan and Positive/Negative Infinity are of type number!</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+typeof NaN      // --&gt; number (what??? ok)
+typeof Infinity // --&gt; number
+</code></pre>
+
+  <ul>
+    <li><strong>NaN</strong> stands for <em>not a number</em>
+      <ul>
+        <li><code>NaN</code> is <em>toxic</em></li>
+        <li>using it in any other numeric operations <strong>always results in NaN</strong> &#8594;</li>
+        <li><code>NaN + 1</code> &#8594;</li>
+      </ul>
+    </li>
+    <li><strong>Infinity, -Infinity</strong>
+      <ul>
+        <li><strong>Infinity</strong> <code> + 1</code> or <strong>Infinity</strong> <code>+</code> <strong>Infinity</strong>&#8594; is still <code>Infinity</code></li>
+        <li><code>Infinity</code> represents all values greater than 1.79769313486231570e+308</li>
+      </ul>
+    </li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="strings">Strings</h2>
+
+  <p>A <strong>string</strong> is an ordered sequence of <a href="http://unicodesnowmanforyou.com/">Unicode</a> characters (<strong>what&#39;s Unicode?</strong> &#8594;).  You can tell that a value is a string if it is surrounded by single or double quotes:</p>
+
+  <pre><code data-trim="" contenteditable="">
+'I am a string'
+"I'm a string too!"
+</code></pre>
+
+</section>
+
+<section data-background="#440000">
+  <h2 id="quoted-text-is-a-string">Quoted text is a string!</h2>
+</section>
+
+<section>
+  <h2 id="strings-continued">Strings Continued</h2>
+
+  <p>A <strong>string</strong> can be composed of <em>any</em> characters: numbers, letters, punctuation, spaces, etc.</p>
+
+  <p>The following is a string with nothing in it&#8230; or an <em>empty string</em>:</p>
+
+  <pre><code data-trim="" contenteditable="">
+""
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="escape-characters">Escape Characters</h2>
+
+  <p><strong>If there is a backslash in a string (\), that means:</strong></p>
+
+  <ul>
+    <li>the next character has a special meaning</li>
+    <li>the initial backslash will not be printed out</li>
+  </ul>
+
+  <p><br />
+For example, <strong>\n</strong> is a newline and <strong>\t</strong> is a tab</p>
+  <pre><code data-trim="" contenteditable="">
+"\n"
+"\t" 
+</code></pre>
+
+  <p><strong>How would we put a double quote in a double quoted string?</strong> &#8594;</p>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+"\""
+</code></pre>
+
+  <p class="fragment"><strong>And what about an <em>actual</em> backslash?</strong> &#8594;</p>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+"\\"
+</code></pre>
+</section>
+
+<section>
+  <h2 id="string-operators">String Operators</h2>
+
+  <p><strong>string concatenation</strong>, or <strong>+</strong>, is an operator that takes two strings and joins them:</p>
+
+  <pre><code data-trim="" contenteditable="">
+"hello " + "there"
+</code></pre>
+</section>
+
+<section>
+  <h2 id="booleans">Booleans</h2>
+
+  <p>A <strong>boolean</strong> is a data type that has two possible values: <code>true</code> or <code>false</code>.</p>
+
+  <p>As one would expect, the literals for these values are (all lowercase):</p>
+
+  <pre><code data-trim="" contenteditable="">
+true
+false
+</code></pre>
+</section>
+
+<section>
+  <h2 id="inherent-truthiness">Inherent Truthiness</h2>
+
+  <p><strong>When non-boolean types are converted to booleans, the followings rules are used</strong> &#8594;</p>
+
+  <ul>
+    <li><code>0</code>, <code>NaN</code>, empty string (<code>""</code>), and <code>undefined/null</code> are false</li>
+    <li>other values are true-ish</li>
+  </ul>
+
+  <p><br /></p>
+
+  <p><strong>Let&#39;s test this out&#8230;</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+// outputs "in here"
+if("this string says false, but...!?") {
+	console.log("in here!");
+}
+
+// no output
+var myString = "";
+
+if(myString) {
+	console.log("you shouldn't see me!");
+}
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="logical-operators">Logical Operators</h2>
+
+  <p><strong>Boolean</strong> values can be combined and manipulated using logical operators.  <strong>What are some logical operators, and what do they do?</strong> &#8594;</p>
+
+  <ul>
+    <li class="fragment"><strong>and</strong> - <strong>&amp;&amp;</strong> - returns true if and only if both operands are true, otherwise, returns false</li>
+    <li class="fragment"><strong>or</strong> - <strong>||</strong> - returns false if and only if both operands are false, otherwise, returns true</li>
+    <li class="fragment"><strong>not</strong> - <strong>!</strong> - returns the opposite boolean value of its single operand to the right</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="logical-operators-continued-precedence">Logical Operators Continued, Precedence</h2>
+
+  <p><strong>What do the following boolean expressions return?</strong></p>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+false &amp;&amp; true
+false || true
+false || !true
+</code></pre>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+false
+true
+false
+</code></pre>
+
+  <p class="fragment"><br /> The operator precedence for logical operators is <strong>not</strong>, <strong>and</strong>, and <strong>or</strong>.</p>
+
+</section>
+
+<section>
+  <h2 id="and-and-or-with-non-boolean-values">And and Or With Non Boolean Values</h2>
+
+  <p>Some details about <code>&amp;&amp;</code> and <code>||</code>:</p>
+
+  <ul>
+    <li>if operands are not actually boolean, convert the value on the left side to a boolean
+      <ul>
+        <li><code>||</code>
+          <ul>
+            <li>will return the <strong>left operand</strong>&#39;s value if it&#39;s <strong>true</strong></li>
+            <li>otherwise, return the value on the right</li>
+            <li>can be used as a way to fall back to a default value <code>potentially_falsey || default_value</code></li>
+          </ul>
+        </li>
+        <li><code>&amp;&amp;</code>
+          <ul>
+            <li>will return the <strong>left operand</strong>&#39;s value if it&#39;s <strong>false</strong></li>
+            <li>otherwise, return the value on the right</li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li>also&#8230; <strong>short-circuit</strong> evaluation applies</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="and-and-or-continued">And and Or Continued</h2>
+
+  <p>Based on the previous slide, <strong>what are the values produced by the following expressions?</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+5 - 5 || 2
+5 - 5 &amp;&amp; 2
+"hello" || "goodbye"
+"hello" &amp;&amp;  "goodbye"
+</code></pre>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+2
+0
+hello
+goodbye
+</code></pre>
+
+  <p class="fragment">This actually comes in handy for checking if a property exists on an object, and defaulting to a specific value if it doesn&#39;t:</p>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+// we haven't seen objects yet, but you get the idea
+var obj = {prop1: "a value"}; 
+obj.prop1 || "default value"
+obj.prop2 || "default value"
+</code></pre>
+</section>
+
+<section>
+  <h2 id="ternary-operator">Ternary Operator</h2>
+
+  <p><strong>What will this code return?</strong></p>
+
+  <pre><code data-trim="" contenteditable="">
+true ? "ok" : "not ok!"
+</code></pre>
+
+  <ul>
+    <li class="fragment">&quot;ok&quot;</li>
+    <li class="fragment">format is <code>test</code> (boolean expression) <strong>?</strong> <code>value</code> to return if true <strong>:</strong> <code>value</code> to return if false</li>
+  </ul>
+
+</section>
+<section>
+  <h2 id="comparison-operators">Comparison Operators</h2>
+
+  <p><strong>Booleans</strong> can be produced from comparison operators. Without knowing anything about JavaScript, <strong>what do you think are some available comparison operators?</strong> &#8594;</p>
+
+  <ul>
+    <li class="fragment"><strong>&lt;</strong>, <strong>&gt;</strong>, <strong>&lt;=</strong>, <strong>&gt;=</strong> - greater than, less than, etc.</li>
+    <li class="fragment"><strong>===</strong> - equals, checks both type and value</li>
+    <li class="fragment"><strong>!==</strong> - not equals, checks both type and value</li>
+    <li class="fragment"><strong>==</strong> - equals, coerces operands to appropriate types</li>
+    <li class="fragment"><strong>!=</strong> - not equals, coerces operands</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="comparison-operators-continued">Comparison Operators Continued</h2>
+
+  <p><strong>Comparison Operators</strong> are <strong>binary</strong> , <strong>infix</strong> operators that can be used to compare two operands:</p>
+
+  <ul>
+    <li><strong>numbers</strong> are obvious: <code>5 &gt; 2</code> &#8594;</li>
+    <li><strong>strings</strong> are compared from left to right (by character code): <code>"aardvark" &gt; "bison"</code> (more or less, <em>alphabetic</em>) &#8594;</li>
+    <li><strong>NaN</strong> is the only value not equal to itself &#8594;</li>
+    <li><strong>You&#39;ll probably always want to use ===</strong> &#8594;</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="undefined-and-null"><code class="highlighter-rouge">undefined</code> and <code class="highlighter-rouge">null</code></h2>
+
+  <p>See the <a href="http://speakingjs.com/es5/ch08.html#undefined_null">section on undefined and null in our book</a></p>
+
+  <ul>
+    <li><strong>undefined</strong> means no value
+      <ul>
+        <li>think of a function that doesn&#39;t return a value</li>
+        <li>or the value of a declared variable that hasn&#39;t been given a value yet</li>
+        <li>or a missing argument to a function</li>
+      </ul>
+    </li>
+    <li><strong>null</strong> means &quot;no object&quot;&#8230; it&#39;s a value that can be assigned to a variable to represent &quot;no object&quot;  &#8594;</li>
+    <li>the subtle differences between <code class="highlighter-rouge">undefined</code> and <code class="highlighter-rouge">null</code> are an accident of language design!
+      <ul>
+        <li>you&#39;ll typically find <code class="highlighter-rouge">undefined</code> when something wasn&#39;t initialized</li>
+        <li>you&#39;ll find <code class="highlighter-rouge">null</code> if an object is explicitly set to <code class="highlighter-rouge">null</code></li>
+      </ul>
+    </li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="type-coercion">Type Coercion</h2>
+
+  <p><strong>What values would you expect from the following lines of code?</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+5 + 5
+"5" + 5
+"five" + 5
+5 == "5"
+5 === "5"
+5 * undefined
+5 * null
+</code></pre>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+10
+'55'
+'five5'
+true
+false
+NaN
+0
+</code></pre>
+</section>
+
+<section>
+  <h2 id="type-coercion-continued">Type Coercion Continued</h2>
+
+  <ul>
+    <li><strong>JavaScript</strong> is a <strong>dynamic</strong> and <strong>weakly</strong> typed language.</li>
+    <li>It often goes out of its way to make sure that operators and functions work, regardless of what types are given as operands or arguments.</li>
+    <li>It will try to <strong>coerce</strong> types into other types to make operators and functions <em>work</em>.</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="type-coercion-with-numeric-operators">Type Coercion With Numeric Operators</h2>
+
+  <ul>
+    <li>for <strong>addition</strong>:
+      <ul>
+        <li>when one operand is a string and the other is not, the other operand is converted into a string, and the two strings are concatenated</li>
+        <li>for all other cases, the operands are converted to numbers
+          <ul>
+            <li>true &#8594; 1</li>
+            <li>false &#8594; 0</li>
+            <li>null &#8594; 0</li>
+            <li>undefined is still undefined, and result gives back <strong>NaN</strong></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li>for other numeric operators, such as <strong>subtraction</strong>:
+      <ul>
+        <li>will usually try to convert to number</li>
+        <li>if something <em>cannot be converted easily</em> (like the string, &quot;hello&quot;), the result is <code>NaN</code></li>
+      </ul>
+    </li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="type-coercion-with-equality-operators">Type Coercion With Equality Operators</h2>
+
+  <ul>
+    <li>JavaScript will do its best to convert types so that they can be checked for equality - <strong>these all return true</strong> &#8594;
+      <ul>
+        <li><code>"10" == 10</code></li>
+        <li><code>0 == false</code></li>
+        <li><code>"" == false</code></li>
+      </ul>
+    </li>
+    <li>this is Usually an unwanted behavior; <strong>to avoid this, use: === and !==</strong>
+      <ul>
+        <li>these operators check <strong>type</strong> and <strong>value</strong></li>
+        <li>use these three-character comparison operators to prevent unexpected type conversions</li>
+      </ul>
+    </li>
+  </ul>
+</section>
+
+<section data-background="#440000">
+  <h2 id="use--instead-of-">Use === Instead of ==</h2>
+
+  <h3 id="mostly">(mostly)</h3>
+</section>
+
+<section>
+  <h2 id="order-of-operations">Order of Operations</h2>
+
+  <p>All of those operators! What goes first again!?  (<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence#Table">Check out operators precedence here.</a>)</p>
+
+  <p>A quick summary:</p>
+
+  <ul>
+    <li><strong>parentheses</strong></li>
+    <li><strong>unary operators</strong> like logical NOT, typeof and negative</li>
+    <li>the rest of l<strong>PEMDAS</strong> (number, string operators) - left to right if same precedence</li>
+    <li><strong>bitwise shift</strong> operators</li>
+    <li><strong>comparison operators</strong> - left to right</li>
+    <li><strong>equality operators</strong> - left to right</li>
+    <li><strong>remaining logical operators</strong> - and, or - left to right</li>
+    <li><strong>other bitwise operators</strong> - bitwise and, bitwise or - left to right</li>
+  </ul>
+
+  <p><br /></p>
+</section>
+
+<section>
+  <h2 id="and-a-quick-review-on-types">And&#8230; a Quick Review on Types</h2>
+
+  <p><strong>Name 6 types (as given by typeof) that we know in JavaScript and a literal example of each.</strong> &#8594;</p>
+
+  <ul class="fragment">
+    <li>number - <code>317</code></li>
+    <li>string - <code>"yup, a string"</code></li>
+    <li>boolean - <code>true</code></li>
+    <li>function - <code>function f(x) {return x * 2}</code></li>
+    <li>object - <code>{'classSection': '002'}</code></li>
+    <li>undefined - <code>undefined</code> (of course!)</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="lastly-a-quick-review-on-operators">Lastly, a Quick Review on Operators</h2>
+
+  <p>We talked about a bunch of operators. The following are categories of operators, <strong>give examples of each</strong> &#8594;.</p>
+
+  <ul>
+    <li><strong>arithmetic</strong>: <code class="fragment">+&nbsp;&nbsp;-&nbsp;&nbsp;*&nbsp;&nbsp;/&nbsp;&nbsp;%</code> <!--* --></li>
+    <li><strong>bitwise</strong>: <code class="fragment">&amp;&nbsp;&nbsp;|&nbsp;&nbsp;^&nbsp;&nbsp; ~&nbsp;&nbsp; &lt;&nbsp;&nbsp;&gt;&nbsp;&nbsp;&gt;&gt;</code></li>
+    <li><strong>logical operators</strong>: <code class="fragment">&amp;&amp;&nbsp;&nbsp;||&nbsp;&nbsp;!</code></li>
+    <li><strong>comparison operators</strong>: <code class="fragment">==&nbsp;&nbsp;!=&nbsp;&nbsp;===&nbsp;&nbsp;!==&nbsp;&nbsp;&gt;&nbsp;&nbsp;&lt;&nbsp;&nbsp;&gt;=&nbsp;&nbsp;&lt;=</code></li>
+    <li><strong>miscellaneous</strong>:
+      <ul class="fragment">
+        <li>unary <code>+</code> and <code>-</code> &#8230; convert to positive or negative number</li>
+        <li><code>typeof</code> &#8230; obvs, returns string representation of type of operand</li>
+        <li>unary and postfix <code>++</code> and <code>--</code> &#8230; increment and decrement</li>
+      </ul>
+    </li>
+  </ul>
+
+</section>
+
+:ET

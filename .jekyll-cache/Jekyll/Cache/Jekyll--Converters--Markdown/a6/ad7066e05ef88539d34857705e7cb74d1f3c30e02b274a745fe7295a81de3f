@@ -1,0 +1,540 @@
+I"Þy<div class="panel panel-default">
+	<div class="panel-heading">Homework #5</div>
+	<div class="panel-body">
+
+    <h1 id="more-colors--lets-watch-some-movies-sessions-and-storing-data---wednesday-nov-1st-thursday-nov-2nd-by-11pm">More Colors / Let&#39;s Watch Some Movies! (Sessions and Storing Data) - <strike>Wednesday Nov 1st</strike> <strong>Thursday, Nov 2nd, by 11PM</strong></h1>
+
+    <h2 id="overview">Overview</h2>
+
+    <h3 id="goals">Goals</h3>
+
+    <p>There are two main parts to this assignment</p>
+
+    <ol>
+      <li>Session Management / Handling Cookies (Part 1)
+        <ul>
+          <li>build your own middleware to parse cookies</li>
+          <li>build your own middleware to create an in-memory session store</li>
+        </ul>
+      </li>
+      <li>Storing and Retrieving Data (Parts 2 - 6)
+        <ul>
+          <li>use the commandline mongodb client to create a database, collection and several documents</li>
+          <li>use mongoose to read data from mongodb</li>
+          <li>use mongoose to write data to mongodb</li>
+          <li>use pre-built session middleware  (Part 6)</li>
+        </ul>
+      </li>
+    </ol>
+
+    <h3 id="description">Description</h3>
+
+    <p>By the end of this project&#8230; you should be familiar with:</p>
+
+    <ul>
+      <li>writing middleware</li>
+      <li>setting and reading cookies</li>
+      <li>some basic read and write operations with mongodb&#8230;</li>
+      <li>integrating mongodb with an Express web application using Mongoose (See the <a href="#examples">example interaction at the end of this page</a>).</li>
+    </ul>
+
+    <p>You&#39;ll create / modify two express apps:</p>
+
+    <ol>
+      <li>A simple demo site that has two pages (partially written for you):
+        <ul>
+          <li>a page to change the background color of the site: <code class="highlighter-rouge">/preferences</code>
+            <ul>
+              <li>has a simple form</li>
+              <li>changes made in the form are stored in the user&#39;s session</li>
+            </ul>
+          </li>
+          <li>a page showing the current data that&#39;s stored in that user&#39;s session: <code class="highlighter-rouge">/</code></li>
+        </ul>
+      </li>
+      <li>A site that has a list of movies:
+        <ul>
+          <li>the first page is a list of movies: <code>/movies</code>
+            <ul>
+              <li>displays a table of movies</li>
+              <li>has a form to filter the movies by director name</li>
+            </ul>
+          </li>
+          <li>the second page allows the user to add movies: <code>/movies/add</code></li>
+        </ul>
+      </li>
+    </ol>
+
+    <p>Just like the previous assignment, we&#39;ll have a non-standard layout for our project since it will have to separate sites. When you&#39;re done with all of the directions, the folder hierarchy should look like this:</p>
+
+    <ul>
+      <li><code class="highlighter-rouge">/</code> (project root)
+        <ul>
+          <li><code class="highlighter-rouge">package.json</code></li>
+          <li><code class="highlighter-rouge">node_modules</code></li>
+          <li><code class="highlighter-rouge">.gitignore</code></li>
+          <li><code class="highlighter-rouge">.eslintrc.js</code></li>
+          <li><code class="highlighter-rouge">/src</code>
+            <ul>
+              <li><code class="highlighter-rouge">/cookied</code> (part 1)
+                <ul>
+                  <li><code class="highlighter-rouge">app.js</code></li>
+                  <li><code class="highlighter-rouge">public</code>
+                    <ul>
+                      <li><code class="highlighter-rouge">img</code></li>
+                      <li><code class="highlighter-rouge">css</code></li>
+                    </ul>
+                  </li>
+                  <li><code class="highlighter-rouge">views</code>
+                    <ul>
+                      <li><code class="highlighter-rouge">layout.hbs</code></li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+              <li><code class="highlighter-rouge">/movies</code> (parts 2 - 5)
+                <ul>
+                  <li><code class="highlighter-rouge">app.js</code></li>
+                  <li><code class="highlighter-rouge">public</code>
+                    <ul>
+                      <li><code class="highlighter-rouge">img</code></li>
+                      <li><code class="highlighter-rouge">css</code></li>
+                    </ul>
+                  </li>
+                  <li><code class="highlighter-rouge">views</code>
+                    <ul>
+                      <li><code class="highlighter-rouge">layout.hbs</code></li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+
+    <p>`</p>
+
+    <h3 id="submission-process">Submission Process</h3>
+
+    <p>You will be given access to a private repository on GitHub.</p>
+
+    <ul>
+      <li><strong>Push</strong> your changes to the homework repository on GitHub.</li>
+    </ul>
+
+    <h3 id="points-make-at-least-4-commits">(4 points) Make at Least 4 Commits</h3>
+
+    <ul>
+      <li>Commit multiple times throughout your development process.</li>
+      <li>Make at least 4 separate commits - (for example, one option may be to make one commit per part in the homework).</li>
+    </ul>
+
+    <h2 id="part-1---session-management">Part 1 - Session Management</h2>
+
+    <p>In this part of the assignment, you&#39;ll write two middleware functions: one to parse cookies, and one to manage sessions.</p>
+
+    <p>The end goal of the program is to create session management where a session id is assigned to a client via cookies&#8230; and that session id is associated with data on the server.</p>
+
+    <p>For this program the data that is stored is the user&#39;s session id and their favorite color preference (which changes the background color of the site). <strong>The majority of the site is already written for you; you are just implementing middleware</strong>.</p>
+
+    <p>See the animation below for the site works (note that the 2nd browser is in incognito mode).</p>
+
+    <p><br /></p>
+
+    <p><img src="/csci-ua.0480-fall2017-007/resources/img/hw05-cookied-00-demo.gif" alt="demo" /></p>
+
+    <ol>
+      <li>in the root of your project, create the following files with appropriate configuration:
+        <ul>
+          <li><code class="highlighter-rouge">.eslintrc.js</code> (you can use one from our previous projects and customize it if you like)</li>
+          <li><code class="highlighter-rouge">.gitignore</code> (minimally ignore <code class="highlighter-rouge">node_modules</code>)</li>
+          <li><code class="highlighter-rouge">package.json</code> (by hand or by <code class="highlighter-rouge">npm init</code>)</li>
+        </ul>
+      </li>
+      <li>again, in the root of your project,  install the appropriate modules for:
+        <ul>
+          <li>the express framework</li>
+          <li>templating</li>
+          <li>parsing a POST body</li>
+          <li><code class="highlighter-rouge">node-uuid</code> (for generating a session id)</li>
+          <li>remember to save your dependencies in <code class="highlighter-rouge">package.json</code></li>
+        </ul>
+      </li>
+      <li>open up <code class="highlighter-rouge">src/cookied/app.js</code> and read through the code to get an idea of what it&#39;s doing:
+        <ul>
+          <li>it only has 3 routes that render 2 <em>actual</em> pages</li>
+          <li>it makes use of two middleware function (both of which don&#39;t exist yet; you&#39;ll be writing these functions!)
+            <ol>
+              <li><code class="highlighter-rouge">parseCookies</code></li>
+              <li><code class="highlighter-rouge">manageSession</code></li>
+            </ol>
+          </li>
+        </ul>
+      </li>
+      <li>write a <code class="highlighter-rouge">parseCookies</code> middleware
+        <ul>
+          <li>this middleware&#8230;
+            <ul>
+              <li>checks the incoming request for a <code class="highlighter-rouge">Cookie</code> header &#8230;</li>
+              <li>and parses name value pairs from the value into a property on the &#39;req&#39; object called <code class="highlighter-rouge">hwCookies</code></li>
+            </ul>
+          </li>
+          <li>open up `src/cookied/cookied.js</li>
+          <li>create a function called <code class="highlighter-rouge">parseCookies</code></li>
+          <li>it should have 3 arguments (<a href="../slides/09/middleware.html">see middleware</a>)</li>
+          <li>SPOILERS / WALK THROUGH (feel free to implement on your own rather than use the details below)
+            <ul>
+              <li>use <code class="highlighter-rouge">req.get</code> to retreive the <code class="highlighter-rouge">Cookie</code> header from the request</li>
+              <li>check out our readings to parse the names and values out of the cookie header (<a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies">MDN on Cookies</a> and <a href="https://www.nczonline.net/blog/2009/05/05/http-cookies-explained/">nczonline&#39;s article on cookies</a>)</li>
+              <li>create a property called <code class="highlighter-rouge">hwCookies</code> on the request object; it should be initialized as an empty object</li>
+              <li>add the names and values parsed from the <code class="highlighter-rouge">Cookie</code> as properties and values on <code class="highlighter-rouge">req.hwCookies</code></li>
+              <li>don&#39;t forget to call <code class="highlighter-rouge">next</code> when you&#39;re done!</li>
+              <li>export the function from the module so that it&#39;s availabe when <code class="highlighter-rouge">require</code>&#39;d</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>write a <code class="highlighter-rouge">manageSession</code> middleware
+        <ul>
+          <li>this middleware&#8230;
+            <ul>
+              <li>checks cookies from the request for a session id</li>
+              <li>tries to retrieve data for that session id from an in-memory (<em>read: global variable</em>)</li>
+              <li>if it&#39;s not an existing session id (or if no session id came through), generate a new session id and send it back to the browser</li>
+            </ul>
+          </li>
+          <li>open up `src/cookied/cookied.js</li>
+          <li>create a function called <code class="highlighter-rouge">manageSession</code></li>
+          <li>it should have 3 arguments (<a href="../slides/09/middleware.html">see middleware</a>)</li>
+          <li>when it is done running, <code class="highlighter-rouge">req</code> should have a property called <code class="highlighter-rouge">hwSession</code> where data retrieved from the session store is placed</li>
+          <li>additionally, <code class="highlighter-rouge">req.hwSession</code> should have a property called <code class="highlighter-rouge">sessionId</code> that stores the current session id (just for debugging purposes)</li>
+          <li>if it generates a session id, the id that it generates should be created by the <code class="highlighter-rouge">uuid</code> module using <code class="highlighter-rouge">const uuid = require('node-uuid'), then... </code>uuid.v4()`</li>
+          <li>when it tells the browser to set a session id cookie, the name of the cookie should be <code class="highlighter-rouge">sessionId</code> and it should be <code class="highlighter-rouge">HttpOnly</code></li>
+          <li>it should also log out <code class="highlighter-rouge">session already exists: [session id]</code> if the middleware found an existing session</li>
+          <li>finally, it should log out <code class="highlighter-rouge">session generated: [session id]</code> if it creates a new session id</li>
+          <li>SPOILERS / WALK THROUGH (feel free to implement on your own rather than use the details below)
+            <ul>
+              <li>create a global variable in your module; initialize it to an empty object</li>
+              <li>this will be your session store - session ids will be keys, and values will be an object of name / value pairs associated with that session</li>
+              <li>within your <code class="highlighter-rouge">manageSession</code> function, check if <code class="highlighter-rouge">sessionId</code> is in <code class="highlighter-rouge">req.hwCookies</code> and check if that session id exists within your session store
+                <ul>
+                  <li>if the above conditions are true, we know we can set <code class="highlighter-rouge">req.hwSession</code> to the data that&#39;s in our session store for that session id</li>
+                </ul>
+              </li>
+              <li>however, if there is no <code class="highlighter-rouge">sessionId</code> in <code class="highlighter-rouge">hwCookies</code> or if the <code class="highlighter-rouge">sessionId</code> isn&#39;t in our session store, then generate a new session id and create an empty object for that ids data in the session store
+                <ul>
+                  <li>again, <code class="highlighter-rouge">req.hwSession</code> can be set to the data associated with the id from the session store (Which, of course, is just an empty object)</li>
+                  <li>add a <code class="highlighter-rouge">Set-Cookie</code> header to the response useing <code class="highlighter-rouge">res.append</code>&#8230; so that the browser will send back the session id in every subsequent request</li>
+                </ul>
+              </li>
+              <li>finally, add a property called <code class="highlighter-rouge">sessionId</code> to <code class="highlighter-rouge">req.hwSession</code> that has a value of the current session id (regardless of whether or not it was an existing id or one that was just generated)</li>
+              <li>don&#39;t forget to call <code class="highlighter-rouge">next</code> when you&#39;re done!</li>
+              <li>export the function from the module so that it&#39;s availabe when <code class="highlighter-rouge">require</code>&#39;d</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>when you&#39;re done writing your middleware functions, you can test that they all work by running the application (change into the <code class="highlighter-rouge">src/cookied</code> directory and run <code class="highlighter-rouge">app.js</code>)</li>
+      <li>when you first go to <code class="highlighter-rouge">localhost:3000</code>, clear your cookies <br />
+ <img src="/csci-ua.0480-fall2017-007/resources/img/hw05-cookied-01-clear.gif" alt="clear cookies" /></li>
+      <li>refresh your page&#8230;.</li>
+      <li>check that your application is generating session ids
+        <ul>
+          <li>when you refresh, you should see your server logging out <code class="highlighter-rouge">session generated</code></li>
+          <li>this should be true for first time visits to both pages: <code class="highlighter-rouge">/</code> and <code class="highlighter-rouge">/preferences</code></li>
+          <li>you should also see a <code class="highlighter-rouge">sessionId</code> in your browser&#39;s cookies for <code class="highlighter-rouge">localhost:3000</code></li>
+          <li><code class="highlighter-rouge">/</code> should show your current session id as well (again for debugging purposes; the session id shouldn&#39;t be so readily viewable!)</li>
+          <li>see below for an example: <br />
+  <img src="/csci-ua.0480-fall2017-007/resources/img/hw05-cookied-02-home-generate.gif" alt="home generated" /></li>
+        </ul>
+      </li>
+      <li>note, however, that once a session is generated&#8230;
+        <ul>
+          <li>if you go to the other page &#8230;</li>
+          <li>or refresh again &#8230;</li>
+          <li>your application should log out <code class="highlighter-rouge">session already exists</code></li>
+          <li>see below for an example: <br />
+  <img src="/csci-ua.0480-fall2017-007/resources/img/hw05-cookied-04-found.gif" alt="found a session" /></li>
+        </ul>
+      </li>
+      <li>finally, if you set a color through the <code class="highlighter-rouge">/preferences</code> page &#8230;
+        <ul>
+          <li>that color should be persistent for both pages for that session</li>
+          <li>which means that opening another browser will have a different color</li>
+          <li><code class="highlighter-rouge">/</code> will now show that color is part of the session store</li>
+          <li>see example below: <br />
+  <img src="/csci-ua.0480-fall2017-007/resources/img/hw05-cookied-05-color.gif" alt="color" /></li>
+        </ul>
+      </li>
+      <li>note that incognito mode will also give you a different session: <br />
+<img src="/csci-ua.0480-fall2017-007/resources/img/hw05-cookied-06-incognito.gif" alt="incognito" /></li>
+    </ol>
+
+    <h2 id="part-2---setup-for-movies-app-storing-data-in-a-database">Part 2 - Setup for Movies App (Storing Data in a Database)</h2>
+
+    <h3 id="installing-mongodb-and-preparing-data">Installing MongoDB and Preparing Data</h3>
+
+    <ul>
+      <li>follow the <a href="http://docs.mongodb.org/manual/installation/">install instructions</a> for your operating system</li>
+      <li>or (recommended), use a package manager, like apt or homebrew (brew install mongodb)</li>
+      <li>by default, mongodb does not require a username/password to connect (<strong>!?</strong>), but if you&#39;d like to add authentication <a href="https://docs.mongodb.com/manual/tutorial/enable-authentication/">you can follow this guide</a> (optional, but recommended)</li>
+      <li>in order for you to connect to your database to work with data, your database server must be running
+        <ul>
+          <li>for some installations, mongodb will start when your computer starts</li>
+          <li>for other installations, you&#39;ll have to start it manually</li>
+          <li>you can test if your database is running by:
+            <ul>
+              <li>attempting to connect to the test database</li>
+              <li>in a terminal window, type in <code>mongo</code> (in any directory) to start the commandline client</li>
+              <li>you should be given a message with the version number of the Mongo shell</li>
+            </ul>
+          </li>
+          <li>if it&#39;s not running, you have to start the database server manually:
+            <ul>
+              <li>in a terminal window, type in <code>mongod</code>; this starts the server</li>
+              <li>if it does not start because it&#39;s looking for a directory called <code>/data/db</code>
+                <ul>
+                  <li>this means that <code>mongod</code> is looking for a place to store you data</li>
+                  <li>this typically happens on OSX installations, sooo&#8230;</li>
+                  <li><a href="https://docs.mongodb.org/manual/tutorial/install-mongodb-on-os-x/#run-mongodb">check the docs</a>&#8230; and then try:</li>
+                  <li>create the directory: <code>sudo mkdir -p /data/db</code></li>
+                  <li>change the owner to your user (replace yourusername with your <em>actual</em> username for you system): <code>sudo chown -R yourusername:staff /data/</code></li>
+                </ul>
+              </li>
+              <li>ensure that it is up and running by connecting to it using a commandline client&#8230; so in a different terminal tab/window, type in <code>mongo</code>:</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>once you&#39;re connected with a commandline client (mongo), start inserting documents into a database called <code>hw05</code> and a collection called <code>movies</code>:
+        <ul>
+          <li>movies will have a title, year and director</li>
+          <li>so to insert, just do this in the commandline client: <code>db.movies.insert({title:'Los Abrazos Rotos', year:2009, director:'Pedro Almodovar'});</code></li>
+          <li>(inserting will automatically create the database and collection for you if they don&#39;t already exist)</li>
+          <li>insert the following movies:</li>
+        </ul>
+      </li>
+    </ul>
+
+    <pre><code data-trim="" contenteditable="">Stroszek (1977) by Werner Herzog
+Fitzcarraldo (1982) by Werner Herzog
+Cave of Forgotten Dreams (2010) by Werner Herzog
+Me and You and Everyone We Know (2005) by Miranda July
+In the Mood for Love (2000) by Wong Kar-wai
+Chungking Express (1994) by Wong Kar-wai
+Enough Said (2013) by Nicole Holofcener
+Walking and Talking (1996) by Nicole Holofcener
+Los Abrazos Rotos (2009) by Pedro Almodovar
+</code></pre>
+
+    <ul>
+      <li>use <code>db.movies.find()</code> to show all of the movies that you&#39;ve inserted
+        <ul>
+          <li>make sure there&#39;s <em>something</em> there&#8230;</li>
+          <li>so that you know your web app actually has movies to read!</li>
+        </ul>
+      </li>
+      <li>use <code>ctrl + d</code> to exit the commandline client</li>
+      <li>(make sure you keep your database server running, though)</li>
+    </ul>
+
+    <h3 id="directory-structure-and-dependencies">Directory Structure and Dependencies</h3>
+
+    <p>Start your usual express app in <code class="highlighter-rouge">src/movies</code> by:</p>
+
+    <ul>
+      <li>creating an <code class="highlighter-rouge">app.js</code> file</li>
+      <li>installing the appropriate modules and saving them to <code class="highlighter-rouge">package.json</code> using <code>--save</code> (this should have already been done from the previous parts)  in the root directory of your project</li>
+      <li>additionally, install <strong>mongoose</strong>: <code>npm install --save mongoose</code></li>
+      <li>creating the appropriate folders for your templates, public, etc.</li>
+    </ul>
+
+    <h3 id="connect-to-the-database">Connect to the Database</h3>
+
+    <p>Create a file called <code>db.js</code> within <code class="highlighter-rouge">src/movies</code>. <code>db.js</code> will contain:</p>
+
+    <ul>
+      <li>the code to connect to our database</li>
+      <li>&#8230;and our Schema and model (which we&#39;ll use to access data in our database)</li>
+    </ul>
+
+    <p>In <code>db.js</code>, add the require for the <code>mongoose</code> module:</p>
+
+    <pre><code data-trim="" contenteditable="">var mongoose = require('mongoose') </code></pre>
+
+    <p>Leave a placeholder for your schema&#8230;</p>
+
+    <pre><code data-trim="" contenteditable="">// my schema goes here!</code></pre>
+
+    <p>And, finally, add the code that connects to the database. We&#39;ll connect to the local instance of MongoDB, and we&#39;ll use a database called <code>hw05</code> (this will be created for you once you start inserting documents&#8230; which you should have done already above!).</p>
+
+    <pre><code data-trim="" contenteditable="">mongoose.connect('mongodb://localhost/hw05');
+</code></pre>
+
+    <p>Or&#8230; with authentication</p>
+
+    <pre><code data-trim="" contenteditable="">mongoose.connect('mongodb://username:password@localhost/hw05');
+</code></pre>
+
+    <h3 id="schema">Schema</h3>
+
+    <p>For larger projects, there is usually one file per schema, all located in a separate folder called models. For now, however, define the following Schema within <code>db.js</code>. Check out the slides on:</p>
+
+    <ul>
+      <li><a href="../slides/14/mongo.html">the MongoDB Demo</a></li>
+      <li><a href="../slides/14/mongoose.html">and/or the Mongoose API</a></li>
+      <li>(or alternatively <a href="http://mongoosejs.com/docs/guide.html">check out the docs!</a>)</li>
+    </ul>
+
+    <p>Since we&#39;re storing movies, we&#39;d like each document to have:</p>
+
+    <ul>
+      <li>a title (a <code>String</code>)</li>
+      <li>a director  (also a  <code>String</code>)</li>
+      <li>a year (a <code>Number</code>)</li>
+    </ul>
+
+    <p>Create a schema based on the above slides, and insert your code under your <code>// my schema goes here!</code> comment.</p>
+
+    <p>Then, use your schema to define your model&#8230; the model is used as a constructor to create new documents&#8230; or as an object with methods that allows the read or update of existing documents.</p>
+
+    <p>You can place the following code after your schema and before the connection (assuming that you&#39;re schema looks something like this) so that mongoose is aware that your model exists (it <em>registers</em> our model so that you can retrieve it later):</p>
+
+    <pre><code data-trim="" contenteditable="">mongoose.model('Movie', Movie);
+</code></pre>
+
+    <h2 id="part-3---displaying-all-movies">Part 3 - Displaying All Movies</h2>
+
+    <h3 id="overview-1">Overview</h3>
+
+    <p>We&#39;ll be using mongoose to read in all of the movies from the database. Then, we&#39;ll be able to display the movies in a table.</p>
+
+    <h3 id="details">Details</h3>
+
+    <p>There&#39;s a bunch of setup that we need in order to integrate our databases access code with our express app:</p>
+
+    <ul>
+      <li>in <code>app.js</code>, require the <code>db.js</code> file that you created so that the code that you wrote for the Schema and for connecting to the databases is executed</li>
+      <li>at the top of <code>app.js</code>, after you&#39;ve created your application object: <code>require('./db');</code></li>
+      <li>after that, retrieve the model that you registered with mongoose:</li>
+    </ul>
+
+    <pre><code data-trim="" contenteditable="">var mongoose = require('mongoose');
+var Movie = mongoose.model('Movie');
+</code></pre>
+
+    <p>You can now use <code>Movie.find</code> to retrieve all of the movies in your database!</p>
+
+    <ul>
+      <li>create a route handler that accepts requests for <code>/movies</code></li>
+      <li>in that route handler, the callback should use <code>Movie.find</code> to retrieve all movies!</li>
+      <li><code>find</code> takes an <strong>query object</strong> (just a regular object) that specifies the criteria for what we&#39;re searching for using name/value pairs&#8230; for example {year: 1978} would be all movies made in 1978</li>
+      <li>if you leave the query object empty, it&#39;ll just give back all movies</li>
+      <li>the second argument it find is yet another callback&#8230; this time, it&#39;s the function that&#39;s executed when mongoose finishes finding stuff for you</li>
+      <li>find works like this:</li>
+    </ul>
+
+    <pre><code data-trim="" contenteditable="">SomeModel.find({search: criteria}, function(err, varToStoreResult, count) {
+	console.log(varToStoreResult); // &lt;---- variable contains found documents!
+
+});
+</code></pre>
+    <ul>
+      <li>so, once you&#39;ve retrieved stuff from the database, you&#39;ll probably want to render your template&#8230; so in your callback, call <code>res.render</code>, rendering whatever template you&#39;d like to display your table</li>
+      <li>of course, you&#39;ll have to pass in your find results so that you can iterate over them in your template</li>
+      <li>in your template, use standard <code>table</code> markup, with each row containing a movie</li>
+      <li>try opening your page in your browser to show a table of all movies!</li>
+    </ul>
+
+    <h2 id="part-4---filtering">Part 4 - Filtering</h2>
+
+    <h3 id="overview-2">Overview</h3>
+
+    <p>In this part of the assignment, you&#39;ll add a form to your page that allows you to filter the table by director name via GET and query string parameters.</p>
+
+    <h3 id="details-1">Details</h3>
+
+    <p>You already know how to do most of this, but here&#39;s a rough sketch of some of the relevant tasks:</p>
+
+    <ul>
+      <li>create a form that uses GET, and goes to (submits or makes a request to) <code>/movies</code>
+        <ul>
+          <li>note that we don&#39;t need <code>body-parser</code> middleware since we&#39;re using GET</li>
+          <li>also&#8230; why are we using GET instead of POST? because we&#39;re merely reading data&#8230; (pretty common convention for search)</li>
+        </ul>
+      </li>
+      <li>modify your request handler to try to get the value of query string parameters (<code>req.query.nameOfFormElement</code>)
+        <ul>
+          <li>for example, submitting your form may result in adding a ?foo=bar to the url</li>
+          <li>to access that name/value pair in the query string on the server side, <code>req.query.foo</code></li>
+        </ul>
+      </li>
+      <li>use the value passed in from the form (via GET and the query string) to filter the movies by director name</li>
+    </ul>
+
+    <p><a href="#examples4">Check out the example interaction at the end of this page</a></p>
+
+    <h2 id="part-5---adding-a-movie">Part 5 - Adding a Movie</h2>
+
+    <h3 id="overview-3">Overview</h3>
+
+    <p>In this part of the assignment, you&#39;ll create another page that contains a form to add new movies. The form will POST data&#8230; and then redirect back to <code>/movies</code>.</p>
+
+    <h3 id="details-2">Details</h3>
+
+    <p>You already know how to do most of this, but here&#39;s a rough sketch of some of the relevant tasks:</p>
+
+    <ul>
+      <li>add a link on the bottom of your /movies page</li>
+      <li>set up body-parser so that you&#39;ll have access to POST data</li>
+      <li>create the appropriate route handlers that accepts requests for <code>/movies/add</code>
+        <ul>
+          <li>GET will handle showing the form
+            <ul>
+              <li>create another template file</li>
+              <li>add a form to your template</li>
+            </ul>
+          </li>
+          <li>POST will handle the form submission
+            <ul>
+              <li>your request handler that deals with POSTs will create a new movie in the database&#8230; <a href="../slides/14/mongo.html">check out the slides</a></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+
+    <p><a href="#examples5">Check out the example interaction at the end of this page</a></p>
+
+    <h2 id="part-6---sessions">Part 6 - Sessions</h2>
+
+    <ul>
+      <li>create another page, <code class="highlighter-rouge">/mymovies</code>,  showing all of the movies that have been added by the user during their session (it can be as simple as an unordered list)</li>
+      <li>you must use the <code class="highlighter-rouge">express-session</code> middleware to do this (<a href="../slides/10/sessions.html#/17">see the relevant slides</a>)</li>
+      <li>make sure you link to <code class="highlighter-rouge">/mymovies</code> from both of the existing pages so that the graders can see that you&#39;ve implemented this feature</li>
+    </ul>
+
+    <p><a name="examples"></a></p>
+
+    <h2 id="example-interaction">Example Interaction</h2>
+
+    <p><a name="examples4"></a>
+By the end of parts 2-4:</p>
+
+    <div class="img">
+      <p><img src="/csci-ua.0480-fall2017-007/resources/img/movies.gif" alt="let's watch movies" /></p>
+    </div>
+
+    <p><a name="examples5"></a>
+Part 5:</p>
+
+    <div class="img">
+      <p><img src="/csci-ua.0480-fall2017-007/resources/img/movies-add.gif" alt="let's watch movies" /></p>
+    </div>
+
+  </div>
+
+</div>
+:ET

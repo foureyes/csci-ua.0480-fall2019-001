@@ -1,0 +1,19 @@
+I"Ü<p><a href="{{ site.book_js_link }}">{{ site.book_js }}</a></p>
+
+<ul>
+  <li><a href="http://speakingjs.com/es5/ch15.html">Chapter 15 - Functions (up to &quot;More Control over Function Calls&quot;)</a></li>
+</ul>
+
+<p><a href="{{ site.book_js_2_link }}">{{ site.book_js_2 }}</a></p>
+
+<ul>
+  <li>4.9 From arguments to rest parameters in <a href="http://exploringjs.com/es6/ch_core-features.html">Core ES6 Features</a></li>
+  <li>13.1 Overview and 13.2.4 ECMAScript 6 solution: arrow functions in <a href="http://exploringjs.com/es6/ch_arrow-functions.html#ch_arrow-functions">Arrow Functions</a></li>
+</ul>
+
+<p><a href="{{ site.book_js_5_link }}">{{ site.book_js_5 }}</a></p>
+
+<ul>
+  <li>Chapter 5 - Higher Order Functions</li>
+</ul>
+:ET

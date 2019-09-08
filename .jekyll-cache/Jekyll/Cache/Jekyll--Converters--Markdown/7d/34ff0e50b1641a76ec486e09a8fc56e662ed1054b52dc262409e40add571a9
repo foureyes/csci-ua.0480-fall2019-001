@@ -1,0 +1,298 @@
+I"|2<div class="row">
+
+  <div class="col-md-6">
+    <div class="panel panel-default">
+
+<a name="info"></a>
+<div class="panel-heading">Course Info</div>
+<div class="panel-body">
+
+        <ul>
+          <li><strong>Course Title:</strong> Applied Internet Technology</li>
+          <li><strong>Course Number:</strong> CSCI-UA.0480</li>
+          <li><strong>Section 001</strong>
+            <ul>
+              <li><strong>Semester:</strong> Fall 2019</li>
+              <li><strong>Meeting Time:</strong> Mon and Wed, 12:3PAM - 1:45PM</li>
+              <li><strong>Room:</strong> WWH 202</li>
+            </ul>
+          </li>
+          <li><strong>Instructor:</strong> Joe Versoza</li>
+          <li><strong>Contact:</strong> <a href="https://piazza.com/class/jzwolvs7q7y6dh">piazza (the best way to contact me!)</a></li>
+          <li><strong>Email:</strong> jversoza at cs dot nyu dot edu</li>
+          <li><strong>Office Hours:</strong> <br />Mon/Wed 11:25am - 12:25pm at WWH 422<br />Thurs 12:15PM - 1:15PM at 60 5th Ave</li>
+          <li><strong>Office Hours Room:</strong>  WWH 422 on Mon/Wed&#8230; Lobby, 60 5th Ave on Tues</li>
+        </ul>
+
+      </div>
+    </div>
+  </div><!-- end col -->
+
+  <div class="col-md-6">
+    <div class="panel panel-default">
+<a name="description"></a>
+<div class="panel-heading">Course Description</div>
+<div class="panel-body">
+
+        <p>This course is a <strong>practical introduction</strong> to creating <strong>modern web applications</strong>.</p>
+
+        <p>It will cover <strong>full stack web development</strong> - from database design all the way through client side interactivity.  Students will use current server and client side web frameworks to build dynamic, data-driven sites.  Various tools to support development will also be introduced, such as version control and build systems.</p>
+
+        <p><strong>*</strong> Basic knowledge of <strong>HTML</strong> and <strong>CSS</strong> and familiarity with using <strong>command line</strong> tools are required.</p>
+      </div>
+    </div>
+  </div><!-- end col -->
+
+</div>
+<!-- end row -->
+
+<div class="row">
+
+  <div class="col-md-6">
+    <div class="panel panel-default">
+<a name="topics"></a>
+<div class="panel-heading">Topics</div>
+<div class="panel-body">
+        <ul>
+          <li><strong>JavaScript</strong></li>
+          <li><strong>Server Side Programming</strong> (with Node and Express)</li>
+          <li><strong>Storing and Retrieving Data</strong> (with a NoSQL database, such as MongoDB)</li>
+          <li><strong>Client Side Build-Out</strong></li>
+          <li><strong>Client Side Programming</strong> (both with vanilla JavaScript and using a JavaScript framework)</li>
+          <li><strong>Realtime Web Applications</strong> (socket.io)</li>
+          <li><strong>Development Tools</strong> (version control with git, task automation, static analysis tools, etc.)</li>
+          <li><strong>Extra Topics Time Permitting</strong> (JS Framework like React, Intermediate CSS features like Flexbox, etc.)</li>
+        </ul>
+      </div>
+    </div>
+  </div><!-- end col -->
+
+  <div class="col-md-6" name="quiz-policy" id="quiz-policy">
+    <div class="panel panel-default">
+<a name="homework"></a>
+<div class="panel-heading">Quizzes</div>
+<div class="panel-body">
+        <p>Expect about <strong>one quiz</strong> every <strong>week</strong>, which can be in one of the following formats:</p>
+
+        <ul>
+          <li>Take from home quizzes
+            <ul>
+              <li>Submitted <strong>electronically via NYU Classes</strong></li>
+              <li>Quizzes will be closed at the due date given</li>
+              <li>Quizzes are to be taken on your own</li>
+            </ul>
+          </li>
+          <li>In-class quizzes
+            <ul>
+              <li>Dates for in-class quizzes will be posted one week before quiz is given</li>
+              <li>Will be based on homework</li>
+              <li>Will be given at the beginning of class</li>
+            </ul>
+          </li>
+          <li>Make ups will be allowed for the following exceptions:
+            <ol>
+              <li>illness, with documentation</li>
+              <li>religious observance</li>
+              <li>technical issues (NYU Classes down, Quiz not Appearing, etc.), with documentation</li>
+            </ol>
+          </li>
+        </ul>
+
+      </div>
+    </div>
+  </div><!-- end col -->
+
+</div>
+<!-- end row -->
+
+<div class="row" name="hw-policy" id="hw-policy">
+  <div class="col-md-6">
+    <div class="panel panel-default">
+<a name="homework"></a>
+<div class="panel-heading">Homework</div>
+<div class="panel-body">
+        <p>Expect about <strong>one homework</strong> every <strong>week</strong>, with one final project assigned mid-semester:</p>
+
+        <ul>
+          <li>Homework must be turned in <strong>electronically via git</strong></li>
+          <li>Late homework will not be accepted (repositories are closed when homework is due)
+            <ul>
+              <li>Exceptions:
+                <ol>
+                  <li>illness or family/personal issue, with documentation</li>
+                  <li>religious observance</li>
+                  <li>technical issues (broken computer, github down, etc.), with documentation</li>
+                </ol>
+              </li>
+              <li>Notification of illness / accommodation must be made before due date</li>
+              <li>Long term accommodations (for example, extra time on exams, etc.) must be made known prior to the first exam</li>
+            </ul>
+          </li>
+          <li><strong>Write your own code!</strong> This means:
+            <ul>
+              <li>Don&#39;t copy (clone, download, etc.) anyone else&#39;s code</li>
+              <li>Don&#39;t distribute/publish your code (including publishing to a public git repository or posting in a forum)
+                <ul>
+                  <li>(You can publish your final project once the class is over)</li>
+                </ul>
+              </li>
+              <li>Please see the department&#39;s page on academic integrity for full policy and potential disciplinary action: <a href="https://cs.nyu.edu/home/undergrad/policy.html">https://cs.nyu.edu/home/undergrad/policy.html</a></li>
+            </ul>
+          </li>
+          <li><strong>Help!</strong>
+            <ul>
+              <li>Office hours and tutoring is available</li>
+              <li>If you use code from online resources outside of the course materials, annotate your code with comments and the link to the resource</li>
+              <li>High level discussions with other students is allowed</li>
+              <li>Help debugging from other students is allowed</li>
+            </ul>
+          </li>
+        </ul>
+
+      </div>
+    </div>
+  </div><!-- end col -->
+
+  <div class="col-md-6">
+    <div class="panel panel-default">
+<a name="books"></a>
+<div class="panel-heading">Books</div>
+<div class="panel-body">
+
+        <p><strong>Readings will be sourced from the following books</strong> (all are free to read online, but a hardcopy or ebook can purchased as well!):</p>
+
+        <ul>
+          <li><a href="http://speakingjs.com/es5/index.html">Speaking JavaScript</a> by Axel Rauschmayer</li>
+          <li><a href="http://exploringjs.com/es6/index.html">Exploring ES6</a> by Axel Rauschmayer</li>
+          <li><a href="https://github.com/getify/You-Dont-Know-JS/">You Don&#39;t Know JS</a> by Kyle Simpson</li>
+          <li><a href="https://leanpub.com/javascriptallongesix/read">JavaScript Allongé, the &quot;Six&quot; Edition</a> by Reg &quot;raganwald&quot; Braithwaite</li>
+          <li><a href="http://eloquentjavascript.net/">Eloquent JavaScript, 3rd Edition</a> by Marijn Haverbeke</li>
+          <li><a href="http://bobcat.library.nyu.edu/primo-explore/fulldisplay?docid=nyu_aleph005835929&amp;context=L&amp;vid=NYU&amp;search_scope=all&amp;tab=all&amp;lang=en_US">Node: Up and Running</a> by Tom Hughes-Croucher and Mike Wilson</li>
+          <li><a href="http://domenlightenment.com/">DOM Enlightenment</a> by Cody Lindley</li>
+          <li><a href="https://addyosmani.com/resources/essentialjsdesignpatterns/book/">Learning JavaScript Design Patterns</a> by Addy Osmani</li>
+          <li><a href="http://chimera.labs.oreilly.com/books/1234000000262/index.html">Programming JavaScript Applications</a> by Eric Elliott</li>
+        </ul>
+
+        <p>Significant material will be pulled from the following sites:</p>
+
+        <ul>
+          <li><a href="https://developer.mozilla.org/en-US/">Mozilla Developer Network</a></li>
+          <li><a href="http://www.ecma-international.org/ecma-262/6.0/">ECMAScript® 2015 Language Specification</a></li>
+          <li><a href="http://www.2ality.com/">2ality</a></li>
+          <li><a href="https://tools.ietf.org">IETF (Internet Engineering Task Force) Tools</a></li>
+          <li><a href="https://www.owasp.org/index.php/Main_Page">OWASP (Open Web Application Security Project)</a></li>
+          <li><a href="https://nodeschool.io/">NODESCHOOL</a></li>
+          <li><a href="https://www.nczonline.net/">NCZOnline</a></li>
+          <li>documentation for <a href="https://nodejs.org/en/docs/">node</a>, <a href="https://expressjs.com/en/api.html">express</a>, <a href="https://docs.mongodb.com/manual/">mongodb</a>, <a href="http://socket.io/docs/">socket.io</a>, and <a href="https://facebook.github.io/react/docs/hello-world.html">react</a>.</li>
+        </ul>
+
+      </div>
+    </div>
+  </div><!-- end col -->
+</div>
+<!-- end row -->
+
+<div class="row">
+
+  <div class="col-md-6">
+    <div class="panel panel-default">
+<a name="grading"></a>
+<div class="panel-heading">Grading</div>
+<div class="panel-body">
+        <ul>
+          <li><strong>20%</strong> - Homework</li>
+          <li><strong>30%</strong> - Exam #1</li>
+          <li><strong>35%</strong> - Exam #2</li>
+          <li><strong>5%</strong> - Quizzes / Activities</li>
+          <li><strong>10%</strong> - Final Project</li>
+        </ul>
+      </div>
+    </div>
+  </div><!-- end col -->
+
+
+
+  <div class="col-md-6">
+    <div class="panel panel-default">
+<a name="Tutoring"></a>
+<div class="panel-heading">Tutoring</div>
+<div class="panel-body">
+        <p>There are <strong>tutors available</strong> for the course.</p>
+
+        <ul>
+          <li>See <a href="https://piazza.com/class/jzwolvs7q7y6dh">pinned message on Piazza for up-to-date hours</a></li>
+        </ul>
+
+        <p>Additionally, the tutor will hold workshops based on student demand. Some workshops may include:</p>
+
+        <ul>
+          <li>commandline</li>
+          <li>git</li>
+          <li>http</li>
+          <li>html</li>
+          <li>css</li>
+        </ul>
+
+      </div>
+    </div>
+  </div><!-- end col -->
+</div>
+<!-- end row -->
+
+<div class="row">
+
+  <div class="col-md-6">
+    <div class="panel panel-default">
+<a name="grading"></a>
+<div class="panel-heading">Recommendation Requests</div>
+<div class="panel-body">
+        <p>Recommendation letters may be provided if:</p>
+
+        <ul>
+          <li>you have taken two courses with me or if you&#39;ve worked with me in some capacity (grader, tutor, etc.)</li>
+          <li>you are applying to a maximum of 4 schools</li>
+          <li>your academic performance warrants a recommendation (typically, this means an A in the course)</li>
+        </ul>
+
+        <p>To request a recommendation</p>
+
+        <ul>
+          <li>schedule an in-person meeting with me</li>
+          <li>send me an unofficial transcript and a resume</li>
+          <li>send me a letter explaining why you&#39;re applying to the graduate or phd program / program(s) and what makes you a good fit for the program (being more specific is better)</li>
+        </ul>
+      </div>
+    </div>
+  </div><!-- end col -->
+
+
+
+  <div class="col-md-6">
+    <div class="panel panel-default">
+<a name="Tutoring"></a>
+<div class="panel-heading">Accommodations, Long Term Illness, Falling Behind</div>
+<div class="panel-body">
+        <p>If you are falling behind, please see me in-person as soon as possible:</p>
+
+        <ul>
+          <li>before or after class</li>
+          <li>during office hours</li>
+          <li>&#8230;or by appointment</li>
+        </ul>
+
+        <p>Notification of accommodations</p>
+
+        <ul>
+          <li>if you have an accommodation you must inform me by the time the midterm exam</li>
+          <li>(note that Moses Center will inform me of official accommodations, so if you&#39;ve registered with them, there&#39;s no need for additional notification)</li>
+        </ul>
+
+        <p>Note that an incomplete cannot be requested (they are determined by me when calculating grades&#8230; for students who have the majority of their work done but have missed some coursework due to circumstances outlined above in the &quot;late homework&quot; section).</p>
+
+      </div>
+    </div>
+  </div><!-- end col -->
+</div>
+<!-- end row -->
+
+:ET

@@ -1,0 +1,341 @@
+I"”-<section class="intro-slide">
+  <h1 id="coercion-revisited-casting-undefined-and-some-style">Coercion (Revisited), Casting, Undefined, and Some Style</h1>
+
+  <h3 id="csci-ua0480-001">CSCI-UA.0480-001</h3>
+
+</section>
+
+<section>
+  <h2 id="coercion-rules">Coercion Rules</h2>
+
+  <p><strong>What are the values that result from the following expressions?</strong>&#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+"5" + 5
+false + 5
+undefined + 5
+"10" &gt; 5
+NaN &gt; 5
+undefined &gt; 5
+</code></pre>
+
+  <p class="fragment">The results:</p>
+
+  <ul class="fragment">
+    <li><code>"55"</code></li>
+    <li><code>5</code></li>
+    <li><code>NaN</code></li>
+    <li><code>true</code></li>
+    <li><code>false</code></li>
+    <li><code>false</code>.</li>
+  </ul>
+
+  <p class="fragment"><br />
+How do we know? We can read the <a href="http://es5.github.io/#x11.6.1">ECMA</a> <a href="http://es5.github.io/#x9.3">Script</a> <a href="http://es5.github.io/#x11.8">Specifications</a>!</p>
+
+</section>
+
+<section>
+  <h2 id="type-coercion-with-numeric-operators">Type Coercion With Numeric Operators</h2>
+
+  <ul>
+    <li>for <strong>addition</strong>:
+      <ul>
+        <li>when one operand is a string and the other is not, the other operand is converted into a string, and the two strings are concatenated</li>
+        <li>for all other cases, the operands are converted to numbers
+          <ul>
+            <li>true &#8594; 1</li>
+            <li>false &#8594; 0</li>
+            <li>null &#8594; 0</li>
+            <li>undefined is still undefined, and result gives back <strong>NaN</strong></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li>for <strong>other numeric operators</strong>, such as <strong>subtraction</strong>:
+      <ul>
+        <li>will usually try to convert to number</li>
+        <li>if something <em>cannot be converted easily</em> (like the string, &quot;hello&quot;), the result is <code>NaN</code></li>
+      </ul>
+    </li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="addition-is-sooo-weird">Addition is Sooo Weird</h2>
+
+  <p>Armed with that knowledge, <strong>what values do these two expressions produce?</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+'foo' + (1 + 2)
+('foo' + 1) + 2
+</code></pre>
+
+  <p class="fragment">Order of evaluation matters&#8230; these two expressions produce different values</p>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+foo3
+foo12
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="type-coercion-with-equality-operators">Type Coercion With Equality Operators</h2>
+
+  <ul>
+    <li>JavaScript will do its best to convert types so that they can be checked for equality - <strong>these all return true</strong> &#8594;
+      <ul>
+        <li><code>"10" == 10</code></li>
+        <li><code>0 == false</code></li>
+        <li><code>"" == false</code></li>
+      </ul>
+    </li>
+    <li>this is Usually an unwanted behavior; <strong>to avoid this, use: === and !==</strong>
+      <ul>
+        <li>these operators check <strong>type</strong> and <strong>value</strong></li>
+        <li>use these three-character comparison operators to prevent unexpected type conversions</li>
+      </ul>
+    </li>
+  </ul>
+
+</section>
+<section>
+  <h2 id="relational--ordering-operators">Relational / Ordering Operators</h2>
+
+  <p><strong>For relational / ordering operators like &gt;, &lt;, etc.</strong> &#8594;</p>
+
+  <ol>
+    <li>convert objects to a <em>primitive</em>: booleans, numbers, strings, null, and undefined</li>
+    <li>if strings, compare lexicographically</li>
+    <li>otherwise convert both to numbers</li>
+    <li>NaN is compared as unordered with everything (which is why NaN === NaN is false)</li>
+  </ol>
+</section>
+<section>
+  <h2 id="back-to-unary-operators">Back to Unary Operators</h2>
+
+  <p>What the what????</p>
+
+  <pre><code data-trim="" contenteditable="">
++-12 
+-+12
++"hello"
+</code></pre>
+
+  <p>These expressions evaluate to&#8230;</p>
+  <pre><code data-trim="" contenteditable="">
+-12
+-12
+NaN
+</code></pre>
+
+  <p>From the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Arithmetic_Operators#Unary_negation_(-)">docs on mdn</a>&#8230;</p>
+
+  <ul>
+    <li>unary + &#8230; will try to convert its operand to a number (if it can&#39;t be converted to a number, then NaN)</li>
+    <li>unary - &#8230; will convert its operand to negative number</li>
+  </ul>
+
+  <p><br />
+I&#39;m assuming that order of operations is innermost prefix operator first (right to left).</p>
+
+</section>
+
+<section>
+  <h2 id="bitwise-operators-again">Bitwise Operators Again</h2>
+
+  <p><strong>For bitwise operators&#8230; <code>Nan</code>, <code>Infinity</code>, and <code>-Infinity</code> are all converted to 0</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+NaN | 2 // evaluates to 2
+Infinity &amp; 10 // evaluates to 0
+</code></pre>
+
+  <p>Why? Because <a href="http://es5.github.io/#x11.10">the specs</a> <a href="http://es5.github.io/#x9.5">say so</a></p>
+
+  <p>Also&#8230; there is definitely a binary representation for these special numbers (<code>Nan</code>, <code>Infinity</code>, and <code>-Infinity</code>)&#8230; the <a href="http://www.2ality.com/2012/04/number-encoding.html">closest I came to determining it was here</a></p>
+</section>
+<section>
+  <h2 id="ugh-all-of-that-is-kind-of-crazy">Ugh All of That is Kind of Crazy</h2>
+
+  <h3 id="a-quick-summary-of-all-of-that-automatic-conversion-business">A quick summary of all of that automatic conversion business.</h3>
+
+  <ul>
+    <li><strong>when adding values</strong>
+      <ul>
+        <li>if either of the values is a string, coerce the other to perform string concatenation</li>
+        <li>otherwise convert both sides to numbers (if they aren&#39;t already) and perform addition</li>
+      </ul>
+    </li>
+    <li><strong>when comparing values with &lt;</strong>
+      <ul>
+        <li>try to convert both sides to numbers first, so that comparison can be easily performed</li>
+        <li>if either operand is NaN, the result is False</li>
+      </ul>
+    </li>
+    <li><strong>when it doubt, check the spec</strong> (or, of course <a href="http://stackoverflow.com/questions/14687876/how-do-the-javascript-relational-comparison-operators-coerce-types">SO</a> it)</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="equality">Equality</h2>
+
+  <p>As you know, this automatic type conversion continues on with <code>==</code>&#8230;</p>
+
+  <p><strong>How do we get out of this mess? &#8230;without having to remember a series of obscure rules</strong> &#8594;</p>
+
+  <ul class="fragment">
+    <li>one way is to use triple equals - <code>===</code> (we&#39;ve gone over this before!)</li>
+    <li>another way is to just explicitly <em>cast</em> your operand(s) to minimize surprises</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="casting">Casting</h2>
+
+  <p>We can use <strong>object contructors</strong> to cast from one type to another:</p>
+
+  <ul>
+    <li>you can use constructors as functions (without the keyword <code>new</code>) to convert to that particular type</li>
+    <li>however, using <code>new</code>&#8230;
+      <ul>
+        <li>wraps the primitive type in an object (we&#39;ll discuss objects later)</li>
+        <li>when asked for a value, these objects usually yield the value of their primitive type</li>
+      </ul>
+    </li>
+  </ul>
+
+  <p><strong>To cast, use constructors without new if you want the <em>primitive</em>.</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+// do this
+a = Boolean(false);
+// not this
+b = new Boolean(false);
+// because
+console.log(typeof a); // --&gt; boolean
+console.log(typeof b); // --&gt; object
+// you'll have a SAD FACE after you try this...
+Boolean(new Boolean(false))
+</code></pre>
+</section>
+
+<section>
+  <h2 id="casting-continued">Casting Continued</h2>
+
+  <p>Another option is to use some of the <strong>operators</strong> that we learned to coax JavaScript into doing a predictable automatic conversion for us:</p>
+
+  <ul>
+    <li><strong>convert to a boolean</strong>
+      <ul>
+        <li>use <em>not</em> twice (negate the not, but preserve the type conversion)</li>
+        <li><code>!!"hello"</code></li>
+      </ul>
+    </li>
+    <li><strong>convert to a number</strong>
+      <ul>
+        <li>use unary <code>+</code></li>
+        <li>for example: <code>+"5"</code>, <code>+"hello"</code></li>
+        <li>use <code class="highlighter-rouge">parseInt</code></li>
+      </ul>
+    </li>
+    <li><strong>convert to a string</strong>
+      <ul>
+        <li>just add an empty string to it</li>
+        <li><code>5 + ""</code></li>
+      </ul>
+    </li>
+  </ul>
+
+  <p><br />
+See <a href="http://bonsaiden.github.io/JavaScript-Garden/#types.casting">this page</a> on type casting.</p>
+</section>
+
+<section>
+  <h2 id="checking-for-undefined">Checking for undefined</h2>
+
+  <p>Undefined (and also null) means <strong>the absence of a <em>meaningful</em> value</strong>.</p>
+
+  <p>How would you check if a value is <strong>undefined</strong>? <strong>The two ways to do this are</strong>: &#8594;</p>
+
+  <ul>
+    <li class="fragment">(preferred) <code>if (myVar === undefined)</code></li>
+    <li class="fragment"><code>if (typeof myVar === 'undefined')</code>
+      <ul>
+        <li class="fragment">handles undeclared variables</li>
+      </ul>
+    </li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="checking-for-nan">Checking for NaN</h2>
+
+  <p>Use the isNaN function to determine if a value is <strong>not a number</strong>.</p>
+
+  <p><strong>(comparing NaN to itself always yields false)</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+NaN == NaN
+NaN === NaN
+
+// false
+// false
+// weird, eh?
+</code></pre>
+
+  <p>Remember&#8230; NaN is not ordered with any value!. Use <code>isNaN</code>&#8230;</p>
+
+  <pre><code data-trim="" contenteditable="">
+isNaN(NaN)
+</code></pre>
+</section>
+
+<section>
+  <h2 id="some-style">Some Style</h2>
+
+  <p>The previous material in this set of slides are about general best practices. Not adhering to them may:</p>
+
+  <ul>
+    <li>result in your code yielding unexpected results</li>
+    <li>difficult to understand / non-standard code</li>
+  </ul>
+
+  <p><br />
+<strong>The next few suggestions, however, are purely stylistic - just about how code is formatted:</strong> &#8594;</p>
+
+  <div class="img">
+    <p><img src="http://i.kinja-img.com/gawker-media/image/upload/s--ZbZrlXcj--/xnfzofkxpckzxbkqxnbq.jpg" alt="poochie" /></p>
+  </div>
+
+</section>
+<section>
+  <h2 id="style-continued">Style Continued</h2>
+
+  <ul>
+    <li>use 1TBS, <strong>One True Brace Style</strong>: open curly brace on same line of code as last line preceding the current block of code / statement header (not on a new line)</li>
+  </ul>
+  <pre><code data-trim="" contenteditable="">
+if (some_boolean_expression) { // &lt;-- curly brace here!
+	// do stuff
+}
+</code></pre>
+  <ul>
+    <li>use (lower) camel case to separate words in identifiers / variables names: <code>myVerboseVariableName</code></li>
+    <li>remember to indent blocks of code!</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="summary">Summary</h2>
+
+  <ul>
+    <li><strong>automatic type conversion is tricky</strong>; sometimes it&#39;s helpful to check the specs, mdn, speaking javascript or even stackoverflow</li>
+    <li>you can get around automatic type conversion (if that&#39;s desirable) by <strong>casting</strong> - use operators like <code>!!</code>, <code>+</code>, <code>+ ""</code></li>
+    <li>to <strong>check for undefined</strong>: <code>if(typeof myVar == 'undefined')</code></li>
+    <li>to <strong>check for NaN</strong>: <code>isNan(myVar)</code></li>
+  </ul>
+</section>
+:ET

@@ -1,0 +1,64 @@
+I"<section class="intro-slide">
+  <h1 id="review">Review</h1>
+
+  <h3 id="csci-ua0480-001">CSCI-UA.0480-001</h3>
+
+  <p><small></small></p>
+</section>
+
+<section>
+  <h2 id="converting-types">Converting Types</h2>
+
+  <p>JavaScript has a bunch of rules when it comes to automatic conversion.</p>
+
+  <p><strong>Get around them by:</strong>  &#8594;</p>
+
+  <ul class="fragment">
+    <li>always using === &#8230;</li>
+    <li>converting things yourself</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="converting-types-continued">Converting Types Continued</h2>
+
+  <p><strong>So&#8230; uh&#8230; how do I get from one type to another?</strong> &#8594;</p>
+
+  <ul class="fragment">
+    <li>!!5</li>
+    <li>5 + &quot;&quot;</li>
+    <li>+&quot;5&quot;</li>
+    <li>also constructors</li>
+    <li>also parseInt with radix</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="scope">Scope</h2>
+
+  <p><strong>What&#39;s the only way to create scope in JavaScript?</strong> &#8594;</p>
+
+  <ul class="fragment">
+    <li>the only way to create scope in javascript is with functions!</li>
+    <li>closest enclosing scope first</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="some-rules">Some Rules</h2>
+
+  <p><strong>Lastly&#8230; some important things you should remember to do!</strong> &#8594;</p>
+
+  <ul>
+    <li class="fragment">always end statements with a semicolon
+      <ul>
+        <li class="fragment">our static analysis tool is set up to catch missing semicolons</li>
+        <li class="fragment">(though there&#39;s also the opposite approach to just drop all semicolons)</li>
+      </ul>
+    </li>
+    <li class="fragment">always declare your variables (use <code>var</code>)</li>
+    <li class="fragment">don&#39;t use function declaration in a non-function block (such as an if statement)</li>
+  </ul>
+</section>
+:ET

@@ -1,0 +1,1122 @@
+I"a�<div class="panel panel-default">
+  <div class="panel-heading">Homework #2</div>
+  <div class="panel-body">
+
+    <h1 id="higher-order-functions-exercises-and-processing-data---due-feb-18-at-11pm">Higher Order Functions: Exercises and Processing Data - <strong>Due Feb 18 at 11pm</strong></h1>
+
+    <h2 id="overview">Overview</h2>
+
+    <h3 id="description">Description</h3>
+
+    <p><strong>hoffy.js</strong> - Write a series of functions that demonstrate the use of the rest operator (or call/apply), and higher order functions</p>
+
+    <p><strong>analytic.js</strong>, <strong>tempAnalytic.js</strong>, <strong>readWeatherFs.js</strong>, and <strong>readWeatherUrl.js</strong> - Generate reports analyzing weather data,  in two parts):</p>
+
+    <ul>
+      <li>An initial version that works off of a local <code class="highlighter-rouge">json</code> file</li>
+      <li>A second version that works off of remote urls containing json (you can overwrite the previous part with this code)</li>
+      <li>The folder structure showing all files should look like</li>
+    </ul>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>├── .eslintrc.js
+├── historical-hourly-weather-data-json
+│   └── temperature.json
+└── src
+    ├── hoffy.js
+    ├── readWeatherFs.js
+    ├── readWeatherUrl.js.js
+    ├── analytic.js
+    └── tempAnalytic.js
+</code></pre></div>    </div>
+
+    <ul>
+      <li><code class="highlighter-rouge">hoffy</code> - contains your higher order functions</li>
+      <li><code class="highlighter-rouge">tempAnalytic</code> and <code class="highlighter-rouge">readWeatherFs</code> - a module with a report generating function and a file that uses it to run a report on a file read locally from your file system</li>
+      <li><code class="highlighter-rouge">analytic</code> and <code class="highlighter-rouge">readWeatherUrl</code> - a module with a <em>flexible</em> report generating function and a file that uses it to create a report on multiple files programmatically downloaded from (mostly) unknown urls</li>
+    </ul>
+
+    <h3 id="submission-process">Submission Process</h3>
+
+    <p>You will be given access to a private repository on GitHub. It will contain unit tests, stub files for your code and an <code class="highlighter-rouge">.eslintrc.js</code></p>
+
+    <ul>
+      <li>The final version of your assignment should be in GitHub.</li>
+      <li><strong>Push</strong> your changes to the homework repository on GitHub.</li>
+    </ul>
+
+    <h3 id="points-make-at-least-4-commits">(4 points) Make at Least 4 Commits</h3>
+
+    <ul>
+      <li>Commit multiple times throughout your development process.</li>
+      <li>Make at least 4 separate commits - (for example, one option may be to make one commit per part in the homework).</li>
+    </ul>
+
+    <h2 id="part-1---setup-and-exercises">Part 1 - Setup and Exercises</h2>
+
+    <p>For this homework, you&#39;ll have files available in your repository, so you&#39;ll be cloning first.</p>
+
+    <p>The solutions to the following problems can go in the same file - <strong>src/hoffy.js</strong>:</p>
+
+    <h3 id="setup">Setup</h3>
+
+    <ol>
+      <li>go to your github account&#8230;</li>
+      <li>find your repository: NetID-homework02 (note&#8230; this <strong>should be your NetID</strong>)</li>
+      <li>use the appropriate URL to run git clone</li>
+    </ol>
+
+    <pre><code data-trim="" contenteditable="">git clone [YOUR REPO URL]</code></pre>
+
+    <h3 id="background-info">Background Info</h3>
+
+    <p>Implement functions that use JavaScript features such as:</p>
+
+    <ul>
+      <li>the rest operator</li>
+      <li>the spread operator</li>
+      <li>functions as arguments</li>
+      <li>functions as return values</li>
+      <li>decorators</li>
+      <li>optionally call/apply/bind</li>
+      <li>optionally arrow functions</li>
+      <li>Array methods: &#39;filter&#39;, &#39;map&#39;, &#39;reduce&#39;</li>
+    </ul>
+
+    <p>Go through the functions in order; the concepts explored build off one-another, and the functions become more and more challenging to implement as you go on.</p>
+
+    <p><strong>Do not use</strong>:</p>
+
+    <ul>
+      <li><code class="highlighter-rouge">while</code> loops</li>
+      <li><code class="highlighter-rouge">for</code> loops</li>
+      <li><code class="highlighter-rouge">for ... in</code> loops</li>
+      <li><code class="highlighter-rouge">for ... of</code> loops</li>
+      <li><code class="highlighter-rouge">forEach</code> method .</li>
+    </ul>
+
+    <p><strong>There will a small (-2) penalty every time one is used</strong>. (Homework is 100 points total)</p>
+
+    <h3 id="steps">Steps</h3>
+
+    <ol>
+      <li>prep&#8230;
+        <ul>
+          <li>create a <code class="highlighter-rouge">package.json</code> using <code class="highlighter-rouge">npm init</code></li>
+          <li>create a <code class="highlighter-rouge">.gitignore</code> to ignore node_modules</li>
+          <li>make sure that <code class="highlighter-rouge">mocha</code>, <code class="highlighter-rouge">chai</code>, and <code class="highlighter-rouge">eslint</code> are still installed (similar to previous assignment)
+            <pre><code data-trim="" contenteditable="">npm install --save-dev mocha
+npm install --save-dev eslint
+npm install --save-dev chai
+npm install --save-dev eslint-plugin-mocha
+</code></pre>
+          </li>
+          <li>you&#39;ll also need a few additional modules installed locally for the unit tests to run:
+            <ul>
+              <li>finally, install sinon and mocha-sinon locally for mocking <code class="highlighter-rouge">console.log</code> (these are for unit tests)</li>
+              <li><code class="highlighter-rouge">npm install --save-dev sinon</code></li>
+              <li><code class="highlighter-rouge">npm install --save-dev mocha-sinon</code></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>implement functions below in <strong>hoffy.js</strong></li>
+      <li>make sure you export your functions as you implement them so that&#8230;</li>
+      <li>you can run tests as you develop these functions (again, the tests are included in the repository):
+ <code class="highlighter-rouge">npx mocha tests/hoffy-test.js</code></li>
+      <li>also remember to run eslint (there&#39;s a <code class="highlighter-rouge">.eslintrc</code> file included in the repository):
+ <code class="highlighter-rouge">npx eslint src/*</code></li>
+    </ol>
+
+    <h3 id="points-functions-to-implement">(40 points) Functions to Implement</h3>
+
+    <h3 id="per-while-for-foreach-for-of-or-for-in-loop-used">(-2 per while, for, forEach, for of, or for in loop used)</h3>
+
+    <h3 id="parsemovess"><code class="highlighter-rouge">parseMoves(s)</code></h3>
+
+    <p><strong>Parameters:</strong></p>
+
+    <ul>
+      <li><code class="highlighter-rouge">s</code> - a <code class="highlighter-rouge">String</code> representing a series of moves in a connection game in the format [piece 1][piece 2][&#8230;moves]</li>
+    </ul>
+
+    <p><strong>Returns:</strong></p>
+
+    <ul>
+      <li>an <code class="highlighter-rouge">Array</code> of objects representing the moves encoded in the <code class="highlighter-rouge">String</code>, <code class="highlighter-rouge">s</code></li>
+    </ul>
+
+    <p><strong>Description:</strong></p>
+
+    <p>This is a warm-up for using the <code class="highlighter-rouge">Array</code> function, <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map"><code class="highlighter-rouge">map</code></a>. It builds off of the background information for homework 01.</p>
+
+    <p>It parse a series of moves encoding in a string as:</p>
+
+    <ul>
+      <li><code class="highlighter-rouge">[piece 1][piece 2][...moves]</code></li>
+      <li>for example: <code class="highlighter-rouge">😎💻AABBCC</code>
+        <ul>
+          <li>where sunglasses moves to column A</li>
+          <li>then laptop moves to column A</li>
+        </ul>
+      </li>
+      <li>the first two characters are the pieces</li>
+      <li>the remaining characters are the names of the columns that the pieces are dropped in</li>
+      <li>the values alternate when being placed in columns (sunglasses emoji goes in A, laptop goes in A, sunglasses go in B, etc.)</li>
+    </ul>
+
+    <p>It will return the moves as an <code class="highlighter-rouge">Array</code> of objects, with each object representing a single move. Each move object will contain the following properties:</p>
+
+    <ul>
+      <li><code class="highlighter-rouge">val</code> - the value of the piece dropped</li>
+      <li><code class="highlighter-rouge">col</code> - the column that the piece was dropped in</li>
+    </ul>
+
+    <p>For example, the <code class="highlighter-rouge">String</code>, <code class="highlighter-rouge">'😎💻ABACAA'</code> would yield:</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[ { val: '😎', col: 'A' },
+  { val: '💻', col: 'B' },
+  { val: '😎', col: 'A' },
+  { val: '💻', col: 'C' },
+  { val: '😎', col: 'A' },
+  { val: '💻', col: 'A' } ]
+</code></pre></div>    </div>
+
+    <p>To do this without regular loops, use a combination of</p>
+    <ul>
+      <li>spread  (<code class="highlighter-rouge">...</code>) to break up a <code class="highlighter-rouge">String</code> into an <code class="highlighter-rouge">Array</code> of chracters</li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/entries"><code class="highlighter-rouge">entries</code></a> to break up an <code class="highlighter-rouge">Array</code> into an <code class="highlighter-rouge">Array</code> of <code class="highlighter-rouge">Arrays</code>, with each sub <code class="highlighter-rouge">Array</code> containing two elements: the position of the original element and the original element itself
+        <ul>
+          <li>note that this returns an iterable object&#8230;</li>
+          <li>so you&#39;ll need spread to turn it into an <code class="highlighter-rouge">Array</code>
+            <pre><code data-trim="" contenteditable="">const words = ['foo', 'bar', 'baz'];
+console.log([...words.entries()]);
+// [[0, 'foo'], [1, 'bar'], [2, 'baz']]
+</code></pre>
+          </li>
+        </ul>
+      </li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map"><code class="highlighter-rouge">map</code></a> - to transform elements of an <code class="highlighter-rouge">Array</code></li>
+    </ul>
+
+    <p><strong>Example:</strong></p>
+
+    <p><code class="highlighter-rouge">console.log(parseMoves('😎💻ABACAA'));</code></p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// results in:
+[ { val: '😎', col: 'A' },
+  { val: '💻', col: 'B' },
+  { val: '😎', col: 'A' },
+  { val: '💻', col: 'C' },
+  { val: '😎', col: 'A' },
+  { val: '💻', col: 'A' } ]
+</code></pre></div>    </div>
+
+    <hr />
+
+    <h3 id="shorteststrings1-s2-s3-to-sn"><code class="highlighter-rouge">shortestString(s1, s2, s3 to sN)</code></h3>
+
+    <p><strong>Parameters:</strong></p>
+
+    <ul>
+      <li><code class="highlighter-rouge">s1, s2, s3 to sN</code> - any number of string arguments</li>
+    </ul>
+
+    <p><strong>Returns:</strong></p>
+
+    <ul>
+      <li>the shortest string in the arguments passed in</li>
+      <li>if no arguments are passed in, give back <code class="highlighter-rouge">undefined</code></li>
+    </ul>
+
+    <p><strong>Description:</strong></p>
+
+    <p>Goes through every string argument passed in and gives back the shortest string. No error checking is required; you can assume that every argument is a string or no arguments are passed in at all. If there is a tie, return the argument that appears in the later position. If there are no arguments passed in, return <code class="highlighter-rouge">undefined</code></p>
+
+    <p>HINTS:</p>
+
+    <ul>
+      <li>use <code class="highlighter-rouge">rest</code> parameters!</li>
+      <li>try <code class="highlighter-rouge">reduce</code></li>
+    </ul>
+
+    <p><strong>Example:</strong></p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>shortestString('foozy', 'barrr', 'bazzz', 'qux', 'quxx') // --&gt; qux
+shortestString('f', 'g', 'foo') // --&gt; g
+longestString() // --&gt; undefined
+</code></pre></div>    </div>
+
+    <hr />
+
+    <h3 id="repeatcallfn-n-arg"><code class="highlighter-rouge">repeatCall(fn, n arg)</code></h3>
+
+    <p><strong>Parameters:</strong></p>
+
+    <ul>
+      <li><code class="highlighter-rouge">fn</code> - the function to be called repeatedly</li>
+      <li><code class="highlighter-rouge">n</code> - the number of times to call function, <code class="highlighter-rouge">fn</code></li>
+      <li><code class="highlighter-rouge">arg</code> - the argument to pass to function, <code class="highlighter-rouge">fn</code>, when it is called</li>
+    </ul>
+
+    <p><strong>Returns:</strong></p>
+
+    <ul>
+      <li><code class="highlighter-rouge">undefined</code> (no return value)</li>
+    </ul>
+
+    <p><strong>Description:</strong></p>
+
+    <p>This function demonstrates using functions as an argument or arguments to another function. It calls function, <code class="highlighter-rouge">fn</code>, <code class="highlighter-rouge">n</code> times, passing in the argument, <code class="highlighter-rouge">arg</code> to each invocation / call.  It will ignore the return value of function calls. Note that it passes in only one <code class="highlighter-rouge">arg</code>. Check out the <a href="http://eloquentjavascript.net/05_higher_order.html">readings</a> or <a href="../slides/js/higher-order-functions-continued.html">slides</a> on higher order functions for relevant background material and examples.</p>
+
+    <p>HINT: use recursion to avoid regular loops</p>
+
+    <p><strong>Example:</strong></p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>repeatCall(console.log, 3, "Hello!");
+// prints out:
+// Hello!
+// Hello!
+// Hello!
+
+// calls console.log twice, each time passing in only the first argument
+// (we'll see how to fix this later)
+repeatCall(console.log, 2, "foo", "bar", "baz", "qux", "quxx", "corge");
+    
+// prints out (again, only 1st arg is passed in):
+// foo 
+// foo 
+</code></pre></div>    </div>
+
+    <hr />
+
+    <h3 id="repeatcallallargsfn-n-args1--argsn"><code class="highlighter-rouge">repeatCallAllArgs(fn, n, args1 ... argsn)</code></h3>
+
+    <p><strong>Parameters:</strong></p>
+
+    <ul>
+      <li><code class="highlighter-rouge">fn</code> - the function to be called repeatedly</li>
+      <li><code class="highlighter-rouge">n</code> - the number of times to call function, <code class="highlighter-rouge">fn</code></li>
+      <li><code class="highlighter-rouge">args1 ... argsn</code> - <em>all</em> of the arguments to pass in to the function <code class="highlighter-rouge">fn</code> when it is called</li>
+    </ul>
+
+    <p><strong>Returns:</strong></p>
+
+    <ul>
+      <li><code class="highlighter-rouge">undefined</code> (no return value)</li>
+    </ul>
+
+    <p><strong>Description:</strong></p>
+
+    <p>This is pretty much the same function as the previous, but it also demonstrates using a variable number of arguments. It calls function, <code class="highlighter-rouge">fn</code>, <code class="highlighter-rouge">n</code> times, passing in all of the remaining arguments that were passed to the original function, as the arguments to the <code class="highlighter-rouge">fn</code> function invocation. It will ignore the return value of function calls. Here are some hints:</p>
+
+    <ul>
+      <li>use <code class="highlighter-rouge">rest</code> parameters and <code class="highlighter-rouge">spread</code></li>
+      <li>or use the <code class="highlighter-rouge">arguments</code> object along with <code class="highlighter-rouge">apply</code></li>
+    </ul>
+
+    <p>HINT: use recursion to avoid regular loops</p>
+
+    <p><strong>Example:</strong></p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// calls console.log twice, each time passing in the args, "foo", "bar", ... "corge"
+repeatCallAllArgs(console.log, 2, "foo", "bar", "baz", "qux", "quxx", "corge");
+    
+// prints out:
+// foo bar baz qux quxx corge
+// foo bar baz qux quxx corge
+</code></pre></div>    </div>
+
+    <hr />
+
+    <h3 id="steppedforeacharr-fn-step"><code class="highlighter-rouge">steppedForEach(arr, fn, step)</code></h3>
+
+    <p><strong>Parameters:</strong></p>
+
+    <ul>
+      <li><code class="highlighter-rouge">arr</code> - the array containing potential arguments to the function <code class="highlighter-rouge">fn</code></li>
+      <li><code class="highlighter-rouge">fn</code> - the function to be called repeatedly</li>
+      <li><code class="highlighter-rouge">n</code> - the number elements to be consumed from the array to be used as arguments to <code class="highlighter-rouge">fn</code></li>
+    </ul>
+
+    <p><strong>Returns:</strong></p>
+
+    <ul>
+      <li><code class="highlighter-rouge">undefined</code> (no return value)</li>
+    </ul>
+
+    <p><strong>Description:</strong></p>
+
+    <p>Calls the function <code class="highlighter-rouge">fn</code> using every <code class="highlighter-rouge">step</code> number of elements from the <code class="highlighter-rouge">Array</code>, <code class="highlighter-rouge">arr</code>, as arguments to <code class="highlighter-rouge">fn</code>. For example, if <code class="highlighter-rouge">step</code> were 3, then <code class="highlighter-rouge">fn</code> would be called with the first 3 elements of <code class="highlighter-rouge">arr</code> each as a positional argument. <code class="highlighter-rouge">fn</code> will be called again with the next 3 arguments. <code class="highlighter-rouge">fn</code> will continue to be called until there are no more elements to use as arguments from <code class="highlighter-rouge">arr</code>. If the last group of arguments is less than <code class="highlighter-rouge">step</code> call the function <code class="highlighter-rouge">fn</code> with whatever arguments are left (see example below)</p>
+
+    <p>HINT: to adhere to the restrictions regarding use of for, for of, forEach, while, etc. &#8230; it might be useful to think of a way to implement this function recursively</p>
+
+    <p><strong>Example:</strong></p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>steppedForEach([1, 2, 3, 4, 5, 6], (a, b, c) =&gt; console.log('' + a + b + c),  3);
+/* 
+note that arrow function is called twice, each time with 3 elements from arr:
+123
+456
+*/
+steppedForEach([1, 2, 3, 4, 5, 6, 7], (a, b, c) =&gt; console.log('' + a + b + c),  3);
+/*
+in this case, the arrow function is called 3 times, but the last time, only one
+argument is passed in, 7 (there are no more elements after that)
+123
+456
+7undefinedundefined
+*/
+</code></pre></div>    </div>
+
+    <hr />
+
+    <h3 id="constraindecoratorfn-min-max"><code class="highlighter-rouge">constrainDecorator(fn, min, max)</code></h3>
+
+    <p><strong>Parameters:</strong></p>
+
+    <ul>
+      <li><code class="highlighter-rouge">fn</code> - the function to modify (<em>decorate</em>)</li>
+      <li><code class="highlighter-rouge">min</code> - the minimum value that <code class="highlighter-rouge">fn</code> can return</li>
+      <li><code class="highlighter-rouge">max</code> - the maximum value that <code class="highlighter-rouge">fn</code> can return</li>
+    </ul>
+
+    <p><strong>Returns:</strong></p>
+
+    <ul>
+      <li><code class="highlighter-rouge">function</code> - a function that&#8230;
+        <ul>
+          <li>does the same thing as the original function, <code class="highlighter-rouge">fn</code> (that is, it calls the original function)</li>
+          <li>accepts the same number of arguments as the original function, <code class="highlighter-rouge">fn</code></li>
+          <li>the return value is the return value of <code class="highlighter-rouge">fn</code>, unless it is less than or greater than the <code class="highlighter-rouge">min</code> and <code class="highlighter-rouge">max</code>, in which case it returns <code class="highlighter-rouge">min</code> or <code class="highlighter-rouge">max</code> respectively</li>
+        </ul>
+      </li>
+    </ul>
+
+    <p><strong>Description:</strong></p>
+
+    <p>This function is a decorator. <a href="../slides/js/higher-order-functions-continued.html">See the slides on the decorator pattern</a> for background information. It builds on top of the example in the slides by actually <em>modifying</em> the return value of the original function.</p>
+
+    <p>This function wraps the function <code class="highlighter-rouge">fn</code> in another function so that operations can be performed before and after the original function <code class="highlighter-rouge">fn</code> is called. This can be used to modify incoming arguments, modify the return value, or do any other task before or after the function call. Again, we&#39;ll be modifying the return value in this case.</p>
+
+    <p>This particular decorator function constrains the result of the function being wrapped, <code class="highlighter-rouge">fn</code> so that its return value fits between <code class="highlighter-rouge">min</code> and <code class="highlighter-rouge">max</code> inclusive. If these are omitted from the original outer function, then the newly returned function will just return the value unmodified. You can assume that the return value of <code class="highlighter-rouge">fn</code> is <code class="highlighter-rouge">Number</code> (you do not have to deal with other types).</p>
+
+    <p><strong>Example:</strong></p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// creates a new function from the built-in function, parseInt
+// the new function is the same thing as parseInt, but it constrains
+// the return value to a value between min and max (inclusive)
+const constrainedParseInt = constrainDecorator(parseInt, -10, 10);
+
+// still works like the original parseInt
+constrainedParseInt("7") // --&gt; 7
+constrainedParseInt("-10")) // --&gt; -10
+
+// but if the return value is less than min or greater than max
+// it returns min or max respectively
+constrainedParseInt("-12") // --&gt; -10
+constrainedParseInt("12")) // --&gt; 10
+
+// however, if either min or max are missing, then the new function
+// returns the result of fn unmodified regardless of value
+const constrainedParseInt2 = constrainDecorator(parseInt);
+constrainedParseInt2("-12") // --&gt; -12
+</code></pre></div>    </div>
+
+    <hr />
+
+    <h3 id="limitcallsdecoratorfn-n"><code class="highlighter-rouge">limitCallsDecorator(fn, n)</code></h3>
+
+    <p><strong>Parameters:</strong></p>
+
+    <ul>
+      <li><code class="highlighter-rouge">fn</code> - the function to modify (<em>decorate</em>)</li>
+      <li><code class="highlighter-rouge">n</code> - the number of times that <code class="highlighter-rouge">fn</code> is allowed to be called</li>
+    </ul>
+
+    <p><strong>Returns:</strong></p>
+
+    <ul>
+      <li><code class="highlighter-rouge">function</code> - a function that&#8230;
+        <ul>
+          <li>does the same thing as the original function, <code class="highlighter-rouge">fn</code> (that is, it calls the original function)</li>
+          <li>but can only be called <code class="highlighter-rouge">n</code> times</li>
+          <li>after the <code class="highlighter-rouge">n</code>th call, the original function, <code class="highlighter-rouge">fn</code> will not be called, and the return value will always be <code class="highlighter-rouge">undefined</code></li>
+        </ul>
+      </li>
+    </ul>
+
+    <p><strong>Description:</strong></p>
+
+    <p>This is the culmination of all of the concepts from the previous functions. However, instead of just reading from a variable that&#39;s available through the closure, you&#39;ll use it to keep track of the number of times that a function is called&#8230; and prevent the function from being called again if it goes over the <code class="highlighter-rouge">max</code> number of allowed function calls. Here are the steps you&#39;ll go through to implement this:</p>
+
+    <ol>
+      <li>create your decorator (function)</li>
+      <li>create a local variable to keep track of the number of calls</li>
+      <li>create an inner function to return
+        <ul>
+          <li>the inner function will check if the number of calls is less than the max number of allowed calls</li>
+          <li>if it&#39;s still under max, call the function, <code class="highlighter-rouge">fn</code> (allow all arguments to be passed), return the return value of calling <code class="highlighter-rouge">fn</code>, and increment the number of calls</li>
+          <li>if it&#39;s over max, just return <code class="highlighter-rouge">undefined</code> immediately without calling the original function</li>
+        </ul>
+      </li>
+    </ol>
+
+    <p><strong>Example:</strong></p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>const = limitedParseInt = limitCallsDecorator(parseInt, 3);
+limitedParseInt("423") // --&gt; 423
+limitedParseInt("423") // --&gt; 423
+limitedParseInt("423") // --&gt; 423
+limitedParseInt("423") // --&gt; undefined
+</code></pre></div>    </div>
+
+    <hr />
+
+    <h3 id="bundleargsfn-args1-args2-to-argsn"><code class="highlighter-rouge">bundleArgs(fn, args1, args2 to argsn)</code></h3>
+
+    <p><strong>Parameters:</strong></p>
+
+    <ul>
+      <li><code class="highlighter-rouge">fn</code> - the function to get args bundled with it</li>
+      <li><code class="highlighter-rouge">args1, args2 to  argsn</code> - any numbers of args that will automatically get filled in when the output function is used</li>
+    </ul>
+
+    <p><strong>Returns:</strong></p>
+
+    <ul>
+      <li><code class="highlighter-rouge">function</code> - a version of the original <code class="highlighter-rouge">fn</code> that can take any number of arguments, but when used, will use the <code class="highlighter-rouge">args1, args2 to argsn</code> as the first parameters to <code class="highlighter-rouge">fn</code>, filling in the new arguments afterwards</li>
+    </ul>
+
+    <p><strong>Description:</strong></p>
+
+    <p>Suppose you&#39;re using the same function all the time, with nearly the same arguments every time: wouldn&#39;t it be great to have a quick way to make an alternate version of your function where your favorite arguments come pre-filled?</p>
+
+    <p>Of course, <code class="highlighter-rouge">bind</code>, already does this for us, so don&#39;t take the easy way out and use <code class="highlighter-rouge">bind</code>. Implement this function <strong>without bind</strong>!</p>
+
+    <p><strong>Example:</strong></p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// example, you have a function that surrounds text with other text
+function surroundText(surrounding, text) {
+  return [surrounding, text, surrounding].join(" ")
+}
+
+// but you know you're going to use it for one thing only
+const makeCool = bundleArgs(surroundText, "~x~X~x~")
+
+// save yourself some time
+console.log(makeCool("i guess")) // ~x~X~x~ i guess ~x~X~x~
+
+// again w/ leftovers
+function repeatLetter(letter, times) {
+	Array(times).fill(letter).join('');
+}
+
+// fix 1 of 2 arguments to 'r'
+rrrrrollWithIt = bundleArgs(repeatLetter, 'r');
+
+// resulting function has only one arg now
+rrrrrollWithIt(10) // rrrrrrrrrr
+</code></pre></div>    </div>
+    <hr />
+
+    <h3 id="sequencefn1-fn2-to-fnn"><code class="highlighter-rouge">sequence(fn1, fn2, to fnN)</code></h3>
+
+    <p><strong>Parameters:</strong></p>
+
+    <ul>
+      <li><code class="highlighter-rouge">fn1, fn2, to fnN</code> - a bunch of functions</li>
+    </ul>
+
+    <p><strong>Returns:</strong></p>
+
+    <ul>
+      <li><code class="highlighter-rouge">function</code> - a function that has a single argument; it will pass it&#39;s single argument to <code class="highlighter-rouge">fn1</code>, take the output of <code class="highlighter-rouge">fn1</code> and use it as the argument to <code class="highlighter-rouge">fn2</code>, then take the output of <code class="highlighter-rouge">fn2</code> and use it for <code class="highlighter-rouge">fn3</code>, and then&#8230; etc</li>
+    </ul>
+
+    <p><strong>Description:</strong></p>
+
+    <p>A handy utility for automating the writing of code that&#39;s just calling functions to pass their arguments to other functions. You can assume that each function passed in only takes one argument.</p>
+
+    <p>HINT: it&#39;s kind of like <em>summing</em> or <em>composing</em> the functionality of a bunch of functions together</p>
+
+    <p><strong>Example:</strong></p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// let's say you have some pretty procedural functions
+function superCamelCase(s) {
+  return s
+    .split("")
+    .map((c, i) =&gt; (i % 2 == 0 ? c.toUpperCase() : c.toLowerCase()))
+    .join("")
+}
+
+function spaceText(s) {
+  return s.split("").join(" ")
+}
+
+function addStyle(s) {
+  return "~~~ " + s + " ~~~"
+}
+
+// you want to make a playlist of them
+const aestheticFmtPipeline = sequence(
+  superCamelCase,
+  spaceText,
+  addStyle
+)
+
+console.log(aestheticFmtPipeline("hello world")) // ~~~ H e L l O   W o R l D ~~~
+
+function makeVertical(s) {
+  return s.split("").join("\n")
+}
+
+// playlists of playlists of functions
+const tallAestheticFmt = sequence(aestheticFmtPipeline, makeVertical)
+
+console.log(tallAestheticFmt("goodbye world"))
+/*
+~
+~
+~
+
+G
+
+o
+
+O
+
+d
+
+B
+
+y
+
+E
+
+
+
+W
+
+o
+
+R
+
+l
+
+D
+
+~
+~
+~
+*/
+</code></pre></div>    </div>
+
+    <h3 id="test-lint-and-commit">Test, Lint and Commit</h3>
+
+    <p>Once you&#39;re finished with your functions, remember to:</p>
+
+    <ol>
+      <li>make sure all tests are passing</li>
+      <li>make sure that eslint shows no errors</li>
+      <li>commit and push your code!</li>
+    </ol>
+
+    <h2 id="part-2---weather-analysis">Part 2 - Weather Analysis</h2>
+
+    <p>In this part, you&#39;ll work with hourly weather data for 30 US &amp; Canadian Cities + 6 Israeli Cities. You&#39;ll use higher order functions to analyze this data.</p>
+
+    <p>The data for this part was based off of data uploaded to kaggle (<a href="https://www.kaggle.com/selfishgene/historical-hourly-weather-data">https://www.kaggle.com/selfishgene/historical-hourly-weather-data</a>), which in turn was sourced from <a href="https://openweathermap.org/">https://openweathermap.org/</a>.</p>
+
+    <p>You&#39;ll work with the following two files for this part:</p>
+
+    <ol>
+      <li><code class="highlighter-rouge">tempAnalytic.js</code> to create a function called <code class="highlighter-rouge">analyzeTemperature</code>
+        <ul>
+          <li>the function will take an <code class="highlighter-rouge">Array</code> of objects, with each object representing the temperature of 36 cities</li>
+          <li>the function should be exported so that it can be accessed when this filed is used as a module through <code class="highlighter-rouge">require</code></li>
+        </ul>
+      </li>
+      <li><code class="highlighter-rouge">readWeatherFs.js</code> to read in a file containing JSON data&#8230;
+        <ul>
+          <li>the JSON data is a list of hourly temperatures per city</li>
+          <li>use the <code class="highlighter-rouge">analyzeTemperature</code> function from <code class="highlighter-rouge">tempAnalytic.js</code> above to generate a report</li>
+          <li>note: you can assume there are no missing values, <code class="highlighter-rouge">NaN</code> or null in the data. In other words, no data cleansing or validation is necessary.</li>
+        </ul>
+      </li>
+    </ol>
+
+    <h3 id="importing-data">Importing Data</h3>
+
+    <ul>
+      <li>Your repository should contain a file, <code class="highlighter-rouge">historical-hourly-weather-data-json/temperature.json</code></li>
+      <li>Start by reading in the data from <code class="highlighter-rouge">temperature.json</code> using <code class="highlighter-rouge">fs.readFile</code>
+        <ul>
+          <li>make sure that the <code class="highlighter-rouge">fs</code> module is brought in using <code class="highlighter-rouge">require</code>, then call the function)</li>
+          <li><a href="https://nodejs.org/api/fs.html#fs_fs_readfile_path_options_callback">see the documentation for usage</a> to see how to use <code class="highlighter-rouge">fs.readFile</code>
+            <ul>
+              <li>HINT: make sure you specify <code class="highlighter-rouge">utf8</code> as the second argument</li>
+            </ul>
+          </li>
+          <li>recall from the <a href="../slides/js/js-node-npm-debug-git.html">slides on node</a> that I/O in node can be done asynchronously</li>
+          <li>to learn how to deal with non-blocking code, you must use the async version of <code class="highlighter-rouge">fs.readFile</code> (rather than <code class="highlighter-rouge">fs.readFileSync</code>)</li>
+          <li>consequently, if you&#39;d like to perform an action after reading a file, you must do it within the callback function:
+            <pre><code data-trim="" contenteditable="">fs.readFile('path/to/myFile.txt', 'utf8', function(err, data) {
+if (err) {
+console.log('uh oh', err);
+} else {
+console.log('congrats, the file has been read:', data);
+}
+});
+</code></pre>
+          </li>
+          <li>when using <code class="highlighter-rouge">fs.readFile</code>, ⚠️⚠️⚠️ <strong>use a relative path so that your program will run in different environments</strong> (for example, a grader&#39;s computer)</li>
+          <li>assume that the program will be run from the project&#39;s root directory</li>
+          <li>again, <strong>do not use readFileSync</strong></li>
+        </ul>
+      </li>
+      <li>Remember that the data read into memory is a <code class="highlighter-rouge">String</code> in JSON format</li>
+      <li>The JSON <code class="highlighter-rouge">String</code> represents an <code class="highlighter-rouge">Array</code> of hourly temperature data:
+        <ul>
+          <li>each object in the <code class="highlighter-rouge">Array</code> contains a time and the temperature of 36 cities at that time</li>
+          <li>the first property in the object is <code class="highlighter-rouge">datetime</code> formatted as <code class="highlighter-rouge">YYYY-MM-dd HH:mm:ss</code></li>
+          <li>the remaining 36 properties are named after cities (<code class="highlighter-rouge">Portland</code>, <code class="highlighter-rouge">Vancouver</code>, etc.), and each property has a value of <code class="highlighter-rouge">temperature</code> in <em>Kevlin Scale</em></li>
+          <li>example:
+            <pre><code data-trim="" contenteditable=""> {
+  "datetime":"2012-10-01 13:00:00",
+  "Vancouver":284.63,
+  "Portland":282.08,
+  "San Francisco":289.48,
+  "Denver":284.61,
+  "San Antonio":289.29,
+  ...
+  "Tel Aviv District":305.47,
+  "Eilat":310.58,
+  "Haifa":304.4,
+  "Nahariyya":304.4,
+  "Jerusalem":303.5
+}
+</code></pre>
+          </li>
+        </ul>
+      </li>
+      <li>Turn the string into an actual <code class="highlighter-rouge">Array</code> of objects <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON">see the docs on JSON</a>, or see the slides on [../slides/js/js-objects.html#/25]</li>
+      <li>Find a way to convert Kelvin to Fahrenheit:
+        <ul>
+          <li>the formula is <code class="highlighter-rouge">T(F) = T(K) * 1.8 - 459.67</code> <a href="https://www.rapidtables.com/convert/temperature/how-kelvin-to-fahrenheit.html">https://www.rapidtables.com/convert/temperature/how-kelvin-to-fahrenheit.html</a></li>
+          <li>note that the goal of this assignment is to work with higher order functions, so memory efficiency does not need to be taken into consideration</li>
+        </ul>
+      </li>
+      <li>As noted above, your parsing and conversion should be done within the callback function (or the function to be called once data is read from the file)</li>
+      <li>Once you&#39;re done, use the <code class="highlighter-rouge">Array</code> that you&#39;ve produced to <strong>print the first ten lines of temperature in New York with the the following format using template literals</strong>:
+        <pre><code data-trim="" contenteditable="">// Format
+At ${time}, the temperature in NY is ${degree in Fahrenheit} (F)
+// Example
+At 2012-10-01 13:00:00, the temperature in NY is 59.13 (F)
+</code></pre>
+      </li>
+      <li>Later, you will be supplying this <code class="highlighter-rouge">Array</code> to the <code class="highlighter-rouge">analyzeTemperature</code> function that you create in <code class="highlighter-rouge">tempAnalytic.js</code> to generate a report.</li>
+    </ul>
+
+    <h3 id="analyzetemperature-weatherdata"><code class="highlighter-rouge">analyzeTemperature (weatherData)</code></h3>
+
+    <p>In <code class="highlighter-rouge">tempAnalytic.js</code>, implement  a function called <code class="highlighter-rouge">analyzeTemperature</code>.</p>
+
+    <p><strong>Parameters:</strong></p>
+
+    <ul>
+      <li><code class="highlighter-rouge">weatherData</code> - an <code class="highlighter-rouge">Array</code> of objects, with each object representing an hourly temperature for each of 36 cities.</li>
+    </ul>
+
+    <p><strong>Returns:</strong></p>
+
+    <ul>
+      <li>a <code class="highlighter-rouge">String</code> version of a your weather data report</li>
+    </ul>
+
+    <p><strong>Description:</strong></p>
+
+    <p>This function will generate a report based on the <code class="highlighter-rouge">Array</code> of objects passed in. The report will contain:</p>
+
+    <ul>
+      <li>the average temperature of different cities over:
+        <ul>
+          <li>the entire time series</li>
+          <li>a specific year</li>
+          <li>a particular season</li>
+        </ul>
+      </li>
+      <li>the coldest and warmest dates / times  and</li>
+      <li>the top ten coldest and warmest cities in the dataset</li>
+    </ul>
+
+    <h3 id="implementation-requirements">Implementation Requirements</h3>
+
+    <p>⚠️⚠️⚠️ <strong>You must avoid using regular loops in your implementation.</strong> Avoid using:</p>
+
+    <ul>
+      <li><code class="highlighter-rouge">for</code>, <code class="highlighter-rouge">for in</code>, <code class="highlighter-rouge">for of</code> and <code class="highlighter-rouge">while</code></li>
+      <li>the <code class="highlighter-rouge">Array</code> method, <code class="highlighter-rouge">forEach</code></li>
+    </ul>
+
+    <p>You will get two &quot;free&quot; regular loops to use, but after that, using a regular loop will result in a minor penalty (likely around around two points, but potentially slightly more or less). This may result in less efficient code, or code that is trickier to understand&#8230; but the goal of this homework is to get accustomed to using higher order functions.</p>
+
+    <p>With that said, consider using the following <code class="highlighter-rouge">Array</code> methods for your implementations:</p>
+
+    <ol>
+      <li><code class="highlighter-rouge">filter</code></li>
+      <li><code class="highlighter-rouge">map</code></li>
+      <li><code class="highlighter-rouge">reduce</code></li>
+    </ol>
+
+    <p>Note: try not to modify the input data during executing your function. Usually the input should be read-only and if you would like to overwrite it, creating a copy would be fine. (In this assignment, the size of data is relatively small).</p>
+
+    <h3 id="problem-overview">Problem Overview</h3>
+
+    <p>Your report will use the data passed in to determine:</p>
+
+    <ol>
+      <li>The first 10 lines of Temperature in NY</li>
+      <li>The mean temperature in San Diego</li>
+      <li>The coldest, warmest time and temperature in New York</li>
+      <li>Top 10 cities with coldest and warmest mean temperature</li>
+      <li>The average temperature over spring 2013 in New York</li>
+    </ol>
+
+    <h3 id="first-10-lines-of-temperature-in-ny">First 10 lines of Temperature in NY</h3>
+
+    <p>This part of the report will show your temperature conversion as well as formatting floating point numbers (generally useful for any type of reporting, including data dashboards!). It&#39;s also typical to preview a small portion of a data set prior to performing an analysis (similar to <code class="highlighter-rouge">head</code> in bash or like the head function in pandas dataframes).</p>
+
+    <p>The output format and example are listed below:</p>
+
+    <p>Format: Print all decimal numbers with 2 digits after decimal point</p>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>At `YYYY-MM-dd HH:mm:ss`, the temperature in NY is `xx.xx` (F)
+</code></pre></div>    </div>
+    <p>HINT: use <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toPrecision"><code class="highlighter-rouge">toFixed(n)</code></a> or <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toPrecision"><code class="highlighter-rouge">toPrecision(n)</code></a>. What&#39;s the difference between these two? Which one would be appropriate for displaying data / a report to an end user?</p>
+
+    <p>Example:</p>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>First 10 lines of Temperature in NY:
+At 2012-10-01 13:00:00, the temperature in NY is 59.13 (F)
+...
+</code></pre></div>    </div>
+
+    <h3 id="the-mean-temperature-in-san-diego">The mean temperature in San Diego</h3>
+
+    <p>For this part of the report, it may be useful to call one higher order function after another (for example, taking the resulting of one, and calling the other on that result: <code class="highlighter-rouge">arr.hof1().hof2()</code>&#8230; it&#39;s ok to break this up into two separate calls or chain them as shown here).</p>
+
+    <p>Format: Print all decimal numbers with 2 digits after decimal point</p>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>The mean temperature in San Diego is: xx.xx (F)
+</code></pre></div>    </div>
+
+    <h3 id="the-coldest-warmest-time-and-temperature-in-new-york">The coldest, warmest time and temperature in New York</h3>
+
+    <p>Find the coldest, warmest date and temperature and output in the following format</p>
+
+    <p>Format: Print all decimal numbers with 2 digits after decimal point</p>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>The coldest time in New York is: `YYYY-MM-dd HH:mm:ss`
+The lowest temperature is: xx.xx (F)
+The warmest time in New York is: `YYYY-MM-dd HH:mm:ss`
+The highest temperature is: xx.xx (F)
+</code></pre></div>    </div>
+
+    <h3 id="top-10-cities-with-coldest-and-warmest-mean-temperature">Top 10 Cities with coldest and warmest mean temperature</h3>
+
+    <p>Format: Print all decimal numbers with 2 digits after decimal point</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Top 10 Cities with highest mean temperature
+Tel Aviv District: 70.45 (F)
+Jacksonville: 70.24 (F)
+
+Top 10 Cities with lowest mean temperature
+Toronto: 47.96 (F)
+Denver: 49.54 (F)
+</code></pre></div>    </div>
+
+    <p>HINT: to get the mean of a sequence of values, you will convert an array to a single number. you should also consider <code class="highlighter-rouge">weatherData</code> is an array of objects (conceptually a 2 dimensional array), how can you do achieve this applying a higher order function?</p>
+
+    <p>HINT: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort"><code class="highlighter-rouge">sort</code></a> will be helpful here&#8230; note that it takes in a comparison function; what do you think that comparison function should be if the elements are objects?</p>
+
+    <h3 id="the-average-temperature-over-spring-2013-in-new-york">The average temperature over spring 2013 in New York</h3>
+
+    <p>This is to help you get a sense of how to use <code class="highlighter-rouge">date</code> in Javascript. Please refer to <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date">https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date</a> and look at how to instantiate a date object. More detail steps are listed.</p>
+
+    <ol>
+      <li>Let&#39;s define the spring in NY is from <em>Feburary</em> through <em>April</em> (inclusive)</li>
+      <li>The date string in the dataset is represented as <code class="highlighter-rouge">'YYYY-MM-dd HH:mm:ss'</code>. This is compared based on string instead of date. So <strong>parse</strong> this date string to date object
+        <ul>
+          <li>this can be done by writing your own parser to extract  <code class="highlighter-rouge">year</code>, <code class="highlighter-rouge">month</code>, <code class="highlighter-rouge">day</code>, <code class="highlighter-rouge">hour</code>, <code class="highlighter-rouge">minute</code>, and <code class="highlighter-rouge">second</code> to instantiate a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date">date object</a></li>
+          <li>you can also find a method on date objects that does this for you</li>
+          <li>you can bring in (<code class="highlighter-rouge">require</code>) a 3rd party library</li>
+          <li>lastly, you can assume that all times are in <a href="https://en.wikipedia.org/wiki/Coordinated_Universal_Time">UTC</a> (making this assumption as no timezone data is supplied)</li>
+        </ul>
+      </li>
+      <li>Limit your data to Spring 2013
+        <ul>
+          <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/getFullYear"><code class="highlighter-rouge">getFullYear()</code></a>, <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/getMonth"><code class="highlighter-rouge">getMonth()</code></a> might be helpful</li>
+        </ul>
+      </li>
+      <li>Then compute the mean temperature of NY in Spring 2013</li>
+    </ol>
+
+    <p>Format: Print all decimal numbers with 2 digits after decimal point</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>The average temperature over spring 2013 in New York is: **.** (F)
+</code></pre></div>    </div>
+
+    <p>HINT: be careful to the constructor of date object and numeric representation of month returned from <code class="highlighter-rouge">getMonth()</code>. The output may be off if passing the wrong type of parameters to instantiate the date object and the indexing of month.</p>
+
+    <h3 id="return-value">Return Value</h3>
+
+    <p>Your function should concatenate the string version of each part of the report into a single <code class="highlighter-rouge">String</code>, with each part separated by a new line.</p>
+
+    <h3 id="calling-analyzetemperature">Calling analyzeTemperature</h3>
+
+    <p>Now that you&#39;ve finished your function, you can try to call it on your data from <code class="highlighter-rouge">readWeatherFs.js</code></p>
+
+    <ol>
+      <li>In <code class="highlighter-rouge">readWeatherFs.js</code>: require the module that you created (<code class="highlighter-rouge">tempAnalytic.js</code>).</li>
+      <li>Use readFile to read <code class="highlighter-rouge">temperature.json</code> in the folder <code class="highlighter-rouge">historical-hourly-weather-data-json</code></li>
+      <li>Call <code class="highlighter-rouge">analyzeTemperature()</code> in the callback of <code class="highlighter-rouge">fs.readFile</code></li>
+      <li>Print out the result of the report.</li>
+      <li>You can compare your output with the example output below (See bottom how to compare your output with the below example)</li>
+    </ol>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>The first 10 lines of Temperature in NY:
+At 2012-10-01 13:00:00, the temperature in NY is 59.13 (F)
+At 2012-10-01 14:00:00, the temperature in NY is 59.18 (F)
+At 2012-10-01 15:00:00, the temperature in NY is 59.32 (F)
+At 2012-10-01 16:00:00, the temperature in NY is 59.46 (F)
+At 2012-10-01 17:00:00, the temperature in NY is 59.60 (F)
+At 2012-10-01 18:00:00, the temperature in NY is 59.75 (F)
+At 2012-10-01 19:00:00, the temperature in NY is 59.89 (F)
+At 2012-10-01 20:00:00, the temperature in NY is 60.03 (F)
+At 2012-10-01 21:00:00, the temperature in NY is 60.17 (F)
+At 2012-10-01 22:00:00, the temperature in NY is 60.32 (F)
+
+The mean temperature in San Diego is: 62.72 (F)
+
+The coldest time in New York is: 2015-02-21 08:00:00
+The lowest temperature is: -8.28 (F)
+The warmest time in New York is: 2013-07-19 17:00:00
+The highest temperature is: 98.76 (F)
+
+Top 10 Cities with highest mean temperature
+Miami: 77.06 (F)
+Eilat: 74.03 (F)
+Phoenix: 72.29 (F)
+Haifa: 71.81 (F)
+Tel Aviv District: 70.45 (F)
+Jacksonville: 70.24 (F)
+Houston: 69.97 (F)
+Nahariyya: 69.70 (F)
+San Antonio: 69.23 (F)
+Jerusalem: 68.06 (F)
+Top 10 Cities with lowest mean temperature
+Montreal: 45.11 (F)
+Minneapolis: 45.81 (F)
+Toronto: 47.96 (F)
+Denver: 49.54 (F)
+Detroit: 49.84 (F)
+Chicago: 50.55 (F)
+Boston: 51.25 (F)
+Vancouver: 51.28 (F)
+Pittsburgh: 51.80 (F)
+Seattle: 52.39 (F)
+
+The average temperature over spring 2013 in New York is: 41.13 (F)
+</code></pre></div>    </div>
+
+    <p>Lint, commit and push your code; the next part will make modifications to this existing code (you can overwrite your work in this file directly for the next part).</p>
+
+    <h2 id="part-3---retrieve-json-from-url">Part 3 - Retrieve JSON from URL</h2>
+
+    <h3 id="setup-for-retrieving-json">Setup for Retrieving JSON</h3>
+
+    <p>In this part, you&#39;ll be setting up your project to work with JSON data from a url and issue requests in a particular order.</p>
+
+    <h3 id="retrieve-and-process-json">Retrieve and Process JSON</h3>
+
+    <p>This final part of the homework deals with ordering async IO. Instead of reading a single file from the file system, you&#39;ll programmatically download files from the web. However, this is tricky because you have to deal with executing code only after IO has finished.</p>
+
+    <p>After completing the previous part, you now have a better understanding of <code class="highlighter-rouge">temperature.json</code>, we can move on to retrieving data from an online resource. This time, we&#39;ll retrieve other weather data, like hourly wind and hourly air pressure (along with the original temperature data set as well!). The initial file will be <code class="highlighter-rouge">temperature-resource.json</code>. <strong>The URL for this file will be posted on piazza</strong>.</p>
+
+    <ol>
+      <li>Again, you will be given an initial url which identifies the location of <code class="highlighter-rouge">temperature-resource.json</code></li>
+      <li>In the <code class="highlighter-rouge">temperature-resource.json</code>, there is an additional property called <code class="highlighter-rouge">next</code>, which helps you identify the name of the <code class="highlighter-rouge">next</code> dataset (⚠️⚠️⚠️  <strong>even if you know the name of the next data set, do not hardcode the urls in your program</strong> &#8230; with the exception of the first one)
+        <ul>
+          <li>consequently, the structure of the temperature data is no longer an <code class="highlighter-rouge">Array</code>, but an object</li>
+          <li>one property is <code class="highlighter-rouge">response</code>, which contains the <code class="highlighter-rouge">Array</code> of hourly temperature objects</li>
+          <li>the other property is <code class="highlighter-rouge">next</code>, which contains the url of the next data file</li>
+          <li>additionally, there will be some meta data describing what is being measured:
+            <ul>
+              <li><code class="highlighter-rouge">variable</code> - the name of the data point (temperature, wind, etc.)</li>
+              <li><code class="highlighter-rouge">unit</code> - the unit of measurement (K, m/s, etc.)</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>As long as all these datasets are well prepared, perform similar analytics using the function you created in the previous part TODO:</li>
+    </ol>
+
+    <h3 id="data">Data</h3>
+
+    <p>Below is an example of the general structure of the data files (note, this shows <code class="highlighter-rouge">temperature-resource.json</code>):</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{
+    "next": "name-of-next-file.json",
+    "variable": "temperature",
+    "unit": "K",
+    "response": [{"datetime": "2012-10-01 13:00:00",
+                  "Vancouver": 284.63,
+                  "Portland":  282.08,
+                  "San Francisco": 289.48,
+                  "Seattle": 281.8,
+                  "Los Angeles": 291.87,
+                  "San Diego": 291.53,
+                  "Las Vegas": 293.41,
+                  "Phoenix": 296.6,
+                  "Albuquerque": 285.12,
+                  ...
+                 }, {
+                     ...
+                 },
+                 ...
+                ]
+}
+</code></pre></div>    </div>
+    <ol>
+      <li><code class="highlighter-rouge">next</code>: contains the next resource name (not the exact url)</li>
+      <li><code class="highlighter-rouge">response</code>: JSON array and each object contains weather data of each of 36 cities (same as the <code class="highlighter-rouge">temperature.json</code> in Part 2)</li>
+      <li><code class="highlighter-rouge">variable</code>: the name of the data point</li>
+      <li><code class="highlighter-rouge">unit</code>: the unit of measurement for that data point</li>
+    </ol>
+
+    <p>Note: The datasets retrived through Urls are subsets of their original datasets to avoid long response. For example, <code class="highlighter-rouge">temperature-resource.json</code> contains one year of data retrieved from <code class="highlighter-rouge">temperature.json</code>.</p>
+
+    <h3 id="implementation-detail">Implementation Detail</h3>
+
+    <ol>
+      <li>Install the <code class="highlighter-rouge">request</code> library in your project&#39;s root folder: <code class="highlighter-rouge">npm install --save request</code> (similar to installing <code class="highlighter-rouge">readline-sync</code> in the previous assignment)</li>
+      <li>Create a new file <code class="highlighter-rouge">readWeatherUrl.js</code></li>
+      <li>Add the <code class="highlighter-rouge">request</code> module to the beginning of <code class="highlighter-rouge">readWeatherUrl.js</code> using <code class="highlighter-rouge">require</code></li>
+      <li><a href="https://github.com/mikeal/request">Read the documentation</a> to see how to use the requests module (or see the <a href="../slides/js/js-node-npm-debug-git.html#/6">slides</a>)
+        <ul>
+          <li>Notice that the data is only available within the callback that you pass in to calling <code class="highlighter-rouge">request</code> (much like using readFile)</li>
+          <li>Again, a <strong>callback</strong> is a function passed as an argument to another function&#8230; the callback will be invoked / executed at a later time, when some event is triggered</li>
+          <li>In the case of <code class="highlighter-rouge">request</code>, it&#39;s the function that you pass in as the 2nd argument</li>
+        </ul>
+      </li>
+      <li>In <code class="highlighter-rouge">readWeatherUrl.js</code>, use request to download the first json file (url given through piazza) representing the original temperature data</li>
+      <li>Notice that the json file has a few new fields <code class="highlighter-rouge">response</code>, <code class="highlighter-rouge">next</code>, <code class="highlighter-rouge">variable</code>, and <code class="highlighter-rouge">unit</code>
+        <ul>
+          <li><code class="highlighter-rouge">response</code> is a list of objects, with each object containing temperatures of each of 36 cities</li>
+          <li><code class="highlighter-rouge">next</code> is the name (without extension and without the &quot;root url&quot;) of the next file to retrieve</li>
+        </ul>
+      </li>
+      <li>Create a file <code class="highlighter-rouge">analytic.js</code> and export a function called <code class="highlighter-rouge">generateReport</code>, which will mimic (but also generalize) some of the functionality from the report in Part 2</li>
+      <li>As a starting off point, use the logic that you have for <code class="highlighter-rouge">Top 10 Cities with coldest and warmest mean temperature</code> and <code class="highlighter-rouge">The average temperature over spring 2013 in New York</code> to create <code class="highlighter-rouge">generateReport</code> in <code class="highlighter-rouge">analytic.js</code></li>
+      <li>This function is going to accept not only a list of objects containing <code class="highlighter-rouge">temperature</code>, but also, it should be flexible enough to deal with objects that represent <code class="highlighter-rouge">wind speed</code> and <code class="highlighter-rouge">pressure</code>; consequently, it&#39;ll have a few more parameters&#8230;</li>
+      <li>The function signature should be <code class="highlighter-rouge">generateReport(weatherData, variable, unit)</code> as shown below:
+        <pre><code data-trim="" contenteditable="">// in analytic.js
+/* params:
+ *   weatherData: an Array of objects (similar to the objects in 
+ *                temperature.json, but they may represent wind speed 
+ *                or pressure)
+ *   variable: the String name of the data point that we're reporting on 
+ *             (for example, 'temperature', 'wind speed', 'pressure')
+ *   unit: the unit we'll use for that data point (for example 'K', 'm/s', 
+ *         'hpa')
+ * returns:
+ * 	 a String representing the report that contains:
+ *   - Top 10 Cities with highest mean X
+ *   - Top 10 Cities with lowest mean X
+ *   - The average X over spring 2013 in New York is
+ *   ...where X is the name of the data point
+ *   see instructions for full example of output
+ */
+function generateReport(weatherData, variable, unit) {
+  // COPY AND PASTE YOUR CODE FROM PART 2 BELOW AND MAKE SOME GENERALIZATIONS
+}
+</code></pre>
+      </li>
+      <li>Again, the goal is to create create a generalized function in <code class="highlighter-rouge">analytic.js</code> that can report different weather variables (temperature, wind speed, etc.)
+        <ul>
+          <li>again the report will be&#8230;</li>
+          <li>Top 10 Cities with highest mean [variable]
+ 	* Top 10 Cities with lowest mean [variable]</li>
+          <li>The average X over spring 2013 in New York is&#8230;</li>
+          <li>use the <code class="highlighter-rouge">variable</code> and <code class="highlighter-rouge">unit</code> paramaters</li>
+          <li><strong>you&#39;ll have to special case <code class="highlighter-rouge">temperature</code> in this function though&#8230;</strong> if, <code class="highlighter-rouge">variable</code> is <code class="highlighter-rouge">temperature</code> and unit is <code class="highlighter-rouge">K</code>, convert to fahrenheit</li>
+          <li>see belowfor full example of output</li>
+        </ul>
+      </li>
+      <li>Require <code class="highlighter-rouge">analytic.js</code> in <code class="highlighter-rouge">readWeatherUrl</code> so that you can generate a report from the first file that you retrieved</li>
+      <li>This means that you have to first parse the JSON to create the appropriate values for arguments to <code class="highlighter-rouge">generateReport</code></li>
+      <li>And, of course, call <code class="highlighter-rouge">generateReport</code> and print out the result</li>
+      <li>If there is a <code class="highlighter-rouge">next</code> property in the JSON that you parsed, use that as another URL to retrieve&#8230;</li>
+      <li>&#8230;And go back to the step where you parse the newly retrieved JSON (step 13)</li>
+      <li>If there&#39;s no next, stop retrieving urls!</li>
+    </ol>
+
+    <p>Hint: one way to implement this may look a little like a recursive function (well&#8230; with callbacks mixed in!)</p>
+
+    <h3 id="example-output">Example Output</h3>
+
+    <p>(Notice that <code class="highlighter-rouge">variable</code> and <code class="highlighter-rouge">unit</code> influence output, with <code class="highlighter-rouge">temperature</code> and <code class="highlighter-rouge">K</code> special cased for conversion to fahrenheit)</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Top 10 Cities with highest mean temperature
+Miami: 75.73 (F)
+Eilat: 74.73 (F)
+Phoenix: 73.03 (F)
+Tel Aviv District: 70.67 (F)
+Houston: 70.10 (F)
+Haifa: 70.01 (F)
+Nahariyya: 69.39 (F)
+Beersheba: 69.12 (F)
+San Antonio: 69.04 (F)
+Jacksonville: 68.88 (F)
+Top 10 Cities with lowest mean temperature
+Minneapolis: 44.82 (F)
+Montreal: 45.29 (F)
+Toronto: 48.10 (F)
+Denver: 49.79 (F)
+Detroit: 50.16 (F)
+Chicago: 50.63 (F)
+Boston: 51.07 (F)
+Vancouver: 51.08 (F)
+Pittsburgh: 51.18 (F)
+Seattle: 51.80 (F)
+
+The average temperature over spring 2013 in New York is: 41.13 (F)
+
+Top 10 Cities with highest mean wind speed
+Eilat: 3.68 (m/s)
+New York: 3.42 (m/s)
+Haifa: 3.31 (m/s)
+Indianapolis: 3.29 (m/s)
+Chicago: 3.28 (m/s)
+Toronto: 3.28 (m/s)
+Montreal: 3.27 (m/s)
+Minneapolis: 3.17 (m/s)
+Dallas: 3.14 (m/s)
+Kansas City: 3.02 (m/s)
+Top 10 Cities with lowest mean wind speed
+Los Angeles: 0.76 (m/s)
+Phoenix: 1.12 (m/s)
+Vancouver: 1.47 (m/s)
+San Diego: 1.68 (m/s)
+Jerusalem: 1.69 (m/s)
+Portland: 1.83 (m/s)
+Seattle: 1.90 (m/s)
+Atlanta: 1.97 (m/s)
+Charlotte: 2.03 (m/s)
+Denver: 2.11 (m/s)
+
+The average wind speed over spring 2013 in New York is: 4.39 (m/s)
+
+(There may be another file to process!)
+</code></pre></div>    </div>
+
+  </div>
+
+</div>
+:ET

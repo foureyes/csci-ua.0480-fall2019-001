@@ -1,0 +1,1893 @@
+I"�W<div class="panel panel-default">
+	<div class="panel-heading">Homework #1</div>
+	<div class="panel-body">
+
+    <h1 id="reversi--othello">Reversi / Othello</h1>
+
+    <h2 id="due--jan-31st-by-11pm">Due  <strong>Jan 31st, by 11PM</strong></h2>
+
+    <pre>     A   B   C   D   E   F   G   H
+   +---+---+---+---+---+---+---+---+
+ 1 |   |   |   |   |   |   | O |   |
+   +---+---+---+---+---+---+---+---+
+ 2 |   |   |   |   |   | O |   |   |
+   +---+---+---+---+---+---+---+---+
+ 3 |   |   |   | O | O | X |   |   |
+   +---+---+---+---+---+---+---+---+
+ 4 |   |   | X | O | X | X |   |   |
+   +---+---+---+---+---+---+---+---+
+ 5 |   |   |   | X | X |   |   |   |
+   +---+---+---+---+---+---+---+---+
+ 6 |   |   | X |   | X |   |   |   |
+   +---+---+---+---+---+---+---+---+
+ 7 |   | X |   |   |   |   |   |   |
+   +---+---+---+---+---+---+---+---+
+ 8 |   |   |   |   |   |   |   |   |
+   +---+---+---+---+---+---+---+---+
+</pre>
+
+    <h2 id="overview">Overview</h2>
+
+    <h3 id="description">Description</h3>
+
+    <p>Create an interactive 2-player (computer vs human player) Reversi/Othello game.</p>
+
+    <ul>
+      <li>check out <a href="https://en.wikipedia.org/wiki/Reversi">the rules on wikipedia</a></li>
+      <li>you can check out this strategy guide if you&#39;re interested in <a href="http://www.samsoft.org.uk/reversi/strategy.htm">Reversi strategy</a></li>
+      <li>you&#39;ll write this game in two parts&#8230;</li>
+    </ul>
+
+    <ol>
+      <li>create several helper functions for your game</li>
+      <li>implement the game using some of the helper functions you made for part 1
+        <ul>
+          <li>it&#39;ll be a bit over-engineered</li>
+          <li>but don&#39;t worry - you don&#39;t have to use all of the functions you create</li>
+        </ul>
+      </li>
+    </ol>
+
+    <p>See the <a href="#hw01-reversi-sample">example game</a> shown at the end of these instructions.</p>
+
+    <h3 id="objectives">Objectives</h3>
+
+    <ol>
+      <li>Write some JavaScript!
+        <ul>
+          <li>control structures</li>
+          <li>functions</li>
+          <li>Array and string manipulation</li>
+        </ul>
+      </li>
+      <li>Learn how to run node programs</li>
+      <li>Learn about node built-ins:
+        <ul>
+          <li><code class="highlighter-rouge">process</code></li>
+          <li><code class="highlighter-rouge">exports</code></li>
+          <li><code class="highlighter-rouge">require</code></li>
+        </ul>
+      </li>
+      <li>Install and use modules, create your own</li>
+      <li>Run unit tests to check your work</li>
+      <li>Use a static analysis tool (ESLint) to help prevent bugs / errors</li>
+      <li>Use the fs module to read a file / handle asynchronous I/O</li>
+      <li>Parse JSON</li>
+    </ol>
+
+    <h3 id="grading">Grading</h3>
+
+    <ul>
+      <li><strong>all parts of the homework count toward your grade</strong></li>
+      <li><strong>there will be a significant penalty for not adding the config file and scripted moves portion</strong>
+        <ul>
+          <li>these parts are at the end of the instructions (see <code class="highlighter-rouge">User Controlled Game Settings</code> and <code class="highlighter-rouge">Handling Scripted Moves</code>)</li>
+          <li>the implementation of these features is important because they help both <em>you</em> and the graders test your program</li>
+        </ul>
+      </li>
+    </ul>
+
+    <h3 id="submission-process">Submission Process</h3>
+
+    <p>The final version of your assignment should be in GitHub.</p>
+
+    <ul>
+      <li><strong>push</strong> your changes to the homework repository on GitHub</li>
+      <li>repositories will be closed on the due date and time so that no more commits can be pushed!</li>
+      <li>after the due date, no further commits will be seen by the graders</li>
+    </ul>
+
+    <h2 id="preparation">Preparation</h2>
+
+    <p>Ensure that node and npm are installed (this should have been done for <em>homework #0</em>). You should be able to open up your terminal or DOS Shell and run <code class="highlighter-rouge">node -v</code> and <code class="highlighter-rouge">npm -v</code>. Both commands should output a version number (probably something like <code class="highlighter-rouge">6.2.2</code> for node and <code class="highlighter-rouge">3.9.5</code> for npm).</p>
+
+    <ol>
+      <li>use git / clone the repository</li>
+      <li>install development modules
+        <ul>
+          <li>mocha and chai for running the supplied unit tests</li>
+          <li>eshint for cleaning up your JavaScript / spotting common sources of bugs and errors in your code</li>
+        </ul>
+      </li>
+      <li>install modules required by your game</li>
+    </ol>
+
+    <h3 id="use-git--clone-the-repository">Use Git / Clone the repository</h3>
+
+    <p>Make sure you have git / a git client!</p>
+
+    <ul>
+      <li><a href="https://git-scm.com/book/en/v1/Getting-Started-Installing-Git">commandline git</a></li>
+      <li><a href="https://www.sourcetreeapp.com/">SourceTree</a></li>
+      <li><a href="https://www.gitkraken.com/">GitKraken</a></li>
+    </ul>
+
+    <p>Assuming that you&#39;ve already:</p>
+
+    <ul>
+      <li>submitted your github username via the form/survey</li>
+      <li>accepted the invitation that adds you to the github organization for this course</li>
+    </ul>
+
+    <p>You can then go through the following steps to clone your repository and commit your first changes:</p>
+
+    <ol>
+      <li>&#8230;go to the <a href="https://github.com/nyu-csci-ua-0480-008-spring-2018">class github page</a></li>
+      <li>find the repository that starts with your NYU NetID and ends with homework01 (for example, jjv222-homework01)</li>
+      <li>on the repository&#39;s page, use the green &quot;Clone or download&quot; button on the right side of the screen to copy the HTTPS clone URL to <strong>clone</strong> the homework. To use the commandline client (with GITHUB_REPOSITORY_URL being the url you copied from the green button):
+        <pre><code data-trim="" contenteditable=""> git clone GITHUB_REPOSITORY_URL
+</code></pre>
+      </li>
+      <li>create a file called <code>.gitignore</code> in the same directory</li>
+      <li>add the following line to the file so that git ignores any locally installed node modules: <code> node_modules </code></li>
+      <li>in the same project directory, create a file called README.md, and edit it so that it includes:
+        <ul>
+          <li>your name and net id</li>
+          <li>the title of your project: Homework #01 - Reversi</li>
+        </ul>
+      </li>
+      <li>again, in the same project directory, run <code>git add README.md</code> to let git know that we&#39;re ready to &quot;save&quot;</li>
+      <li>save your work locally by running <code>git commit -m "first commit"</code>&#8230; everything within the quotes after <code>-m</code> is any commit message you&#39;d like</li>
+      <li>finally, send your work to github by running <code>git push</code> (or <code>git push origin master</code>)</li>
+    </ol>
+
+    <h3 id="install-development-modules">Install Development Modules</h3>
+
+    <p>You&#39;ll have to install a couple of node modules to help you run tests and use static analysis tools on your code. These tools won&#39;t be required for your program to run, but they will be useful while you&#39;re writing your programs.</p>
+
+    <p>You&#39;ll be installing the following module globally:</p>
+
+    <ul>
+      <li><code class="highlighter-rouge">mocha</code> - for running unit tests</li>
+    </ul>
+
+    <p>You&#39;ll also install the following modules locally in your project directory:</p>
+
+    <ul>
+      <li><code class="highlighter-rouge">chai</code> - supplies assertions for unit tests</li>
+      <li><code class="highlighter-rouge">eslint</code> - for catching potential errors in your code</li>
+    </ul>
+
+    <p>Go into the directory of your cloned repository (<code class="highlighter-rouge">cd username-homework01</code>), and run the following commands:</p>
+
+    <pre><code data-trim="" contenteditable="">npm install -g mocha
+npm install --save-dev eslint
+npm install --save-dev chai
+</code></pre>
+
+    <p>Note that the last commands install modules <em>locally</em> to your project directory. It will do two things:</p>
+
+    <ul>
+      <li>It will make a modification to an existing file, <code class="highlighter-rouge">package.json</code>, within your project folder</li>
+      <li>It will create a <code class="highlighter-rouge">node_modules</code> folder where your downloaded modules are stored (this folder is included in your <code class="highlighter-rouge">.gitignore</code> file because these external libraries are not meant to be in your project&#39;s version control</li>
+    </ul>
+
+    <h3 id="install-required-modules">Install Required Modules</h3>
+
+    <p>You&#39;ll also need a module to help you ask the user for input.</p>
+
+    <ul>
+      <li>in your repository directory, install the node module, <code>readline-sync</code>, by running this command in your project&#39;s directory:
+        <pre><code> npm install --save readline-sync
+</code></pre>
+      </li>
+      <li>note that the <code>readline-sync</code> module allows you to prompt for user input <strong>synchronously</strong>
+        <ul>
+          <li>this is very different from how node.js apps usually operate</li>
+          <li>however, for our purposes, using sync prompt is fine (for now), and it mimics the browser&#39;s prompt functionality well</li>
+        </ul>
+      </li>
+      <li>check out the example usage on <a href="https://www.npmjs.com/package/readline-sync">readline-sync&#39;s npm page</a>
+        <ul>
+          <li>essentially: <code class="highlighter-rouge">var readlineSync = require('readline-sync');</code></li>
+          <li>which imports the function <code>question</code> from the <code>readline-sync</code> module into your program</li>
+        </ul>
+      </li>
+      <li>note that installing <code class="highlighter-rouge">readline-sync</code> will make a modification to <code class="highlighter-rouge">package.json</code> as well. This modification to <code class="highlighter-rouge">package.json</code> should be committed and pushed as well!</li>
+    </ul>
+
+    <h3 id="minimum-number-of-commits">Minimum Number of Commits</h3>
+
+    <p>As you write your code, make sure that you make at least four commits total (more commits are better; if you can, try to commit per feature added).</p>
+
+    <ul>
+      <li>the commits should be meaningful (that is, do not just add a newline, commit and push to make up the requirements for commits).</li>
+      <li>make sure your commit messages describe the changes in the commit; for example:
+        <ul>
+          <li><code class="highlighter-rouge">add config file reader and set board based on config file</code></li>
+          <li><code class="highlighter-rouge">fix bug that prevented vertical lines of tiles from being flipped</code></li>
+        </ul>
+      </li>
+    </ul>
+
+    <pre><code data-trim="" contenteditable="">git add --all
+git commit -m 'your commit message'
+</code></pre>
+    <ul>
+      <li>push your code frequently</li>
+    </ul>
+    <pre><code data-trim="" contenteditable="">git push
+</code></pre>
+
+    <h3 id="running-your-programs">Running Your Programs</h3>
+
+    <p>To run your programs, use the commandline (Terminal.app, DOS, etc.):</p>
+
+    <pre><code data-trim="" contenteditable=""># in your project directory
+# change directory to src folder
+cd src
+node myfile.js
+
+# or, without changing directory
+node src/myfile.js
+</code></pre>
+
+    <h2 id="part-1---reversi-functions-and-running-unit-tests">Part 1 - Reversi Functions and Running Unit Tests</h2>
+
+    <h3 id="background">Background</h3>
+
+    <p>For your implementation of Reversi, you&#39;ll break down the game into several functions. These helper functions will be written in a <em>module</em> (a file separate from the file that actually runs your game), which you&#39;ll use in part 3: <code class="highlighter-rouge">src/reversi.js</code></p>
+
+    <p>The helper functions you&#39;ll be implementing are described below. Unit tests have been included in your repository in the file, <code class="highlighter-rouge">tests/reversi-test.js</code>.</p>
+
+    <h3 id="creating-a-module--exporting-functions">Creating a Module / Exporting Functions</h3>
+
+    <p>You&#39;ll be creating a module that contains a bunch of helper functions. The file that you&#39;ll be writing your module in is already included in your repository in <code class="highlighter-rouge">src/reversi.js</code>. Both your <em>actual</em> interactive Reversi game (in Part 2) and the supplied unit tests will use this module.</p>
+
+    <p>To make the functions you write available when your module is brought into another program (that is, required or <em>imported</em>), you&#39;ll have to <em>export</em> your functions. See <a href="https://www.sitepoint.com/understanding-module-exports-exports-node-js/">this sitepoint tutorial</a> or this <a href="http://openmymind.net/2012/2/3/Node-Require-and-Exports/">article</a> to get a primer on modules, <code class="highlighter-rouge">exports</code> and using <code class="highlighter-rouge">require</code>. There are a few ways to do export your functions (all of the examples use <code class="highlighter-rouge">module.exports</code>, but they should work with just <code class="highlighter-rouge">exports</code> as well):</p>
+
+    <ol>
+      <li>create all of your functions &#8230; then, at the end, assign <code class="highlighter-rouge">module.exports</code> to an object literal containing all of the functions that you want to export:
+        <pre><code data-trim="" contenteditable="">function repeat(ele, n) {
+    // implementation
+} 
+    
+function generateBoard(rows, cols, initialValue) {
+    // implementation
+} 
+
+// ...
+
+module.exports = {
+    repeat: repeat,
+    generateBoard: generateBoard,
+    // ...
+}
+</code></pre>
+      </li>
+      <li>create all of your functions in an object and assign that object to <code class="highlighter-rouge">module.exports</code>:
+        <pre><code data-trim="" contenteditable="">const rev = { 
+    repeat: function(value, n) {
+        // implementation
+    },
+    
+    generateBoard: function(rows, columns, initialCellValue) {
+        // implementation
+    },
+    
+    // ...
+}
+    
+module.exports = rev;
+</code></pre>
+      </li>
+      <li>Create functions as properties on <code class="highlighter-rouge">module.exports</code>
+        <pre><code data-trim="" contenteditable="">module.exports.repeat = function(value, n) {
+    // implementation
+}
+    
+module.exports.generateBoard = function(rows, columns, initialCellValue) {
+    // implementation
+},
+    
+// ...
+</code></pre>
+      </li>
+    </ol>
+
+    <p>When you <code class="highlighter-rouge">require</code> your module, the object you create for <code class="highlighter-rouge">exports</code> will be given back. In the example below, the module, <code class="highlighter-rouge">some-module.js</code> is brought in to the current file (the <code class="highlighter-rouge">./</code> specifies that the file is in the same directory as the current file) and is represented by the variable, <code class="highlighter-rouge">foo</code>. The functions can be accessed by using regular dot notation on the <code class="highlighter-rouge">foo</code> object:</p>
+
+    <pre><code data-trim="" contenteditable="">var foo = require('./some-module.js');
+foo.someFunction();
+</code></pre>
+
+    <p><strong>You should make sure your exports are up to date as you implement your functions</strong> so that you can run your unit tests as you complete your function implementations.</p>
+
+    <h3 id="unit-tests">Unit Tests</h3>
+
+    <p>You can use the supplied unit tests (in <code class="highlighter-rouge">tests/reversi-test.js</code>) to check that your functions are:</p>
+
+    <ul>
+      <li>are named correctly
+        <ul>
+          <li>have the required parameters</li>
+        </ul>
+      </li>
+      <li>return the appropriate value(s)</li>
+      <li>meet the minimum requirements according to the specifications</li>
+    </ul>
+
+    <p>The given unit tests use Mocha as a testing framework and Chai for assertions. While you don&#39;t have to know how to write these tests, you should read through them (the api is very <em>human readable</em>) to get a feel for how your functions are being tested. If you&#39;re curious about writing unit tests, check out <a href="https://www.codementor.io/nodejs/tutorial/unit-testing-nodejs-tdd-mocha-sinon">this article on codementor</a>.</p>
+
+    <p>You can <strong>run the included unit tests by using this command</strong> in your project directory:</p>
+
+    <p><code class="highlighter-rouge">mocha tests/reversi-test.js</code></p>
+
+    <p>If you run these tests before starting, you&#39;ll get a bunch of reference errors. This is because you have no functions implemented yet. Additionally, you&#39;ll have to export the functions you create so that the tests have access to them.</p>
+
+    <p><strong>Please try continually running the unit tests as you develop your program.</strong> To clear out the noise, <strong>feel free to comment out the tests that you aren&#39;t working on</strong>, and uncomment them as soon as you have a stub of a function exported.</p>
+
+    <h3 id="assumptions">Assumptions</h3>
+
+    <p>The functions make some assumptions about how you&#39;ll be representing a Reversi  board.</p>
+
+    <ol>
+      <li>although some functions allow for arbitrary rows and columns&#8230;
+        <ul>
+          <li>you can assume that a board will always have at least 16 squares (4 x 4), but no more than 26 x 26 squares</li>
+          <li>you can also assume that a board&#39;s rows and columns will always be equal</li>
+        </ul>
+      </li>
+      <li>we can name a cell / square based on its row number and column number
+        <ul>
+          <li>rows start from the top with row number 0</li>
+          <li>cols start from the left with column number 0</li>
+          <li>the diagram below shows a 4 X 4 board with row and column labels
+            <pre><code data-trim="" contenteditable="">           columns
+        0   1   2   3
+      +---+---+---+---+
+    0 | 0 | 1 | 2 | 3 |
+      +---+---+---+---+
+ r  1 | 4 | 5 | 6 | 7 |
+ o    +---+---+---+---+
+ w  2 | 8 | 9 | 10| 11|
+ s    +---+---+---+---+
+    3 | 12| 13| 14| 15|
+      +---+---+---+---+
+</code></pre>
+          </li>
+          <li>in this example, the lower right most square (containing 15) is at row 3, column 3</li>
+          <li>the cell containing 9 is at row 2, column 1</li>
+        </ul>
+      </li>
+      <li>Alternatively, we can reference a cell using a format borrowed from <a href="https://en.wikipedia.org/wiki/Algebraic_notation_(chess)">chess algebraic notation</a>
+        <ul>
+          <li>the columns are uppercase <strong>letters starting with A from the left</strong></li>
+          <li>&#8230; while the rows are <strong>numbers starting at 1 from the top</strong></li>
+          <li>in this notation the column (letter) is first, followed by the row (number)</li>
+          <li>using this notation, the board with labels would like like this:
+            <pre><code data-trim="" contenteditable="">          columns
+        A   B   C   D
+      +---+---+---+---+
+    1 | 0 | 1 | 2 | 3 |
+      +---+---+---+---+
+ r  2 | 4 | 5 | 6 | 7 |
+ o    +---+---+---+---+
+ w  3 | 8 | 9 | 10| 11|
+ s    +---+---+---+---+
+    4 | 12| 13| 14| 15|
+      +---+---+---+---+
+</code></pre>
+          </li>
+          <li>the lower right most square, containing 15, is at D4</li>
+          <li>the cell containing 9 is B3</li>
+        </ul>
+      </li>
+      <li>Although a 2-dimensional Array is a natural fit for representing a Reversi board, <strong>your implementation of Reversi will use a one dimensional <code class="highlighter-rouge">Array</code> to represent the board</strong>
+        <ul>
+          <li>in this representation, imagine all of the rows of the board placed adjacent to each other
+            <pre><code style="font-size:11px;" data-trim="" contenteditable="">           +-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+
+row, col   | 0,0 | 0,1 | 0,2 | 0,3 | 1,0 | 1,1 | 1,2 | 1,3 | 2,0 | 2,1 | 2,2 | 2,3 | 3,0 | 3,1 | 3,2 | 3,3 |
+           +-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+
+algebraic  | A1  | B1  | C1  | D1  | A2  | B2  | C2  | D2  | A3  | B3  | C3  | D3  | A4  | B4  | C4  | D4  |
+           +-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+
+index      |  0  |  1  |  2  |  3  |  4  |  5  |  6  |  7  |  8  |  9  | 10  | 11  | 12  | 13  | 14  | 15  |
+           +-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+
+</code></pre>
+          </li>
+          <li>the lower right most square, D4 (row 3, col 3) is at index 15</li>
+          <li>B3 (row 2, col 1) is index 9</li>
+        </ul>
+      </li>
+      <li>The space character, <code class="highlighter-rouge">" "</code>, will be used to mark an empty square</li>
+      <li><strong>Reversi uses black and white pieces (discs)</strong> &#8230; these pieces will be represented by:
+        <ul>
+          <li>the letter <code class="highlighter-rouge">X</code> for black pieces</li>
+          <li>the letter <code class="highlighter-rouge">O</code> for a white piece</li>
+        </ul>
+      </li>
+      <li>You can assume that all of the code examples below use <code class="highlighter-rouge">rev</code> as the name of the imported module of your Reversi functions</li>
+    </ol>
+
+    <p><br /></p>
+
+    <h3 id="functions-to-implement">Functions to Implement</h3>
+
+    <p>Note that:</p>
+
+    <ul>
+      <li>most functions will return values (to make it easier to test)</li>
+      <li>the tests are meant to ensure that your functions are named correctly and work for a few simple cases
+        <ul>
+          <li>they don&#39;t cover all of the corner cases / requirements</li>
+          <li>so check out the tests before running to see what else you may need to check for</li>
+          <li>feel free to augment the tests with your own additional tests</li>
+        </ul>
+      </li>
+    </ul>
+
+    <hr />
+
+    <h3 id="repeatvalue-n"><code class="highlighter-rouge">repeat(value, n)</code></h3>
+
+    <p><strong>Parameters:</strong></p>
+
+    <ul>
+      <li><code class="highlighter-rouge">value</code> - the value to be repeated</li>
+      <li><code class="highlighter-rouge">n</code> - the number of times to repeat the <code class="highlighter-rouge">value</code></li>
+    </ul>
+
+    <p><strong>Returns:</strong></p>
+
+    <ul>
+      <li>an <code class="highlighter-rouge">Array</code> containing <code class="highlighter-rouge">n</code> elements, with each element being <code class="highlighter-rouge">value</code></li>
+    </ul>
+
+    <p><strong>Description:</strong></p>
+
+    <p><code class="highlighter-rouge">repeat</code> creates an <code class="highlighter-rouge">Array</code> that contains <code class="highlighter-rouge">value</code> as each element for <code class="highlighter-rouge">n</code> elements. If the <code class="highlighter-rouge">value</code> is a reference type, it&#39;s ok if the reference is copied (that is, you don&#39;t have to worry about deep copying <code class="highlighter-rouge">value</code> if it&#39;s an <code class="highlighter-rouge">Object</code>.</p>
+
+    <p>Hint: The <code class="highlighter-rouge">Array</code> methods, <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/push">push</a> and/or <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_operator">spread</a>/<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/concat">concat</a> may be helpful here.</p>
+
+    <p><strong>Example:</strong></p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>const arr = rev.repeat("hello", 3);
+// arr is ["hello", "hello", "hello"];
+</code></pre></div>    </div>
+
+    <hr />
+
+    <h3 id="generateboardrows-columns-initialcellvalue"><code class="highlighter-rouge">generateBoard(rows, columns, initialCellValue)</code></h3>
+
+    <p><strong>Parameters:</strong></p>
+
+    <ul>
+      <li><code class="highlighter-rouge">rows</code> - the number of rows in the board</li>
+      <li><code class="highlighter-rouge">columns</code> - the number of columns in the board</li>
+      <li><code class="highlighter-rouge">initialCellValue</code> - the initial value contained in each square
+        <ul>
+          <li>default value should be space (<code class="highlighter-rouge">" "</code>)</li>
+        </ul>
+      </li>
+    </ul>
+
+    <p><strong>Returns:</strong></p>
+
+    <ul>
+      <li>a single dimensional <code class="highlighter-rouge">Array</code> containing the number of elements that would be in a rows x columns board&#8230; with each cell containing the initial value, <code class="highlighter-rouge">initialCellValue</code></li>
+    </ul>
+
+    <p><strong>Description:</strong></p>
+
+    <p>Creates a single dimensional <code class="highlighter-rouge">Array</code> representation of a Reversi board. The number of elements in the <code class="highlighter-rouge">Array</code> is the same as the number of squares in the board based on the supplied number of <code class="highlighter-rouge">rows</code> and <code class="highlighter-rouge">columns</code>. The initial value in each cell is the <code class="highlighter-rouge">initialCellValue</code> passed in</p>
+
+    <p>Use the <code class="highlighter-rouge">repeat</code> function that you created above to implement this function.</p>
+
+    <p><strong>Example:</strong></p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// creates a board with 16 squares
+const board = rev.generateBoard(4, 4);
+// board is = [" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "];
+// (each empty cell is a space because the default value is space)
+</code></pre></div>    </div>
+
+    <hr />
+
+    <h3 id="rowcoltoindexboard-rownumber-columnnumber"><code class="highlighter-rouge">rowColToIndex(board, rowNumber, columnNumber)</code></h3>
+
+    <p><strong>Parameters:</strong></p>
+
+    <ul>
+      <li><code class="highlighter-rouge">board</code> - the board where the <code class="highlighter-rouge">rowNumber</code> and <code class="highlighter-rouge">columnNumber</code> come from</li>
+      <li><code class="highlighter-rouge">rowNumber</code> - the row number to be converted to an index in a one dimensional a<code class="highlighter-rouge">Array</code> representation</li>
+      <li><code class="highlighter-rouge">columnNumber</code> - the column number to be converted to an index in a one dimensional a<code class="highlighter-rouge">Array</code> representation</li>
+    </ul>
+
+    <p><strong>Returns:</strong></p>
+
+    <ul>
+      <li>a <code class="highlighter-rouge">Number</code>, the index that&#39;s mapped to by the given <code class="highlighter-rouge">rowNumber</code> and <code class="highlighter-rouge">columnNumber</code></li>
+    </ul>
+
+    <p><strong>Description:</strong></p>
+
+    <p>A cell in a Reversi board can be specified by a row number and a column number. However, our board implementation uses a one dimensional <code class="highlighter-rouge">Array</code>, so a cell must be specified by a single index. This function translates a row and a column into an index in the one dimensional <code class="highlighter-rouge">Array</code> representation of a Reversi board.</p>
+
+    <p>Hint: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/sqrt">Math.sqrt</a> can be used to help determine the original width and height of the board even though <code class="highlighter-rouge">board</code> comes in as a one dimensional <code class="highlighter-rouge">Array</code>.</p>
+
+    <p><strong>Example:</strong></p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// translates a row and col to a single index
+const board = rev.generateBoard(3, 3, " ");
+const i = rev.rowColToIndex(board, 1, 1);
+const j = rev.rowColToIndex(board, 0, 2);
+// i is 4 (column 1, row 1 is the same as the element at index 4)
+// j is 2
+</code></pre></div>    </div>
+
+    <hr />
+
+    <h3 id="indextorowcolboard-i"><code class="highlighter-rouge">indexToRowCol(board, i)</code></h3>
+
+    <p><strong>Parameters:</strong></p>
+
+    <ul>
+      <li><code class="highlighter-rouge">board</code> - the board where the <code class="highlighter-rouge">rowNumber</code> and <code class="highlighter-rouge">columnNumber</code> come from</li>
+      <li><code class="highlighter-rouge">i</code> - the index to be converted into a row and column</li>
+    </ul>
+
+    <p><strong>Returns:</strong></p>
+
+    <ul>
+      <li>an object containing two properties, <code class="highlighter-rouge">row</code> and <code class="highlighter-rouge">col</code>, representing the row and column numbers that the <code class="highlighter-rouge">index</code> maps to</li>
+    </ul>
+
+    <p><strong>Description:</strong></p>
+
+    <p>Translates a single index in a one dimensional <code class="highlighter-rouge">Array</code> representation of a board to that cell&#39;s row and column. The <code class="highlighter-rouge">board</code> supplied can be used to determine the max column and row numbers. <strong>You can assume that the board is always square</strong>. Row and column numbers start at 0.</p>
+
+    <p>Hint: Again, <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/sqrt">Math.sqrt</a> can be used to determine the original width and height of the board. If you need integer division or if you need to always round down, you can just call <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/floor">Math.floor</a> after dividing (which will give you the largest integer less than or equal to a given number).</p>
+
+    <p><strong>Example:</strong></p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// translates an index into a row and column...
+const board = rev.generateBoard(3, 3, " ");
+const rowCol1 = rev.indexToRowCol(board, 4);
+const rowCol2 = rev.indexToRowCol(board, 2);
+// rowCol1 is: {"row": 1, "col": 1};
+// rowCol2 is {"row": 0, "col": 2};
+</code></pre></div>    </div>
+
+    <hr />
+
+    <h3 id="setboardcellboard-letter-row-col"><code class="highlighter-rouge">setBoardCell(board, letter, row, col)</code></h3>
+
+    <p><strong>Parameters:</strong></p>
+
+    <ul>
+      <li><code class="highlighter-rouge">board</code> - the board where a cell will be set to <code class="highlighter-rouge">letter</code></li>
+      <li><code class="highlighter-rouge">letter</code> - the string to set the cell to</li>
+      <li><code class="highlighter-rouge">row</code> - the row number of the cell to be set</li>
+      <li><code class="highlighter-rouge">col</code> - the column number of the cell to be set</li>
+    </ul>
+
+    <p><strong>Returns:</strong></p>
+
+    <ul>
+      <li>a single dimensional <code class="highlighter-rouge">Array</code> representing the board where the cell at <code class="highlighter-rouge">row</code> and <code class="highlighter-rouge">col</code> is set to the value of <code class="highlighter-rouge">letter</code></li>
+    </ul>
+
+    <p><strong>Description:</strong></p>
+
+    <p>Sets the value of the cell at the specified row and column numbers on the board, <code class="highlighter-rouge">board</code>, to the value, <code class="highlighter-rouge">letter</code> without mutating the original board passed in.</p>
+
+    <p>Do this by creating a shallow copy of <code class="highlighter-rouge">board</code> and modifying it.  Return the copy instead of the original <code class="highlighter-rouge">board</code> passed in. To shallow copy an <code class="highlighter-rouge">Array</code>, use the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_operator#Copy_an_array">spread operator</a> or the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/slice">slice</a> method.</p>
+
+    <p><strong>Example:</strong></p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// sets a single square, but does not mutate the original board passed in
+const board = rev.generateBoard(3, 3, " ");
+const updatedBoard = rev.setBoardCell(board, "X", 1, 1);
+// board is [" ", " ", " ", " ", " ", " ", " ", " ", " "]
+// updatedBoard is [" ", " ", " ", " ", "X", " ", " ", " ", " "]
+</code></pre></div>    </div>
+
+    <hr />
+
+    <h3 id="algebraictorowcolalgebraicnotation"><code class="highlighter-rouge">algebraicToRowCol(algebraicNotation)</code></h3>
+
+    <p><strong>Parameters:</strong></p>
+
+    <ul>
+      <li><code class="highlighter-rouge">algebraicNotation</code> - a <code class="highlighter-rouge">String</code> that specifies the position of a cell using algebraic notation</li>
+    </ul>
+
+    <p><strong>Returns:</strong></p>
+
+    <ul>
+      <li>an object containing two properties, <code class="highlighter-rouge">row</code> and <code class="highlighter-rouge">col</code>, representing the row and column numbers that the <code class="highlighter-rouge">algebraicNotation</code> maps to (for example, <code class="highlighter-rouge">{"row": 1, "col": 1}</code>)</li>
+      <li><code class="highlighter-rouge">undefined</code> if the algebraic notation passed in is not valid.</li>
+    </ul>
+
+    <p><strong>Description:</strong></p>
+
+    <p>Translates algebraic notation specifying a cell into a row and column specifying the same cell. If the notation passed in is not valid, then return <code class="highlighter-rouge">undefined</code>.</p>
+
+    <p>The algebraic notation format we&#39;ll use will be a single string with the column letter first, immediately followed by the row number (with nothing separating the row and column). The column letter starts at letter A and <strong>the row number starts at index 1</strong>  (which is different from row and column notation above where numbers start at 0). You can <strong>assume that there are no more than 26 rows and columns</strong>. Some examples of valid formats: <code class="highlighter-rouge">A1</code> and <code class="highlighter-rouge">C20</code>. Some invalid formats include: <code class="highlighter-rouge">1A</code>, <code class="highlighter-rouge">1</code>, <code class="highlighter-rouge">A</code>, <code class="highlighter-rouge">A:1</code>, <code class="highlighter-rouge">***</code>.</p>
+
+    <p>Hint: There are many ways you can implement this. If you want to loop through every character, you can use a simple for loop, the string&#39;s <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/length">length</a>, and the string&#39;s index operator (<code class="highlighter-rouge">[]</code>) or <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/charAt">charAt</a> method. Note that there&#39;s no actual character type, you just get a <code class="highlighter-rouge">String</code> composed of a single character.</p>
+
+    <p>Alternatively, you can create an <code class="highlighter-rouge">Array</code> containing every character of the original <code class="highlighter-rouge">String</code> by using <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/split">split</a> with an empty string as an argument.</p>
+
+    <p>Once you can look at each individual character (or group of characters), you can examine each character by using <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/isNaN">isNaN</a> to determine if a <code class="highlighter-rouge">String</code> is not numeric.</p>
+
+    <p>Finally if you feel like wrangling regular expressions, you can try using the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/match">match</a> method.</p>
+
+    <p><strong>Example:</strong></p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// valid
+rev.algebraicToRowCol("B3") // for a 4 x 4 board, {"row": 2, "col": 1}
+rev.algebraicToRowCol("D4") // for a 4 x 4 board, {"row": 3, "col": 3}
+
+// not valid:
+rev.algebraicToRowCol("A")) // undefined
+rev.algebraicToRowCol("2")) // undefined
+rev.algebraicToRowCol("2A")) // undefined
+rev.algebraicToRowCol(" ")) // undefined
+rev.algebraicToRowCol("A 2")) // undefined
+rev.algebraicToRowCol("A:2")) // undefined
+rev.algebraicToRowCol("**")) // undefined
+</code></pre></div>    </div>
+
+    <hr />
+
+    <h3 id="placelettersboard-letter-algebraicnotation"><code class="highlighter-rouge">placeLetters(board, letter, algebraicNotation)</code></h3>
+
+    <p><strong>Parameters:</strong></p>
+
+    <ul>
+      <li><code class="highlighter-rouge">board</code> - the board where a cell will be set to <code class="highlighter-rouge">letter</code></li>
+      <li><code class="highlighter-rouge">letter</code> - the string to set the cell to</li>
+      <li>one or more: <code class="highlighter-rouge">algebraicNotation</code> - a <code class="highlighter-rouge">String</code> that specifies the position of a cell using algebraic notation</li>
+    </ul>
+
+    <p><strong>Returns:</strong></p>
+
+    <ul>
+      <li>a single dimensional <code class="highlighter-rouge">Array</code> representing the board where the cells at each <code class="highlighter-rouge">row</code> and <code class="highlighter-rouge">col</code> specified is set to the value of <code class="highlighter-rouge">letter</code></li>
+    </ul>
+
+    <p><strong>Description:</strong></p>
+
+    <p>Translates one or more moves in algebraic notation to row and column&#8230; and uses the row and column to set the letter specified on the board.</p>
+
+    <p>Use the <code class="highlighter-rouge">setBoardCell</code> function you created above to implement this. Consequently, the incoming board should not be mutated (instead, copy it, modify the copy and return the modified copy).</p>
+
+    <p>Use <a href="http://exploringjs.com/es6/ch_parameter-handling.html#sec_rest-parameters">rest parameters</a> to handle multiple arguments this. Again, the original board passed in should not be changed (instead, copy it, modify the copy, and return the copy).</p>
+
+    <p><strong>Example:</strong></p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// X and O are placed on the board
+let board = rev.generateBoard(4, 4, " ");
+board = rev.placeLetters(board, 'X', "B3", "D4");
+// board is [" ", " ", " ", " ", " ", " ", " ", " ", " ", "X", " ", " ", " ", " ", " ", "X"]
+// index      0    1    2    3    4    5    6    7    8    9   10   11   12   13   14   15
+
+// note that placeLetters can be called with an arbitrary number of moves
+// ...instead of calling with two moves, the line below calls it with four
+// rev.placeLetters(board, 'X', "B3", "D4", "A1", "A2");
+</code></pre></div>    </div>
+
+    <hr />
+
+    <h3 id="boardtostringboard"><code class="highlighter-rouge">boardToString(board)</code></h3>
+
+    <p><strong>Parameters:</strong></p>
+
+    <ul>
+      <li><code class="highlighter-rouge">board</code> - the board to be converted to a <code class="highlighter-rouge">String</code></li>
+    </ul>
+
+    <p><strong>Returns:</strong></p>
+
+    <ul>
+      <li>a <code class="highlighter-rouge">String</code> representation of the board</li>
+    </ul>
+
+    <p><strong>Description:</strong></p>
+
+    <p>Creates a <em>text drawing</em> representation of the Tic Tac Toe <code class="highlighter-rouge">board</code> passed in. The board should have:</p>
+
+    <ul>
+      <li>borders between cells</li>
+      <li>the contents of each cell</li>
+      <li>labels on the rows and columns</li>
+    </ul>
+
+    <p>Printing out an example result would yield:</p>
+
+    <pre><code data-trim="" contenteditable="">
+     A   B   C   D
+   +---+---+---+---+
+ 1 |   |   |   |   |
+   +---+---+---+---+
+ 2 |   | O | X |   |
+   +---+---+---+---+
+ 3 |   | X | O |   |
+   +---+---+---+---+
+ 4 |   |   |   |   |
+   +---+---+---+---+
+
+</code></pre>
+
+    <p>It should work for boards of any size! Here&#39;s an example of a 7 x 7 board!</p>
+
+    <pre><code data-trim="" contenteditable="">     A   B   C   D   E   F   G   H
+   +---+---+---+---+---+---+---+---+
+ 1 |   |   |   |   |   |   | O |   |
+   +---+---+---+---+---+---+---+---+
+ 2 |   |   |   |   |   | O |   |   |
+   +---+---+---+---+---+---+---+---+
+ 3 |   |   |   | O | O | X |   |   |
+   +---+---+---+---+---+---+---+---+
+ 4 |   |   | X | O | X | X |   |   |
+   +---+---+---+---+---+---+---+---+
+ 5 |   |   |   | X | X |   |   |   |
+   +---+---+---+---+---+---+---+---+
+ 6 |   |   | X |   | X |   |   |   |
+   +---+---+---+---+---+---+---+---+
+ 7 |   | X |   |   |   |   |   |   |
+   +---+---+---+---+---+---+---+---+
+ 8 |   |   |   |   |   |   |   |   |
+   +---+---+---+---+---+---+---+---+
+</code></pre>
+
+    <p>This one is actually quite challenging (and tedious) to get exactly right, so there won&#39;t be any penalties for minor spacing inconsistencies&#8230; and if there are other issues (for example, not adding labels), there will only be small point penalties.</p>
+
+    <p>Again, you can <strong>assume that the numbers of rows and columns will not be greater than 26</strong>.</p>
+
+    <p>Hint: One way of dealing with the row label is to use <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/fromCodePoint">String.fromCodePoint</a>, which gives you the unicode code point of the character supplied.</p>
+
+    <p><strong>Example:</strong></p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// a string representation of a board with two moves
+let board = rev.generateBoard(3, 3, " ");
+board = rev.placeLetter(board, 'X', "B2");
+board = rev.placeLetter(board, 'O', "C1");
+// board will be equal to the following string:
+"     A   B   C  \n   +---+---+---+\n 1 |   |   | O |\n   +---+---+---+\n 2 |   | X |   |\n   +---+---+---+\n 3 |   |   |   |\n   +---+---+---+\n";
+</code></pre></div>    </div>
+
+    <hr />
+
+    <h3 id="isboardfullboard"><code class="highlighter-rouge">isBoardFull(board)</code></h3>
+
+    <p><strong>Parameters:</strong></p>
+
+    <ul>
+      <li><code class="highlighter-rouge">board</code> - the board to examine</li>
+    </ul>
+
+    <p><strong>Returns:</strong></p>
+
+    <ul>
+      <li><code class="highlighter-rouge">true</code> if there are no empty cells left in the board, <code class="highlighter-rouge">false</code> otherwise</li>
+    </ul>
+
+    <p><strong>Description:</strong></p>
+
+    <p>Examines the <code class="highlighter-rouge">board</code> passed in to determine whether or not it&#39;s full. It returns <code class="highlighter-rouge">true</code> if there are no empty squares, <code class="highlighter-rouge">false</code> if there are still squares available. <strong>Assume that the board uses the space character, <code class="highlighter-rouge">" "</code>, to mark a square as empty</strong>.</p>
+
+    <p>Hint: The solution to this is pretty straightforward with a simple for loop, but if you want to ditch the for loop entirely, you can get fancy and use the <code class="highlighter-rouge">Array</code> method, <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/some">some</a>.</p>
+
+    <p><strong>Example:</strong></p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// board is empty
+let board = rev.generateBoard(3, 3, " ");
+console.log(rev.isBoardFull(board)); // --&gt; false
+
+// board is completely full
+board = rev.generateBoard(3, 3, " ");
+board = rev.placeLetter(board, 'X', "A1");
+board = rev.placeLetter(board, 'X', "A2");
+board = rev.placeLetter(board, 'X', "A3");
+board = rev.placeLetter(board, 'X', "B1");
+board = rev.placeLetter(board, 'X', "B2");
+board = rev.placeLetter(board, 'X', "B3");
+board = rev.placeLetter(board, 'X', "C1");
+board = rev.placeLetter(board, 'X', "C2");
+board = rev.placeLetter(board, 'X', "C3");
+console.log(rev.isBoardFull(board)); // --&gt; true
+
+// board has one square empty...
+board = rev.generateBoard(3, 3, " ");
+board = rev.placeLetter(board, 'X', "A2");
+board = rev.placeLetter(board, 'X', "A3");
+board = rev.placeLetter(board, 'X', "B1");
+board = rev.placeLetter(board, 'X', "B2");
+board = rev.placeLetter(board, 'X', "B3");
+board = rev.placeLetter(board, 'X', "C1");
+board = rev.placeLetter(board, 'X', "C2");
+board = rev.placeLetter(board, 'X', "C3");
+console.log(rev.isBoardFull(board)); // --&gt; false
+</code></pre></div>    </div>
+
+    <hr />
+
+    <h3 id="flipboard-row-col"><code class="highlighter-rouge">flip(board, row, col)</code></h3>
+
+    <p><strong>Parameters:</strong></p>
+
+    <ul>
+      <li><code class="highlighter-rouge">board</code> - the board the move is performed on</li>
+      <li><code class="highlighter-rouge">row</code> - the row number of piece/letter to flip</li>
+      <li><code class="highlighter-rouge">col</code> - the column number of piece/letter to flip</li>
+    </ul>
+
+    <p><strong>Returns:</strong></p>
+
+    <ul>
+      <li>a single dimensional <code class="highlighter-rouge">Array</code> representing the board where the letter at <code class="highlighter-rouge">row</code> and <code class="highlighter-rouge">col</code> is changed to the opposite letter - from <code class="highlighter-rouge">X</code> to <code class="highlighter-rouge">O</code> or <code class="highlighter-rouge">O</code> to <code class="highlighter-rouge">X</code> (that is, the piece is changed to the opposite color)</li>
+    </ul>
+
+    <p><strong>Description:</strong></p>
+
+    <p>Using the <code class="highlighter-rouge">board</code> passed in, flip the piece at the specified <code class="highlighter-rouge">row</code> and <code class="highlighter-rouge">col</code> so that it is the opposite color by changing <code class="highlighter-rouge">X</code> to <code class="highlighter-rouge">O</code> or <code class="highlighter-rouge">O</code> to <code class="highlighter-rouge">X</code>. If no letter is present, do not change the contents of the cell.</p>
+
+    <p><strong>Example:</strong></p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>board = rev.generateBoard(4, 4, " ");
+board = rev.placeLetter(board, 'X', "A1");
+board = rev.flip(board, 0, 0);
+// board[0] is now 'O'!
+</code></pre></div>    </div>
+
+    <h3 id="flipcellsboard-cellstoflip"><code class="highlighter-rouge">flipCells(board, cellsToFlip)</code></h3>
+
+    <p><strong>Parameters:</strong></p>
+
+    <ul>
+      <li><code class="highlighter-rouge">board</code> - the board the move is performed on</li>
+      <li><code class="highlighter-rouge">cellsToFlip</code> - a 3D <code class="highlighter-rouge">Array</code> representing groups of rows and columns</li>
+    </ul>
+
+    <p><strong>Returns:</strong></p>
+
+    <ul>
+      <li>a single dimensional <code class="highlighter-rouge">Array</code> representing the board where the letters specified in <code class="highlighter-rouge">cellsToFlip</code>are changed to the opposite letter - from <code class="highlighter-rouge">X</code> to <code class="highlighter-rouge">O</code> or <code class="highlighter-rouge">O</code> to <code class="highlighter-rouge">X</code> (that is, the pieces are changed to the opposite color)</li>
+    </ul>
+
+    <p><strong>Description:</strong></p>
+
+    <p>Using the <code class="highlighter-rouge">board</code> passed in, flip the pieces in the cells specified by <code class="highlighter-rouge">cellsToFlip</code>.</p>
+
+    <p><code class="highlighter-rouge">cellsToFlip</code> is a 3 dimensional array:</p>
+
+    <ul>
+      <li>the inner most <code class="highlighter-rouge">Array</code> has 2 elements, a row and a column</li>
+      <li>groups of rows and columns are wrapped in an <code class="highlighter-rouge">Array</code> (these groupings are meant to represent lines of consecutive tiles)</li>
+      <li>finally, these groups are also wrapped in an <code class="highlighter-rouge">Array</code></li>
+    </ul>
+
+    <p>For example:</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[[[0, 0], [0, 1]], [[1, 1]]]
+|_______________|  |_____|
+        |             |
+group 1 (2 cells)     group 2 (1 cell)
+</code></pre></div>    </div>
+
+    <p>Each group represents a line of consecutive cells. Note, though, that these lines have no relevance to how the tiles are flipped - only that in order to get to the cell location, you&#39;ll have to descend through nested <code class="highlighter-rouge">Arrays</code>.</p>
+
+    <p><strong>Example:</strong></p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>board = rev.generateBoard(4, 4, " ");
+board = rev.placeLetters(board, 'X', "A1", "B1", "B2");
+board = rev.flipCells(board, [[[0, 0], [0, 1]], [[1, 1]]]);
+// the letters at index 0, 1 and 5 are all set to 'O'!
+</code></pre></div>    </div>
+
+    <h3 id="getcellstoflipboard-lastrow-lastcol"><code class="highlighter-rouge">getCellsToFlip(board, lastRow, lastCol)</code></h3>
+
+    <p><strong>Parameters:</strong></p>
+
+    <ul>
+      <li><code class="highlighter-rouge">board</code> - the board the move is performed on</li>
+      <li><code class="highlighter-rouge">lastRow</code> - the row of the last move on the board</li>
+      <li><code class="highlighter-rouge">lastCol</code> - the column of the last move on the board</li>
+    </ul>
+
+    <p><strong>Returns:</strong></p>
+
+    <ul>
+      <li><code class="highlighter-rouge">Array</code> representing groups of rows and columns pairs that contain pieces that should be flipped to the opposite color/letter because of the last move played</li>
+    </ul>
+
+    <p><strong>Description:</strong></p>
+
+    <p>From wikipedia:</p>
+
+    <blockquote>
+      <p>(Assuming the player is X/Black/Dark) Dark must place a piece with the dark side up on the board, in such a position that there exists at least one straight (horizontal, vertical, or diagonal) occupied line between the new piece and another dark piece, with one or more contiguous light pieces between them.</p>
+    </blockquote>
+
+    <blockquote>
+      <p>After placing the piece, dark turns over (flips, captures) all light pieces lying on a straight line between the new piece and any anchoring dark pieces. All reversed pieces now show the dark side, and dark can use them in later moves—unless light has reversed them back in the meantime. In other words, a valid move is one where at least one piece is reversed.</p>
+    </blockquote>
+
+    <p>Using the <code class="highlighter-rouge">board</code> passed in determine which cells contain pieces to flip based on the last move. For example, if the last move was the <code class="highlighter-rouge">X</code> played at <code class="highlighter-rouge">D3</code>, then all of the <code class="highlighter-rouge">O</code>&#39;s on the board would be flipped (<code class="highlighter-rouge">D2</code>, <code class="highlighter-rouge">B3</code> and <code class="highlighter-rouge">C3</code>.</p>
+
+    <pre>
+     A   B   C   D
+   +---+---+---+---+
+ 1 |   |   |   | X |
+   +---+---+---+---+
+ 2 |   |   |   | O |
+   +---+---+---+---+
+ 3 | X | O | O | X |
+   +---+---+---+---+
+ 4 |   |   |   |   |
+   +---+---+---+---+
+</pre>
+
+    <p>Consequently, for the board above, this function will return the row and column pairs representing the cells where pieces need to be flipped. These pairs are grouped by &quot;lines&quot;. <code class="highlighter-rouge">B3</code> and <code class="highlighter-rouge">C3</code> are grouped together because they are in the same line. These groups are collected in an <code class="highlighter-rouge">Array</code>&#8230;. and the returned <code class="highlighter-rouge">Array</code> should look like:</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[[[2, 1], [2, 2]], [1, 3]]
+</code></pre></div>    </div>
+
+    <p>Again groups are formed by the lines: horizontal, vertical and diagonal. But really, this translates to 8 directions starting from the proposed move:</p>
+
+    <ol>
+      <li>left</li>
+      <li>right</li>
+      <li>up</li>
+      <li>down</li>
+      <li>upper left diagonal</li>
+      <li>upper right diagonal</li>
+      <li>lower left diagonal</li>
+      <li>lower right diagonal</li>
+    </ol>
+
+    <p>So for example, in the board setup below, if there were an X move to D4, there would be 8 groups, but only because there are 8 lines of cells to be flipped:</p>
+
+    <pre><code data-trim="" contenteditable="">
+
+    A   B   C   D   E   F   G   H
+  +---+---+---+---+---+---+---+---+
+1 |   |   |   |   |   |   | X |   |
+  +---+---+---+---+---+---+---+---+
+2 |   | X |   | X |   | O |   |   |
+  +---+---+---+---+---+---+---+---+
+3 |   |   | O | O | O |   |   |   |
+  +---+---+---+---+---+---+---+---+
+4 |   | X | O |   | O | O | X |   |
+  +---+---+---+---+---+---+---+---+
+5 |   |   | O | O | O |   |   |   |
+  +---+---+---+---+---+---+---+---+
+6 |   | X |   | X |   | X |   |   |
+  +---+---+---+---+---+---+---+---+
+7 |   |   |   |   |   |   |   |   |
+  +---+---+---+---+---+---+---+---+
+8 |   |   |   |   |   |   |   |   |
+  +---+---+---+---+---+---+---+---+
+
+</code></pre>
+
+    <p><strong>Hint - a possible brute force algorithm to do this</strong>:</p>
+
+    <ol>
+      <li>For every possible straight line starting from the move (up, down, left, right, diagonal upper left, etc.):</li>
+      <li>Check if the next cell contains your opponent&#39;s letter</li>
+      <li>If it does, add it to a list of potential cell coordinates continue to the next cell in your line&#8230;</li>
+      <li>If that cell contains your letter, you&#39;re done! &#8230;all of your collected cells are cells to flip</li>
+      <li>If the next cell doesn&#39;t exist or the next cell is empty (a space) none of the cells you&#39;ve collected can be flipped</li>
+    </ol>
+
+    <p>Lastly, the ordering of the groups, as well as the cells in those groups can vary. <strong>Ordering does not matter!</strong> (This will depend on the algorithm that you use for this, so a specific ordering is not required.)</p>
+
+    <p><strong>Example:</strong></p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>let board = rev.generateBoard(4, 4, " ");
+board = rev.placeLetters(board, 'O', 'B3', 'C3', 'D2');
+board = rev.placeLetters(board, 'X', 'A3', 'D1', 'D3');
+const res = rev.getCellsToFlip(board, 2, 3); // last move/proposed move was D3
+// res will look something like: [[[2, 1], [2, 2]], [[1, 3]]]
+</code></pre></div>    </div>
+
+    <h3 id="isvalidmoveboard-letter-row-col"><code class="highlighter-rouge">isValidMove(board, letter, row, col)</code></h3>
+
+    <p><strong>Parameters:</strong></p>
+
+    <ul>
+      <li><code class="highlighter-rouge">board</code> - the board the move is performed on</li>
+      <li><code class="highlighter-rouge">letter</code> - the letter used for the intended move</li>
+      <li><code class="highlighter-rouge">row</code> - the row number of the intended move</li>
+      <li><code class="highlighter-rouge">col</code> - the column number of the intended move</li>
+    </ul>
+
+    <p><strong>Returns:</strong></p>
+
+    <ul>
+      <li><code class="highlighter-rouge">true</code> if the move is valid, <code class="highlighter-rouge">false</code> otherwise</li>
+    </ul>
+
+    <p><strong>Description:</strong></p>
+
+    <p>Using the <code class="highlighter-rouge">board</code> passed in, determines whether or not a move with <code class="highlighter-rouge">letter</code> to <code class="highlighter-rouge">row</code> and <code class="highlighter-rouge">col</code> is valid. A valid move:</p>
+
+    <ul>
+      <li>targets an empty square</li>
+      <li>is within the boundaries of the board</li>
+      <li>adheres to the rules of Reversi&#8230; that is, the piece played must flip at least one of the other player&#39;s pieces</li>
+    </ul>
+
+    <p>Use a previous function that you created, <code class="highlighter-rouge">rowColToIndex</code> in the implementation of this function. Again, you can <strong>assume that the space character, <code class="highlighter-rouge">" "</code>, represents empty</strong>.</p>
+
+    <p><strong>Example:</strong></p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// a valid move
+let board = rev.generateBoard(3, 3, " ");
+board = rev.placeLetter(board, 'X', "A1");
+board = rev.placeLetter(board, 'O', "A2");
+rev.isValidMove(board, 'X', 2, 0); // true!
+
+// not a valid move
+let board = rev.generateBoard(3, 3, " ");
+board = rev.placeLetter(board, 'X', "B1"); // notice that this does not form a line!
+board = rev.placeLetter(board, 'O', "A2");
+rev.isValidMove(board, 'X', 2, 0); // false
+
+// remember to check for:
+// 1. out of bounds
+// 2. a piece that already exists
+</code></pre></div>    </div>
+    <hr />
+
+    <h3 id="isvalidmovealgebraicnotationboard-letter-algebraicnotation"><code class="highlighter-rouge">isValidMoveAlgebraicNotation(board, letter, algebraicNotation)</code></h3>
+
+    <p><strong>Parameters:</strong></p>
+
+    <ul>
+      <li><code class="highlighter-rouge">board</code> - the board the move is performed on</li>
+      <li><code class="highlighter-rouge">letter</code> - the letter to be placed</li>
+      <li><code class="highlighter-rouge">algebraicNotation</code> - algebraic notation representing the <strong>intended move</strong> on the <code class="highlighter-rouge">board</code></li>
+    </ul>
+
+    <p><strong>Returns:</strong></p>
+
+    <ul>
+      <li><code class="highlighter-rouge">true</code> if the intended move is valid, <code class="highlighter-rouge">false</code> otherwise</li>
+    </ul>
+
+    <p><strong>Description:</strong></p>
+
+    <p>Using the <code class="highlighter-rouge">board</code> passed in, determines whether or not a move with <code class="highlighter-rouge">letter</code> to <code class="highlighter-rouge">algebraicNotation</code> is valid. Use the functions you previously created, <code class="highlighter-rouge">isValidMove</code> and <code class="highlighter-rouge">algebraicToRowCol</code> to implement this function.</p>
+
+    <p><strong>Example:</strong></p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// valid move
+let board = rev.generateBoard(3, 3, " ");
+board = rev.placeLetter(board, 'X', "A1");
+board = rev.placeLetter(board, 'O', "A2");
+rev.isValidMoveAlgebraicNotation(board, 'X', 'A3'); // true
+</code></pre></div>    </div>
+
+    <h3 id="getlettercountsboard"><code class="highlighter-rouge">getLetterCounts(board)</code></h3>
+
+    <p><strong>Parameters:</strong></p>
+
+    <ul>
+      <li><code class="highlighter-rouge">board</code> - the board that contains the pieces/letters to count</li>
+    </ul>
+
+    <p><strong>Returns:</strong></p>
+
+    <ul>
+      <li><code class="highlighter-rouge">object</code> with property names as letters and values as counts of those letters</li>
+    </ul>
+
+    <p><strong>Description:</strong></p>
+
+    <p>Returns the counts of each of the letters on the supplied <code class="highlighter-rouge">board</code>. The counts are stored in an object where the count is the value and the letter is the property name. For example, if the board has 2 X&#39;s and 1 O, then the object return would be: <code class="highlighter-rouge">{ X: 2, O: 1 }</code></p>
+
+    <p><strong>Example:</strong></p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>let board = rev.generateBoard(3, 3, " ");
+board = rev.placeLetter(board, 'X', "A1");
+board = rev.placeLetter(board, 'X', "A3");
+board = rev.placeLetter(board, 'O', "A2");
+const counts = rev.getLetterCounts(board);
+// counts is {X: 2, O: 1}
+</code></pre></div>    </div>
+
+    <h3 id="getvalidmovesboard-letter"><code class="highlighter-rouge">getValidMoves(board, letter)</code></h3>
+
+    <ul>
+      <li><code class="highlighter-rouge">board</code> - the board used for determining valid moves</li>
+      <li><code class="highlighter-rouge">letter</code> - the piece/letter that valid moves will be determined for</li>
+    </ul>
+
+    <p><strong>Returns:</strong></p>
+
+    <ul>
+      <li><code class="highlighter-rouge">Array</code> - a 2-dimensional <code class="highlighter-rouge">Array</code> representing a list of row and column pairs, with each pair a valid move for the <code class="highlighter-rouge">letter</code> provided</li>
+    </ul>
+
+    <p><strong>Description:</strong></p>
+
+    <p>Gives back a list of valid moves that the <code class="highlighter-rouge">letter</code> can make on the <code class="highlighter-rouge">board</code>. These moves are returned as a list of row and column pairs - an <code class="highlighter-rouge">Array</code> containing 2-element <code class="highlighter-rouge">Array</code>s</p>
+
+    <p><strong>Example:</strong></p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// 1 valid move can be made for X on this board
+let board = rev.generateBoard(3, 3, " ");
+board = rev.placeLetter(board, 'X', "A1");
+board = rev.placeLetter(board, 'O', "A2");
+const res = rev.getValidMoves(board, 'X');
+// [[2, 0]]
+
+// no valid moves for X can be made on this board
+let board = rev.generateBoard(3, 3, " ");
+board = rev.placeLetter(board, 'X', "A1");
+board = rev.placeLetter(board, 'O', "A3");
+const res = rev.getValidMoves(board, 'X');
+// []
+
+// 2 possible valid moves can be made for X on this board
+let board = rev.generateBoard(4, 4, " ");
+board = rev.placeLetters(board, 'X', 'A1');
+board = rev.placeLetters(board, 'O', 'B2');
+board = rev.placeLetters(board, 'X', 'A2');
+board = rev.placeLetters(board, 'O', 'C3');
+const res = rev.getValidMoves(board, 'X');
+// [[3, 3], [1, 2]]
+</code></pre></div>    </div>
+
+    <hr />
+
+    <h3 id="checking-your-code-pushing-your-changes">Checking Your Code, Pushing Your Changes</h3>
+
+    <ol>
+      <li>JavaScript is kind of crazy (read: has some really <em>bad</em>, but syntactically valid parts), so it&#39;s useful to use a static analysis tool, like <code class="highlighter-rouge">eslint</code> to check your code
+        <ul>
+          <li>ideally, you&#39;d be doing this periodically while you write your program</li>
+          <li>the commandline usage is described here, but there are eslint integrations for some editors (see the plugins section in the <a href="https://www.npmjs.com/package/eslint">eslint installation guide</a></li>
+          <li>from your project directory run: <code class="highlighter-rouge">./node_modules/.bin/eslint src/*</code> to check all of the code in the <code class="highlighter-rouge">src</code> directory</li>
+          <li>(you <em>did install</em> <code class="highlighter-rouge">eslint</code> locally in the preparation section, right?)</li>
+          <li>check the output; <strong>make sure you fix all warnings / errors</strong></li>
+        </ul>
+      </li>
+      <li>Run your tests one last time to make sure that they&#39;re all (or&#8230; <em>mostly</em>) passing.
+        <ul>
+          <li><code class="highlighter-rouge">mocha tests/reversi-test.js</code></li>
+        </ul>
+      </li>
+      <li>Fix unit test errors
+        <ul>
+          <li>if you have test failures, examine the output of each failure&#8230;</li>
+          <li>it&#39;ll describe what was expected vs what was actually given back by your function&#8230;</li>
+          <li>+/green shows expected, while -/red shows the incorrect output</li>
+          <li>if you get <code class="highlighter-rouge">TypeError ... is not a function</code>, you may have:
+            <ul>
+              <li>not implemented the function (!)</li>
+              <li>named the function differently than what was specified in the instructions</li>
+              <li>did not export the function from your module</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>finally make sure your changes are saved and pushed
+        <ul>
+          <li><strong>use git to add and commit</strong> to continually save changes</li>
+          <li>push your changes so that they&#39;re available on the remote repository (github)</li>
+        </ul>
+      </li>
+    </ol>
+
+    <h2 id="part-2---reversi--othello">Part 2 - Reversi / Othello</h2>
+
+    <p>Whew. That was a lot of work. But, ummmm&#8230; there&#39;s no Reversi game yet. What?  <strong>Let&#39;s use the module / helper functions you created in part 1 to implement an interactive Reversi game that supports the following features:</strong></p>
+
+    <ol>
+      <li>User controlled game settings</li>
+      <li>An interactive game</li>
+      <li>A game configuration to automate settings, start the board with a predefined setup, and allow scripted moves for both the player and the opponent</li>
+    </ol>
+
+    <p>You don&#39;t have to use <em>all</em> of the functions you created in your <code class="highlighter-rouge">reversi.js</code> module. However, you&#39;ll likely end up doing a lot of redundant work if you don&#39;t!</p>
+
+    <h3 id="prep">Prep</h3>
+
+    <p>You&#39;ll write your Reversi game in the file called <code class="highlighter-rouge">src/app.js</code>. Your first step is to bring in some required modules. Open up <code class="highlighter-rouge">src/app.js</code> and&#8230;</p>
+
+    <ol>
+      <li>bring in the module you created by using <code class="highlighter-rouge">require</code>
+        <pre><code data-trim="" contenteditable="">// you can name the object whatever you like
+// "rev" is used below...
+var rev = require('./reversi.js');
+</code></pre>
+      </li>
+      <li>bring in the module, <code class="highlighter-rouge">readline-sync</code>, which you installed in the preparation portion of the homework
+        <pre><code data-trim="" contenteditable="">var readlineSync = require('readline-sync');
+</code></pre>
+      </li>
+      <li>also bring in the <code class="highlighter-rouge">fs</code> module for reading files
+&lt;/code&gt;&lt;/pre&gt;</li>
+    </ol>
+
+    <h3 id="read-in-a-config-file--commandline-arguments">Read in a Config File / Commandline Arguments</h3>
+
+    <p>Before starting the game, a few settings have to be configured. This can be done via a config file (which will also allow you to start with a board with pieces already on it) or by asking the player to specify values explicitly. The settings to configure are:</p>
+
+    <ol>
+      <li>width of the board</li>
+      <li>the letter/color for the player (<code class="highlighter-rouge">X</code> is black, <code class="highlighter-rouge">O</code> is white, <code class="highlighter-rouge">X</code> goes first)</li>
+    </ol>
+
+    <p>This section describes how a config file could be used to initialize a game. (Asking the player for settings will be covered in the next section).</p>
+
+    <ol>
+      <li>the config file will be specified as a commandline argument that&#39;s passed in to your program when running it through the commandline</li>
+      <li>to access commandline arguments, use the built-in <code class="highlighter-rouge">process.argv</code>. It&#39;s an <code class="highlighter-rouge">Array</code> that contains the data passed in to your program through the commandline.
+        <ul>
+          <li><a href="https://nodejs.org/docs/latest/api/process.html#process_process_argv">see the official documentation</a></li>
+          <li>the filename of the optional config file will be first and only argument that can be passed in</li>
+          <li>&#8230; consequently, check for the existence of <code class="highlighter-rouge">process.argv[2]</code></li>
+          <li>for example, if you run your file as <code class="highlighter-rouge">node src/app.js /Users/joe/Desktop/myconfig.json</code></li>
+          <li>&#8230; then the string, <code class="highlighter-rouge">/Users/joe/Desktop/myconfig.json</code>, will be stored in <code class="highlighter-rouge">process.argv[2]</code></li>
+        </ul>
+      </li>
+      <li>if a config file is passed in, read it!
+        <ul>
+          <li>use the <a href="https://nodejs.org/api/fs.html#fs_fs_readfile_file_options_callback"><code class="highlighter-rouge">fs</code> module&#39;s readFile function</a> to do this</li>
+          <li>example usage of the <code class="highlighter-rouge">fs</code> module:
+            <pre><code data-trim="" contenteditable="">
+fs.readFile('/path/to/myFile.txt', 'utf8', function(err, data) {
+ if (err) {
+  console.log('uh oh', err); 
+ } else {
+  console.log(data);
+ }
+});
+</code></pre>
+          </li>
+          <li>note that the 1st argument is a path to a file (can be relative or absolute)</li>
+          <li>the 2nd argument is an optional encoding (in this case utf8),</li>
+          <li>&#8230; and the 3rd argument is a function to call when the file is finished being read
+            <ul>
+              <li>this <em>callback</em> function has 2 parameters:</li>
+              <li>an <code class="highlighter-rouge">error</code> object that is <code class="highlighter-rouge">undefined</code> if there&#39;s no error, or an object containing information on the error if there is an error</li>
+              <li>and the <code class="highlighter-rouge">data</code> contained in the file</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>you can assume that the config file will be in JSON format
+        <ul>
+          <li>use <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse"><code class="highlighter-rouge">JSON.parse</code></a> to take a string of JSON data and convert it into actual JavaScript objects</li>
+          <li>expect that the JSON file contains the following data:</li>
+          <li>data for configuring the game
+            <ul>
+              <li>a <code class="highlighter-rouge">String</code> representing the letter assigned to the player</li>
+              <li>an <code class="highlighter-rouge">Array</code> representing the board (optionally with pieces placed)</li>
+            </ul>
+          </li>
+          <li>optionally, data to script the moves for the player and computer to aid in testing
+            <ul>
+              <li>an <code class="highlighter-rouge">Array</code> of scripted moves in algebraic notation for the computer to use for moves</li>
+              <li>an <code class="highlighter-rouge">Array</code> of scripted moves in algebraic notation for the player to use for moves</li>
+              <li>if the above arrays of scripted moves are empty, then the player and computer can move freely</li>
+            </ul>
+          </li>
+          <li>here&#39;s a sample config file:
+            <pre><code data-trim="" contenteditable="">{
+ "boardPreset": {
+  "playerLetter": "X",
+  "board": [ 
+              " ", " ", "X", " ", " ", " ", " ", " ", 
+              " ", " ", "O", " ", " ", " ", " ", " ", 
+              " ", " ", "O", " ", " ", " ", " ", " ", 
+              "X", "O", " ", "O", "X", "O", "O", "X", 
+              " ", " ", "O", "X", "O", " ", " ", " ", 
+              " ", " ", "O", " ", " ", " ", " ", " ", 
+              " ", " ", "X", " ", " ", " ", " ", " ", 
+              " ", " ", " ", " ", " ", " ", " ", " " 
+  ]
+ },
+ "scriptedMoves": {
+  "player": ["C4", "F3"],
+  "computer": ["E3", "F2", "B6"]
+ }
+}
+</code></pre>
+          </li>
+        </ul>
+      </li>
+      <li>use the data in the JSON file to initialize your game (for example, use it to generate a board, set the player letter, etc.)</li>
+      <li>from here you can start the interactive game</li>
+    </ol>
+
+    <p><strong>Of course, if no config file is specified, then ask the user for the game settings&#8230;</strong> (see below)</p>
+
+    <h3 id="user-controlled-game-settings">User Controlled Game Settings</h3>
+
+    <p>If no config file is specified (or if the config file is not found) prompt the user to set up some game options. Use <code class="highlighter-rouge">readline-sync</code> to ask the user for input synchronously (again, very different from how node usually works, but more in line with how we&#39;re accustomed to seeing how programs flow). Check out the <a href="https://www.npmjs.com/package/readline-sync">documentation on <code class="highlighter-rouge">readline-sync</code> on npm</a>.</p>
+
+    <p>Here&#39;s some example usage:</p>
+
+    <pre><code data-trim="" contenteditable="">const readlineSync = require('readline-sync');
+ 
+const answer = readlineSync.question('What is the meaning of life?');
+console.log(answer);
+</code></pre>
+
+    <ol>
+      <li>greet the user by saying something like: <code class="highlighter-rouge">REVERSI?</code></li>
+      <li>ask the user for the width of the game board
+        <ul>
+          <li>the width must be at least 4 squares wide</li>
+          <li>the width cannot be more than 26 squares wide</li>
+          <li>the width must be even</li>
+          <li>if the width does not fall within the above range or if the width entered is not numeric (remember, you can use <code class="highlighter-rouge">isNaN</code> for this) or not even, then ask the user for the width again</li>
+          <li>see the example interaction below (note that the first 3 answers are not valid widths, but the 4th valid answer allows the user to progress to the next question)
+            <pre><code data-trim="" contenteditable="">How wide should the board be? (even numbers between 4 and 26, inclusive)
+&gt; blah
+How wide should the board be? (even numbers between 4 and 26, inclusive)
+&gt; 3
+How wide should the board be? (even numbers between 4 and 26, inclusive)
+&gt; -12
+How wide should the board be? (even numbers between 4 and 26, inclusive)
+&gt; 4
+Pick your letter: X (black) or O (white)
+</code></pre>
+          </li>
+        </ul>
+      </li>
+      <li>ask the user what color they&#39;d like to be; &#39;X&#39; for black or &#39;O&#39; for white)
+        <ul>
+          <li>uppercase &#39;X&#39; and uppercase &#39;O&#39; are the only valid inputs</li>
+          <li>if the user does not enter a valid letter, continually ask the user for a letter until a valid letter is given</li>
+          <li>once the player has chosen a letter, output <code class="highlighter-rouge">Player is (color/letter chosen)</code></li>
+          <li>see the example interaction below (the first 2 inputs are not valid - the first x is lowercase):
+            <pre><code data-trim="" contenteditable="">Pick your letter: X (black) or O (white)
+&gt; x
+Pick your letter: X (black) or O (white)
+&gt; asdf
+Pick your letter: X (black) or O (white)
+&gt; X
+Player is X
+</code></pre>
+          </li>
+        </ul>
+      </li>
+      <li>use the data collected to construct a board (use on of the functions that you created!) and show the letter that the player chose along with the empty board &#8230; initialize the board with 4 pieces in the center 4 squares as specified by the <a href="https://en.wikipedia.org/wiki/Reversi#Rules">Reversi/Othello rules</a>
+        <pre><code data-trim="" contenteditable="">Player is X
+     A   B   C   D
+   +---+---+---+---+
+ 1 |   |   |   |   |
+   +---+---+---+---+
+ 2 |   | O | X |   |
+   +---+---+---+---+
+ 3 |   | X | O |   |
+   +---+---+---+---+
+ 4 |   |   |   |   |
+   +---+---+---+---+
+&nbsp;
+What's your move?
+</code></pre>
+      </li>
+    </ol>
+
+    <p><br />
+<strong>An entire <em>happy path</em> (that is, all valid input) interaction would look like this:</strong></p>
+
+    <pre><code data-trim="" contenteditable="">How wide should the board be? (even numbers between 4 and 26, inclusive)
+&gt; 4
+Pick your letter: X (black) or O (white)
+&gt; X
+Player is X
+     A   B   C   D
+   +---+---+---+---+
+ 1 |   |   |   |   |
+   +---+---+---+---+
+ 2 |   | O | X |   |
+   +---+---+---+---+
+ 3 |   | X | O |   |
+   +---+---+---+---+
+ 4 |   |   |   |   |
+   +---+---+---+---+
+
+What's your move?
+&gt;
+</code></pre>
+
+    <h3 id="an-interactive-game">An Interactive Game</h3>
+
+    <p>Now&#8230; for the actual game. The user will be playing against the computer.</p>
+
+    <p><strong>If the moves aren&#39;t scripted (that is, a config file was not used OR the config file contained empty arrays for computer and player moves)</strong>&#8230;.</p>
+
+    <ol>
+      <li>Black (<code class="highlighter-rouge">X</code>) goes first (so if the user chose &#39;O&#39;, the computer will make the first move)</li>
+      <li>As long as the board isn&#39;t full and there hasn&#39;t been 2 consecutive passes&#8230;.
+        <ul>
+          <li>for the player&#39;s move, ask the player for a move in algebraic notation</li>
+          <li>if the move is not valid (use one of the functions you wrote to determine this!), notify the user and ask for another move
+            <pre><code data-trim="" contenteditable="">Player is X
+     A   B   C   D
+   +---+---+---+---+
+ 1 |   |   |   |   |
+   +---+---+---+---+
+ 2 |   | O | X |   |
+   +---+---+---+---+
+ 3 |   | X | O |   |
+   +---+---+---+---+
+ 4 |   |   |   |   |
+   +---+---+---+---+
+&nbsp;
+What's your move?
+&gt; A1
+&nbsp;
+INVALID MOVE. Your move should:
+&ast; be in a <column letter=""><row number=""> format
+&ast; specify an existing empty cell
+&ast; flip at elast one of your oponent's pieces
+&nbsp;
+What's your move?
+&gt; A2
+     A   B   C   D
+   +---+---+---+---+
+ 1 |   |   |   |   |
+   +---+---+---+---+
+ 2 | X | X | X |   |
+   +---+---+---+---+
+ 3 |   | X | O |   |
+   +---+---+---+---+
+ 4 |   |   |   |   |
+   +---+---+---+---+
+&nbsp;
+Score
+=====
+X: 4
+O: 1
+&lt;/code&gt;&lt;/pre&gt;
+</row></column></code></pre>
+          </li>
+          <li>after a player moves, show the total counts for the player and computer</li>
+          <li>if a player cannot make a valid move, tell the player to press <ENTER> to pass instead of allowing the player to enter a move
+</ENTER>            <pre><code data-trim="" contenteditable="">     A   B   C   D   E   F   G   H
+   +---+---+---+---+---+---+---+---+
+ 1 |   |   |   |   |   |   |   |   |
+   +---+---+---+---+---+---+---+---+
+ 2 |   |   |   |   |   |   |   |   |
+   +---+---+---+---+---+---+---+---+
+ 3 |   |   |   | X |   |   |   |   |
+   +---+---+---+---+---+---+---+---+
+ 4 | O | O | X | X | X | O | O | X |
+   +---+---+---+---+---+---+---+---+
+ 5 |   |   |   |   |   |   |   |   |
+   +---+---+---+---+---+---+---+---+
+ 6 |   |   |   |   |   |   |   |   |
+   +---+---+---+---+---+---+---+---+
+ 7 |   |   |   |   |   |   |   |   |
+   +---+---+---+---+---+---+---+---+
+ 8 |   |   |   |   |   |   |   |   |
+   +---+---+---+---+---+---+---+---+
+&nbsp;
+No valid moves available for you.
+Press &lt;ENTER&gt; to pass.        
+</code></pre>
+          </li>
+          <li>however if a player is able to move, once they complete their move, ask the player to press &lt;ENTER&gt; to allow the computer move (ask for any input again using something like <code class="highlighter-rouge">readlineSync.question('Press &amp;lt;ENTER&amp;gt; to show computer\'s move...');</code>&#8230; without storing the input in a variable
+            <pre><code data-trim="" contenteditable="">     A   B   C   D
+   +---+---+---+---+
+ 1 |   |   |   |   |
+   +---+---+---+---+
+ 2 | X | X | X |   |
+   +---+---+---+---+
+ 3 |   | X | O |   |
+   +---+---+---+---+
+ 4 |   |   |   |   |
+   +---+---+---+---+
+&nbsp;
+Score
+=====
+X: 4
+O: 1
+&nbsp;
+Press &lt;ENTER&gt; to show computer's move...
+</code></pre>
+          </li>
+          <li>for the computer&#39;s move, you can use any algorithm you want to generate a valid move</li>
+          <li>note that the computer can pass as well if it does not have any valid moves</li>
+        </ul>
+      </li>
+      <li>Once there are 2 consecutive passes from the player to computer or vice versa, the game ends</li>
+      <li>Display who won based on the counts of the pieces/letters on the board (ties are possible)
+        <pre><code data-trim="" contenteditable="">Score
+=====
+X: 11
+O: 5
+&nbsp;
+You won! 👍
+</code></pre>
+      </li>
+      <li>See the example game at the end of these instructions</li>
+    </ol>
+
+    <h3 id="handling-scripted-moves">Handling Scripted Moves</h3>
+
+    <p>If there were scripted moves defined in the config file, allow the game to proceed by pulling the moves for the computer and player from these Arrays&#8230; and using them to make a move:</p>
+
+    <ol>
+      <li>if the move pulled from the Array is not valid, then ignore it and allow the computer or player to make their move manually</li>
+      <li>otherwise, if the move <em>is</em> valid, then prompt the player to press <ENTER> to see their next move</ENTER></li>
+      <li>if there are no more moves to pull from the array of scripted moves, allow the computer or player to choose their move like usual</li>
+      <li>Some more details:
+        <ul>
+          <li>again, <strong>the player can move manually after the scripted moves have been exhausted</strong></li>
+          <li>if the scripted move is an invalid move, that scripted move is skipped (and the user or computer will move manually), and the next scripted move for that player (comp or user) will be used on that player&#39;s next turn</li>
+          <li>execute the scripted moves based on who is &#39;X&#39;, so if the player is &#39;X&#39;, their scripted moves will start first (same as if playing interactively)</li>
+          <li>there can be an uneven number of moves - if there are, follow this process: is there a scripted move to use? use it&#8230; otherwise move like you would normally (computer picks randomly or player enters move manually)</li>
+        </ul>
+      </li>
+      <li>for example using this configuration:
+        <pre><code data-trim="" contenteditable="">{
+ "boardPreset": {
+     "playerLetter": "X",
+     "board": [ 
+                 " ", " ", " ", " ",  
+                 "x", "O", "X", " ",  
+                 " ", "X", "O", " ",  
+                 " ", " ", " ", " "
+     ]
+ },
+ "scriptedMoves": {
+     "player": ["A2", "D3"],
+     "computer": ["C1", "A3"]
+ }
+}
+</code></pre>
+      </li>
+      <li>the game would proceed as follows:
+        <pre><code data-trim="" contenteditable="">REVERSI
+&nbsp;
+Computer will make the following moves: [ 'C1', 'A3' ]
+The player will make the following moves: [ 'A2', 'D3' ]
+Player is X
+     A   B   C   D
+   +---+---+---+---+
+ 1 |   |   |   |   |
+   +---+---+---+---+
+ 2 |   | O | X |   |
+   +---+---+---+---+
+ 3 |   | X | O |   |
+   +---+---+---+---+
+ 4 |   |   |   |   |
+   +---+---+---+---+
+&nbsp;
+Player move to A2 is scripted.
+Press &lt;ENTER&gt; to continue.
+</code></pre>
+        <pre><code data-trim="" contenteditable="">     A   B   C   D
+   +---+---+---+---+
+ 1 |   |   |   |   |
+   +---+---+---+---+
+ 2 | X | X | X |   |
+   +---+---+---+---+
+ 3 |   | X | O |   |
+   +---+---+---+---+
+ 4 |   |   |   |   |
+   +---+---+---+---+
+&nbsp;
+Score
+=====
+X: 4
+O: 1
+&nbsp;
+Press &lt;ENTER&gt; to show computer's move...
+</code></pre>
+        <pre><code data-trim="" contenteditable="">Computer move to C1 was scripted.
+     A   B   C   D
+   +---+---+---+---+
+ 1 |   |   | O |   |
+   +---+---+---+---+
+ 2 | X | X | O |   |
+   +---+---+---+---+
+ 3 |   | X | O |   |
+   +---+---+---+---+
+ 4 |   |   |   |   |
+   +---+---+---+---+
+&nbsp;
+Score
+=====
+X: 3
+O: 3
+&nbsp;
+Player move to D3 is scripted.
+Press &lt;ENTER&gt; to continue.    
+</code></pre>
+        <pre><code data-trim="" contenteditable="">     A   B   C   D
+   +---+---+---+---+
+ 1 |   |   | O |   |
+   +---+---+---+---+
+ 2 | X | X | O |   |
+   +---+---+---+---+
+ 3 |   | X | X | X |
+   +---+---+---+---+
+ 4 |   |   |   |   |
+   +---+---+---+---+
+&nbsp;
+Score
+=====
+X: 5
+O: 2
+&nbsp;
+Press &lt;ENTER&gt; to show computer's move...
+</code></pre>
+      </li>
+    </ol>
+
+    <h3 id="example-game">Example Game</h3>
+
+    <p><strong>Animated gif of Reversi/Othello</strong></p>
+
+    <div class="img" name="hw01-reversi-sample">
+      <p><img src="../resources/img/hw01-example-game.gif" alt="example game" /></p>
+    </div>
+
+    <p><strong>Text Example</strong></p>
+
+    <pre><code data-trim="" contenteditable="">
+How wide should the board be? (even numbers between 4 and 26, inclusive)
+&gt; 4
+Pick your letter: X (black) or O (white)
+&gt; X
+Player is X
+     A   B   C   D
+   +---+---+---+---+
+ 1 |   |   |   |   |
+   +---+---+---+---+
+ 2 |   | O | X |   |
+   +---+---+---+---+
+ 3 |   | X | O |   |
+   +---+---+---+---+
+ 4 |   |   |   |   |
+   +---+---+---+---+
+
+What's your move?
+&gt; B1
+
+     A   B   C   D
+   +---+---+---+---+
+ 1 |   | X |   |   |
+   +---+---+---+---+
+ 2 |   | X | X |   |
+   +---+---+---+---+
+ 3 |   | X | O |   |
+   +---+---+---+---+
+ 4 |   |   |   |   |
+   +---+---+---+---+
+
+Score
+=====
+X: 4
+O: 1
+
+Press &lt;ENTER&gt; to show computer's move...
+     A   B   C   D
+   +---+---+---+---+
+ 1 |   | X |   |   |
+   +---+---+---+---+
+ 2 |   | X | X |   |
+   +---+---+---+---+
+ 3 | O | O | O |   |
+   +---+---+---+---+
+ 4 |   |   |   |   |
+   +---+---+---+---+
+
+Score
+=====
+X: 3
+O: 3
+
+What's your move?
+&gt; B4
+     A   B   C   D
+   +---+---+---+---+
+ 1 |   | X |   |   |
+   +---+---+---+---+
+ 2 |   | X | X |   |
+   +---+---+---+---+
+ 3 | O | X | O |   |
+   +---+---+---+---+
+ 4 |   | X |   |   |
+   +---+---+---+---+
+
+Score
+=====
+X: 5
+O: 2
+
+Press &lt;ENTER&gt; to show computer's move...
+     A   B   C   D
+   +---+---+---+---+
+ 1 | O | X |   |   |
+   +---+---+---+---+
+ 2 |   | O | X |   |
+   +---+---+---+---+
+ 3 | O | X | O |   |
+   +---+---+---+---+
+ 4 |   | X |   |   |
+   +---+---+---+---+
+
+Score
+=====
+X: 4
+O: 4
+
+What's your move?
+&gt; A2
+     A   B   C   D
+   +---+---+---+---+
+ 1 | O | X |   |   |
+   +---+---+---+---+
+ 2 | X | X | X |   |
+   +---+---+---+---+
+ 3 | O | X | O |   |
+   +---+---+---+---+
+ 4 |   | X |   |   |
+   +---+---+---+---+
+
+Score
+=====
+X: 6
+O: 3
+
+Press &lt;ENTER&gt; to show computer's move...
+     A   B   C   D
+   +---+---+---+---+
+ 1 | O | O | O |   |
+   +---+---+---+---+
+ 2 | X | O | O |   |
+   +---+---+---+---+
+ 3 | O | X | O |   |
+   +---+---+---+---+
+ 4 |   | X |   |   |
+   +---+---+---+---+
+
+Score
+=====
+X: 3
+O: 7
+
+What's your move?
+&gt; A4
+     A   B   C   D
+   +---+---+---+---+
+ 1 | O | O | O |   |
+   +---+---+---+---+
+ 2 | X | O | O |   |
+   +---+---+---+---+
+ 3 | X | X | O |   |
+   +---+---+---+---+
+ 4 | X | X |   |   |
+   +---+---+---+---+
+
+Score
+=====
+X: 5
+O: 6
+
+Press &lt;ENTER&gt; to show computer's move...
+Computer has no valid moves. Press &lt;ENTER&gt; to continue
+Score
+=====
+X: 5
+O: 6
+
+What's your move?
+&gt; D2
+     A   B   C   D
+   +---+---+---+---+
+ 1 | O | O | O |   |
+   +---+---+---+---+
+ 2 | X | X | X | X |
+   +---+---+---+---+
+ 3 | X | X | X |   |
+   +---+---+---+---+
+ 4 | X | X |   |   |
+   +---+---+---+---+
+
+Score
+=====
+X: 9
+O: 3
+
+Press &lt;ENTER&gt; to show computer's move...
+     A   B   C   D
+   +---+---+---+---+
+ 1 | O | O | O |   |
+   +---+---+---+---+
+ 2 | X | X | O | X |
+   +---+---+---+---+
+ 3 | X | X | X | O |
+   +---+---+---+---+
+ 4 | X | X |   |   |
+   +---+---+---+---+
+
+Score
+=====
+X: 8
+O: 5
+
+What's your move?
+&gt; D4
+     A   B   C   D
+   +---+---+---+---+
+ 1 | O | O | O |   |
+   +---+---+---+---+
+ 2 | X | X | O | X |
+   +---+---+---+---+
+ 3 | X | X | X | X |
+   +---+---+---+---+
+ 4 | X | X |   | X |
+   +---+---+---+---+
+
+Score
+=====
+X: 10
+O: 4
+
+Press &lt;ENTER&gt; to show computer's move...
+     A   B   C   D
+   +---+---+---+---+
+ 1 | O | O | O |   |
+   +---+---+---+---+
+ 2 | X | X | O | X |
+   +---+---+---+---+
+ 3 | X | X | O | X |
+   +---+---+---+---+
+ 4 | X | X | O | X |
+   +---+---+---+---+
+
+Score
+=====
+X: 9
+O: 6
+
+What's your move?
+&gt; D1
+     A   B   C   D
+   +---+---+---+---+
+ 1 | O | O | O | X |
+   +---+---+---+---+
+ 2 | X | X | X | X |
+   +---+---+---+---+
+ 3 | X | X | O | X |
+   +---+---+---+---+
+ 4 | X | X | O | X |
+   +---+---+---+---+
+
+Score
+=====
+X: 11
+O: 5
+
+You won! 👍
+</code></pre>
+
+  </div>
+
+</div>
+:ET

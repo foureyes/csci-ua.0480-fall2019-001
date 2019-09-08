@@ -1,0 +1,398 @@
+I"�4<section class="intro-slide">
+  <h1 id="functions">Functions</h1>
+
+  <h3 id="csci-ua0480-001">CSCI-UA.0480-001</h3>
+
+  <p><small></small></p>
+</section>
+
+<section>
+  <h2 id="back-to-definitions">Back to Definitions</h2>
+
+  <ul>
+    <li><strong>function</strong> - <span class="fragment">a named sequence of statements that performs a specific task or useful operation
+</span></li>
+    <li><strong>parameter</strong> - <span class="fragment">a variable that receives an argument that is passed into a function, think of it as as the variable(s) in the function header / signature </span></li>
+    <li><strong>call/invoke/apply</strong> - <span class="fragment">to run or execute a function</span></li>
+    <li><strong>argument</strong> - <span class="fragment"> a piece of data that is passed into a function when that function is called </span></li>
+    <li><strong>scope</strong> - <span class="fragment">the area of the code where a name/identifier is available for access and/or use</span></li>
+  </ul>
+</section>
+<section>
+  <h2 id="defining-a-function">Defining a Function</h2>
+
+  <p><strong>Remember&#8230; functions are first class objects in JavaScript!</strong></p>
+
+  <pre><code data-trim="" contenteditable="">
+const doubleTheNumber = function(n) {
+	return n + n;
+};
+console.log(doubleTheNumber(5));
+</code></pre>
+
+  <ul>
+    <li>declare a variable</li>
+    <li>set it equal to the keyword, <code>function</code></li>
+    <li>followed by parentheses and an <strong>optional</strong> list of <strong>parameters</strong> (separated by commas if more than one)</li>
+    <li>the function body is just a <strong>block</strong> of code (surrounded by curly braces, of course!)</li>
+    <li><strong>return</strong> is totally optional</li>
+    <li><strong>what do you think you get back if return is omitted?</strong> &#8594; <span class="fragment">&#8230; <code>undefined</code></span></li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="psssst-by-the-way">Psssst&#8230; By The Way&#8230;</h2>
+
+  <p><strong>Did you notice:</strong> &#8594;</p>
+
+  <ul>
+    <li>the semicolon at the end of the function definition (it is an assignment statement after all!)</li>
+    <li>that the variable, <code>doubleTheNumber</code>, can be called/invoked because it&#39;s a function!</li>
+    <li>this style of creating a function is also called a <strong>function expression</strong></li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="lets-create-a-function-together">Let&#39;s Create a Function Together</h2>
+
+  <p><strong>Let&#39;s create a function called <code>myPow</code>. It will (surprisingly) raise some number to a power:</strong> &#8594;</p>
+
+  <ul>
+    <li>two parameters: <code>base</code> and <code>exponent</code></li>
+    <li>calculate the <code>base</code> raised to the <code>exponent</code></li>
+    <li>return the resulting value</li>
+    <li>yeah, <code>Math.pow</code> exists&#8230;</li>
+  </ul>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+const myPow = function(base, exponent) {
+	let result = 1;
+	for(var i = 0; i &lt; exponent; i++) {
+		result = result * base;
+	}
+	return result;
+};
+console.log(myPow(2,0));
+console.log(myPow(2,1));
+console.log(myPow(2,8));
+</code></pre>
+
+</section>
+<section>
+  <h2 id="additional-assignment-operators">Additional Assignment Operators</h2>
+
+  <p>That line was a bit verbose, wasn&#39;t it?</p>
+  <pre><code data-trim="" contenteditable="">
+result = result * base;
+</code></pre>
+
+  <p>We can tighten that up using another <strong>assignment operator.</strong></p>
+
+  <pre><code data-trim="" contenteditable="">
+var x = 3;
+x *= 2;
+console.log(x);
+
+// this works with +=, -= and /= as well
+</code></pre>
+  <!--* -->
+</section>
+
+<section>
+  <h2 id="putting-the-fun-in-functions">Putting the FUN in Functions</h2>
+
+  <h3 id="yeah-really-i-said-that">Yeah, really. I said that.</h3>
+
+  <p>This is when things start to get interesting&#8230;</p>
+
+</section>
+
+<section>
+  <h2 id="block-scope-vs-function-scope">Block Scope vs Function Scope</h2>
+
+  <p>Again, <strong>scope</strong> is the area or portion of your program where a variable name or identifier is available.</p>
+
+  <ul>
+    <li>some languages (C, Java) use blocks to create new scopes</li>
+    <li>ES6 does that</li>
+    <li>but ES5 doesn&#39;t do that (of course); instead&#8230; it only uses functions to create scope</li>
+  </ul>
+</section>
+
+<section data-background="#440000">
+  <h2 id="in-es5-functions-are-the-only-constructs-that-can-create-a-new-scope">In ES5, functions are the only constructs that can create a new scope!</h2>
+
+  <p>(but with ES6, <code class="highlighter-rouge">let</code> and <code class="highlighter-rouge">const</code> give you block level scope!)</p>
+
+</section>
+<section>
+  <h2 id="scope">Scope</h2>
+
+  <p>Variables declared at the &quot;top level&quot; of your program (outside of functions) and variables declared without <code class="highlighter-rouge">const</code>, <code class="highlighter-rouge">let</code> or <code class="highlighter-rouge">var</code> (in most cases) are in the <strong>global scope</strong>.</p>
+
+  <ul>
+    <li><strong>global variables</strong> are accessible anywhere</li>
+    <li><strong>global variables</strong> are considered harmful&#8230; <strong>why?</strong> &#8594;
+      <ul class="fragment">
+        <li>because global variables are accessible everywhere, it makes things difficult to debug and fix issues as many places may read or write a value</li>
+        <li>when creating functions that depend on global variables, those functions will not be portable across multiple programs (as they depend on a global variable being defined)</li>
+      </ul>
+    </li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="functions-and-scope">Functions and Scope</h2>
+
+  <ul>
+    <li><strong>parameters</strong> in a function <strong>are local</strong> to that function</li>
+    <li>variables declared <strong>with</strong> the keyword, <code>var</code> are <strong>local</strong> to the function</li>
+    <li>variables declared <strong>with</strong> the keywords, <code class="highlighter-rouge">const</code> or <code class="highlighter-rouge">let</code> are <strong>local</strong> to the block that they&#39;re declared in</li>
+    <li>variables declared <strong>without</strong> the <code class="highlighter-rouge">let</code>, <code class="highlighter-rouge">const</code> or <code class="highlighter-rouge">var</code> affect the global scope&#8230; ⊙﹏⊙
+      <ul>
+        <li>(actually, the nearest enclosing scope - most of the time this is global, but it could be an outer function!)</li>
+      </ul>
+    </li>
+    <li>global variables (again) are accessible throughout your program, even from within you function&#39;s body</li>
+  </ul>
+
+</section>
+<section>
+  <h2 id="an-example">An Example</h2>
+
+  <p><strong>Based on the previous slide, what is the output of the following code?</strong> &#8594;</p>
+  <pre><code data-trim="" contenteditable="">
+let x = "hi!"; // hello... I'm a global variable
+
+const f = function() {
+	let x = "from f";
+};
+
+const g = function() {
+	x = "from g";
+};
+console.log(x)
+f();
+console.log(x);
+g();
+console.log(x);
+</code></pre>
+  <pre class="fragment"><code data-trim="" contenteditable="">
+hi!
+hi!
+from g
+</code></pre>
+
+</section>
+
+<section data-background="#440000">
+  <h2 id="oh-yeah-always-use-let-const-or-var-when-declaring-variables-plz">Oh yeah. Always use <code class="highlighter-rouge">let</code>, <code class="highlighter-rouge">const</code>, or <code class="highlighter-rouge">var</code> when declaring variables plz</h2>
+
+</section>
+
+<section>
+  <h2 id="its-functions-all-the-way-down">It&#39;s Functions All the Way Down</h2>
+
+  <div class="img" height="50%">
+    <p><img src="http://upload.wikimedia.org/wikipedia/commons/4/47/River_terrapin.jpg" alt="turtles" /></p>
+  </div>
+
+  <p><a href="http://en.wikipedia.org/wiki/Turtles_all_the_way_down">The world is really a flat plate supported on the back of a giant tortoise</a>;</p>
+
+  <p>(Let&#39;s look at nested functions)</p>
+</section>
+<section>
+  <h2 id="nested-functions">Nested Functions</h2>
+
+  <ul>
+    <li><strong>functions can be defined within functions</strong></li>
+    <li>just create a variable within a function&#8230; and assign a new function!</li>
+    <li>the variables in the outer function are available to the inner function and can be used just by using the variable name (no new declaration is needed)</li>
+    <li>but the variables in the inner function are local to the inner function</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="without-const-let-or-var-revisited">Without Const, Let, or Var Revisited</h2>
+
+  <p><strong>Variables declared without <code class="highlighter-rouge">const</code>, <code class="highlighter-rouge">let</code>, or <code class="highlighter-rouge">var</code> actually mask the variable in nearest enclosing scope (if it&#39;s not a <code class="highlighter-rouge">const</code>)</strong> (usually global, but a bit tricky for nested functions).</p>
+
+  <pre><code data-trim="" contenteditable="">
+let x = 1;
+function f() {
+  let x = 2;
+  function g() {
+    x = 3;
+    console.log(x);
+  }
+  g(x);
+  console.log(x);
+}
+f();
+console.log(x);
+
+</code></pre>
+  <pre class="fragment"><code data-trim="" contenteditable="">
+3
+3
+1
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="nested-functions-example">Nested Functions Example</h2>
+
+  <p><strong>What is the output of this code? What would happen if we put <code>console.log(y)</code> right at the end of function, <code>outer</code>&#39;s body?</strong> &#8594;</p>
+  <pre><code data-trim="" contenteditable="">
+const outer = function() {
+	let x = "outside";
+	let inner = function() {
+		x += " modified by inside";
+		let y = "inner";
+	};
+	console.log(x);
+	inner();
+	console.log(x);
+};
+outer();
+</code></pre>
+  <pre class="fragment"><code data-trim="" contenteditable="">
+outside
+outside modified by inside
+// we would get a ReferenceError if we tried to print out y from the outer function
+</code></pre>
+</section>
+
+<section>
+  <h2 id="functions-as-values">Functions as Values</h2>
+
+  <ul>
+    <li>functions are a type&#8230; and they can exist as <strong>values</strong>, like <strong>numbers</strong>, <strong>strings</strong>, etc.</li>
+    <li>the names that we use for functions are just like regular <strong>variables</strong></li>
+    <li>reassignment works fine!</li>
+  </ul>
+
+  <pre><code data-trim="" contenteditable="">
+const sayHello = function() {
+	console.log("Hola!");
+};
+
+sayHello();
+
+sayHello = function(x) {
+	return x * x
+};
+
+console.log(sayHello(5));
+</code></pre>
+</section>
+
+<section>
+  <h2 id="functions-as-values-continued">Functions as Values Continued</h2>
+
+  <p>You can even pass functions around, return them as values, etc.</p>
+
+  <ul>
+    <li><strong>describe the first function</strong> &#8594;</li>
+    <li><strong>what do you think the output of this code is?</strong> &#8594;</li>
+  </ul>
+
+  <pre><code data-trim="" contenteditable="">
+const callTwice = function(f) {
+	f();
+	f();
+};
+
+const g = function() {
+	console.log("nobody's home!");
+};
+callTwice(g);
+</code></pre>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+nobody's home!
+nobody's home!
+</code></pre>
+</section>
+
+<section>
+  <h2 id="function-declarations">Function Declarations</h2>
+
+  <p>Of course, you can still define functions the old-fashioned way:</p>
+
+  <pre><code data-trim="" contenteditable="">
+function f(x) {
+	return x;
+}
+</code></pre>
+</section>
+
+<section>
+  <h2 id="hoisting">Hoisting</h2>
+
+  <p>However, functions defined in this manner, through <em>function declarations</em>, are <strong>hoisted</strong> to the top of the scope:</p>
+
+  <ul>
+    <li>they&#39;re taken out of the usual flow of control</li>
+    <li>and brought to the top of the scope</li>
+    <li>even if they&#39;re defined below their first use, they&#39;ll still work&#8230;</li>
+    <li>(this isn&#39;t true when you create functions via assignment)</li>
+  </ul>
+
+  <pre><code data-trim="" contenteditable="">
+console.log(f(5));
+
+function f(x) {
+	return x;
+}
+</code></pre>
+</section>
+
+<section>
+  <h2 id="hoisting-continued">Hoisting Continued</h2>
+
+  <p>From Speaking JavaScript:</p>
+
+  <p><strong>What happens when you put such a function declaration inside an if statement or a loop?</strong></p>
+
+  <ul>
+    <li>don’t do that</li>
+    <li>different JavaScript platforms in different browsers have traditionally done different things</li>
+    <li>the latest standard actually forbids it</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="time-for-another-exercise">Time for Another Exercise!</h2>
+
+  <h3 id="yes">(Yes!)</h3>
+</section>
+
+<section>
+  <h2 id="a-quick-aside-on-arrays">A Quick Aside on Arrays</h2>
+
+  <p>An <strong>Array</strong> literal, assignment and the <strong>length</strong> property</p>
+
+  <pre><code data-trim="" contenteditable="">
+const numbers = [1, 2, 3];
+console.log(numbers[0]);
+console.log(numbers.length);
+// an empty array ... []
+</code></pre>
+</section>
+
+<section>
+  <h2 id="max-number">Max Number</h2>
+
+  <p><strong>Write a function that:</strong> &#8594;</p>
+
+  <ul>
+    <li>takes one parameter, an <code class="highlighter-rouge">Array</code></li>
+    <li>assume that the <code class="highlighter-rouge">Array</code> will only 0 or more values that are of type, <code class="highlighter-rouge">Number</code> &#8594;</li>
+    <li>the function should return the largest number in the <code class="highlighter-rouge">Array</code></li>
+    <li>if the <code class="highlighter-rouge">Array</code> is empty, just return undefined</li>
+  </ul>
+</section>
+
+:ET

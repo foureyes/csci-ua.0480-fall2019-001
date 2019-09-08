@@ -1,0 +1,872 @@
+I"&«<div class="panel panel-default">
+  <div class="panel-heading">Homework #2</div>
+  <div class="panel-body">
+
+    <h1 id="higher-order-functions-exercises-and-processing-data---due-feb-18-at-11pm">Higher Order Functions: Exercises and Processing Data - <strong>Due Feb 18 at 11pm</strong></h1>
+
+    <div class="img">
+      <p><img src="../resources/img/dog.gif" alt="dog" /></p>
+    </div>
+
+    <h2 id="overview">Overview</h2>
+
+    <h3 id="description">Description</h3>
+
+    <p><strong>hoffy.js</strong> - Write a series of functions that demonstrate the use of the rest operator (or call/apply), and higher order functions</p>
+
+    <p><strong>bitefunc.js</strong> and <strong>report.js</strong> - Print out a report analyzing dog bite data. There are two parts to this:</p>
+
+    <ul>
+      <li>An initial version that works off of a local csv file</li>
+      <li>A second version that works off of remote urls containing json (you can overwrite the previous part with this code)</li>
+    </ul>
+
+    <p>See the <a href="#hw02-sample">sample output</a> at the end of these instructions.</p>
+
+    <h3 id="submission-process">Submission Process</h3>
+
+    <p>You will be given access to a private repository on GitHub. It will contain unit tests, stub files for your code, a <code class="highlighter-rouge">package.json</code> and a <code class="highlighter-rouge">.eslintrc</code></p>
+
+    <ul>
+      <li>The final version of your assignment should be in GitHub.</li>
+      <li><strong>Push</strong> your changes to the homework repository on GitHub.</li>
+    </ul>
+
+    <h3 id="points-make-at-least-4-commits">(4 points) Make at Least 4 Commits</h3>
+
+    <ul>
+      <li>Commit multiple times throughout your development process.</li>
+      <li>Make at least 4 separate commits - (for example, one option may be to make one commit per part in the homework).</li>
+    </ul>
+
+    <h2 id="part-1---setup-and-exercises">Part 1 - Setup and Exercises</h2>
+
+    <p>For this homework, you&#39;ll have files available in your repository, so you&#39;ll be cloning first.</p>
+
+    <p>The solutions to the following problems can go in the same file - <strong>src/hoffy.js</strong>:</p>
+
+    <h3 id="setup">Setup</h3>
+
+    <ol>
+      <li>go to your github account&#8230;</li>
+      <li>find your repository: NetID-homework02 (note&#8230; this <strong>should be your NetID</strong>)</li>
+      <li>use the appropriate URL to run git clone</li>
+    </ol>
+
+    <pre><code data-trim="" contenteditable="">git clone [YOUR REPO URL]</code></pre>
+
+    <h3 id="background-info">Background Info</h3>
+
+    <p>Implement functions that use JavaScript features such as:</p>
+
+    <ul>
+      <li>the rest operator</li>
+      <li>the spread operator</li>
+      <li>functions as arguments</li>
+      <li>functions as return values</li>
+      <li>decorators</li>
+      <li>optionally call/apply/bind</li>
+      <li>optionally arrow functions</li>
+      <li>Array methods: &#39;filter&#39;, &#39;map&#39;, &#39;reduce&#39;</li>
+    </ul>
+
+    <p>Go through the functions in order; the concepts explored build off one-another, and the functions become more and more challenging to implement as you go on.</p>
+
+    <p><strong>Do not use</strong>:</p>
+
+    <ul>
+      <li><code class="highlighter-rouge">while</code> loops</li>
+      <li><code class="highlighter-rouge">for</code> loops</li>
+      <li><code class="highlighter-rouge">for ... in</code> loops</li>
+      <li><code class="highlighter-rouge">for ... of</code> loops</li>
+      <li><code class="highlighter-rouge">forEach</code> method .</li>
+    </ul>
+
+    <p><strong>There will a small (-2) penalty every time one is used</strong>. (Homework is 100 points total)</p>
+
+    <h3 id="steps">Steps</h3>
+
+    <ol>
+      <li>prep&#8230;
+        <ul>
+          <li>create a <code class="highlighter-rouge">.gitignore</code> to ignore node_modules</li>
+          <li>create a <code class="highlighter-rouge">package.json</code> by using <code class="highlighter-rouge">npm init</code></li>
+          <li>make sure that <code class="highlighter-rouge">mocha</code>, <code class="highlighter-rouge">chai</code>, and <code class="highlighter-rouge">eslint</code> are still installed (similar to previous assignment)
+            <pre><code data-trim="" contenteditable="">npm install -g mocha
+npm install --save-dev eslint
+npm install --save-dev chai
+npm install --save-dev eslint-plugin-mocha
+</code></pre>
+          </li>
+          <li>you&#39;ll also need a few additional modules installed locally for the unit tests to run:
+            <ul>
+              <li>finally, install sinon and mocha-sinon locally for mocking <code class="highlighter-rouge">console.log</code> (these are for unit tests)</li>
+              <li><code class="highlighter-rouge">npm install --save-dev sinon</code></li>
+              <li><code class="highlighter-rouge">npm install --save-dev mocha-sinon</code></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>implement functions below in <strong>hoffy.js</strong></li>
+      <li>make sure you export your functions as you implement them so that&#8230;</li>
+      <li>you can run tests as you develop these functions (again, the tests are included in the repository):
+ <code class="highlighter-rouge">mocha tests/hoffy-test.js</code></li>
+      <li>also remember to run eslint (there&#39;s a <code class="highlighter-rouge">.eslintrc</code> file included in the repository):
+ <code class="highlighter-rouge">node_modules/.bin/eslint src/*</code></li>
+    </ol>
+
+    <h3 id="points-functions-to-implement">(40 points) Functions to Implement</h3>
+
+    <h3 id="per-while-for-foreach-for-of-or-for-in-loop-used">(-2 per while, for, forEach, for of, or for in loop used)</h3>
+
+    <hr />
+
+    <h3 id="longeststrings1-s2-s3-to-sn"><code class="highlighter-rouge">longestString(s1, s2, s3 to sN)</code></h3>
+
+    <p><strong>Parameters:</strong></p>
+
+    <ul>
+      <li><code class="highlighter-rouge">s1, s2, s3 to sN</code> - any number of string arguments</li>
+    </ul>
+
+    <p><strong>Returns:</strong></p>
+
+    <ul>
+      <li>the longest string in the arguments passed in</li>
+      <li>if no arguments are passed in, give back <code class="highlighter-rouge">undefined</code></li>
+    </ul>
+
+    <p><strong>Description:</strong></p>
+
+    <p>Goes through every string argument passed in and gives back the longest string. No error checking is required; you can assume that every argument is a string or no arguments are passed in at all. If there is a tie, return the argument that appears in the later position. If there are no arguments passed in, return <code class="highlighter-rouge">undefined</code></p>
+
+    <p>HINTS:</p>
+
+    <ul>
+      <li>use <code class="highlighter-rouge">rest</code> parameters!</li>
+      <li>try <code class="highlighter-rouge">reduce</code></li>
+    </ul>
+
+    <p><strong>Example:</strong></p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>longestString('foo', 'bar', 'bazzy', 'qux', 'quxx') // --&gt; bazzy
+longestString('foo', 'bar', 'baz', 'qux') // --&gt; qux
+longestString() // --&gt; undefined
+</code></pre></div>    </div>
+
+    <hr />
+
+    <h3 id="maybefn"><code class="highlighter-rouge">maybe(fn)</code></h3>
+
+    <p><strong>Parameters:</strong></p>
+
+    <ul>
+      <li><code class="highlighter-rouge">fn</code> - the function to be called</li>
+    </ul>
+
+    <p><strong>Returns:</strong></p>
+
+    <ul>
+      <li>a new <code class="highlighter-rouge">function</code> or <code class="highlighter-rouge">undefined</code> - the <code class="highlighter-rouge">function</code> calls the original function</li>
+    </ul>
+
+    <p><strong>Description:</strong></p>
+
+    <p><code class="highlighter-rouge">maybe</code> will take a function, <code class="highlighter-rouge">fn</code> and return an entirely new function that behaves mostly like the original function, <code class="highlighter-rouge">fn</code> passed in, but will return undefined if any <code class="highlighter-rouge">null</code> or <code class="highlighter-rouge">undefined</code> arguments are passed in to <code class="highlighter-rouge">fn</code>.</p>
+
+    <p>The new function will take the same arguments as the original function (<code class="highlighter-rouge">fn</code>). Consequently when the new function is called, it will use the arguments passed to it and call the old function and return the value that&#39;s returned from the old function. However, if any of the arguments are <code class="highlighter-rouge">undefined</code> or <code class="highlighter-rouge">null</code>, the old function is not called, and <code class="highlighter-rouge">undefined</code> is returned instead. You can think of it as a way of calling the old function only if all of the arguments are not <code class="highlighter-rouge">null</code> or not <code class="highlighter-rouge">undefined</code>.</p>
+
+    <p><strong>Example:</strong></p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>function createFullName(firstName, lastName) {
+    return `${firstName} ${lastName}`; 
+}
+maybe(createFullName)('Frederick', 'Functionstein'); // Frederick Functionstein
+maybe(createFullName)(null, 'Functionstein');        // undefined
+maybe(createFullName)('Freddy', undefined);          // undefined 
+</code></pre></div>    </div>
+
+    <hr />
+
+    <h3 id="filterwithfn"><code class="highlighter-rouge">filterWith(fn)</code></h3>
+
+    <p><strong>Parameters:</strong></p>
+
+    <ul>
+      <li><code class="highlighter-rouge">fn</code> - a <em>callback</em> function that takes in a single argument and returns a value (it will eventually operate on every element in an array)</li>
+    </ul>
+
+    <p><strong>Returns:</strong></p>
+
+    <ul>
+      <li><code class="highlighter-rouge">function</code> - a function that&#8230;
+        <ul>
+          <li>has 1 parameter, an <code class="highlighter-rouge">Array</code></li>
+          <li>returns a new Array where only elements that cause <code class="highlighter-rouge">fn</code> to return <code class="highlighter-rouge">true</code> are present (all other elements from the old Array are not included)</li>
+        </ul>
+      </li>
+    </ul>
+
+    <p><strong>Description:</strong></p>
+
+    <p>This is different from regular filter. The regular version of filter immediately calls the callback function on every element in an Array to return a new Array of filtered elements. <code class="highlighter-rouge">filterWith</code>, on the other hand, gives back a function rather than executing the callback immediately (think of the difference between bind and call/apply). <code class="highlighter-rouge">filterWith</code> is basically a function that turns another function into a filtering function (a function that works on Arrays).</p>
+
+    <p><strong>Example:</strong></p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// original even function that works on Numbers
+function even(n) {return n % 2 === 0;} 
+
+// create a 'filter' version of the square function
+filterWithEven = filterWith(even); 
+
+// now square can work on Arrays of Numbers!
+console.log(filterWithEven([1, 2, 3, 4])); // [2, 4]    
+
+const nums = [1, NaN, 3, NaN, NaN, 6, 7];
+const filterNaN = filterWith(n =&gt; !isNaN(n));
+console.log(filterNaN(nums)); // [1, 3, 6, 7]
+</code></pre></div>    </div>
+
+    <hr />
+
+    <h3 id="steppedforeacharr-fn-step"><code class="highlighter-rouge">steppedForEach(arr, fn, step)</code></h3>
+
+    <p><strong>Parameters:</strong></p>
+
+    <ul>
+      <li><code class="highlighter-rouge">arr</code> - the array containing potential arguments to the function <code class="highlighter-rouge">fn</code></li>
+      <li><code class="highlighter-rouge">fn</code> - the function to be called repeatedly</li>
+      <li><code class="highlighter-rouge">n</code> - the number elements to be consumed from the array to be used as arguments to <code class="highlighter-rouge">fn</code></li>
+    </ul>
+
+    <p><strong>Returns:</strong></p>
+
+    <ul>
+      <li><code class="highlighter-rouge">undefined</code> (no return value)</li>
+    </ul>
+
+    <p><strong>Description:</strong></p>
+
+    <p>Calls the function <code class="highlighter-rouge">fn</code> using every <code class="highlighter-rouge">step</code> number of elements from the <code class="highlighter-rouge">Array</code>, <code class="highlighter-rouge">arr</code>, as arguments to <code class="highlighter-rouge">fn</code>. For example, if <code class="highlighter-rouge">step</code> were 3, then <code class="highlighter-rouge">fn</code> would be called with the first 3 elements of <code class="highlighter-rouge">arr</code> each as a positional argument. <code class="highlighter-rouge">fn</code> will be called again with the next 3 arguments. <code class="highlighter-rouge">fn</code> will continue to be called until there are no more elements to use as arguments from <code class="highlighter-rouge">arr</code>. If the last group of arguments is less than <code class="highlighter-rouge">step</code> call the function <code class="highlighter-rouge">fn</code> with whatever arguments are left (see example below)</p>
+
+    <p>HINT: to adhere to the restrictions regarding use of for, for of, forEach, while, etc. &#8230; it might be useful to think of a way to implement this function recursivelu</p>
+
+    <p><strong>Example:</strong></p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>steppedForEach([1, 2, 3, 4, 5, 6], (a, b, c) =&gt; console.log('' + a + b + c),  3);
+/* 
+note that arrow function is called twice, each time with 3 elements from arr:
+123
+456
+*/
+steppedForEach([1, 2, 3, 4, 5, 6, 7], (a, b, c) =&gt; console.log('' + a + b + c),  3);
+/*
+in this case, the arrow function is called 3 times, but the last time, only one
+argument is passed in, 7 (there are no more elements after that)
+123
+456
+7undefinedundefined
+*/
+</code></pre></div>    </div>
+
+    <hr />
+
+    <h3 id="constraindecoratorfn-min-max"><code class="highlighter-rouge">constrainDecorator(fn, min, max)</code></h3>
+
+    <p><strong>Parameters:</strong></p>
+
+    <ul>
+      <li><code class="highlighter-rouge">fn</code> - the function to modify (<em>decorate</em>)</li>
+      <li><code class="highlighter-rouge">min</code> - the minimum value that <code class="highlighter-rouge">fn</code> can return</li>
+      <li><code class="highlighter-rouge">max</code> - the maximum value that <code class="highlighter-rouge">fn</code> can return</li>
+    </ul>
+
+    <p><strong>Returns:</strong></p>
+
+    <ul>
+      <li><code class="highlighter-rouge">function</code> - a function that&#8230;
+        <ul>
+          <li>does the same thing as the original function, <code class="highlighter-rouge">fn</code> (that is, it calls the original function)</li>
+          <li>accepts the same number of arguments as the original function, <code class="highlighter-rouge">fn</code></li>
+          <li>the return value is the return value of <code class="highlighter-rouge">fn</code>, unless it is less than or greater than the <code class="highlighter-rouge">min</code> and <code class="highlighter-rouge">max</code>, in which case it returns <code class="highlighter-rouge">min</code> or <code class="highlighter-rouge">max</code> respectively</li>
+        </ul>
+      </li>
+    </ul>
+
+    <p><strong>Description:</strong></p>
+
+    <p>This function is a decorator. <a href="../slides/js/higher-order-functions-continued.html">See the slides on the decorator pattern</a> for background information. It builds on top of the example in the slides by actually <em>modifying</em> the return value of the original function.</p>
+
+    <p>This function wraps the function <code class="highlighter-rouge">fn</code> in another function so that operations can be performed before and after the original function <code class="highlighter-rouge">fn</code> is called. This can be used to modify incoming arguments, modify the return value, or do any other task before or after the function call. Again, we&#39;ll be modifying the return value in this case.</p>
+
+    <p>This particular decorator function constrains the result of the function being wrapped, <code class="highlighter-rouge">fn</code> so that its return value fits between <code class="highlighter-rouge">min</code> and <code class="highlighter-rouge">max</code> inclusive. If these are omitted from the original outer function, then the newly returned function will just return the value unmodified. You can assume that the return value of <code class="highlighter-rouge">fn</code> is <code class="highlighter-rouge">Number</code> (you do not have to deal with other types).</p>
+
+    <p><strong>Example:</strong></p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// creates a new function from the built-in function, parseInt
+// the new function is the same thing as parseInt, but it constrains
+// the return value to a value between min and max (inclusive)
+const constrainedParseInt = constrainDecorator(parseInt, -10, 10);
+
+// still works like the original parseInt
+constrainedParseInt("7") // --&gt; 7
+constrainedParseInt("-10")) // --&gt; -10
+
+// but if the return value is less than min or greater than max
+// it returns min or max respectively
+constrainedParseInt("-12") // --&gt; -10
+constrainedParseInt("12")) // --&gt; 10
+
+// however, if either min or max are missing, then the new function
+// returns the result of fn unmodified regardless of value
+var constrainedParseInt2 = constrainDecorator(parseInt);
+constrainedParseInt2("-12") // --&gt; -12
+</code></pre></div>    </div>
+
+    <hr />
+
+    <h3 id="limitcallsdecoratorfn-n"><code class="highlighter-rouge">limitCallsDecorator(fn, n)</code></h3>
+
+    <p><strong>Parameters:</strong></p>
+
+    <ul>
+      <li><code class="highlighter-rouge">fn</code> - the function to modify (<em>decorate</em>)</li>
+      <li><code class="highlighter-rouge">n</code> - the number of times that <code class="highlighter-rouge">fn</code> is allowed to be called</li>
+    </ul>
+
+    <p><strong>Returns:</strong></p>
+
+    <ul>
+      <li><code class="highlighter-rouge">function</code> - a function that&#8230;
+        <ul>
+          <li>does the same thing as the original function, <code class="highlighter-rouge">fn</code> (that is, it calls the original function)</li>
+          <li>but can only be called <code class="highlighter-rouge">n</code> times</li>
+          <li>after the <code class="highlighter-rouge">n</code>th call, the original function, <code class="highlighter-rouge">fn</code> will not be called, and the return value will always be <code class="highlighter-rouge">undefined</code></li>
+        </ul>
+      </li>
+    </ul>
+
+    <p><strong>Description:</strong></p>
+
+    <p>This is the culmination of all of the concepts from the previous functions. However, instead of just reading from a variable that&#39;s available through the closure, you&#39;ll use it to keep track of the number of times that a function is called&#8230; and prevent the function from being called again if it goes over the <code class="highlighter-rouge">max</code> number of allowed function calls. Here are the steps you&#39;ll go through to implement this:</p>
+
+    <ol>
+      <li>create your decorator (function)</li>
+      <li>create a local variable to keep track of the number of calls</li>
+      <li>create an inner function to return
+        <ul>
+          <li>the inner function will check if the number of calls is less than the max number of allowed calls</li>
+          <li>if it&#39;s still under max, call the function, <code class="highlighter-rouge">fn</code> (allow all arguments to be passed), return the return value of calling <code class="highlighter-rouge">fn</code>, and increment the number of calls</li>
+          <li>if it&#39;s over max, just return <code class="highlighter-rouge">undefined</code> immediately without calling the original function</li>
+        </ul>
+      </li>
+    </ol>
+
+    <p><strong>Example:</strong></p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>const = limitedParseInt = limitCallsDecorator(parseInt, 3);
+limitedParseInt("423") // --&gt; 423
+limitedParseInt("423") // --&gt; 423
+limitedParseInt("423") // --&gt; 423
+limitedParseInt("423") // --&gt; undefined
+</code></pre></div>    </div>
+
+    <hr />
+
+    <h3 id="bundleargsfn-args1-args2-to-argsn"><code class="highlighter-rouge">bundleArgs(fn, args1, args2 to argsn)</code></h3>
+
+    <p><strong>Parameters:</strong></p>
+
+    <ul>
+      <li><code class="highlighter-rouge">fn</code> - the function to get args bundled with it</li>
+      <li><code class="highlighter-rouge">args1, args2 to  argsn</code> - any numbers of args that will automatically get filled in when the output function is used</li>
+    </ul>
+
+    <p><strong>Returns:</strong></p>
+
+    <ul>
+      <li><code class="highlighter-rouge">function</code> - a version of the original <code class="highlighter-rouge">fn</code> that can take any number of arguments, but when used, will use the <code class="highlighter-rouge">args1, args2 to argsn</code> as the first parameters to <code class="highlighter-rouge">fn</code>, filling in the new arguments afterwards</li>
+    </ul>
+
+    <p><strong>Description:</strong></p>
+
+    <p>Suppose you&#39;re using the same function all the time, with nearly the same arguments every time: wouldn&#39;t it be great to have a quick way to make an alternate version of your function where your favorite arguments come pre-filled?</p>
+
+    <p>Of course, <code class="highlighter-rouge">bind</code>, already does this for us, so don&#39;t take the easy way out and use <code class="highlighter-rouge">bind</code>. Implement this function <strong>without bind</strong>!</p>
+
+    <p><strong>Example:</strong></p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// example, you have a function that surrounds text with other text
+function surroundText(surrounding, text) {
+  return [surrounding, text, surrounding].join(" ")
+}
+
+// but you know you're going to use it for one thing only
+const makeCool = bundleArgs(surroundText, "~x~X~x~")
+
+// save yourself some time
+console.log(makeCool("i guess")) // ~x~X~x~ i guess ~x~X~x~
+
+// again w/ leftovers
+function repeatLetter(letter, times) {
+	Array(times).fill(letter).join('');
+}
+
+// fix 1 of 2 arguments to 'r'
+rrrrrollWithIt = bundleArgs(repeatLetter, 'r');
+
+// resulting function has only one arg now
+rrrrrollWithIt(10) // rrrrrrrrrr
+</code></pre></div>    </div>
+    <hr />
+
+    <h3 id="sequencefn1-fn2-to-fnn"><code class="highlighter-rouge">sequence(fn1, fn2, to fnN)</code></h3>
+
+    <p><strong>Parameters:</strong></p>
+
+    <ul>
+      <li><code class="highlighter-rouge">fn1, fn2, to fnN</code> - a bunch of functions</li>
+    </ul>
+
+    <p><strong>Returns:</strong></p>
+
+    <ul>
+      <li><code class="highlighter-rouge">function</code> - a function that will pass it&#39;s arguments to <code class="highlighter-rouge">fn1</code>, take the output of <code class="highlighter-rouge">fn1</code> and use it as the argument to <code class="highlighter-rouge">fn2</code>, then take the output of <code class="highlighter-rouge">fn2</code> and use it for <code class="highlighter-rouge">fn3</code>, and then&#8230; etc</li>
+    </ul>
+
+    <p><strong>Description:</strong></p>
+
+    <p>A handy utility for automating the writing of code that&#39;s just calling functions to pass their arguments to other functions. You can assume that each function passed in only takes one argument.</p>
+
+    <p>HINT: it&#39;s kind of like <em>summing</em> or <em>composing</em> the functionality of a bunch of functions together</p>
+
+    <p><strong>Example:</strong></p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// let's say you have some pretty procedural functions
+function superCamelCase(s) {
+  return s
+    .split("")
+    .map((c, i) =&gt; (i % 2 == 0 ? c.toUpperCase() : c.toLowerCase()))
+    .join("")
+}
+
+function spaceText(s) {
+  return s.split("").join(" ")
+}
+
+function addStyle(s) {
+  return "~~~ " + s + " ~~~"
+}
+
+// you want to make a playlist of them
+const aestheticFmtPipeline = sequence(
+  superCamelCase,
+  spaceText,
+  addStyle
+)
+
+console.log(aestheticFmtPipeline("hello world")) // ~~~ H e L l O   W o R l D ~~~
+
+function makeVertical(s) {
+  return s.split("").join("\n")
+}
+
+// playlists of playlists of functions
+const tallAestheticFmt = sequence(aestheticFmtPipeline, makeVertical)
+
+console.log(tallAestheticFmt("goodbye world"))
+/*
+~
+~
+~
+
+G
+
+o
+
+O
+
+d
+
+B
+
+y
+
+E
+
+
+
+W
+
+o
+
+R
+
+l
+
+D
+
+~
+~
+~
+*/
+</code></pre></div>    </div>
+
+    <h3 id="test-lint-and-commit">Test, Lint and Commit</h3>
+
+    <p>Once you&#39;re finished with your functions, remember to:</p>
+
+    <ol>
+      <li>make sure all tests are passing</li>
+      <li>make sure that eslint shows no errors</li>
+      <li>commit and push your code!</li>
+    </ol>
+
+    <h2 id="part-2---processing-nyc-dog-bite-data">Part 2 - Processing NYC Dog Bite data</h2>
+
+    <p>In this part, you&#39;ll work with a dataset of reported cases of dogs of New York biting humans of New York</p>
+
+    <p>The data free to use as part of NYC&#39;s open data initiative.</p>
+
+    <p>You&#39;ll be using two files for this:</p>
+    <ol>
+      <li><code class="highlighter-rouge">bitefunc.js</code> to create a function called <code class="highlighter-rouge">processBiteData</code>
+        <ul>
+          <li>the function will take an <code class="highlighter-rouge">Array</code> of objects with each object representing a listing</li>
+        </ul>
+      </li>
+      <li><code class="highlighter-rouge">report.js</code> to read in and parse JSON data (first a local file, then download from a url) and use the <code class="highlighter-rouge">processBiteData</code> function above to create a report</li>
+    </ol>
+
+    <h3 id="importing-data">Importing Data</h3>
+
+    <ul>
+      <li>Download the data by going to <a href="https://data.cityofnewyork.us/Health/DOHMH-Dog-Bite-Data/rsgh-akpg">https://data.cityofnewyork.us/Health/DOHMH-Dog-Bite-Data/rsgh-akpg</a> and clicking the &quot;Export&quot; button on the top right, then the &quot;CSV&quot; button.
+        <ul>
+          <li>place it in a folder outside of your repository</li>
+        </ul>
+      </li>
+      <li>Create <code class="highlighter-rouge">src/report.js</code>&#8230;</li>
+      <li>Start by reading in the file (which should have a filename something like <code class="highlighter-rouge">DOHMH_Dog_Bite_Data.csv</code>) (remember uncompress the .gz file from above first) using <code class="highlighter-rouge">fs.readFile</code> (you can use the absolute path)
+        <ul>
+          <li>make sure that <code class="highlighter-rouge">fs</code> the module is brought in using <code class="highlighter-rouge">require</code>, then call the function)</li>
+          <li><strong>do not use readFileSync</strong></li>
+        </ul>
+      </li>
+      <li>See the docs on <code class="highlighter-rouge">fs.readFile</code> (hint: make sure you specify <code class="highlighter-rouge">utf8</code> as the second argument)</li>
+      <li>The file that you read in contains reports of dog bites
+        <ul>
+          <li>there&#39;s one bite per line</li>
+          <li>each bite is represented by a comma-delimited string</li>
+        </ul>
+      </li>
+      <li>Find a way to read in and parse the contents of the file so that:
+        <ul>
+          <li>leading and trailing white space is removed from the initial contents (use the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/trim">string method, <code class="highlighter-rouge">trim</code></a>)</li>
+          <li>each line into an actual JavaScript object, where the properties correspond with the first row of the file (the headers)</li>
+          <li>each resulting object is placed into an <code class="highlighter-rouge">Array</code> for later processing</li>
+          <li>you can check out some <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a> and  <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a></li>
+          <li>note that the goal of this assignment is to work with higher order functions, so memory efficiency does not need to be taken into consideration</li>
+        </ul>
+      </li>
+      <li>All of your parsing can only be done from within the callback function (or the function to be called once data is read from the file) that you supply to <code class="highlighter-rouge">fs.readFile</code></li>
+      <li>Examine the resulting <code class="highlighter-rouge">Array</code> &#8230; (for example, try printing it out!)</li>
+      <li>Later, you will be supplying this <code class="highlighter-rouge">Array</code> to the <code class="highlighter-rouge">processBiteData</code> function that you create in <code class="highlighter-rouge">bitefunc.js</code> to generate a report.</li>
+      <li>To verify your file reading and parsing, you can try:
+        <ul>
+          <li>printing the &quot;breed&quot;, &quot;borough&quot;, &quot;dateOfBite&quot; of the 3rd (remember the array index starts from 0) listing in the file in the format: &#39;Bite no. ${biteIndex} was from a dog of breed: &quot;${bizz.breed}&quot; located in ${bizz.borough} on ${bizz.dateOfBite}&#39;</li>
+        </ul>
+      </li>
+    </ul>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Bite no. 2 was from a dog of breed: "Mastiff, Bull" located in Brooklyn on January 25 2015
+</code></pre></div>    </div>
+
+    <h3 id="examining-the-data">Examining the Data</h3>
+    <ul>
+      <li>Assuming that your parsed data is in a variable called <code class="highlighter-rouge">data</code> &#8230;</li>
+      <li><code class="highlighter-rouge">data</code> will be an <code class="highlighter-rouge">Array</code> of JSON objects (each line should have been parsed from JSON before pushing into the <code class="highlighter-rouge">data</code> array)</li>
+      <li>Each object in <code class="highlighter-rouge">data</code> contains location data, attributes, and categories.</li>
+    </ul>
+
+    <p>Below is a sample listing from the dataset with a description of properties you&#39;d need for your assignment</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{
+  // nyc's integer id for this bite
+  "UniqueID": 1,
+
+  // when it all happened
+  "DateOfBite": "January 27 2015",
+
+  // animal species
+  "Species": "DOG",
+
+  // string.
+  "Breed": "Jack Russ",
+
+  // integer
+  "Age": 11,
+
+  // "M","F", or "U"
+  "Gender": "M",
+
+  // boolean
+  "spayNeuter": false,
+
+  // one of the five
+  "borough": "Brooklyn",
+
+  // integer
+  "zipCode": 11217
+}
+</code></pre></div>    </div>
+
+    <h3 id="analytics">Analytics</h3>
+
+    <h4 id="the-processbitedata-function">The <code class="highlighter-rouge">processBiteData</code> Function</h4>
+
+    <p>You&#39;ll create a function to generate a report (as a string) based on NYC dog bite data. You&#39;ll write this function in <code class="highlighter-rouge">bitefunc.js</code>.</p>
+
+    <h3 id="processbitedatabites"><code class="highlighter-rouge">processBiteData(bites)</code></h3>
+
+    <p><strong>Parameters:</strong></p>
+
+    <ul>
+      <li><code class="highlighter-rouge">bites</code> - an <code class="highlighter-rouge">Array</code> of objects, with each object representing a report of a dog bite</li>
+    </ul>
+
+    <p><strong>Returns:</strong></p>
+
+    <ul>
+      <li>a string containing a report based on the data passed in</li>
+    </ul>
+
+    <p><strong>Description:</strong></p>
+
+    <p>This function will generate a report based on the <code class="highlighter-rouge">Array</code> of objects passed in. The report will contain the average ratings for all bites in the file, the most reviewed bites etc. (see full description of report requirements below)</p>
+
+    <p><strong>Important note about parsing numerical values:</strong></p>
+
+    <p>One of the most common peculiarities you&#39;ll come across while working with datasets is that the values read in from a file is that they might not be in the format you expect them to be (they may not be the <em>right</em> type).</p>
+
+    <p>eg. you might see</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> "age": "5"
+</code></pre></div>    </div>
+
+    <p>It&#39;s actually a string whereas we&#39;d like to use it as a float value.</p>
+
+    <p>In situations like these, you&#39;ll need to parse the numerical value from the string. Here, we&#39;ll <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/parseInt">use the <code class="highlighter-rouge">parseInt(strval)</code> function</a></p>
+
+    <h3 id="implementation-requirements">Implementation Requirements</h3>
+
+    <ol>
+      <li>When creating your report in <code class="highlighter-rouge">processBiteData</code>, you must use all of the following Array methods at least once each in your program:
+        <ul>
+          <li><code class="highlighter-rouge">forEach</code></li>
+          <li><code class="highlighter-rouge">filter</code></li>
+          <li><code class="highlighter-rouge">map</code></li>
+          <li><code class="highlighter-rouge">reduce</code></li>
+          <li>There will be a small penalty for each one not used (-2).</li>
+          <li>HINT: A typical pattern is to always use map 99% of the time, so you never accidentally get rid of or mess up the data, except when you&#39;re doing your first pass through the data to clean it up.</li>
+        </ul>
+      </li>
+    </ol>
+
+    <h3 id="report-overview">Report Overview</h3>
+
+    <p>Your report will use the data passed in to determine:</p>
+
+    <ol>
+      <li>The average age of all reported biting dogs</li>
+      <li>What percentage of dogs are spayed or neutered vs not</li>
+      <li>Top ten dog breeds ranked by number of reported bites</li>
+      <li>Ranking of each borough by number of reported dog bites.</li>
+      <li>Top three months the majority of dog bites happen?</li>
+    </ol>
+
+    <p>See the following details&#8230;</p>
+
+    <h3 id="average-age">Average Age</h3>
+
+    <ul>
+      <li>Include the average age of all the dogs in the file; format to have at least two decimal places. Example output below:</li>
+    </ul>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Average age of these chompy friends is: 5.10
+</code></pre></div>    </div>
+
+    <ul>
+      <li>Be careful of weird things popping up in the age column ! You&#39;re going to have to decide what is noise and what to throw away. Don&#39;t worry if your number is slightly different. *</li>
+      <li>yes, assume no repeat offenders</li>
+    </ul>
+
+    <h3 id="percentage-spayedneutered">Percentage Spayed/Neutered</h3>
+
+    <ul>
+      <li>Include what percentage of the dogs were spayed/neutered</li>
+    </ul>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>The percentage of biting dogs that are spayed/neutered: 34.13%
+</code></pre></div>    </div>
+
+    <h3 id="top-ten-most-reported-dog-breeds">Top Ten Most Reported Dog Breeds</h3>
+
+    <ul>
+      <li>Find the top ten dog breeds by number of reported bites</li>
+    </ul>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Top Ten Most Chompy Breeds:
+1. Pit Bull with 1919 reported bites
+2. Shih Tzu with 358 reported bites
+3. American Pit Bull Mix / Pit Bull Mix with 347 reported bites
+4. American Pit Bull Terrier/Pit Bull with 343 reported bites
+5. Chihuahua with 340 reported bites
+6. German Shepherd with 274 reported bites
+7. Mixed/Other with 267 reported bites
+8. Yorkshire Terrier with 230 reported bites
+9. Maltese with 187 reported bites
+10. Rottweiler with 162 reported bites
+</code></pre></div>    </div>
+
+    <h3 id="ranking-of-boroughs-by-number-of-dog-bites">Ranking of Boroughs by Number of Dog Bites</h3>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Dog Bite Leaderboard
+1. Queens with 2202 bites
+2. Brooklyn with 1946 bites
+3. Manhattan with 1878 bites
+4. Bronx with 1508 bites
+5. Staten with 845 bites
+</code></pre></div>    </div>
+
+    <h3 id="top-three-months-the-majority-of-dog-bites-happen">Top three months the majority of dog bites happen?</h3>
+
+    <p>There are multiple years of data in the dataset. You need to:</p>
+    <ol>
+      <li>Count up the number of bites per month/year (e.g. how many dog bites happened in July of 2015, how many happened in July of 2016?)</li>
+      <li>For every month, get the average number of bites (number of bites in July of 2015 + number of bites in July of 2016) / 2 = guesstimate of how many dog bites happen in a typical July</li>
+      <li>Get the top three months</li>
+    </ol>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>The top three months for dog biting are July, August, and June.
+</code></pre></div>    </div>
+
+    <h3 id="return-value">Return Value</h3>
+
+    <p>All of the analytics should be coalesced into a single large string representing the analytic report.</p>
+
+    <p>This string should be returned by your <code class="highlighter-rouge">processBiteData</code> function in your module, <code class="highlighter-rouge">bitefunc.js</code></p>
+
+    <h3 id="calling-processbitedata">Calling processBiteData</h3>
+
+    <p>Now that you&#39;ve finished your function, you can try calling it on your data from <code class="highlighter-rouge">report.js</code></p>
+
+    <ol>
+      <li>In report.js: require the module that you created (<code class="highlighter-rouge">bitefunc.js</code>).</li>
+      <li>Use your function on the data that you parsed from reading in the <code class="highlighter-rouge">DOHMH_Dog_Bite_Data.csv</code> file that you opened earlier.</li>
+      <li>Print out the resulting string.</li>
+      <li>You can compare your output with the example output below</li>
+    </ol>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Average age of these chompy friends is: 5.10
+
+The percentage of biting dogs that are spayed/neutered: 34.13%
+
+Top Ten Most Chompy Breeds:
+1. Pit Bull with 1919 reported bites
+2. Shih Tzu with 358 reported bites
+3. American Pit Bull Mix / Pit Bull Mix with 347 reported bites
+4. American Pit Bull Terrier/Pit Bull with 343 reported bites
+5. Chihuahua with 340 reported bites
+6. German Shepherd with 274 reported bites
+7. Mixed/Other with 267 reported bites
+8. Yorkshire Terrier with 230 reported bites
+9. Maltese with 187 reported bites
+10. Rottweiler with 162 reported bites
+
+Dog Bite Leaderboard
+1. Queens with 2202 bites
+2. Brooklyn with 1946 bites
+3. Manhattan with 1878 bites
+4. Bronx with 1508 bites
+5. Staten with 845 bites
+
+The top three months for dog biting are July, August, and June.
+</code></pre></div>    </div>
+
+    <p>Lint, commit and push your code; the next part will make modifications to this existing code (you can overwrite your work in this file directly for the next part).</p>
+
+    <h2 id="part-3---retrieve-json-from-url">Part 3 - Retrieve JSON from URL</h2>
+
+    <h3 id="setup-for-retrieving-json">Setup for Retrieving JSON</h3>
+
+    <p>In this part, you&#39;ll be setting up your project to work with JSON / csv data from a url (this is a bit unusual, as usually your data is just in one format or another):</p>
+
+    <ol>
+      <li>Install the requests library in your project&#39;s root folder: <code class="highlighter-rouge">npm install --save request</code> (similar to installing <code class="highlighter-rouge">readline-sync</code> in the previous assignment)</li>
+      <li>Add the module to the beginning of <code class="highlighter-rouge">report.js</code> using <code class="highlighter-rouge">require</code></li>
+      <li><strong>Comment out or delete reading from a local file</strong></li>
+    </ol>
+
+    <h3 id="retrieve-and-process-json">Retrieve and Process JSON</h3>
+
+    <p>Instead of reading a local file, <strong>modify your program</strong> so that it pieces together all of the data by retrieving partial data sets in json files. The output should be similar, but you&#39;ll have to write the part that requests the json files, parses the data out of each file data, and only runs the report when all of the files have been downloaded and parsed.</p>
+
+    <ol>
+      <li><a href="https://github.com/mikeal/request">Read the documentation</a> to see how to use the requests module (or see the <a href="../slides/js/js-node-npm-debug-git.html#/6">slides</a>)
+        <ul>
+          <li>Notice that the data is only available within the callback that you pass in to calling <code class="highlighter-rouge">request</code> (much like using readFile)</li>
+          <li>Again, a <strong>callback</strong> is a function passed as an argument to another function&#8230; the callback will be invoked / executed at a later time, when some event is triggered</li>
+          <li>In the case of <code class="highlighter-rouge">request</code>, it&#39;s the function that you pass in as the 2nd argument</li>
+        </ul>
+      </li>
+      <li>Remove the part of your program that reads a local file</li>
+      <li>Instead, use request to download the first json file (url given through piazza)</li>
+      <li>Notice that the json file has two fields <code class="highlighter-rouge">data</code> and <code class="highlighter-rouge">next</code>
+        <ul>
+          <li><code class="highlighter-rouge">data</code> is a list of objects, with each object representing a dog bite</li>
+          <li><code class="highlighter-rouge">next</code> is the name (without extension) of the next file to retrieve</li>
+        </ul>
+      </li>
+      <li>First try downloading just one file and running your report (the numbers should differ from what you previously had)</li>
+      <li>Once you have that working&#8230;
+        <ol>
+          <li>Instead of running your report immediately&#8230;</li>
+          <li>Store the parsed dog bite data (in memory, in a global Array or as an argument that gets continually passed)</li>
+          <li>Retrieve the next url to get more data (that is, use the <code class="highlighter-rouge">next</code> field to get the name of the next json file to retrieve)</li>
+          <li>Again, parse the file&#8230; and add the data to the dog-bite data you&#39;ve already saved</li>
+          <li>Continue doing this until there is no more <code class="highlighter-rouge">next</code> field</li>
+          <li>Once you&#39;ve retrieved all of the data, run your report&#8230; it should the same as it did before!</li>
+        </ol>
+      </li>
+    </ol>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Average age of these chompy friends is: 5.10
+
+The percentage of biting dogs that are spayed/neutered: 34.13%
+
+Top Ten Most Chompy Breeds:
+1. Pit Bull with 1919 reported bites
+2. Shih Tzu with 358 reported bites
+3. American Pit Bull Mix / Pit Bull Mix with 347 reported bites
+4. American Pit Bull Terrier/Pit Bull with 343 reported bites
+5. Chihuahua with 340 reported bites
+6. German Shepherd with 274 reported bites
+7. Mixed/Other with 267 reported bites
+8. Yorkshire Terrier with 230 reported bites
+9. Maltese with 187 reported bites
+10. Rottweiler with 162 reported bites
+
+Dog Bite Leaderboard
+1. Queens with 2202 bites
+2. Brooklyn with 1946 bites
+3. Manhattan with 1878 bites
+4. Bronx with 1508 bites
+5. Staten with 845 bites
+
+The top three months for dog biting are July, August, and June.
+</code></pre></div>    </div>
+  </div>
+
+</div>
+:ET

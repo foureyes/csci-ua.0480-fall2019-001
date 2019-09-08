@@ -1,0 +1,357 @@
+I"{7<section class="intro-slide">
+  <h1 id="the-document-object-model">The Document Object Model</h1>
+
+  <h3 id="csci-ua0480-001">CSCI-UA.0480-001</h3>
+
+  <p><small></small></p>
+</section>
+
+<section>
+  <h2 id="an-html-document-as-boxes">An HTML Document As Boxes</h2>
+
+  <p>One way to visualize an HTML document is as a set of nested boxes.</p>
+
+  <ul>
+    <li><a href="http://eloquentjavascript.net/13_dom.html">see the sample markup</a> and <a href="http://eloquentjavascript.net/img/html-boxes.svg">diagram in our book</a></li>
+    <li>the outermost tag, <code>html</code>, encloses the <code>head</code> and the <code>body</code>, which in turn, encloses other inner elements, such as headers and paragraphs</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="data-structures">Data Structures!</h2>
+
+  <p><strong>If you were tasked with writing a rendering engine for a browser, what kind of data structure would you use to represent an HTML document in your program?</strong> &#8594;</p>
+
+  <p>(maybe you&#39;re planning on building your own in <a href="http://www.screaming.org/blog/2014/08/15/lets-build-a-browser-engine-in-swift/">Swift</a> or <a href="http://limpet.net/mbrubeck/2014/08/08/toy-layout-engine-1.html">Rust</a>)</p>
+
+  <ul class="fragment">
+    <li>a linked list?</li>
+    <li>a tree?</li>
+    <li>a hash map?</li>
+    <li>a combination of all of the above?</li>
+    <li>some custom object?</li>
+  </ul>
+
+  <p><br /></p>
+
+  <p class="fragment"><strong>Let&#39;s look at another way of visualizing an HTML document</strong> &#8594;</p>
+
+</section>
+
+<section>
+  <h2 id="an-html-document-as-a-tree">An HTML Document as a Tree</h2>
+
+  <p>Another way to view an HTML document is as a tree:</p>
+
+  <ul>
+    <li>nested structures, such as ones where each element can have similar sub-elements nested within themselves, can be modeled as a tree</li>
+    <li>all of the elements in a document can be thought of as nodes in a tree</li>
+    <li>for nested elements, the outer element is a parent, and the inner element is a child</li>
+    <li><a href="http://eloquentjavascript.net/img/html-tree.svg">see the tree diagram</a> in our book</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="the-document-object-model-1">The Document Object Model</h2>
+
+  <p>The <strong>DOM</strong>, or <strong>Document Object Model</strong>, is a standardized programming interface (an API) for representing and working / interacting with objects in HTML documents</p>
+
+  <ul>
+    <li class="fragment">it&#39;s <strong>language independent</strong>! (&#8230;it&#39;s not tied to JavaScript) and <strong>cross platform</strong></li>
+    <li class="fragment">the DOM is a <strong>fully object-oriented</strong> representation of a web page</li>
+    <li class="fragment">it provides a structured representation of the document and defines the way that the document can be accessed programmatically</li>
+    <li class="fragment">this access allow the reading and modification of a document&#39;s content, structure and even visual presentation</li>
+    <li class="fragment">it&#39;s essentially the <em>bridge</em> between a web page and a programming language!</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="dom-continued">DOM Continued</h2>
+
+  <p>Again, <strong>the DOM and the programming language are separate entities</strong>:</p>
+
+  <ul>
+    <li>page content is stored in the DOM</li>
+    <li>which is manipulated by a programming language</li>
+    <li>the <em>actual</em> <strong>implemented</strong> DOM API of a web page is the DOM + the programming language</li>
+  </ul>
+
+  <p><br />
+The DOM represents an HTML document as a group of nodes</p>
+
+  <ul>
+    <li>these nodes are organized in a tree structure (as described in the previous slides)</li>
+    <li>each node is an object with properties and methods</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="javascript-and-the-dom">JavaScript and the DOM</h2>
+
+  <p>As a point of comparison&#8230; there were built-in global objects that were accessible and <strong>specific</strong> to JavaScript in Node - <strong>what were some built-in objects that we used?</strong> &#8594;</p>
+
+  <ul class="fragment">
+    <li><code>console</code></li>
+    <li><code>global</code></li>
+    <li>the <code>require</code> function</li>
+    <li>&#8230;and others, like <code>process</code>, <code>module</code>, <a href="http://nodejs.org/api/globals.html">etc.</a></li>
+  </ul>
+
+  <p class="fragment"><br />
+<strong>The JavaScript engine in your browser also has access to a bunch of built in objects - and those objects let us access the DOM</strong>!</p>
+
+</section>
+
+<section>
+  <h2 id="accessing-the-dom">Accessing the DOM</h2>
+
+  <p>The DOM can be accessed by through a built-in global object called <code>document</code>.</p>
+
+  <p><code>document</code> contains additional objects:</p>
+
+  <ul>
+    <li><code>documentElement</code> - the root of the tree; represents the HTML element (the tags that enclose the entire document)</li>
+    <li><code>body</code> - the body element</li>
+    <li><code>head</code> - the head element</li>
+  </ul>
+
+  <p><br />
+<strong>Let&#39;s see what these objects look like.</strong> &#8594;</p>
+</section>
+
+<section>
+  <h2 id="nodes-and-node-types">Nodes and Node Types</h2>
+
+  <p>Nodes can be categorized into types. <strong>What kind of node types do you think there are in an HTML document (let&#39;s check out the tree structure again)?</strong> &#8594;</p>
+
+  <ul class="fragment">
+    <li>element</li>
+    <li>text</li>
+    <li>comment</li>
+    <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Node.nodeType">and a bunch of others</a></li>
+  </ul>
+  <p><br /></p>
+
+  <p class="fragment">Notice that the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Node.nodeType">type of a node</a> is specified by a constant. For example&#8230;</p>
+
+  <ul class="fragment">
+    <li><code>document.ELEMENT_NODE</code></li>
+    <li><code>document.TEXT_NODE</code></li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="node-types-continued">Node Types Continued</h2>
+
+  <p>All nodes have a <code>nodeType</code> property that specifies what kind of node it is.</p>
+
+  <ul>
+    <li>the nodeType maps to the constants contained in the document object (see the previous slide)</li>
+    <li>note that text nodes exist for any text within an element (including white space!)</li>
+    <li><strong>Let&#39;s see this in action&#8230;</strong> &#8594;</li>
+  </ul>
+
+  <p><br />
+Note that the objects we&#39;ve seen so far, such as <code>document</code>, <code>document.body</code>, etc. are also nodes.</p>
+
+  <p>Consequently, they also have a <strong>nodeType property (compare with <a href="https://developer.mozilla.org/en-US/docs/Web/API/Node.nodeType">the constants</a></strong> &#8594;</p>
+</section>
+
+<section>
+  <h2 id="node-name-and-node-value">Node Name and Node Value</h2>
+
+  <p>Another two properties of Nodes are:</p>
+
+  <ul>
+    <li><code>nodeName</code> - the name of the current node (read only)</li>
+    <li><code>nodeValue</code>
+      <ul>
+        <li>for most node types, such as document, element, etc., <code>nodeValue</code> is null (<a href="https://developer.mozilla.org/en-US/docs/Web/API/Node/nodeValue">see the docs</a>)</li>
+        <li>for text, comment, and CDATA node types, <code>nodeValue</code> is the <em>actual</em> content of the node</li>
+      </ul>
+    </li>
+    <li><strong>let&#39;s check these out</strong> &#8594;</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="shortcomings">Shortcomings</h2>
+
+  <p>Speaking JavaScript mentions that there are some shortcoming with the way the DOM interface is designed. For example:</p>
+
+  <ul>
+    <li class="fragment">the <code>childNodes</code> property of a node is not actually an array (<strong>let&#39;s see&#8230; it has length, but what methods would we expect from an array?</strong>&#8594;)
+      <ul>
+        <li class="fragment">(no slice())</li>
+        <li class="fragment">(no forEach())</li>
+      </ul>
+    </li>
+    <li class="fragment">there are no facilities to immediately add children to a newly created node
+      <ul>
+        <li class="fragment">rather, each child of a new node must be added one-by-one!</li>
+      </ul>
+    </li>
+  </ul>
+
+</section>
+<section>
+  <h2 id="some-solutions">Some Solutions</h2>
+
+  <p>Fortunately, JavaScript allows us to create abstractions that smooth over these design flaws. There are many libraries available that make manipulating the DOM a breeze (JQuery being the most popular).</p>
+
+  <ul>
+    <li>with that said, we&#39;ll still be taking a look at the plain vanilla API that the DOM has to offer</li>
+    <li>in fact, there&#39;s a bit of a movement to limit the use of libraries and dependencies to only those that are essential <strong>why?</strong> &#8594;
+      <ul>
+        <li class="fragment">page download size increases with each dependency</li>
+        <li class="fragment">sometimes libraries are <em>too magical</em> (maybe you don&#39;t know what it&#39;s actually doing under-the-hood)</li>
+      </ul>
+    </li>
+    <li class="fragment"><a href="http://youmightnotneedjquery.com/">check out youmightnotneedjquery.com</a> for some examples</li>
+  </ul>
+
+  <p class="fragment"><br />
+Of course, you can see that libraries, like JQuery, make things much easier for the programmer.</p>
+
+</section>
+
+<section>
+  <h2 id="moving-around">Moving Around</h2>
+
+  <p>Some properties that you can use to move around the DOM are:</p>
+
+  <ul>
+    <li><code>parentNode</code> - the node containing the current node</li>
+    <li><code>childNodes</code> - an array-like object containing all of the current node&#39;s children
+      <ul>
+        <li>has a <code>length</code> property</li>
+        <li>does not have typical Array methods, such as slice and forEach</li>
+      </ul>
+    </li>
+    <li><code>firstChild</code> - first child node</li>
+    <li><code>lastChild</code> - last child node</li>
+    <li><code>previousSibling</code> - the previous adjacent node</li>
+    <li><code>nextSibling</code> - the next adjacent node</li>
+  </ul>
+
+  <p><br />
+<strong>And&#8230; let&#39;s see what these look like.</strong> &#8594;</p>
+
+</section>
+
+<section>
+  <h2 id="an-exercise">An Exercise</h2>
+
+  <p><a href="https://docs.google.com/a/nyu.edu/forms/d/1bqPF8NaUAj1AtVwEcnWnEoaeriOU6MWRmTPpZ0BuGR0/viewform">Write a function</a> called <code>talksAbout</code>. Test on this <a href="https://gist.github.com/foureyes/bf13be6e98f1bf0211652a74ba2e4870">markup</a>.</p>
+
+  <ul>
+    <li>two parameters, a node to search in, and a string to look for</li>
+    <li>returns true if it finds the string anywhere within the node or the node&#39;s children</li>
+    <li><code>talksAbout(document.body, 'schedule'); // returns true if the word 'schedule' is in body</code></li>
+    <li>try a recursive solution</li>
+    <li>check the node&#39;s type by comparing to <code>document.ELEMENT_NODE</code> or <code>document.TEXT_NODE</code></li>
+    <li>if it&#39;s an element node, you know it has children, so call function again on all of those children (return false if the search isn&#39;t successful in the child nodes)</li>
+    <li>if it&#39;s a text node, use <code>indexOf</code> to determine if the search string is a substring of the <strong>node&#39;s value</strong> (<code>nodeValue</code>)</li>
+    <li>remember that <code>indexOf</code> returns -1 if the substring is not found</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="a-potential-solution">A Potential Solution</h2>
+
+  <pre><code data-trim="" contenteditable="">
+function talksAbout(node, search) {
+	if (node.nodeType === document.ELEMENT_NODE) {
+		for (var i = 0; i &lt; node.childNodes.length; i++) {
+			if (talksAbout(node.childNodes[i], search)) {
+				return true;
+			}
+		}
+		return false
+	} else if (node.nodeType === document.TEXT_NODE) {
+		return node.nodeValue.indexOf(search) &gt; -1 {
+	}
+}
+</code></pre>
+</section>
+
+<section>
+  <h2 id="a-note-on-class-vs-id">A Note on Class vs ID</h2>
+
+  <p>All HTML elements can have a class and an ID attribute.</p>
+
+  <ul>
+    <li>generally IDs can occur only once in a document: <code>id="foo"</code></li>
+    <li>however, there can be multiple elements with the same class: <code>class="bar"</code></li>
+    <li>these are typically not enforced by the browser</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="finding-elements">Finding Elements</h2>
+
+  <p>The following methods will give back an element or elements based on search criteria:</p>
+
+  <ul>
+    <li><code>document.getElementById</code> - returns node with specified id attribute</li>
+    <li><code>document.getElementsByClassName</code> - returns nodes with specified class attribute (an HTML Collection)
+      <ul>
+        <li>also callable on elements (searches only within element called on)</li>
+      </ul>
+    </li>
+    <li><code>document.getElementsByTagName</code> - returns nodes with specified tag name (an HTML Collection)
+      <ul>
+        <li>also callable on elements (searches only within element called on)</li>
+      </ul>
+    </li>
+  </ul>
+
+  <p><br /></p>
+</section>
+
+<section>
+  <h2 id="modifying-elements">Modifying Elements</h2>
+
+  <p>Changing attributes</p>
+
+  <pre><code data-trim="" contenteditable="">
+// we can change certain attributes simply by using assignment... for example, id, src, or href
+document.getElementById('foo').id = 'bar';
+</code></pre>
+
+  <p>Changing text node values</p>
+
+  <pre><code data-trim="" contenteditable="">
+// assuming we have an element_node, and we know its first child is a text element
+node.firstChild.nodeValue = 'new text'
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="modifying-elements-continued">Modifying Elements Continued</h2>
+
+  <p>Assuming the following markup within a body tag, how would you change the href of the last link so that it takes you to an image search for cookies (using JavaScript)?</p>
+
+  <pre><code data-trim="" contenteditable="">
+<div id="announcement">
+  announcement
+</div>
+<div id="content">
+  content
+  <p class="body-text"> stuff 1 </p>
+  <p class="body-text"> stuff 2 </p>
+  <p> stuff 3 <a href="">with a link </a></p>
+  <p> Um Cookies <a id="cookies" href="">&#127850; &#127850; &#127850; &#127850; &#127850;</a></p>
+</div>
+
+</code></pre>
+
+</section>
+
+:ET

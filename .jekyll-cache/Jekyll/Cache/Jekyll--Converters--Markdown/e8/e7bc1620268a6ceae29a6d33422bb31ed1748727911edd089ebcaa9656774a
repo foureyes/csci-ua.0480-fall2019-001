@@ -1,0 +1,520 @@
+I"0z<div class="panel panel-default">
+	<div class="panel-heading">Homework #4</div>
+	<div class="panel-body">
+
+    <h1 id="express---static-files-forms-and-templating-due-march-9th-by-11pm-due--march-10th-by-11pm-extended-1-day">Express - Static Files, Forms, and Templating <strike>Due March 9th, by 11PM</strike> <strong>Due  March 10th, by 11PM</strong> (extended 1 day)</h1>
+
+    <h2 id="overview">Overview</h2>
+
+    <h3 id="description">Description</h3>
+
+    <p>Create two small sites:</p>
+
+    <ol>
+      <li>a site that simulates generating a passphrase using diceware called <strong>dicey</strong></li>
+      <li>a meal recommendation site called <strong>foodz</strong></li>
+    </ol>
+
+    <p>You&#39;ll explore the following concepts along the way:</p>
+
+    <ul>
+      <li>serving static files</li>
+      <li>templating</li>
+      <li>handling forms</li>
+    </ul>
+
+    <p>For <strong>dicey</strong>, you&#39;ll be creating 3 paths:</p>
+
+    <ul>
+      <li><code>/</code>: the root path, redirects to <code class="highlighter-rouge">dice</code></li>
+      <li><code>/dice</code>: a page that simulates rolling dice to generate a pass phrase
+        <ul>
+          <li>the number of words and the word separator can be specified in a form</li>
+        </ul>
+      </li>
+      <li><code class="highlighter-rouge">/about</code>: a page about the web application</li>
+    </ul>
+
+    <p>For <strong>foodz</strong>, you&#39;ll be creating 1 page that allows two form submissions:</p>
+
+    <ul>
+      <li><code>/</code>:
+        <ul>
+          <li>has a form that allows the addition of a new meal recommendation</li>
+          <li>has a form that allows filtering of meal recommendations by breakfast, lunch, dinner or anytime</li>
+        </ul>
+      </li>
+    </ul>
+
+    <h3 id="submission-process">Submission Process</h3>
+
+    <p>You will be given access to a private repository on GitHub. It will contain:</p>
+
+    <ol>
+      <li>stub source files in the <code class="highlighter-rouge">src</code> directory</li>
+      <li>a <code class="highlighter-rouge">.eslintrc</code></li>
+    </ol>
+
+    <p><strong>Push</strong> your changes to the homework repository on GitHub.
+Commits later than the deadline will not be included in grading</p>
+
+    <h3 id="points-make-at-least-4-commits">(4 points) Make at Least 4 Commits</h3>
+
+    <ul>
+      <li>Commit multiple times throughout your development process.</li>
+      <li>Make at least 4 separate commits - (for example, one option may be to make one commit per part in the homework).</li>
+    </ul>
+
+    <h2 id="part-1---setup">Part 1 - Setup</h2>
+
+    <p>Because we&#39;re creating two express apps in a single repository, the directory layout will be a little different from what we&#39;ve seen before. Both projects will share the same <code class="highlighter-rouge">package.json</code>, <code class="highlighter-rouge">node_modules</code>, <code class="highlighter-rouge">.gitignore</code> and <code class="highlighter-rouge">.eslintrc</code>, but they&#39;ll each have their own <code class="highlighter-rouge">public</code> and <code class="highlighter-rouge">views</code> folders within their own directory in <code class="highlighter-rouge">src</code>. When you&#39;re <strong>done with all of the directions</strong>, you should have a folder structure that looks similar to this:</p>
+
+    <ul>
+      <li><code class="highlighter-rouge">/</code> (project root)
+        <ul>
+          <li><code class="highlighter-rouge">package.json</code></li>
+          <li><code class="highlighter-rouge">node_modules</code></li>
+          <li><code class="highlighter-rouge">.gitignore</code></li>
+          <li><code class="highlighter-rouge">.eslintrc</code></li>
+          <li><code class="highlighter-rouge">/src</code>
+            <ul>
+              <li><code class="highlighter-rouge">/dicey</code>
+                <ul>
+                  <li><code class="highlighter-rouge">dicey.js</code></li>
+                  <li><code class="highlighter-rouge">public</code>
+                    <ul>
+                      <li><code class="highlighter-rouge">img</code> (optional)</li>
+                      <li><code class="highlighter-rouge">css</code></li>
+                    </ul>
+                  </li>
+                  <li><code class="highlighter-rouge">views</code>
+                    <ul>
+                      <li><code class="highlighter-rouge">layout.hbs</code></li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+              <li><code class="highlighter-rouge">/foodz</code>
+                <ul>
+                  <li><code class="highlighter-rouge">foodz.js</code></li>
+                  <li><code class="highlighter-rouge">public</code>
+                    <ul>
+                      <li><code class="highlighter-rouge">img</code> (optional)</li>
+                      <li><code class="highlighter-rouge">css</code></li>
+                    </ul>
+                  </li>
+                  <li><code class="highlighter-rouge">views</code>
+                    <ul>
+                      <li><code class="highlighter-rouge">layout.hbs</code></li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+
+    <h3 id="points-installing-dependencies">(2 points) Installing Dependencies</h3>
+
+    <ul>
+      <li>create a <code>package.json</code> (you can use <code class="highlighter-rouge">npm init</code> to do this) in the root directory of your project:</li>
+      <li><strong>install</strong> the following <strong>dependencies</strong> (make sure you use the <code>--save</code> option):
+        <ul>
+          <li><code>express</code></li>
+          <li><code>hbs</code></li>
+          <li><code>body-parser</code> (this is used for foodz only)</li>
+        </ul>
+      </li>
+    </ul>
+
+    <h3 id="points-gitignore">(2 points) .gitignore</h3>
+
+    <ul>
+      <li>create a <code>.gitignore</code> file in the root directory of your project</li>
+      <li>ignore the following files:
+        <ul>
+          <li><code>node_modules</code></li>
+          <li>any other files that are not part of your project&#8230; for example:
+            <ul>
+              <li><code>.DS_Store</code> (if you&#39;re on OSX)</li>
+              <li><code>*.swp</code> (if you&#39;re using vim)</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+
+    <h2 id="part-2---dicey">Part 2 - dicey</h2>
+
+    <p>In <code class="highlighter-rouge">/src/dicey/dicey.js</code>, create an Express application that generates a passphrase by randomly choosing words from a word list. However, instead of simply choosing a random index to pick a word, use the Diceware methodology described here:</p>
+
+    <p><a href="http://world.std.com/~reinhold/diceware.html">http://world.std.com/~reinhold/diceware.html</a></p>
+
+    <p>Specifically, read through the following sections:</p>
+
+    <ul>
+      <li>&quot;What Is Diceware&quot;</li>
+      <li>&quot;Using Diceware&quot;</li>
+    </ul>
+
+    <p>Our application will simulate the generation of a passphrase by:</p>
+
+    <ol>
+      <li>rolling the appropriate number of dice</li>
+      <li>looking up words in the Diceware word list</li>
+      <li>displaying the dice rolls and associated words</li>
+      <li>displaying the <em>actual</em> resulting passphrase</li>
+    </ol>
+
+    <h3 id="static-files-basic-routes-templating">Static Files, Basic Routes, Templating</h3>
+
+    <p>Start off by creating a basic express application runnable through <code>src/dicey/dicey.js</code>. See the <a href="../slides/08/express.html">slides on Express</a> for a refresher on how to do this. Then:</p>
+
+    <ul>
+      <li>use handlebars for templating
+        <ul>
+          <li>see <a href="../slides/09/templating.html#/">the slides on templating</a></li>
+          <li>set hbs as the default view engine</li>
+          <li>create the appropriate directory structure and templates:
+            <ul>
+              <li><code class="highlighter-rouge">src/dicey/views</code> to hold templates</li>
+              <li><code class="highlighter-rouge">src/dicey/views/layout.hbs</code> for &quot;common&quot; markup</li>
+              <li>two other <code class="highlighter-rouge">hbs</code> files (use any name) for the makrup in <code class="highlighter-rouge">/</code> and <code class="highlighter-rouge">about</code></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>create the following directory structure in <code class="highlighter-rouge">src/dicey</code>
+        <ul>
+          <li><code>public</code></li>
+          <li><code>public/css</code></li>
+          <li><code>public/img</code> (optional)</li>
+        </ul>
+      </li>
+      <li>add a css file in <code>public/css/base.css</code></li>
+      <li>add the appropriate requires and middleware to enable static file serving; see the <a href="../slides/08/express.html#/29">slides on serving static files with Express</a></li>
+      <li>test that the css file works
+        <ul>
+          <li>for example, try to curl <code>http://localhost:8080/css/base.css</code></li>
+          <li>or go that url in your browser</li>
+        </ul>
+      </li>
+      <li>pull in your <code>base.css</code> stylesheet in your <code class="highlighter-rouge">layout.hbs</code> with a <code class="highlighter-rouge">link</code> tag</li>
+      <li>in <code>views/layout.hbs</code>, drop in the surrounding html that will go on every page
+        <ul>
+          <li>add an <code class="highlighter-rouge">h1</code> element with the title of the site</li>
+          <li>add a navigation links to <code class="highlighter-rouge">/dice</code> and <code class="highlighter-rouge">/about</code></li>
+          <li>don&#39;t forget <code>body</code>, surrounded by triple curly braces!</li>
+        </ul>
+      </li>
+      <li>modify <code class="highlighter-rouge">dicey.js</code> to accept the following routes:
+        <ul>
+          <li><code class="highlighter-rouge">/</code> - redirects to <code class="highlighter-rouge">dice</code></li>
+          <li><code class="highlighter-rouge">/about</code> - a page describing the site (any content can be placed here)</li>
+          <li><code class="highlighter-rouge">/dice</code> - a page that displays a generated passphrase and a form to generate the passphrase</li>
+        </ul>
+      </li>
+      <li>create <code class="highlighter-rouge">hbs</code> files in <code class="highlighter-rouge">views</code> for <code class="highlighter-rouge">about</code> and <code class="highlighter-rouge">dice</code> (<strong>name these templates yourself</strong>)</li>
+      <li><code class="highlighter-rouge">/</code> - redirect to <code class="highlighter-rouge">/dice</code></li>
+      <li><code class="highlighter-rouge">/about</code> - should contain text describing the site (<strong>can be any text you want</strong>)</li>
+      <li><code class="highlighter-rouge">/dice</code> - should contain a form that <code class="highlighter-rouge">GET</code>s itself (<code class="highlighter-rouge">method</code> is <code class="highlighter-rouge">GET</code>, <code class="highlighter-rouge">action</code> can be left blank to specify that submitting the form will <code class="highlighter-rouge">GET</code> the current url, <code class="highlighter-rouge">/dicey</code>)&#8230;  that allows the following input:
+        <ul>
+          <li>(<a href="../slides/10/forms.html">skim through the slides on forms</a> or <a href="https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Forms/How_to_structure_an_HTML_form#The_&lt;form&gt;_element">or read the form element documentation on mdn</a> along with this <a href="https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Forms/My_first_HTML_form">lengthy article on using forms</a>)</li>
+          <li>a number (<a href="http://htmlreference.io/element/input/">see htmlreference.io on input, type number</a>) - to specify how many words the passphrase should consist of
+            <ul>
+              <li>the <code class="highlighter-rouge">name</code> attribute must be <code class="highlighter-rouge">numWords</code></li>
+            </ul>
+          </li>
+          <li>a drop down (<a href="http://htmlreference.io/element/select/">see htmlreference.io on select</a>) - to specify what character goes between each generated word; include the following characters: space, dash, comma, star and none
+            <ul>
+              <li>the <code class="highlighter-rouge">select</code> element&#39;s <code class="highlighter-rouge">name</code> attribute must be <code class="highlighter-rouge">glue</code></li>
+              <li>each option&#39;s value should be the name of the potential separtor/glue character&#8230;</li>
+              <li>for example: <code class="highlighter-rouge">&lt;option value="space"&gt;space " "&lt;/option&gt;</code></li>
+              <li>the possible values are: <code class="highlighter-rouge">space</code>, <code class="highlighter-rouge">dash</code>, <code class="highlighter-rouge">comma</code>, <code class="highlighter-rouge">star</code> and <code class="highlighter-rouge">none</code></li>
+            </ul>
+          </li>
+          <li>a submit button</li>
+        </ul>
+      </li>
+      <li>modify your <code class="highlighter-rouge">base.css</code> file to style the above pages - <strong>style at your discretion, as long as <em>some</em> styling is present</strong></li>
+      <li>see the image below to see what the resulting pages should look like for <code class="highlighter-rouge">/</code>, <code class="highlighter-rouge">/dice</code>, and <code class="highlighter-rouge">/about</code></li>
+    </ul>
+
+    <p><img src="../resources/img/hw04-dicey-01-paths.gif" alt="paths" /></p>
+
+    <h3 id="handling-get-query-string-data">Handling GET Query String Data</h3>
+
+    <ul>
+      <li>read in <a href="04/diceware.wordlist.txt">the diceware file</a> <strong>before your express application serves its routes</strong>
+        <ul>
+          <li>it should present in the repository in <code class="highlighter-rouge">src/dicey</code> (if not, you can <a href="04/diceware.wordlist.txt">download it</a>)</li>
+          <li>use any method can be used for reading in the file - the synchronous versions of readFile is allowed</li>
+          <li>if you use the async version, just make sure that <code class="highlighter-rouge">app.listen(8080)</code> is the last thing that is executed (it can simply be executed in the callback)</li>
+          <li>each line in the file contains a number with 5 digits (each digit is limited to the number of faces on a die, 1 - 6) and an associated word&#8230; (these are separated by tabs, or <code class="highlighter-rouge">\t</code>)</li>
+          <li>store the number / word combinations so that a word can be easily looked up by the number (use any data structure you like to do this)</li>
+        </ul>
+      </li>
+      <li>check out the <a href="../slides/10/review-get.html">slides on GET</a> before proceeding</li>
+      <li>in the route handler for <code class="highlighter-rouge">/dice</code>, accept <strong>query string data</strong> &#8230;</li>
+      <li>modify your route for <code class="highlighter-rouge">/dicey</code> so that you can append the following query string variables when requesting the path:
+        <ul>
+          <li><code class="highlighter-rouge">numWords</code></li>
+          <li><code class="highlighter-rouge">glue</code></li>
+          <li>for example, you can enter this into your browser: <code class="highlighter-rouge">http://localhost:8080/dice?numWords=3&amp;glue=star</code></li>
+          <li>&#8230;and the server will be able to access that data</li>
+        </ul>
+      </li>
+      <li><a href="https://expressjs.com/en/api.html#req.query">access these query string parameters on the server side (within your express app) from <code class="highlighter-rouge">req.query</code></a></li>
+      <li>use the values in <code class="highlighter-rouge">req.query</code> to generate a passphrase:
+        <ul>
+          <li>for every word (<code class="highlighter-rouge">numWords</code>) specified by the user&#8230;</li>
+          <li>roll 5 dice (generate a random number between 1 and 6 inclusive)</li>
+          <li>look up the word in the diceware word list</li>
+          <li>join all of the generated words by the <code class="highlighter-rouge">glue</code> character</li>
+          <li><strong>if the submitted <code class="highlighter-rouge">glue</code> character is not a space, dash, star, comma or none, or if it&#39;s not present, default to space</strong></li>
+          <li><strong>&quot;save&quot; all of the numbers generated and their associated words</strong> in a variable as <em>meta</em> data for you passphrase generation (that is, you&#39;ll send this data over to your template in your <code class="highlighter-rouge">render</code> call)</li>
+        </ul>
+      </li>
+      <li>if <code class="highlighter-rouge">numWords</code> and <code class="highlighter-rouge">glue</code> are present and a passphrase was generated&#8230;
+        <ul>
+          <li>display the resulting passphrase on the page</li>
+          <li>for every word, display the numbers rolled and the word associated with it</li>
+          <li>check out the <a href="../slides/09/templating.html">slides on templating</a> for help on variables, looping and conditionals in templates</li>
+          <li>otherwise, only display the form</li>
+        </ul>
+      </li>
+      <li>the finished feature should look something like this</li>
+    </ul>
+
+    <p><img src="../resources/img/hw04-dicey-02-url.gif" alt="paths" /></p>
+
+    <h3 id="submitting-the-form">Submitting the Form</h3>
+
+    <p>Now&#8230; for the moment of truth!</p>
+
+    <p>Instead of using the url string to pass in parameters, you can try using the form that you created to submit parameters instead!</p>
+
+    <ol>
+      <li>test the form by entering a number and a &quot;glue&quot;</li>
+      <li>submit the form and see that a passphrase is generated</li>
+      <li><strong>and</strong> that query string values are appended to the url</li>
+    </ol>
+
+    <p>Troubleshooting</p>
+
+    <ol>
+      <li>check that the <code class="highlighter-rouge">name</code> attributes of your form elements are the same as the properties that you access on <code class="highlighter-rouge">req.query</code>; they should be:
+        <ul>
+          <li><code class="highlighter-rouge">numWords</code></li>
+          <li><code class="highlighter-rouge">glue</code></li>
+        </ul>
+      </li>
+      <li>check that your form&#39;s method is <code class="highlighter-rouge">GET</code></li>
+      <li>try logging out the variables that you pass to your template; if your template is receiving variables, but no data is being displayed, then there is an issue in how those variables are accessed in the form</li>
+    </ol>
+
+    <p>The resulting interaction should look like this (<strong>notice that the query string parameters are added to the url on form submission</strong>):</p>
+
+    <p><img src="../resources/img/hw04-dicey-03-form.gif" alt="paths" /></p>
+
+    <h2 id="part-3---foodz">Part 3 - Foodz</h2>
+
+    <p>Foodz is a meal recommendation site where users can post the name, description and category (breakfast, lunch, dinner or anytime) of a meal as well as view and filter (by category) recommendations. It will use a simple memory-based store (that is, a global <code class="highlighter-rouge">Array</code> or <code class="highlighter-rouge">Object</code>) to persist data.</p>
+
+    <p>This will be similar to the previous parts, but there will be two forms on a single page, one <code class="highlighter-rouge">GET</code> and one <code class="highlighter-rouge">POST</code>. Consequently, there&#39;s only one path served for the app: <code class="highlighter-rouge">/</code>. However, because there are multiple forms, there will be more than one route handler.</p>
+
+    <h3 id="static-files-and-templating-again">Static Files and Templating Again</h3>
+
+    <p>First, lets make sure we can serve up static content, like css and images.</p>
+
+    <ul>
+      <li>create the following directory structure in your <code class="highlighter-rouge">src/foodz</code> directory
+        <ul>
+          <li><code>public</code></li>
+          <li><code>public/css</code></li>
+          <li><code>public/img</code> (optional)</li>
+        </ul>
+      </li>
+      <li>add a blank css file in <code>public/css/base.css</code></li>
+      <li>create a basic express application called <code>foodz.js</code>; you don&#39;t have to define any routes yet&#8230;</li>
+      <li>just add the appropriate requires and middleware to enable static file serving:
+        <ul>
+          <li>check out the <a href="../slides/08/express.html#/29">slides on serving static files with Express</a></li>
+        </ul>
+      </li>
+      <li>test that both the css files and image work
+        <ul>
+          <li>for example, try to curl <code>http://localhost:8080/css/base.css</code></li>
+          <li>or go that url in your browser</li>
+        </ul>
+      </li>
+      <li>set up handlebars - <a href="../slides/09/templating.html#/">these slides</a> may help
+        <ul>
+          <li>create the appropriate views/templates and layout in <code class="highlighter-rouge">src/foodz</code>
+            <ul>
+              <li><code>views</code></li>
+              <li><code>views/layout.hbs</code></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>in your <code>views/layout.hbs</code>, drop in the surrounding html that will go on every page (well, there&#39;s only one page, but you get the idea!)
+        <ul>
+          <li>don&#39;t forget <code>body</code>, surrounded by triple curly braces!</li>
+        </ul>
+      </li>
+      <li>create a template for the single homepage (call this whatever you want&#8230; just make sure you can pull it up later), add an <code>h1</code> header with the title of the site</li>
+      <li>create the appropriate route so that a <code>GET</code> request pulls up the page</li>
+      <li>add some css to change the font family, margins, etc. (<strong>style at youyour discretion</strong>)</li>
+      <li>test your page</li>
+    </ul>
+
+    <h3 id="creating-forms">Creating Forms</h3>
+
+    <p>You&#39;ll need two forms for this site: one to filter the meal recommendations, the other to add a meal recommendation</p>
+
+    <p>For a quick refresher on forms, check out:</p>
+
+    <ul>
+      <li><a href="../slides/10/forms.html">these slides</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Forms/How_to_structure_an_HTML_form#The_&lt;form&gt;_element">the form element documentation on mdn</a>, and a <a href="https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Forms/My_first_HTML_form">lengthy article on using forms</a></li>
+    </ul>
+
+    <ol>
+      <li>create a <code class="highlighter-rouge">GET</code> form that has a blank <code class="highlighter-rouge">action</code> (so that submissions request the same path); this is the <strong>filter form</strong>:
+        <ul>
+          <li>use radio buttons to allow the user to choose which category to filter by</li>
+          <li><strong>name the radio buttons <code class="highlighter-rouge">filterCategory</code></strong></li>
+          <li>the values of the radio buttons should be <code class="highlighter-rouge">breakfast</code>, <code class="highlighter-rouge">lunch</code>, <code class="highlighter-rouge">dinner</code>, and <code class="highlighter-rouge">anytime</code></li>
+          <li>create a submit button</li>
+        </ul>
+      </li>
+      <li>create a <code class="highlighter-rouge">POST</code> form that has a blank <code class="highlighter-rouge">action</code> (so that submissions request the same path); this is the <strong>add form</strong>:
+        <ul>
+          <li><strong>create 2 text input fields with <code class="highlighter-rouge">name</code> attributes, <code class="highlighter-rouge">name</code> and <code class="highlighter-rouge">description</code>, respectively</strong></li>
+          <li><strong>a set of radio buttons, each with <code class="highlighter-rouge">name</code>ed <code class="highlighter-rouge">category</code></strong> &#8230;</li>
+          <li>the values of the radio buttons should be <code class="highlighter-rouge">breakfast</code>, <code class="highlighter-rouge">lunch</code>, <code class="highlighter-rouge">dinner</code>, and <code class="highlighter-rouge">anytime</code></li>
+        </ul>
+      </li>
+      <li>test that you can see the forms</li>
+    </ol>
+
+    <h3 id="seeding-some-content">Seeding Some Content</h3>
+
+    <p>Now for some actual content. Our site will display meal recommendations, but it would be nice to start out with some initial data.</p>
+
+    <p><strong>Bootstrap the list of meals with initial data.</strong></p>
+
+    <ul>
+      <li>store all of the meal data in a global variable</li>
+      <li>(This isn&#39;t really good practice, but we&#39;ll have to store the data <em>somewhere</em> for now!)</li>
+      <li>you can choose whatever data structure that you want to store a collection of recommended meals (for example, an <code class="highlighter-rouge">Array</code> of objects)</li>
+      <li>remember that every meal has a <code class="highlighter-rouge">name</code>, <code class="highlighter-rouge">description</code>, and <code class="highlighter-rouge">category</code></li>
+      <li>your application should start off with:
+        <ul>
+          <li>name: &quot;chocoramen&quot;,
+            <ul>
+              <li>description: &quot;ramen noodles in a chocolate almond milk broth&quot;</li>
+              <li>category: &quot;breakfast&quot;</li>
+            </ul>
+          </li>
+          <li>name: &quot;lycheezy&quot;
+            <ul>
+              <li>description: &quot;cheese pizza with lychee on top&quot;</li>
+              <li>category: &quot;anytime&quot;</li>
+            </ul>
+          </li>
+          <li>name: &quot;crazy cookie&quot;
+            <ul>
+              <li>description: &quot;a 1 foot diameter cookie&quot;</li>
+              <li>category: &quot;dinner&quot;</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+
+    <p><strong>Add data to your template</strong></p>
+
+    <ul>
+      <li>send your list of recommended meals to your template&#39;s context in the call to <code class="highlighter-rouge">render</code></li>
+      <li>display each meal between the filter and add forms</li>
+    </ul>
+
+    <p><strong>Test your page.</strong></p>
+
+    <p>Here&#39;s what the page should look like after going to <code class="highlighter-rouge">/</code>:</p>
+
+    <p><img src="../resources/img/hw04-foodz-01-paths.gif" alt="paths" /></p>
+
+    <h3 id="filter-meal-recommendations-form">Filter Meal Recommendations Form</h3>
+
+    <p>In your <code class="highlighter-rouge">get</code> route, filter the objects passed to render by using the values passed through the filter form (these will be in <code class="highlighter-rouge">req.query</code>).</p>
+
+    <ul>
+      <li>in your route handler for <code>GET</code> requests on <code>/</code>&#8230;</li>
+      <li>double check the template - make sure that your <strong>filter / GET</strong> form has:
+        <ul>
+          <li><strong>radio buttons, each with a <code class="highlighter-rouge">name</code> of <code class="highlighter-rouge">filterCategory</code></strong></li>
+          <li>the values of the radio buttons should be <code class="highlighter-rouge">breakfast</code>, <code class="highlighter-rouge">lunch</code>, <code class="highlighter-rouge">dinner</code>, and <code class="highlighter-rouge">anytime</code></li>
+          <li>a submit button</li>
+          <li>the form&#39;s method should be <code>GET</code></li>
+          <li>the action should be empty string (which means it just goes back to <code>"/"</code>)</li>
+        </ul>
+      </li>
+      <li>use the values from the query string that results in submitting the form by accessing <code class="highlighter-rouge">req.query</code></li>
+      <li>these values should be used to filter the meals that are displayed to the user</li>
+    </ul>
+
+    <p>The interaction should look like this:</p>
+
+    <p><img src="../resources/img/hw04-foodz-02-filter.gif" alt="filter" /></p>
+
+    <h3 id="create-a-meal-recommendation-form">Create a Meal Recommendation Form</h3>
+
+    <p>The create form requires a POST (since we&#39;re dealing with adding data). <a href="../slides/10/forms.html#/7">Read the slides on POST forms</a>. To do this&#8230;</p>
+
+    <ul>
+      <li>require the <code>body-parser</code> middleware and use it; this will allow you to access the content of a request&#39;s body
+        <ul>
+          <li><code class="highlighter-rouge">const bodyParser = require('body-parser');</code></li>
+          <li><code class="highlighter-rouge">app.use(bodyParser.urlencoded({extended: false}));</code></li>
+        </ul>
+      </li>
+      <li>in your route handler for <code>GET</code> requests on <code>/</code>&#8230;</li>
+      <li>double check the template - make sure that your <strong>second form, the POST form to create meal recommendations</strong>  has:
+        <ul>
+          <li>two text inputs, one with <code class="highlighter-rouge">name</code> of <code class="highlighter-rouge">name</code> and the other with a <code class="highlighter-rouge">name</code> of description</li>
+          <li><strong>radio buttons, each with a <code class="highlighter-rouge">name</code> of <code class="highlighter-rouge">category</code></strong></li>
+          <li>the values of the radio buttons should be <code class="highlighter-rouge">breakfast</code>, <code class="highlighter-rouge">lunch</code>, <code class="highlighter-rouge">dinner</code>, and <code class="highlighter-rouge">anytime</code></li>
+          <li>a submit button</li>
+          <li>the form&#39;s method should be <code>POST</code></li>
+          <li>the action should be empty string (which means it send a POST request to the current path, <code>"/"</code>)</li>
+        </ul>
+      </li>
+      <li>to handle the resulting POST request, new <code class="highlighter-rouge">route</code> that accepts posts
+        <ul>
+          <li>in your callback function for this route&#8230;</li>
+          <li>use the data in <code class="highlighter-rouge">req.body</code> to create a new meal recommendation</li>
+          <li>&#8230;after that, redirect back to <code>/</code> with a <code>GET</code> request</li>
+        </ul>
+      </li>
+      <li>the interaction on Chrome&#39;s web developer tools&#39; networking tab should look something like this:
+        <ol>
+          <li><code>GET / </code> to display the form initially</li>
+          <li><code class="highlighter-rouge">POST</code> the form</li>
+          <li><code class="highlighter-rouge">GET</code> the original form again</li>
+        </ol>
+      </li>
+      <li>(2 and 3 happen right after you press the submit button). The entire interaction should look like this:</li>
+    </ul>
+
+    <p><img src="../resources/img/hw04-foodz-03-add.gif" alt="add" /></p>
+
+  </div>
+
+</div>
+
+:ET

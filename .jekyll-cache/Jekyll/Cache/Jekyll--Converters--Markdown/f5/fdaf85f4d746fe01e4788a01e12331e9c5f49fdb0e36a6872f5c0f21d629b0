@@ -1,0 +1,871 @@
+I"¯s<section class="intro-slide">
+  <h1 id="prototypes">Prototypes</h1>
+
+  <h3 id="csci-ua0480-001">CSCI-UA.0480-001</h3>
+
+  <p><small></small></p>
+</section>
+
+<section>
+  <h2 id="where-did-we-leave-off">Where did we Leave Off?</h2>
+
+  <p>At a cliffhanger!</p>
+
+  <p class="fragment"><br />
+(Actually&#8230; doing some magic tricks)</p>
+</section>
+
+<section>
+  <h2 id="pulling-properties-out-of-thin-air">Pulling Properties Out of Thin Air!</h2>
+
+  <p><strong>Let&#39;s check out this code.</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+// an empty object
+const hat = {}; 
+
+// printing out a properties
+console.log(hat.toString);
+
+// calling a method
+console.log(hat.toString());
+</code></pre>
+
+  <ul>
+    <li><strong>Have we defined any properties on the object, <code>hat</code>, yet?</strong> &#8594;</li>
+    <li><strong>What do we expect the output to be?</strong> &#8594;</li>
+  </ul>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+[function: toString]
+[object object]
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="so-where-did-those-properties-come-from">So Where Did Those Properties Come From?</h2>
+
+  <pre><code data-trim="" contenteditable="">
+const hat = {}; 
+console.log(hat.toString); // a function
+console.log(hat.toString()); // returns object
+</code></pre>
+
+  <div class="img">
+    <p><img src="../../resources/img/rabbit-hat.gif" alt="rabbit out of a hat" /></p>
+  </div>
+</section>
+
+<section>
+  <h2 id="inherited-properties">&quot;Inherited&quot; Properties</h2>
+
+  <p><strong>All objects have a link to another object that&#39;s called its <code>[[prototype]]</code></strong>.</p>
+
+  <ul>
+    <li>note that <code class="highlighter-rouge">[[prototype]]</code> means the concept, <em>prototype</em> not the actual syntax (confusingly, there are properties and objects in JavaScript that are named <code class="highlighter-rouge">prototype</code> but are not exactly the concept <code class="highlighter-rouge">[[prototype]]</code>)</li>
+    <li><strong>objects</strong> are basically just a <strong>collection of properties</strong></li>
+    <li>when an objects gets a request for a <strong>property that it doesn&#39;t have, the object&#39;s prototype is searched for that property</strong></li>
+    <li><code>[[prototype]]</code> objects have [[prototype]]s as well!</li>
+    <li>searching goes on <strong>up the chain of prototypes until</strong>
+      <ul>
+        <li class="fragment">the property is found</li>
+        <li class="fragment">an object with a <code>null</code> prototype is reached / the last object in the chain: <code>Object.prototype</code></li>
+      </ul>
+    </li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="objectprototype">Object.prototype</h2>
+
+  <p>The top level prototype is <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/prototype">Object.prototype</a>:</p>
+
+  <ul>
+    <li>all objects in JavaScript are descended from <code>Object</code></li>
+    <li>all objects inherit methods and properties from <code>Object.prototype</code></li>
+    <li><strong><code>Object.prototype</code>&#39;s [[prototype]] is <code>null</code></strong></li>
+  </ul>
+
+  <p><br />
+<strong>Let&#39;s do some exploring.</strong> &#8594;</p>
+
+  <ul>
+    <li>use <code>Object.getPrototypeOf(obj)</code></li>
+    <li>this gives back the [[prototype]] of the passed in object <code>obj</code>&#8230;</li>
+  </ul>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+console.log(
+	Object.getPrototypeOf({}) == Object.prototype);
+
+console.log(
+	Object.getPrototypeOf(Object.prototype)); 
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="objectprototype-continued">Object.prototype Continued</h2>
+
+  <p><code>Object.prototype</code> isn&#39;t always an object&#39;s direct [[prototype]]; instead, most objects have a [[prototype]] of another object</p>
+
+  <ul>
+    <li><strong>functions</strong> derive from <code>Function.prototype</code></li>
+    <li><strong>arrays</strong> derive from <code>Array.prototype</code></li>
+  </ul>
+
+  <p><br />
+<strong>Let&#39;s see what happens when we call <code>getPrototypeOf</code>.</strong> &#8594;</p>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+function f(x) { return x;}
+
+console.log(
+	Object.getPrototypeOf(f) == Function.prototype);
+
+console.log(
+	Object.getPrototypeOf([1, 2, 3]) == Array.prototype);
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="objectprototype-continued-some-more">Object.prototype Continued Some More</h2>
+
+  <p><strong>What do you think the [[prototype]] of Array.prototype is?</strong>&#8594;</p>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+console.log(
+	Object.getPrototypeOf(Array.prototype) == Object.prototype);
+</code></pre>
+
+  <ul class="fragment">
+    <li><strong><code>Object.prototype</code></strong> is at the top of the prototype chain (it&#39;s the last object checked for properties)</li>
+    <li>it provides a bunch of <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/prototype#Methods">methods</a> and <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/prototype#Methods">properties</a> to all JavaScript objects
+      <ul>
+        <li><strong><code>toString()</code></strong></li>
+        <li><strong><code>hasOwnProperty()</code></strong> (we&#39;ve seen this before!)</li>
+      </ul>
+    </li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="using-objectcreate">Using <code>Object.create</code></h2>
+
+  <p><strong><code>Object.create</code></strong> - creates a new object with the specified [[prototype]] object and properties</p>
+
+  <pre><code data-trim="" contenteditable="">
+// our "template" object
+const protoWerewolf = { 
+	description: 'hairy', 
+	howl: function(thing) {
+		console.log('The werewolf howls at the ' + thing + '.');
+	}
+};
+
+// make a new werewolf with Object.create
+const sadWerewolf = Object.create(protoWerewolf);
+sadWerewolf.mood = 'sullen';
+sadWerewolf.howl('moon');
+</code></pre>
+
+  <p>(It turns out, for inheritance, it&#39;s common to use Object.create(MyObj.prototype) &#8230; we&#39;ll see why later)</p>
+</section>
+
+<section>
+  <h2 id="constructors">Constructors</h2>
+
+  <p>Another way to create an object with a particular prototype is to use a <strong>constructor</strong>.</p>
+
+  <ul>
+    <li>a <strong>constructor</strong> is basically just a function with the <strong><code>new</code></strong> keyword in front of it
+      <ul>
+        <li>it&#39;s a convention to make the first letter of a constructor uppercase</li>
+        <li>this helps distinguish between regular functions and constructors</li>
+      </ul>
+    </li>
+    <li>an <strong>instance</strong> is an object created by using <strong><code>new</code></strong></li>
+    <li>a constructor&#39;s <strong><code>this</code></strong> object is bound to a <strong>fresh, empty object</strong></li>
+    <li>this is the object that&#39;s returned from invoking the constructor with <code>new</code> (unless the constructor explicitly returns a different object)</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="constructors-continued">Constructors Continued</h2>
+
+  <p>In the code below, both <code>sadWerewolf</code> and <code>partyWerewolf</code> are <strong>instances</strong> of <code>Werewolf</code>. Note that:</p>
+
+  <ul>
+    <li>a property is added to the constructor&#39;s <code>this</code> object</li>
+    <li><code>this</code> is the object that&#39;s returned after calling <code>new Werewolf</code></li>
+  </ul>
+
+  <pre><code data-trim="" contenteditable="">
+function Werewolf(mood) {
+	this.mood = mood;
+}
+
+const sadWerewolf = new Werewolf('sad'); 
+const partyWerewolf = new Werewolf('partying'); 
+console.log(partyWerewolf.mood);
+</code></pre>
+
+  <p>You can think of the above constructor as doing the following when invoked with new&#8230;</p>
+
+  <pre><code data-trim="" contenteditable="">
+function Werewolf(mood) {
+    // this = {}
+	this.mood = mood;
+    // return this
+}
+</code></pre>
+  <p><strong>Let&#39;s try adding some more properties to <code>this</code>.</strong>&#8594;</p>
+
+</section>
+<section>
+  <h2 id="constructors-prototype">Constructors, Prototype</h2>
+
+  <p><strong>All constructors have a property named <code>prototype</code>.</strong></p>
+
+  <ul>
+    <li>the default value of a constructor&#39;s prototype is a plain, empty object that derives <code>from Object.prototype</code></li>
+    <li>every instance created with the constructor will have that object as its <em>actual</em> prototype</li>
+    <li>note that there&#39;s a difference between the constructor&#39;s prototype property that&#39;s used to set an instance&#39;s prototype versus the constructor&#39;s <em>actual</em> prototype&#8230; <strong>can you guess what that is?</strong> &#8594;<span class="fragment"><code>Function.prototype</code></span></li>
+    <li>for example, we could use a constructor&#39;s prototype to add a howl method on every instance of Werewolf</li>
+  </ul>
+
+  <pre><code data-trim="" contenteditable="">
+Werewolf.prototype.howl = function(thing) {
+	console.log('The werewolf howls at the ' + thing + '.');
+}
+sadWerewolf.howl('moon');
+partyWerewolf.howl('bowl of chips');
+</code></pre>
+</section>
+
+<section>
+  <h3 id="something-happened-just-one-prototype">Something Happened! Just one Prototype</h3>
+
+  <p>When we added a property to the constructor&#39;s prototype, something unusual happened!  <strong>How were the instances of that constructor affected?</strong> &#8594;</p>
+
+  <p class="fragment"><strong>The instances immediately had access to the new property</strong>, even though they were instantiated before the prototype was set.</p>
+
+  <ol>
+    <li class="fragment">all instances share that prototype object</li>
+    <li class="fragment">so&#8230; when a property is looked up on any of those instances and isn&#39;t found</li>
+    <li class="fragment">it looks at that shared prototype object</li>
+    <li class="fragment">it&#39;s typical for a prototype object to only contain methods</li>
+  </ol>
+</section>
+
+<section>
+  <h2 id="searching-for-a-property">Searching for a Property</h2>
+
+  <p><strong>When a property is requested from an object, where are the places that the property is searched for?</strong></p>
+
+  <ul class="fragment">
+    <li>the object itself</li>
+    <li>the object&#39;s prototype</li>
+    <li>the object&#39;s prototype&#39;s prototype</li>
+    <li>and so on up the prototype chain up until <code>Object.prototype</code></li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="overriding-properties">Overriding Properties</h2>
+
+  <p>If you add a property directly to an object, it is added to the object <em>itself</em>, not the object&#39;s prototype. <strong>What&#39;s the output of the following code?</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+Werewolf.prototype.clothing = 'tattered shirt';
+console.log(partyWerewolf.clothing);
+
+partyWerewolf.clothing = 'backwards cap';
+
+console.log(partyWerewolf.clothing);
+console.log(sadWerewolf.clothing);
+</code></pre>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+tattered shirt
+backwards cap
+tattered shirt
+</code></pre>
+
+</section>
+<section>
+  <h2 id="overriding-properties-continued">Overriding Properties Continued</h2>
+
+  <p><strong>Again, when you add a property to an object, that property is added to the object itself&#8230;</strong></p>
+
+  <ul>
+    <li>(not the prototype)</li>
+    <li>this happens regardless of whether or not there&#39;s already a property with the same name in the prototype</li>
+    <li>if there is a property with the same name in the prototype, it is <em>masked</em> or <strong>overridden</strong> by the new property</li>
+    <li><strong>note that the prototype itself is not changed</strong></li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="where-did-those-properties-come-from">Where Did Those Properties Come From?</h2>
+
+  <p><strong>Let&#39;s break down all of the properties of our <code>partyWerewolf</code> object and determine where they came from</strong> &#8594;</p>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+partyWerewolf properties
+=====
+</code></pre>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+from partyWerewolf object
+-----
+clothing: backwards cap  
+mood: partying 
+</code></pre>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+from Werewolf.prototype
+-----
+clothing: tattered shirt (masked)
+howl: (function)
+</code></pre>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+from Object
+-----
+toString: (function)
+etc.
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="overriding-properties-1">Overriding Properties</h2>
+
+  <p><strong>Why would overriding properties be useful?</strong> &#8594;</p>
+
+  <ul class="fragment">
+    <li>it allows for convenient way of dealing with objects that have exceptional properties (without having to create an entirely new constructor)</li>
+    <li>while still allowing a default property to be set for all instances</li>
+    <li><strong>let&#39;s override the inherited <code>toString()</code> method</strong> &#8594;
+      <ul>
+        <li>the string representation of the werewolf object should be <code>[mood] werewolf</code></li>
+      </ul>
+    </li>
+  </ul>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+console.log(partyWerewolf);
+Werewolf.prototype.toString = function() {
+	return this.mood + ' werewolf';
+};
+console.log(partyWerewolf + '');
+</code></pre>
+</section>
+
+<section>
+  <h2 id="common-pattern-for-inheritance">Common Pattern for Inheritance</h2>
+
+  <p><strong>A common pattern for implementing inheritance is to:</strong> &#8594;</p>
+
+  <ul>
+    <li>use a fresh object that has the prototype set to the parent constructor&#39;s prototype property (WAT?)</li>
+    <li>as the child constructor&#39;s prototype property</li>
+    <li>&#8230; which can be done with <code>Object.create</code></li>
+  </ul>
+
+  <p>Using our parent constructor, <code>Werewolf</code></p>
+
+  <pre><code data-trim="" contenteditable="">
+function Werewolf(mood) {
+    this.mood = mood;
+}
+Werewolf.prototype.howl = function(thing) {
+	console.log('The werewolf howls at the ' + thing + '.');
+}
+</code></pre>
+
+  <p>Create a constructor for a space werewolf (!!!) by setting its prototype to a new object who&#39;s prototype is <code>Werewolf.prototype</code></p>
+  <pre><code data-trim="" contenteditable="">
+function SpaceWerewolf() {}
+SpaceWerewolf.prototype = Object.create(Werewolf.prototype);
+</code></pre>
+
+  <p><strong>This isn&#39;t quite complete, though.</strong> &#8594;</p>
+</section>
+
+<section>
+  <h2 id="inheritance-continued">Inheritance Continued</h2>
+
+  <p><strong>In the previous implementation, there&#39;s actually some stuff missing when we create a <code>SpaceWerewolf</code>.  What&#39;s missing from the previous implementation that results in incomplete inheritance?</strong> &#8594;</p>
+
+  <ul>
+    <li class="fragment">the prototype only contains methods</li>
+    <li class="fragment">what about properties set from the constructor (like <code>mood</code>)?</li>
+  </ul>
+
+  <p><br /></p>
+  <pre class="fragment"><code data-trim="" contenteditable="">
+const w = new SpaceWerewolf();
+console.log(mood)
+</code></pre>
+</section>
+
+<section>
+  <h2 id="calling-super">Calling Super</h2>
+
+  <p>Hm. The constructor, <code>Werewolf</code>, sets the property, <code>mood</code>&#8230;</p>
+
+  <ul>
+    <li>if only we can execute the parent constructor (you know&#8230; like call <code>super</code> in Java).</li>
+    <li><strong>but we can, how?</strong> &#8594;</li>
+    <li class="fragment">use <code>call</code></li>
+  </ul>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+function SpaceWerewolf(mood) {
+    Werewolf.call(this, mood);
+}
+</code></pre>
+</section>
+
+<section>
+  <h2 id="one-last-detail-constructor-property">One Last Detail, Constructor Property</h2>
+
+  <p>All object&#39;s have a property named <code>constructor</code>. <strong><code>constructor</code></strong> is the function that was used to create the instance&#39;s prototype.</p>
+
+  <pre><code data-trim="" contenteditable="">
+const a = [];
+console.log(a.constructor); // [Function: Array] 
+</code></pre>
+
+  <p>So we should probably set that on our child constructor&#39;s prototype property explicitly so that all objects created from <code>SpaceWerewolf</code> have that as its constructor.</p>
+
+  <pre><code data-trim="" contenteditable="">
+SpaceWerewolf.prototype.constructor = SpaceWerewolf;
+</code></pre>
+</section>
+
+<section>
+  <h2 id="all-together">All Together</h2>
+
+  <pre><code data-trim="" contenteditable="">
+function Werewolf(mood) {
+    this.mood = mood;
+}
+Werewolf.prototype.howl = function(thing) {
+	console.log('The werewolf howls at the ' + thing + '.');
+}
+</code></pre>
+
+  <pre><code data-trim="" contenteditable="">
+function SpaceWerewolf(mood) {
+    Werewolf.call(this, mood);
+}
+SpaceWerewolf.prototype = Object.create(Werewolf.prototype);
+SpaceWerewolf.prototype.constructor = SpaceWerewolf;
+
+const w = new SpaceWerewolf('in space');
+console.log(w.mood);
+console.log(w.constructor);
+</code></pre>
+
+</section>
+<section>
+  <h2 id="prototype-an-example">Prototype: An Example</h2>
+
+  <p><strong>Check out the following example&#8230;</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+function Monster() {
+	this.scary = true;
+}
+
+Monster.prototype.boo = function() { console.log('Boo!');}
+</code></pre>
+
+  <pre><code data-trim="" contenteditable="">
+function Werewolf(mood) {
+    Monster.call(this);
+	this.mood = mood;	
+}
+
+Werewolf.prototype = Object.create(Monster.prototype);
+Werewolf.prototype.constructor = Werewolf;
+</code></pre>
+
+  <pre><code data-trim="" contenteditable="">
+Werewolf.prototype.howl = function(thing) {
+	console.log('The werewolf howls at the ' + thing + '.');
+}
+</code></pre>
+</section>
+
+<section>
+  <h2 id="example-continued">Example Continued</h2>
+
+  <p><strong>What would the output be if the following code were run&#8230;</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+const sadWerewolf = new Werewolf('sad');
+const partyWerewolf = new Werewolf('partying');
+partyWerewolf.scary = false;
+
+console.log(sadWerewolf.scary);
+console.log(partyWerewolf.scary);
+partyWerewolf.boo();
+</code></pre>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+true
+false
+Boo!
+</code></pre>
+
+  <p class="fragment">Some notes on the example:</p>
+
+  <ul>
+    <li class="fragment">to inherit properties from Monster&#8230;
+      <ul>
+        <li class="fragment">we set our Werewolf constructor&#39;s prototype to a fresh object with <code>Monster.prototype</code> as the prototype</li>
+        <li class="fragment">we called the &quot;super&quot; constructor</li>
+      </ul>
+    </li>
+    <li class="fragment"><code>const sadWerewolf = new Werewolf('sad'); </code></li>
+    <li class="fragment">&#8230;which is why scary was found in the prototype chain for <code>sadWerewolf</code></li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="enumerating-properties-revisited">Enumerating Properties Revisited</h2>
+
+  <p><strong>How do we list every property in an object?</strong> &#8594;</p>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+for (const prop in obj) {
+	console.log(prop)
+}
+</code></pre>
+
+  <p class="fragment"><strong>Let&#39;s list every property and value in <code>partyWerewolf</code> and <code>sadWerewolf</code>.</strong> &#8594;</p>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+for (const p in partyWerewolf) {
+	console.log(p + ': ' + partyWerewolf[p]);
+}
+for (const p in sadWerewolf) {
+	console.log(p + ': ' + sadWerewolf[p]);
+}
+</code></pre>
+</section>
+
+<section>
+  <h2 id="own-property">Own Property</h2>
+
+  <p><strong>What if we only want the properties that were explicitly set on our object, rather than including inherited ones.</strong> &#8594;</p>
+
+  <p class="fragment">We could use the <code>hasOwnProperty</code> method that every object inherits from <code>Object.prototype</code>!</p>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+console.log('party\n-----');
+for (const p in partyWerewolf) {
+	if (partyWerewolf.hasOwnProperty(p)) {
+		console.log(p + ': ' + partyWerewolf[p]);
+	}
+}
+console.log('\n');
+
+console.log('sad\n-----');
+for (const p in sadWerewolf) {
+	if (sadWerewolf.hasOwnProperty(p)) {
+		console.log(p + ': ' + sadWerewolf[p]);
+	}
+}
+</code></pre>
+</section>
+
+<section>
+  <h2 id="what-instance-do-i-have">What Instance do I Have?</h2>
+
+  <p>If you have an object, and you&#39;d like to know what constructor it came from, you can use the <strong><code>instanceof</code></strong> operator.</p>
+
+  <ul>
+    <li>instance on left</li>
+    <li>constructor on right</li>
+  </ul>
+
+  <p><strong>What do you think the following code will print out?</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+console.log(myCar instanceof Car);
+console.log(myCar instanceof Bike);
+</code></pre>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+true
+false
+</code></pre>
+
+  <p class="fragment">(in <em>actuality</em> instance of checks if an object has in its prototype chain the prototype property of a constructor)</p>
+</section>
+
+<section>
+  <h2 id="about-prototype-and-this">About prototype and this</h2>
+
+  <p>There are two ways to set properties automatically when using a constructor. <strong>What are they?</strong> &#8594;</p>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+function Thing() {
+	this.prop1 = 'some value';
+}
+
+Thing.prototype.prop2 = 'another value';
+</code></pre>
+
+  <ul class="fragment">
+    <li>generally, you would use the prototype method if you only want one version of that object to exist</li>
+    <li>see the <a href="http://stackoverflow.com/questions/422476/setting-methods-through-prototype-object-or-in-constructor-difference">SO article</a>.</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="about-creating-objects">About Creating Objects</h2>
+
+  <p><strong>There are a few ways to create objects&#8230; what are they?</strong> &#8594;</p>
+
+  <ul class="fragment">
+    <li>object literal - <code>{}</code></li>
+    <li>Object.create</li>
+    <li>new</li>
+  </ul>
+
+  <p class="fragment"><br />
+<code>Object.create</code> seems to be gaining some traction.</p>
+
+</section>
+<section>
+  <h2 id="a-few-things-to-remember">A Few Things to Remember</h2>
+
+  <p><strong>What object is at the top of the prototype chain?</strong> &#8594;</p>
+
+  <p class="fragment"><code>Object.prototype</code> is at the top of the prototype chain</p>
+
+  <p><strong>What is <code>Object.prototype</code>&#39;s prototype?</strong> &#8594;</p>
+
+  <p class="fragment">Its prototype is null.</p>
+
+  <p><strong>What are some properties that are inherited from <code>Object.prototype</code>?</strong> &#8594;</p>
+
+  <p class="fragment">toString, hasPropertyOf</p>
+
+</section>
+<section>
+  <h2 id="and-some-more-questions">And Some More Questions</h2>
+
+  <p><strong>What does the <code>hasOwnProperty</code> method do?</strong> &#8594;</p>
+
+  <p class="fragment">return <code>true</code> if property was set on actual object rather than inherited</p>
+
+  <p><strong>What does the <code>instanceof</code> operator do?</strong> &#8594;</p>
+
+  <p class="fragment">It determines whether the operand on the left is an instance of the operand on the right.</p>
+</section>
+
+<section>
+  <h2 id="es6-classes">ES6 Classes</h2>
+
+  <p>In ES6, there&#39;s yet another way to create a prototype chain of objects, and that&#39;s using a <em>familiar</em> construct, <strong>classes</strong>.</p>
+
+  <ul>
+    <li>they&#39;re syntactic sugar for creating constructor functions and a prototype object with methods</li>
+    <li>(in actuality, everything is still prototypes and constructor functions)</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="example-es6-class">Example ES6 Class</h2>
+
+  <p><strong>These two bits of code both produce a function called <code class="highlighter-rouge">HttpRequest</code>!</strong> &#8594;</p>
+
+  <p>ES6 class:</p>
+
+  <pre><code data-trim="" contenteditable="">
+class HttpRequest {
+}
+</code></pre>
+
+  <p>ES5 constructor:</p>
+
+  <pre><code data-trim="" contenteditable="">
+function HttpRequest() {
+}
+</code></pre>
+
+  <p>Both result in the same output when used in the following manner:</p>
+
+  <pre><code data-trim="" contenteditable="">
+const req = new HttpRequest();
+console.log(HttpRequest);
+console.log(typeof req.constructor);
+console.log(req.constructor.name);
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="constructors-1">Constructors</h2>
+
+  <p>ES6 style classes allow for a constructor to be defined as follows:</p>
+
+  <ul>
+    <li>within the class definition, create a function called constructor</li>
+    <li>no function keyword is required</li>
+    <li>the constructor has access to <code class="highlighter-rouge">this</code> which represents the instance that is created</li>
+  </ul>
+
+  <p><br /></p>
+  <pre><code data-trim="" contenteditable="">
+class HttpRequest {
+    constructor(method, url) {
+        this.method = method;
+        this.url = url;
+    }
+}
+</code></pre>
+
+  <p>The above code is <em>mostly</em> the same as this ES5 function that can be used as a constructor:</p>
+
+  <pre><code data-trim="" contenteditable="">
+function HttpRequest(method, url) {
+   this.method = method;
+   this.url = url;
+}
+</code></pre>
+
+  <p>We&#39;ll see later that subclass constructors must call super before using <code class="highlighter-rouge">this</code>.</p>
+</section>
+
+<section>
+  <h2 id="methods-in-es5">Methods in ES5</h2>
+
+  <p><strong>In ES5, to add a method to the prototype, we&#39;d have to do something like this:</strong>&#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+function HttpRequest(method, url) {
+   this.method = method;
+   this.url = url;
+}
+</code></pre>
+
+  <pre><code data-trim="" contenteditable="">
+HttpRequest.prototype.makeRequest = function() {
+    return this.method + ' ' + this.url + ' HTTP/1.1';
+}
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="methods-in-es6">Methods in ES6</h2>
+
+  <p><strong>In ES6, we can define methods directly in the class definition, and they will show up in the instances&#39; prototype</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+class HttpRequest {
+  constructor(method, url) {
+    this.method = method;
+    this.url = url;
+  }
+
+  makeRequest() {
+    return this.method + ' ' + this.url + ' HTTP/1.1';
+  }
+}
+</code></pre>
+
+  <ul>
+    <li>note that there are no commas between method and constructor definitions</li>
+    <li>again, you do not have to use the keyword, <code class="highlighter-rouge">function</code></li>
+    <li>methods, of course, can reference <code class="highlighter-rouge">this</code>, and if the method is called within the context of an instance, then <code class="highlighter-rouge">this</code> refers to the instance</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="es6-methods-continued">ES6 Methods Continued</h2>
+
+  <p><strong>Note that creating these methods in ES6 style classes is <em>actually</em> just adding to the prototype!</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+const req = new HttpRequest('GET', 'http://foo.bar/baz');
+console.log(req.makeRequest());
+console.log(Object.getPrototypeOf(req).makeRequest);
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="inheritance">Inheritance</h2>
+
+  <p><strong>Use <code class="highlighter-rouge">extends</code> to inherit from a class!</strong> (read: set up a prototype chain)</p>
+
+  <pre><code data-trim="" contenteditable="">
+class Element {
+    constructor(name) {
+        this.name = name; 
+    }
+}
+</code></pre>
+
+  <pre><code data-trim="" contenteditable="">
+class ImgElement extends Element {
+    // make sure to call super before using this
+    // within subclass
+    constructor(url) {
+        super('img');
+        this.url = url;
+    }
+}
+</code></pre>
+
+  <pre><code data-trim="" contenteditable="">
+const img = new ImgElement('http://foo.bar/baz.gif');
+console.log(img.name);
+console.log(img.url);
+</code></pre>
+</section>
+
+<section>
+  <h2 id="calling-super-constructor">Calling Super Constructor</h2>
+
+  <p><strong>In the previous example, <code class="highlighter-rouge">super</code> was used to call the base class constructor.</strong> &#8594;</p>
+
+  <ul>
+    <li class="fragment"><code class="highlighter-rouge">super</code> must be called in your subclass constructor if&#8230;</li>
+    <li class="fragment">you use <code class="highlighter-rouge">this</code> within your constructor</li>
+    <li class="fragment">(it&#39;s essentially initializing <code class="highlighter-rouge">this</code> properties the way that the superclass would</li>
+    <li class="fragment"><strong><code class="highlighter-rouge">super</code> must be called before using this within a subclass</strong></li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="high-level-summary">High Level Summary</h2>
+
+  <p><strong>Every object in JavaScript links to another object called its [[prototype]].</strong> &#8594;</p>
+
+  <ul>
+    <li>when a property cannot be found in the original object, it goes up the prototype chain</li>
+    <li>objects can be given prototypes in 3 ways:
+      <ol>
+        <li class="fragment"><code class="highlighter-rouge">Object.create</code></li>
+        <li class="fragment">constructor functions</li>
+        <li class="fragment">ES6 Classes</li>
+        <li class="fragment">(there&#39;s also something called <code class="highlighter-rouge">__proto__</code> that allows direct access to a [[prototype]], but its use is discouraged)</li>
+      </ol>
+    </li>
+  </ul>
+</section>
+:ET

@@ -1,0 +1,117 @@
+I"…<section class="intro-slide">
+  <h1 id="deployment">Deployment</h1>
+
+  <h3 id="csci-ua0480-001">CSCI-UA.0480-001</h3>
+
+  <p><small></small></p>
+</section>
+
+<section>
+  <h2 id="deployment-1">Deployment</h2>
+
+  <p>For most projects, we can use the CS department&#39;s undergraduate projects server, i6, to deploy our applications.</p>
+
+  <p>However&#8230; we&#39;ll need to familiarize ourselves with a few tools to get started:</p>
+
+  <ul>
+    <li>ssh</li>
+    <li>forever</li>
+    <li>mongod</li>
+    <li>scp or sftp &#8230; or git</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="ssh">ssh</h2>
+
+  <p>ssh gives you remote terminal access to a server. You can issue commands on the server as you would commands in terminal on your computer!</p>
+
+  <pre><code data-trim="" contenteditable="">
+ssh username@hostname
+</code></pre>
+
+  <p>(then you can edit files directly&#8230; using nano, emacs or, of course, vim!)</p>
+</section>
+
+<section>
+  <h2 id="forever">forever</h2>
+
+  <p>Forever will keep your node process up and running.</p>
+
+  <pre><code data-trim="" contenteditable="">
+# starting your app
+export PORT=10000; node_modules/.bin/forever start my_project/bin/www
+
+# stopping your app
+node_modules/.bin/forever stopall
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="mongo">Mongo</h2>
+
+  <p>So&#8230; to run mongo as a demon, and with a specific db directory:</p>
+
+  <pre><code data-trim="" contenteditable="">
+mongod --fork --logpath var/log/mongodb.log --dbpath db/data
+</code></pre>
+
+  <p>To shut down</p>
+
+  <pre><code data-trim="" contenteditable="">
+mongod --dbpath db/data --shutdown
+</code></pre>
+</section>
+
+<section>
+  <h2 id="finding-and-killing-processes">Finding and Killing Processes</h2>
+
+  <pre><code data-trim="" contenteditable="">
+ps aux | grep process_you_want_to_find
+kill process_id
+</code></pre>
+
+</section>
+<section>
+  <h2 id="scp">scp</h2>
+
+  <p>scp allows you to copy a file from your local machine to a remote computer.</p>
+
+  <pre><code data-trim="" contenteditable="">
+scp file.to.copy username@hostname:/path/to/copy/to
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="sftp">sftp</h2>
+
+  <p>sftp is a commandline sftp client. Typing in</p>
+
+  <pre><code data-trim="" contenteditable="">
+sftp username@hostname
+</code></pre>
+
+  <p>will give you <strong>yet another shell</strong>, where you can issue commands like:</p>
+
+  <ul>
+    <li><strong>ls</strong> - list files (same as usual)</li>
+    <li><strong>pwd</strong> - print working directory (same as usual)</li>
+    <li><strong>cd</strong> - change directory (same as usual)</li>
+    <li><strong>put</strong> - copy a local file to remote server</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="you-can-use-all-of-these-methods-to-transfer-files">You Can Use All of These Methods to Transfer Files</h2>
+
+  <p>If you&#39;re running Apache on Debian, you can drop your files in &#8230;</p>
+
+  <pre><code data-trim="" contenteditable="">
+/var/www
+</code></pre>
+
+</section>
+:ET

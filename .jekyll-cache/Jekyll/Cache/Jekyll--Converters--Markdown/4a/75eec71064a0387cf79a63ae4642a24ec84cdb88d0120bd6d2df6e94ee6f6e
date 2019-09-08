@@ -1,0 +1,451 @@
+I"Ô6<section class="intro-slide">
+  <h1 id="react-basics">React Basics</h1>
+
+  <h3 id="csci-ua0480-001">CSCI-UA.0480-001</h3>
+
+  <p><small></small></p>
+</section>
+
+<section>
+  <h2 id="react">React</h2>
+
+  <p><strong>React</strong>, by itself, is a library for generating the user interface of an application.</p>
+
+  <ul>
+    <li>it&#39;s essentially the <strong>view</strong> in an MVC app</li>
+    <li>it provides an API for creating and rendering reusable view components
+      <ul>
+        <li>including state management</li>
+        <li>&#8230;and event handling</li>
+      </ul>
+    </li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="react-again">React (Again)</h2>
+
+  <p><strong>What did all of that mean?</strong> What functionality does React actually give us? It&#39;s actually pretty similar to what we&#39;ve been doing with vanilla client side JavaScript:</p>
+
+  <ul>
+    <li>manipulate the DOM (well, indirectly, via a <em>virtual DOM</em>)</li>
+    <li>work with events</li>
+    <li>changing the DOM based on <em>state</em></li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="getting-started">Getting Started</h2>
+
+  <p>We can use jsbin or codepen to learn the React API.</p>
+
+  <ul>
+    <li>for <strong>codepen</strong>:
+      <ul>
+        <li>set <strong>Babel</strong> as the JavaScript preprocessor</li>
+        <li>add the <strong>react library</strong> as external JavaScript</li>
+        <li>add the <strong>react DOM library</strong> as external JavaScript</li>
+      </ul>
+    </li>
+    <li>for <strong>jsbin</strong>:
+      <ul>
+        <li>use <strong>Add Library</strong> to add react</li>
+        <li>select <strong>JSX (React)</strong> in the JavaScript drop down</li>
+      </ul>
+    </li>
+  </ul>
+
+  <p>From there, you can use the <code>React</code> object in your JavaScript as <strong>your entry point to the React API</strong>.</p>
+</section>
+
+<section>
+  <h2 id="render-an-element">Render an Element</h2>
+
+  <p>First&#8230; let&#39;s try something that should look really familiar. <strong>What do you think this code will do?</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+ReactDOM.render(
+    React.createElement('div', {className: 'foo'}, 'Hey... familiar!'), 
+	document.body
+);
+</code></pre>
+
+  <ul>
+    <li class="fragment">create a div with class=&quot;foo&quot;</li>
+    <li class="fragment">the div will have &quot;Hey&#8230; familiar!&quot; as text content</li>
+    <li class="fragment">&#8230;and the whole div will be <em>rendered</em> into the body (react components are usually rendered into another containing element, not just document.body)</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="a-bit-more-about-createelement-and-render">A Bit More About createElement and render</h2>
+
+  <p><code>React.createElement</code>:</p>
+
+  <ul>
+    <li>first parameter&#8230; element that you want to create as a string</li>
+    <li>second parameter&#8230; its attributes (note <code class="highlighter-rouge">className</code> instead of <code class="highlighter-rouge">class</code>)</li>
+    <li>third parameter&#8230; its text content</li>
+    <li>it&#39;ll return a <strong>ReactElement</strong> object</li>
+  </ul>
+
+  <p><br />
+<code>ReactDOM.render</code></p>
+
+  <ul>
+    <li>first parameter&#8230; element</li>
+    <li>second parameter&#8230; insertion point (where to add element as a child)</li>
+  </ul>
+</section>
+<section>
+  <h2 id="another-way-to-render-an-element">Another Way to Render an Element</h2>
+
+  <p><strong>Let&#39;s try this&#8230;</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+ReactDOM.render(
+	<div classname="foo">Um, whut?</div>, 
+	document.body
+);
+</code></pre>
+</section>
+
+<section>
+  <h2 id="another-way-explained">Another Way Explained&#8230;.</h2>
+
+  <p><strong>What looks strange about this code?</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+ReactDOM.render(
+	<div classname="foo">Um, whut?</div>, 
+	document.body
+);
+</code></pre>
+
+  <p class="fragment">It looks like there&#39;s an unquoted string of markup in the JavaScript!</p>
+
+</section>
+
+<section>
+  <h2 id="jsx">JSX</h2>
+
+  <p>JSX is an extension to JavaScript syntax that allows <em>XML-like</em> syntax without all of the fussy quoting!</p>
+
+  <ul>
+    <li>JSX is not a templating language</li>
+    <li>you can think of it as a preprocessor
+      <ul>
+        <li>it takes in JavaScript with JSX syntax</li>
+        <li>and <em>compiles</em> JSX to plain vanilla JavaScript</li>
+      </ul>
+    </li>
+    <li>you don&#39;t <em>have</em> to use JSX with React, but it seems to be a common practice</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="jsx-continued">JSX Continued</h2>
+
+  <p>So that means&#8230; this JSX</p>
+
+  <pre><code data-trim="" contenteditable="">
+<div classname="foo">Um, whut?</div>
+</code></pre>
+
+  <p>&#8230;is equivalent to this vanilla JavaScript</p>
+
+  <pre><code data-trim="" contenteditable="">
+React.createElement('div', {className: 'foo'}, 'Um, whut?'), 
+</code></pre>
+
+  <p>They both produce a ReactElement!</p>
+</section>
+
+<section>
+  <h2 id="why-jsx">Why JSX</h2>
+
+  <p>Er. Didn&#39;t we spend half of the semester separating our HTML from JavaScript? <strong>Why is JSX the standard? Did the react devs pull a prank on us?</strong> &#8594;</p>
+
+  <ul>
+    <li class="fragment">mainly because it&#39;s <em>familiar</em> (no need to remember another API)</li>
+    <li class="fragment">it <em>can</em> be more concise than using the regular API (less code!)</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="components">Components</h2>
+
+  <p>You can bundle elements together into a single component. <strong>Here&#39;s an example.</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+var MyComponent = React.createClass({
+  render: function() {
+    return (
+      <div> <h1>A Message</h1>{this.props.message}</div>
+    );
+  }
+});
+</code></pre>
+
+  <pre><code data-trim="" contenteditable="">
+ReactDOM.render(
+  &lt;MyComponent message="Hi there!" &#47;&gt;,
+  document.getElementById('root');
+);
+// assuming element with id="root"
+</code></pre>
+</section>
+
+<section>
+  <h2 id="alternatives-for-defining-components">Alternatives for Defining Components</h2>
+
+  <p><strong>Using shorthand method definitions:</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+const MyComponent = React.createClass({
+    render() {
+        return(
+            <div><h1>A Message</h1>{this.props.message}</div>
+        );
+    }
+});
+</code></pre>
+</section>
+
+<section>
+  <h2 id="using-es6-classes">Using ES6 Classes</h2>
+
+  <p>You can also use ES6 classes to create components by <strong>extending <code class="highlighter-rouge">React.Component</code></strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+class MyComponent extends React.Component {
+    render() {
+        return (
+            <div><h1>A Message</h1>{this.props.message}</div>
+        );
+    }
+}
+</code></pre>
+</section>
+
+<section>
+  <h2 id="components-and-props">Components and Props</h2>
+
+  <p>To make a component, use <code>React.createClass</code>, which takes an object as a parameter.</p>
+
+  <ul>
+    <li>you must define a render property in the object, and that property should be a function that returns/generates elements</li>
+    <li>note that a component variable must start with uppercase</li>
+    <li>once you have a component, you can pass it to render using JSX, with the variable name as the tag name</li>
+    <li>you can access attributes defined in JSX via <strong>this.props</strong> in your component</li>
+    <li>use curly braces to add the result of a javascript expression into JSX</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="too-many-greetings">Too Many Greetings</h2>
+
+  <p><strong>Let&#39;s try to create a component that&#8230;</strong> &#8594;</p>
+
+  <ul>
+    <li>displays &quot;hello&quot; some number of times in a div</li>
+    <li>however, when creating the component with JSX, you can add an attribute called times that will specify the number of times &quot;hello&quot; should be repeated in the div</li>
+  </ul>
+
+  <p><br />
+For example&#8230; rendering&#8230;</p>
+
+  <pre><code data-trim="" contenteditable="">
+&lt;MyComponent times="5" &#47;&gt;,
+</code></pre>
+
+  <p>Gives us</p>
+  <pre><code data-trim="" contenteditable="">
+<div>hello hello hello hello hello</div>
+</code></pre>
+</section>
+
+<section>
+  <h2 id="too-many-greetings-1">Too Many Greetings</h2>
+
+  <pre><code data-trim="" contenteditable="">
+const MyComponent = React.createClass({
+  render: function() {
+    var text = "";
+    for(var i = 0; i &lt; this.props.times; i++) {
+      text += "hello ";
+    }
+    return (
+      <div> {text} </div>
+    )
+  }
+});
+</code></pre>
+
+  <pre><code data-trim="" contenteditable="">
+ReactDOM.render(
+  &lt;MyComponent times="5" &#47;&gt;,
+  document.body
+);
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="a-bit-about-looping">A Bit About Looping</h2>
+
+  <p><strong>What if we wanted to surround our hello with markup and add a number?</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+const Greeting = React.createClass({
+  render: function() {
+    const paragraphs = [];
+    for(let i = 0; i &lt; this.props.times; i++) {
+      paragraphs.push(&lt;p key={i} &gt;hello {i}&lt;/p&gt;);
+    }
+    return (
+      <div> {paragraphs} </div>
+    );
+  }
+});
+</code></pre>
+
+  <ul>
+    <li>it turns out that you can render a list of elements (but you have to wrap it in a containing single element)</li>
+    <li>in the example above, we generate a few paragraph elements</li>
+    <li>a render a div that contains all of those elements by dropping the Array in curly braces</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="using-map">Using Map</h2>
+
+  <p><strong>It&#39;s also pretty common to use map to generate elements.</strong> &#8594;</p>
+
+  <ul>
+    <li>in the example below&#8230;</li>
+    <li>map creates an Array of paragraph elements</li>
+    <li>that is nested within a div</li>
+  </ul>
+
+  <p><br /></p>
+
+  <pre><code data-trim="" contenteditable="">
+const Greeting = React.createClass({
+  render: function() {
+    const greetings = ['hi', 'hello', 'hola'];
+    const greetingElements = greetings.map((g, i) =&gt; {
+        &lt;p key={i}&gt;{g}&lt;/p&gt;
+    });
+    return (
+      <div>
+        {greetingElements}
+      </div>
+    );
+  }
+});
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="keys">Keys</h2>
+
+  <p><strong>Hey - did you notice that weird key attribute in both examples in the previous slides?</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+for(let i = 0; i &lt; this.props.times; i++) {
+  paragraphs.push(&lt;p key={i} &gt;hello {i}&lt;/p&gt;);
+}
+</code></pre>
+
+  <pre><code data-trim="" contenteditable="">
+const greetingElements = greetings.map((g, i) =&gt; {
+    &lt;p key={i}&gt;{g}&lt;/p&gt;
+});
+</code></pre>
+
+  <p>When adding an Array of elements, <strong>the <code class="highlighter-rouge">key</code> <em>attribute</em> should be defined</strong> so that React can determine DOM changes more easily. Check out the [details on why to use keys] (https://facebook.github.io/react/docs/reconciliation.html#recursing-on-children), and an in-depth article on <a href="https://facebook.github.io/react/docs/lists-and-keys.html">Arrays and keys</a>.</p>
+</section>
+
+<section>
+  <h2 id="arrays-in-react-elements">Arrays in React Elements</h2>
+
+  <p><strong>When adding an Array of elements to a component, you must keep the following things in mind&#8230;</strong> &#8594;</p>
+
+  <ol>
+    <li class="fragment">when defining render, only one react element can be returned, but you can have multiple elements nested within that initial element
+      <pre><code data-trim="" contenteditable="">
+return (
+ <div>only one element<p>but you can nest!</p></div>
+);    
+</code></pre>
+    </li>
+    <li class="fragment">a common pattern to add an Array of elements is to use map</li>
+    <li class="fragment">&#8230;but regardless of which method you use to generate an Array of elements, add a <code class="highlighter-rouge">key</code> attribute to each element!</li>
+    <li class="fragment">(note that wrapping in JSX elements in <code class="highlighter-rouge">[]</code> and commas or wrapping in <code class="highlighter-rouge">&lt;&gt;&lt;/&gt;</code> will work without needing a wrapping element</li>
+  </ol>
+
+</section>
+
+<section>
+  <h2 id="events">Events</h2>
+
+  <p>To add an event handler in JSX&#8230; add an inline attribute (wait, what!?). For example, click events would be represented by <code>onClick</code>:</p>
+
+  <pre><code data-trim="" contenteditable="">
+const MyButton = React.createClass({
+  onButtonClick: function(evt) {
+    alert("OMG! OMG!");
+  },
+
+  render: function() {
+    return &lt;div onClick={this.onButtonClick}&gt;Press This Button&lt;&#47;div&gt;;
+  }
+});
+
+ReactDOM.render(
+  &lt;MyButton &#47;&gt;,
+  document.body
+)
+</code></pre>
+</section>
+
+<section>
+  <h2 id="callbacks-es6-classes-and-this-again">Callbacks, ES6 Classes, and this (Again!)</h2>
+
+  <p><strong>If you&#39;re using ES6 classes and want to use <code class="highlighter-rouge">this</code> in your click handler, remember to bind to this (or use arrow functions)</strong> &#8594;</p>
+
+  <p>Here&#39;s an alert that uses <code class="highlighter-rouge">this.props</code>:</p>
+
+  <pre><code data-trim="" contenteditable="">
+onButtonClick(evt) {
+  alert(this.props.someProp);
+},
+</code></pre>
+
+  <p>To enable the above code access <code class="highlighter-rouge">this</code>, though, bind it when you assign the callback function for <code class="highlighter-rouge">onClick</code>.</p>
+
+  <pre><code data-trim="" contenteditable="">
+render() {
+    return &lt;div onClick={this.onButtonClick.bind(this)}&gt;Press This Button&lt;&#47;div&gt;;
+}
+</code></pre>
+
+  <p>We&#39;ll see more about this later on&#8230;</p>
+
+</section>
+
+<section>
+  <h2 id="resources">Resources</h2>
+
+  <ul>
+    <li><a href="https://facebook.github.io/react/docs/installation.html">React Docs</a></li>
+    <li><a href="http://buildwithreact.com/">Build with React</a></li>
+  </ul>
+</section>
+:ET

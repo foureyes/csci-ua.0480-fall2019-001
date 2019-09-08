@@ -1,0 +1,1495 @@
+I"™˜<!--
+<h1>AIT Test Deploy</h1>
+-->
+
+<div id="quick-links">
+<h3><a href="syllabus.html">Course Info</a> | <a href="https://piazza.com/class/jzwolvs7q7y6dh">Piazza</a> | <a href="syllabus.html#tutoring">Tutoring</a> | <a href="syllabus.html#hw-policy">Homework Policy</a> | <a href="syllabus.html#quiz-policy">Quiz Policy</a></h3>
+</div>
+<table class="table table-striped table-hover">
+<thead>
+<tr>
+	<th>Date</th> <th>Topics</th> <th>Slides</th> <th>Readings</th>
+	<th>Assignments</th>
+</tr>
+</thead>
+<tbody>
+
+
+
+<tr name="class1" id="class1" class="">
+	<td class="date-col">#1<div class="date"><p>28 Jan</p>
+</div>Mon</td>
+
+	
+		
+		<td>
+        <ul>
+  <li>Introductions</li>
+  <li>JavaScript Basics</li>
+  <li>Variables</li>
+  <li>Functions</li>
+</ul>
+      </td>
+		<td>
+        <p>In Class</p>
+
+        <ul>
+  <li><a href="slides/intro/intro.html#/10">Intro</a></li>
+  <li><a href="slides/js/js-values-types-operators.html#/9">Values, Types, and Operators</a> (skim)</li>
+  <li><a href="slides/js/js-variables-functions.html">Variables, Built-in Functions</a></li>
+  <li><a href="slides/js/js-conditionals-loops.html">Control Structures</a> (skim)</li>
+  <li><a href="slides/js/js-functions.html">Functions</a></li>
+  <li><a href="slides/js/js-hoisting.html">Hoisting</a> (skim)</li>
+  <li><a href="slides/js/js-objects.html">Objects</a></li>
+  <li><a href="slides/js/js-functions-addendum.html">Functions Some More!</a></li>
+  <li><a href="slides/js/js-strings-arrays.html">Strings, Arrays, Mutability and Variable Parameters</a> (skim)</li>
+  <li>Arriving on Time</li>
+  <li>Survey / Consent to Use GitHub</li>
+  <li>Piazza</li>
+  <li>Node Installation</li>
+</ul>
+
+        <p>Home</p>
+
+        <ul>
+  <li><a href="slides/js/js-intro.html">About JavaScript</a></li>
+</ul>
+      </td>
+		<td>
+        <p>For an in-depth JavaScript introduction, <strong>skim</strong> these chapters in <a href="{{ site.book_js_5_link }}">{{ site.book_js }}</a></p>
+
+        <ul>
+  <li><a href="http://speakingjs.com/es5/ch07.html">Chapter 7 - JavaScript&#39;s Syntax (the section on &quot;Strict Mode&quot; can be skipped)</a></li>
+  <li><a href="http://speakingjs.com/es5/ch08.html">Chapter 8 - Values</a></li>
+  <li><a href="http://speakingjs.com/es5/ch09.html">Chapter 9 - Operators (&quot;Comma Operator&quot; and everything after can be skipped)</a></li>
+  <li><a href="http://speakingjs.com/es5/ch10.html">Chapter 10 - Booleans</a></li>
+  <li><a href="http://speakingjs.com/es5/ch11.html">Chapter 11 - Numbers</a></li>
+  <li><a href="http://speakingjs.com/es5/ch12.html">Chapter 12 - Strings</a></li>
+  <li><a href="http://speakingjs.com/es5/ch13.html">Chapter 13 - Statements</a></li>
+  <li><a href="http://speakingjs.com/es5/ch15.html">Chapter 15 - Functions (up to &quot;More Control over Function Calls&quot;)</a></li>
+  <li><a href="http://speakingjs.com/es5/ch16.html">Chapter 16 -  Variables: Scopes, Environments, and Closures (up to &quot;Global Variables&quot;)</a></li>
+</ul>
+
+        <p><a href="{{ site.book_js_2_link }}">{{ site.book_js_2 }}</a></p>
+
+        <ul>
+  <li>
+    <p><a href="http://exploringjs.com/es6/ch_variables.html">Chapter 9 - Variables and scoping</a>
+For a more gentle introduction to JavaScript, read the first 3 chapters of <a href="{{ site.book_js_5_link }}">{{ site.book_js_5 }}</a></p>
+  </li>
+  <li>Chapter 1 - Values, Types, and Operators</li>
+  <li>Chapter 2 - Program Structure</li>
+  <li>Chapter 3 - Functions</li>
+</ul>
+      </td>
+		<td>
+        <p><strong>Due Monday 9/9, by 11pm</strong></p>
+
+        <p>Homework #0</p>
+
+        <ul>
+  <li><a href="{{ site.survey_github }}">Fill out this survey / use of GitHub consent form</a>
+    <ul>
+      <li>(Must be logged in)</li>
+      <li>(Required for future homeworks! ^^^)</li>
+    </ul>
+  </li>
+  <li><a href="{{ site.piazza }}">Sign up for piazza</a></li>
+  <li><a href="https://nodejs.org/en/">Install Node {{ site.node_version }}</a>
+    <ul>
+      <li>(you can also use homebrew on osx)</li>
+    </ul>
+  </li>
+</ul>
+
+        <p><strong>Due Monday 9/9, by 11pm</strong></p>
+
+        <ul>
+  <li>Quizzes #2 and #3</li>
+  <li>(Quizz #1 is Optional)</li>
+</ul>
+      </td>
+		
+	
+</tr>
+
+
+<tr name="class2" id="class2" class="">
+	<td class="date-col">#2<div class="date"><p>30 Jan</p>
+</div>Wed</td>
+
+	
+		
+		<td>
+        <ul>
+  <li>Objects</li>
+  <li>Node</li>
+  <li>Modules and Require</li>
+  <li>Static Analysis Tools</li>
+  <li>Testing</li>
+  <li>Import</li>
+  <li>Introduction to Higher Order Functions (Maybe?)</li>
+</ul>
+      </td>
+		<td>
+        <p>Discussion</p>
+
+        <ul>
+  <li>Academic Integrity</li>
+  <li>Tutoring and Workshops!</li>
+</ul>
+
+        <p>Slides</p>
+
+        <ul>
+  <li><a href="slides/js/js-node-npm-debug-git.html">Node, NPM, and git</a></li>
+  <li><a href="slides/js/js-objects.html">Objects</a></li>
+  <li><a href="slides/js/js-functions-addendum.html">Functions Some More!</a></li>
+  <li><a href="slides/js/js-strings-arrays.html">Strings, Arrays, Mutability and Variable Parameters</a></li>
+</ul>
+
+      </td>
+		<td>
+        <p><a href="{{ site.book_js_link }}">{{ site.book_js }}</a></p>
+
+        <ul>
+  <li><a href="http://speakingjs.com/es5/ch17.html">Chapter 17 - Objects (up to &quot;Converting Any Value to an Object&quot;)</a></li>
+  <li><a href="http://speakingjs.com/es5/ch18.html">Chapter 18 - Arrays)</a></li>
+</ul>
+
+        <p><a href="{{ site.book_js_6_link }}">{{ site.book_js_6 }}</a></p>
+
+        <ul>
+  <li>Chapter 3. Building Robust Node Applications (excluding &quot;Using Multiple Processors&quot;)</li>
+</ul>
+      </td>
+		<td></td>
+		
+	
+</tr>
+
+
+<tr name="class3" id="class3" class="">
+	<td class="date-col">#3<div class="date"><p>04 Feb</p>
+</div>Mon</td>
+
+	
+		
+		<td>
+        <ul>
+  <li>Higher Order Functions</li>
+</ul>
+      </td>
+		<td>
+        <ul>
+  <li>Node and NPM (above)
+    <ul>
+      <li>package.json</li>
+      <li>package-lock.json</li>
+      <li>npm (init, install, list)</li>
+    </ul>
+  </li>
+  <li>Arrays (above)
+    <ul>
+      <li>constructor / holes</li>
+      <li>mutability, slice</li>
+    </ul>
+  </li>
+  <li><a href="slides/js/higher-order-functions.html">Higher Order Functions</a></li>
+  <li><a href="slides/js/higher-order-functions-continued.html">Higher Order Functions Continued</a></li>
+  <li><a href="slides/js/objects-prototypes.html">Objects Revisited, Arrow Functions with &quot;this&quot;</a></li>
+  <li><a href="slides/js/globals-methods-this.html">A Detour: Globals, Methods, and This</a></li>
+</ul>
+      </td>
+		<td>
+        <p><a href="{{ site.book_js_link }}">{{ site.book_js }}</a></p>
+
+        <ul>
+  <li><a href="http://speakingjs.com/es5/ch15.html">Chapter 15 - Functions (up to &quot;More Control over Function Calls&quot;)</a></li>
+</ul>
+
+        <p><a href="{{ site.book_js_2_link }}">{{ site.book_js_2 }}</a></p>
+
+        <ul>
+  <li>4.9 From arguments to rest parameters in <a href="http://exploringjs.com/es6/ch_core-features.html">Core ES6 Features</a></li>
+  <li>13.1 Overview and 13.2.4 ECMAScript 6 solution: arrow functions in <a href="http://exploringjs.com/es6/ch_arrow-functions.html#ch_arrow-functions">Arrow Functions</a></li>
+</ul>
+
+        <p><a href="{{ site.book_js_5_link }}">{{ site.book_js_5 }}</a></p>
+
+        <ul>
+  <li>Chapter 5 - Higher Order Functions</li>
+</ul>
+      </td>
+		<td>
+        <!-- __Due Sunday 2/4, by 11pm__ 
+
+* Quizzes #4 and #5
+-->
+
+        <p><strong>Due Monday 2/11, by 11pm</strong></p>
+
+        <ul>
+  <li><a href="homework/01.html">Homework #1</a></li>
+</ul>
+
+      </td>
+		
+	
+</tr>
+
+
+<tr name="class4" id="class4" class="">
+	<td class="date-col">#4<div class="date"><p>06 Feb</p>
+</div>Wed</td>
+
+	
+		
+		<td>
+        <ul>
+  <li>Objects and Prototypes</li>
+</ul>
+      </td>
+		<td>
+        <ul>
+  <li><a href="slides/05/prototypes.html">Objects and Prototypes, Classes</a></li>
+  <li><a href="slides/05/objects-review.html">Objects in JavaScript Summary</a></li>
+  <li><a href="slides/05/not-arrow.html">Where Not to Use Arrow Functions</a></li>
+</ul>
+
+      </td>
+		<td>
+        <p><a href="{{ site.book_js_link }}">{{ site.book_js }}</a></p>
+
+        <ul>
+  <li><a href="http://speakingjs.com/es5/ch17.html#prototype_relationship">Chapter 17 -  Layer 2: The Prototype Relationship Between Objects</a></li>
+</ul>
+
+        <p><a href="{{ site.book_js_2_link }}]">{{ site.book_js_2 }}</a></p>
+
+        <ul>
+  <li><a href="http://exploringjs.com/es6/ch_destructuring.html">Chapter 10 - Destructuring</a></li>
+  <li><a href="http://exploringjs.com/es6/ch_classes.html">Chapter 15 - Classes</a></li>
+</ul>
+
+        <p><a href="{{ site.book_js_6_link }}">{{ site.book_js_6 }}</a></p>
+
+        <ul>
+  <li><a href="http://chimera.labs.oreilly.com/books/1234000001808/ch02.html">Chapter 2. Doing Interesting Things</a> - Only Section on &quot;Building a Chat Server&quot;</li>
+  <li><a href="http://chimera.labs.oreilly.com/books/1234000001808/ch04.html#chap6_id35817215">Chapter 4. Core APIs</a> - Only Section on I/O</li>
+</ul>
+
+        <p><a href="{{ site.book_js_5_link }}">{{ site.book_js_5 }}</a> (Optional, similar content to Speaking JS chapter above)</p>
+
+        <ul>
+  <li>Chapter 6 - The Secret Life of Objects</li>
+  <li>Chapter 8 - Bugs and Error Handling</li>
+</ul>
+      </td>
+		<td>
+        <!--
+__Due Wed 2/13 at 11pm:__
+
+
+* [Homework #2](homework/02.html) 
+
+__Due Sunday 9/25, by 9am__ 
+
+* Quizzes #4 and #5
+
+-->
+      </td>
+		
+	
+</tr>
+
+
+<tr name="class5" id="class5" class="">
+	<td class="date-col">#5<div class="date"><p>11 Feb</p>
+</div>Mon</td>
+
+	
+		
+		<td>
+        <ul>
+  <li>Networking Primer</li>
+  <li>Network Programming</li>
+  <li>Streams / Buffers / File IO</li>
+  <li>Web Development</li>
+  <li>HTTP</li>
+  <li>A Simple Web Server</li>
+</ul>
+      </td>
+		<td>
+        <ul>
+  <li><a href="slides/05/web.html">Intro to Web Development</a></li>
+  <li><a href="slides/06/sockets.html">Networking and Sockets</a></li>
+  <li><a href="slides/06/webserver.html">A Webserver</a></li>
+</ul>
+
+      </td>
+		<td>
+        <p>A Networking Zine!</p>
+
+        <ul>
+  <li><a href="https://jvns.ca/zines/#networking-ack">Networking ACK!</a> by Julia Evans</li>
+</ul>
+
+        <p>Net Module Review</p>
+
+        <ul>
+  <li><a href="https://nodejs.org/api/net.html#net_net_createserver_options_connectionlistener">Create Server</a></li>
+</ul>
+
+        <p><a href="{{ site.book_js_5_link }}">{{ site.book_js_5 }}</a> (Optional, same content as above)</p>
+
+        <ul>
+  <li>Chapter 13 - JavaScript and the Browser</li>
+  <li>Chapter 17 - HTTP (up to browsers and http)</li>
+</ul>
+      </td>
+		<td>
+        <p><strong>Due Monday 2/18, by 11pm</strong></p>
+
+        <ul>
+  <li><a href="homework/02.html">Homework #2</a></li>
+</ul>
+
+      </td>
+		
+	
+</tr>
+
+
+<tr name="class6" id="class6" class="">
+	<td class="date-col">#6<div class="date"><p>13 Feb</p>
+</div>Wed</td>
+
+	
+		
+		<td>
+        <ul>
+  <li>A Simple Web Server Continued / Our &quot;Framework&quot;</li>
+  <li>Routing</li>
+  <li>Node HTTP Module</li>
+</ul>
+      </td>
+		<td>
+        <ul>
+  <li><a href="slides/07/http-summary.html">HTTP Summary</a></li>
+  <li><a href="slides/07/sockets-review.html">Sockets Review</a></li>
+</ul>
+
+      </td>
+		<td>
+        <p>HTTP</p>
+
+        <ul>
+  <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Overview">An overview of HTTP</a></li>
+  <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Session">A typical HTTP session</a></li>
+  <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Messages">HTTP Messages</a> (HTTP/2 is not covered in the course, so those parts are optional)</li>
+  <li>Reference for HTTP <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods">methods</a> and <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status">status codes</a></li>
+</ul>
+
+      </td>
+		<td>
+        <p><strong>Due Wednesday 2/20 at 11am</strong></p>
+
+        <ul>
+  <li>Quiz #4  (Readings and Slides from classes 5 and 6)</li>
+  <li>Quiz #5  (Readings from class 10)</li>
+</ul>
+
+      </td>
+		
+	
+</tr>
+
+
+<tr name="class" id="class" class="success ">
+	<td class="date-col"><div class="date"><p>18 Feb</p>
+</div>Mon</td>
+
+	
+		
+		<td class="noclass" colspan="4">
+        <p>President&#39;s Day</p>
+      </td>
+		
+	
+</tr>
+
+
+<tr name="class7" id="class7" class="">
+	<td class="date-col">#7<div class="date"><p>20 Feb</p>
+</div>Wed</td>
+
+	
+		
+		<td>
+        <ul>
+  <li>HTTP Module</li>
+  <li>Web Framework</li>
+  <li>Project Layout</li>
+</ul>
+      </td>
+		<td>
+        <p>Coding Demo</p>
+
+        <ul>
+  <li><a href="examples/class07/echoServer.js">echoServer.js</a> (simple tcp/ip server)</li>
+  <li><a href="examples/sp19-class07/demo.js">demo.js</a> (basic http server built on top of net module)</li>
+</ul>
+
+        <p>Sample Code With File I/O</p>
+
+        <ul>
+  <li><a href="examples/class07b/webServer.js">webServer.js</a> (same as demo.js, but reads file from file system!)</li>
+  <li>public/<a href="examples/class07b/public/harry.html">harry.html</a></li>
+  <li>public/<a href="examples/class07b/public/mouse.html">mouse.html</a></li>
+</ul>
+
+        <!--Coding Demo fa19
+
+* review net module
+* routing
+* sending a text file
+* sending an image
+* post
+* redirect
+* this, bind, arrow + ES6 classes
+
+Example Set 1
+
+* [echoServer.js](examples/class07/echoServer.js)
+* [webServer.js](examples/class07/webServer.js)
+* public/[homer.html](examples/class07/public/homer.html)
+* public/[pika.html](examples/class07/public/pika.html)
+
+Example Set 2
+
+* [webServer.js](examples/class07b/webServer.js)
+* public/[harry.html](examples/class07b/public/harry.html)
+* public/[mouse.html](examples/class07b/public/mouse.html)
+
+
+
+
+* [Node's HTTP Module](slides/07/node-http.html)
+* [Project Setup](slides/08/setup.html)
+-->
+
+      </td>
+		<td>
+        <p>See previous classes on HTTP and network programming</p>
+      </td>
+		<td>
+        <p><strong>Due Friday 3/1 at 11pm:</strong></p>
+
+        <ul>
+  <li><a href="homework/03.html">Homework #3</a></li>
+</ul>
+      </td>
+		
+	
+</tr>
+
+
+<tr name="class8" id="class8" class="">
+	<td class="date-col">#8<div class="date"><p>25 Feb</p>
+</div>Mon</td>
+
+	
+		
+		<td>
+        <ul>
+  <li>Web Framework Continued</li>
+  <li>Middleware</li>
+  <li>Templating</li>
+</ul>
+      </td>
+		<td>
+        <p>Slides</p>
+
+        <ul>
+  <li><a href="slides/08/express.html">Express</a></li>
+  <li><a href="slides/09/templating.html">Templating</a></li>
+  <li><a href="slides/09/middleware.html">Middleware</a></li>
+  <li><a href="slides/09/request-response.html">Express Request and Response</a> (start <a href="slides/09/request-response.html#/7">With Web Server/Web App</a>)</li>
+</ul>
+
+        <p>Coding Demo</p>
+
+        <ul>
+  <li><a href="examples/class08/express-basics.zip">Express Basics</a></li>
+</ul>
+
+      </td>
+		<td>
+        <ul>
+  <li><a href="https://expressjs.com/en/starter/hello-world.html">Express Hello World</a></li>
+  <li><a href="https://expressjs.com/en/starter/basic-routing.html">Express Basic Routing</a></li>
+  <li><a href="https://expressjs.com/en/guide/routing.html">Express Routing</a> (up to, but not including route paths)</li>
+  <li><a href="https://expressjs.com/en/starter/static-files.html">Express Static Files</a></li>
+  <li><a href="http://handlebarsjs.com/expressions.html">Handlebars Basics</a> (Basic Usage Section Only)</li>
+  <li><a href="http://handlebarsjs.com/block_helpers.html">Handlebars Loops/Conditionals</a> (Up to Hash Arguments, Ignore blocks with <code class="highlighter-rouge">registerHelper</code>)</li>
+</ul>
+      </td>
+		<td></td>
+		
+	
+</tr>
+
+
+<tr name="class9" id="class9" class="">
+	<td class="date-col">#9<div class="date"><p>27 Feb</p>
+</div>Wed</td>
+
+	
+		
+		<td>
+        <ul>
+  <li>Cookies</li>
+  <li>Sessions</li>
+  <li>Forms</li>
+</ul>
+      </td>
+		<td>
+        <p>Slides</p>
+
+        <ul>
+  <li>Templating (from previous class)</li>
+  <li>Middleware (from previous class)</li>
+  <li>GET and POST / Request and Response (from previous class)</li>
+</ul>
+
+        <p>Coding Demo</p>
+
+        <ul>
+  <li><a href="examples/class09/middleware-forms.zip">Middleware and Forms</a></li>
+</ul>
+      </td>
+		<td>
+        <ul>
+  <li><a href="https://expressjs.com/en/guide/writing-middleware.html">Middleware</a></li>
+</ul>
+
+      </td>
+		<td>
+        <s>Due Friday 3/29 at 11pm</s>
+
+        <p><strong>Due Saturday 3/30 at 11pm</strong></p>
+
+        <ul>
+  <li><a href="homework/04.html">Homework #4</a></li>
+</ul>
+      </td>
+		
+	
+</tr>
+
+
+<tr name="class10" id="class10" class="">
+	<td class="date-col">#10<div class="date"><p>04 Mar</p>
+</div>Mon</td>
+
+	
+		
+		<td>
+        <ul>
+  <li>Cookies</li>
+  <li>Sessions</li>
+  <li>NoSQL Database</li>
+</ul>
+      </td>
+		<td>
+        <p>Slides / Notes</p>
+
+        <ul>
+  <li><a href="slides/10/forms.html">Form Handling</a></li>
+  <li>Review form handling, middleware</li>
+  <li><a href="slides/10/sessions.html">Sessions and Cookies</a></li>
+  <li>About the Upcoming Exam</li>
+  <li>Maybe <a href="slides/14/mongo.html">Mongo DB  and Mongoose</a></li>
+</ul>
+
+        <!--
+(???)
+Coding Demo
+
+
+* [creating middleware, sessions](examples/class10/middleware-sessions.zip)
+
+-->
+      </td>
+		<td>
+        <p>Cookies</p>
+
+        <ul>
+  <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies">MDN on Cookies</a></li>
+  <li>nczonline articles on <a href="https://www.nczonline.net/blog/2009/05/05/http-cookies-explained/">Cookies</a> and <a href="https://www.nczonline.net/blog/2009/05/12/cookies-and-security/">Cookies and Security</a></li>
+</ul>
+      </td>
+		<td></td>
+		
+	
+</tr>
+
+
+<tr name="class11" id="class11" class="">
+	<td class="date-col">#11<div class="date"><p>06 Mar</p>
+</div>Wed</td>
+
+	
+		
+		<td>
+        <ul>
+  <li>Object Document Mapper</li>
+  <li>Database Design</li>
+  <li>Authentication</li>
+</ul>
+      </td>
+		<td>
+        <p><strong>Slides</strong></p>
+
+        <ul>
+  <li>Mongoose (from Previous Slides)</li>
+  <li><a href="slides/12/mongoose.html">More Mongoose</a></li>
+</ul>
+
+        <!--
+* Homework #05
+* About Copying Homework
+* Reviews:
+    * Friday, 2/2 from 11am-12pm
+    * Sunday, 2/4 from 11am-12pm
+-->
+
+        <p><strong>Midterm Practice</strong></p>
+
+        <ul>
+  <li><a href="resources/handouts/midterm/midterm_1_practice.pdf">midterm practice questions</a></li>
+  <li><a href="resources/handouts/midterm/midterm_1_practice_solutions.pdf">midterm practice questions with solutions</a></li>
+</ul>
+
+        <!--
+* Example Data (from CSCI-UA.60)
+ * [book fields](resources/data/books_fields.txt)
+ * [books](resources/data/books.csv)
+ * [wifi](resources/data/wifi3.json) (NYC Open Data)
+-->
+      </td>
+		<td></td>
+		<td>
+        <p>In class lab</p>
+
+        <p><strong>Due Wednesday 3/6 at 12:15pm</strong> (end of class)</p>
+
+        <ul>
+  <li><a href="homework/express-lab.html">Express Lab</a></li>
+  <li><a href="https://docs.google.com/forms/d/e/1FAIpQLSfEbbAKi3duV6Jx_BJwXx9yFwFQE7Z9QeUyzz9v8D2OP2WvXA/viewform">Form for lab submission</a></li>
+</ul>
+      </td>
+		
+	
+</tr>
+
+
+<tr name="class12" id="class12" class="">
+	<td class="date-col">#12<div class="date"><p>11 Mar</p>
+</div>Mon</td>
+
+	
+		
+		<td>
+        <ul>
+  <li>About the Exam, Review</li>
+</ul>
+      </td>
+		<td></td>
+		<td></td>
+		<td></td>
+		
+	
+</tr>
+
+
+<tr name="class13" id="class13" class="danger ">
+	<td class="date-col">#13<div class="date"><p>13 Mar</p>
+</div>Wed</td>
+
+	
+		
+		<td class="noclass" colspan="4">
+        <p>EXAM #1 (Midterm Exam)</p>
+      </td>
+		
+	
+</tr>
+
+
+<tr name="class" id="class" class="success ">
+	<td class="date-col"><div class="date"><p>18 Mar</p>
+</div>Mon</td>
+
+	
+		
+		<td class="noclass" colspan="4">
+        <p>Spring Break</p>
+      </td>
+		
+	
+</tr>
+
+
+<tr name="class" id="class" class="success ">
+	<td class="date-col"><div class="date"><p>20 Mar</p>
+</div>Wed</td>
+
+	
+		
+		<td class="noclass" colspan="4">
+        <p>Spring Break</p>
+      </td>
+		
+	
+</tr>
+
+
+<tr name="class14" id="class14" class="">
+	<td class="date-col">#14<div class="date"><p>25 Mar</p>
+</div>Mon</td>
+
+	
+		
+		<td>
+        <ul>
+  <li>URL Parameters</li>
+  <li>Finishing Database</li>
+  <li>Validation</li>
+</ul>
+      </td>
+		<td>
+        <ul>
+  <li>MongoDB, Mongoose from Previous Classes</li>
+  <li>Sessions and Cookies from Previous Classes</li>
+  <li><a href="slides/14/routers.html">Router Objects</a></li>
+  <li><a href="slides/14/params.html">URL Parameters</a></li>
+  <li>Validation from Previous Classes</li>
+</ul>
+      </td>
+		<td>
+        <p>MongoDB</p>
+
+        <ul>
+  <li><a href="https://docs.mongodb.com/manual/core/databases-and-collections/">Databases and Collections</a></li>
+  <li><a href="https://docs.mongodb.com/manual/core/documen://docs.mongodb.com/manual/reference/bson-types/">Types</a></li>
+  <li><a href="https://docs.mongodb.com/manual/tutorial/query-documents/">Query Documents</a></li>
+  <li><a href="https://docs.mongodb.com/manual/crud/">Create, Read, Update, Delete</a></li>
+  <li><a href="https://docs.mongodb.com/manual/tutorial/insert-documents/">Insert</a></li>
+  <li><a href="https://docs.mongodb.com/manual/core/data-modeling-introduction/">Data Modeling Intro</a></li>
+  <li><a href="https://docs.mongodb.com/v3.2/core/data-model-design/">Data Model Design</a></li>
+  <li><a href="https://docs.mongodb.com/manual/tutorial/model-embedded-one-to-many-relationships-between-documents/#data-modeling-example-one-to-many">Embedded</a></li>
+  <li><a href="https://docs.mongodb.com/manual/tutorial/model-referenced-one-to-many-relationships-between-documents/#data-modeling-publisher-and-books">Document References</a></li>
+  <li><a href="https://docs.mongodb.com/v3.2/applications/data-models-relationships/">Modeling Relationships / Examples</a></li>
+</ul>
+
+        <p>Mongoose</p>
+
+        <ul>
+  <li><a href="http://mongoosejs.com/docs/subdocs.html">Embedded Documents - Sub Docs</a></li>
+  <li><a href="http://mongoosejs.com/docs/populate.html">Document References - Mongoose Population</a></li>
+</ul>
+      </td>
+		<td></td>
+		
+	
+</tr>
+
+
+<tr name="class15" id="class15" class="">
+	<td class="date-col">#15<div class="date"><p>27 Mar</p>
+</div>Wed</td>
+
+	
+		
+		<td>
+        <ul>
+  <li>Authentication</li>
+  <li>Authentication Library</li>
+  <li>Deployment</li>
+</ul>
+
+        <!--
+
+   *  User Authentication
+    *  OAuth
+    *  JWT
+
+-->
+      </td>
+		<td>
+        <ul>
+  <li><a href="final-project.html">Final Project</a></li>
+  <li>Continue with Mongoose</li>
+  <li><a href="slides/16/auth.html">Authentication</a></li>
+  <li><a href="slides/16/ssl.html">High-Level Description of SSL/TLS</a></li>
+</ul>
+      </td>
+		<td>
+        <p>Passport Examples</p>
+
+        <ul>
+  <li><a href="http://passportjs.org/docs">PassportJS Documentation</a></li>
+  <li><a href="https://github.com/saintedlama/passport-local-mongoose/tree/master/examples/login">From passport-local-mongoose</a></li>
+  <li><a href="http://mherman.org/blog/2015/01/31/local-authentication-with-passport-and-express-4/#.VjGSOq6rSRs">From mherman.org</a></li>
+  <li><a href="http://scotch.io/tutorials/javascript/easy-node-authentication-setup-and-local">From scotch.io</a></li>
+</ul>
+
+        <p>Password Hashing</p>
+
+        <ul>
+  <li><a href="http://csrc.nist.gov/publications/nistpubs/800-132/nist-sp800-132.pdf">NIST - Recommendation for Password-Based Key Derivation</a></li>
+  <li><a href="http://security.stackexchange.com/questions/211/how-to-securely-hash-passwords">How to securely hash passwords</a></li>
+  <li><a href="https://crackstation.net/hashing-security.htm">Salted Password Hashing - Doing it Right</a></li>
+</ul>
+      </td>
+		<td>
+        <p><strong>Due Friday 4/5 at 11pm:</strong></p>
+
+        <!--* Homework #5](homework/06.html)-->
+
+        <ul>
+  <li><a href="homework/05.html">Homework #05</a></li>
+  <li><a href="final-project.html#milestone01">Final Project Miletsone #01</a></li>
+</ul>
+      </td>
+		
+	
+</tr>
+
+
+<tr name="class16" id="class16" class="">
+	<td class="date-col">#16<div class="date"><p>01 Apr</p>
+</div>Mon</td>
+
+	
+		
+		<td>
+        <ul>
+  <li>HTML Primer, JavaScript and the Browser</li>
+  <li>The Document Object Model</li>
+  <li>Manipulating Elements</li>
+  <li>CSS Start</li>
+</ul>
+      </td>
+		<td>
+        <ul>
+  <li><a href="slides/17/javascript-browser.html">HTML Primer, JavaScript and the Browser</a></li>
+  <li><a href="slides/17/dom.html">The Document Object Model</a></li>
+  <li><a href="code/dom-continued.html">DOM Continued sample markup</a></li>
+  <li><a href="slides/17/attributes.html">Attributes</a></li>
+  <li><a href="slides/18/modifying-creating.html">Modifying and Adding Elements</a></li>
+  <li><a href="code/class18.html">Some Sample Markup</a></li>
+  <li><a href="slides/19/layout-style.html">Layout and Style</a></li>
+</ul>
+
+      </td>
+		<td>
+        <ul>
+  <li>{{ site.book_js_5 }} - Chapter 12 - JavaScript and the Browser</li>
+  <li>{{ site.book_js_5 }} - Chapter 13 - The Document Object Model</li>
+  <li><a href="http://learn.shayhowe.com/html-css/getting-to-know-html/">HTML and CSS from shayhowe.com</a></li>
+</ul>
+      </td>
+		<td></td>
+		
+	
+</tr>
+
+
+<tr name="class17" id="class17" class="">
+	<td class="date-col">#17<div class="date"><p>03 Apr</p>
+</div>Wed</td>
+
+	
+		
+		<td>
+        <ul>
+  <li>CSS Continued</li>
+  <li>Events / Timers</li>
+  <li>(Optional / Briefly) Flexbox</li>
+  <li>(Optional / Briefly) Grids</li>
+</ul>
+      </td>
+		<td>
+        <ul>
+  <li><a href="slides/19/timers.html">JavaScript Timers</a></li>
+  <li><a href="slides/19/css.html">CSS</a></li>
+  <li><a href="slides/19/js-css.html">Selectors, JS and CSS</a></li>
+  <li><a href="slides/19/events.html">Events</a></li>
+</ul>
+      </td>
+		<td>
+        <p>(readings same as previous class)</p>
+      </td>
+		<td>
+        <strike>Due Friday 4/12 at 11pm:</strike>
+        <p><strong>Due Saturday 4/13 at 11pm:</strong></p>
+
+        <ul>
+  <li><a href="homework/06.html">Homework #6</a></li>
+  <li><a href="final-project.html#milestone2">Final Project Milestone #02</a></li>
+</ul>
+      </td>
+		
+	
+</tr>
+
+
+<tr name="class18" id="class18" class="">
+	<td class="date-col">#18<div class="date"><p>08 Apr</p>
+</div>Mon</td>
+
+	
+		
+		<td>
+        <ul>
+  <li>Events / Timers Review</li>
+  <li>AJAX</li>
+  <li>APIs</li>
+</ul>
+      </td>
+		<td>
+        <ul>
+  <li>Events / Timers Review</li>
+  <li><a href="slides/20/ajax.html">Ajax Part 1</a></li>
+</ul>
+      </td>
+		<td>
+        <ul>
+  <li>{{ site.book_js_5 }} - Chapter 17 - HTML (Focus on the section on XMLHttpRequest)</li>
+</ul>
+      </td>
+		<td></td>
+		
+	
+</tr>
+
+
+<tr name="class19" id="class19" class="">
+	<td class="date-col">#19<div class="date"><p>10 Apr</p>
+</div>Wed</td>
+
+	
+		
+		<td>
+        <ul>
+  <li>AJAX Continued</li>
+  <li>Promises</li>
+  <li>Fetch API</li>
+</ul>
+      </td>
+		<td>
+        <ul>
+  <li><a href="slides/20/ajax.html">Ajax Part 1</a> (from previous class)</li>
+  <li><a href="slides/21/ajax-express.html">Ajax Part 2</a></li>
+  <li><a href="slides/21/promises.html">Promises</a></li>
+</ul>
+      </td>
+		<td></td>
+		<td>
+        <p><strong>Due Saturday 4/20 at 11pm:</strong></p>
+
+        <ul>
+  <li><a href="homework/07.html">Homework #7</a></li>
+  <li><a href="final-project.html#milestone03">Final Project Milestone #03</a></li>
+</ul>
+      </td>
+		
+	
+</tr>
+
+
+<tr name="class20" id="class20" class="">
+	<td class="date-col">#20<div class="date"><p>15 Apr</p>
+</div>Mon</td>
+
+	
+		
+		<td>
+        <ul>
+  <li>AJAX Review</li>
+  <li>Promises Review</li>
+  <li>async / await</li>
+</ul>
+      </td>
+		<td>
+        <ul>
+  <li>Previous class on AJAX post</li>
+  <li>Previous class on Promises</li>
+  <li>AJAX Polling</li>
+  <li><a href="code/chat.zip">Example Code for AJAX Polling / Chat</a></li>
+  <li>Example Code for AJAX and Promises
+    <ul>
+      <li><a href="examples/ajax-promises/app.js">app.js</a></li>
+      <li><a href="examples/ajax-promises/package.json">package.json</a></li>
+      <li><a href="examples/ajax-promises/public/index.html">public/index.html</a></li>
+      <li><a href="examples/ajax-promises/public/js/main.js">public/js/main.js</a></li>
+    </ul>
+  </li>
+</ul>
+      </td>
+		<td></td>
+		<td></td>
+		
+	
+</tr>
+
+
+<tr name="class21" id="class21" class="">
+	<td class="date-col">#21<div class="date"><p>17 Apr</p>
+</div>Wed</td>
+
+	
+		
+		<td>
+        <ul>
+  <li>Frontend Framework</li>
+</ul>
+      </td>
+		<td>
+        <ul>
+  <li><a href="slides/26/react.html">React Basics</a></li>
+  <li><a href="slides/26/react-state-parent.html">React Revisited</a></li>
+  <li>(Optional) <a href="slides/26/react-webpack-continued.html">React and Express / Using Webpack</a></li>
+  <li>Example Code: <a href="examples/react/demo/src/index.js">index.js / Clicker Component</a> (React Basics)</li>
+</ul>
+      </td>
+		<td>
+        <ul>
+  <li><a href="https://facebook.github.io/react/docs/hello-world.html">Hello World</a> and <a href="https://facebook.github.io/react/tutorial/tutorial.html">Official Tutorial</a></li>
+  <li><a href="http://buildwithreact.com/">Build With React</a></li>
+  <li><a href="https://facebook.github.io/react/docs/events.html#supported-events">React Events</a></li>
+  <li><a href="https://github.com/facebookincubator/create-react-app/blob/master/README.md#getting-started">Using create-react-app</a></li>
+</ul>
+      </td>
+		<td>
+        <!--__Due Monday 4/24 at 11pm:__ 
+
+* [Homework #9](homework/09.html)
+-->
+
+        <!--
+* [Final Project Miletsone #03](final-project.html#milestone03)
+-->
+      </td>
+		
+	
+</tr>
+
+
+<tr name="class22" id="class22" class="">
+	<td class="date-col">#22<div class="date"><p>22 Apr</p>
+</div>Mon</td>
+
+	
+		
+		<td>
+        <ul>
+  <li>Frontend Framework Continued</li>
+</ul>
+      </td>
+		<td>
+        <ul>
+  <li><a href="slides/26/react.html">React Basics</a> (from previous class)</li>
+  <li><a href="slides/26/react-state-parent.html">React Revisited</a> (from previous class)</li>
+  <li><a href="slides/26/react-webpack-continued.html">React and Express / Using Webpack</a></li>
+  <li>Example Code: <a href="examples/react/demo/src/index.js">index.js / Sum of Counters, Text Input</a> (Parent and Child Components, Text Input)</li>
+  <li>Example with React and fetch
+    <ul>
+      <li><a href="examples/react-parents/demo/src/index.js">index.js</a> (React)</li>
+      <li><a href="examples/react-parents/api/app.js">app.js</a> (Express API)</li>
+      <li><a href="examples/react-parents/api/db.js">db.js</a> (Mongoose Schema)</li>
+    </ul>
+  </li>
+</ul>
+
+        <!--
+* React review, multiple child clickers and forms
+* React lab demo
+-->
+      </td>
+		<td></td>
+		<td>
+        <p>Due Monday 4/29 at 11pm</p>
+
+        <ul>
+  <li><a href="https://docs.google.com/forms/d/e/1FAIpQLSfpI94OS-dQkjFpPgVuYyJm2Yo7-kmcUPEX6qF97PmH25f_Ww/viewform">Final Project Submission Form</a></li>
+</ul>
+
+        <!--
+Due __today__ while you're in class:
+
+* [Form to submit](https://docs.google.com/forms/d/e/1FAIpQLSde-vCFp3eJ9vFII9534X_FErSum5G8j3r2q4Uide7skzszaQ/viewform)
+-->
+      </td>
+		
+	
+</tr>
+
+
+<tr name="class23" id="class23" class="">
+	<td class="date-col">#23<div class="date"><p>24 Apr</p>
+</div>Wed</td>
+
+	
+		
+		<td>
+        <ul>
+  <li>React Lab</li>
+</ul>
+      </td>
+		<td>
+        <ul>
+  <li>See lab instructions</li>
+</ul>
+      </td>
+		<td>
+        <p>Practice Questions</p>
+
+        <ul>
+  <li><a href="resources/handouts/final/final_exam_practice.pdf">Practice Questions</a></li>
+  <li><a href="resources/handouts/final/final_exam_practice_solutions.pdf">Practice Questions Solutions</a></li>
+  <li><a href="resources/handouts/final/final_exam_practice_2.pdf">Practice Questions Set 2</a></li>
+  <li><a href="resources/handouts/final/final_exam_practice_2_solutions.pdf">Practice Questions Set 2 Solutions</a></li>
+</ul>
+
+      </td>
+		<td>
+        <p><strong>Due Today (4/24) at 11pm</strong></p>
+
+        <ul>
+  <li><a href="homework/react-lab.html">React Lab / Homework 08</a>
+    <ul>
+      <li><a href="https://glitch.com/edit/#!/remix/starter-react">Boilerplate React on glitch</a> (use app.jsx), <a href="https://codepen.io">codepen</a>, etc.</li>
+      <li><a href="https://docs.google.com/forms/d/e/1FAIpQLScj7vvs0AI3i5nS-NsWU_CC7RPpOz_YvR_CaDrjpzkVOK-cpQ/viewform">Form to Submit URL and Code</a></li>
+      <li><strong>Everyone should submit a form!</strong> (even if you&#39;re in the same group)</li>
+    </ul>
+  </li>
+  <li><strong>Final Project Due Monday 4/29 at 11pm</strong></li>
+</ul>
+
+        <!--__Reminders__: 
+
+* React Lab on Wednesday, 4/25
+* Final Exam 5/7
+-->
+
+      </td>
+		
+	
+</tr>
+
+
+<tr name="class24" id="class24" class="">
+	<td class="date-col">#24<div class="date"><p>29 Apr</p>
+</div>Mon</td>
+
+	
+		
+		<td>
+        <ul>
+  <li>SocketIO</li>
+</ul>
+      </td>
+		<td>
+        <ul>
+  <li><a href="slides/23/socketio.html">Websockets and socket.io</a></li>
+  <li><a href="slides/25/socketio-rooms.html">Rooms</a></li>
+  <li>Websockets and socket.io Examples
+    <ul>
+      <li><a href="examples/websockets-demo/app.js">app.js</a> (server)</li>
+      <li><a href="examples/websockets-demo/public/main.js">public/main.js</a> (client)</li>
+      <li><a href="examples/websockets-demo/public/index.html">public/index.html</a> (client)</li>
+    </ul>
+  </li>
+</ul>
+      </td>
+		<td>
+        <ul>
+  <li><a href="http://socket.io/docs/">Socket IO Docs / How-To</a></li>
+</ul>
+      </td>
+		<td></td>
+		
+	
+</tr>
+
+
+<tr name="class25" id="class25" class="">
+	<td class="date-col">#25<div class="date"><p>01 May</p>
+</div>Wed</td>
+
+	
+		<td>
+        <ul>
+  <li>SocketIO Lab</li>
+</ul>
+      </td>
+		<td></td>
+		<td></td>
+		<td></td>
+	
+</tr>
+
+
+<tr name="class26" id="class26" class="">
+	<td class="date-col">#26<div class="date"><p>06 May</p>
+</div>Mon</td>
+
+	
+		<td>
+        <ul>
+  <li>Authentication</li>
+</ul>
+      </td>
+		<td></td>
+		<td></td>
+		<td></td>
+	
+</tr>
+
+
+<tr name="class27" id="class27" class="">
+	<td class="date-col">#27<div class="date"><p>08 May</p>
+</div>Wed</td>
+
+	
+		<td>
+        <ul>
+  <li>Review</li>
+</ul>
+      </td>
+		<td></td>
+		<td></td>
+		<td></td>
+	
+</tr>
+
+
+<tr name="class28" id="class28" class="danger ">
+	<td class="date-col">#28<div class="date"><p>13 May</p>
+</div>Mon</td>
+
+	
+		<td>
+        <p>EXAM #2 (Final Exam)</p>
+      </td>
+		<td></td>
+		<td></td>
+		<td></td>
+	
+</tr>
+
+
+</tbody>
+</table>
+
+<script>
+// handle jekyll site variables in data file
+// (liquid variables in data files like csvs and yml are not processed)
+function processSiteVars() {
+
+	const config = {};
+	
+	/*
+	config contains site variables from config.yml
+	...only variables under site.vars are included
+	*/
+	
+	config["book_js"] = `Speaking JavaScript`;
+	
+	config["book_js_note"] = `(free to read online)`;
+	
+	config["book_js_link"] = `http://speakingjs.com/es5/index.html`;
+	
+	config["book_js_author"] = `Axel Rauschmayer`;
+	
+	config["book_js_2"] = `Exploring ES6`;
+	
+	config["book_js_2_note"] = `(free to read online)`;
+	
+	config["book_js_2_link"] = `http://exploringjs.com/es6/index.html`;
+	
+	config["book_js_2_author"] = `Axel Rauschmayer`;
+	
+	config["book_js_3"] = `You Don't Know JS`;
+	
+	config["book_js_3_note"] = `(free to read online)`;
+	
+	config["book_js_3_link"] = `https://github.com/getify/You-Dont-Know-JS/`;
+	
+	config["book_js_3_author"] = `Kyle Simpson`;
+	
+	config["book_js_4"] = `JavaScript AllongÃ©, the "Six" Edition`;
+	
+	config["book_js_4_note"] = `(free to read online)`;
+	
+	config["book_js_4_link"] = `https://leanpub.com/javascriptallongesix/read`;
+	
+	config["book_js_4_author"] = `Reg "raganwald" Braithwaite`;
+	
+	config["book_js_5"] = `Eloquent JavaScript, 3rd Edition`;
+	
+	config["book_js_5_note"] = `(free to read online)`;
+	
+	config["book_js_5_link"] = `http://eloquentjavascript.net/`;
+	
+	config["book_js_5_author"] = `Marijn Haverbeke`;
+	
+	config["book_js_6"] = `Node: Up and Running`;
+	
+	config["book_js_6_note"] = `(free to read online through NYU Library)`;
+	
+	config["book_js_6_link"] = `http://bobcat.library.nyu.edu/primo-explore/fulldisplay?docid=nyu_aleph005835929&context=L&vid=NYU&search_scope=all&tab=all&lang=en_US`;
+	
+	config["book_js_6_author"] = `Tom Hughes-Croucher and Mike Wilson`;
+	
+	config["book_js_7"] = `DOM Enlightenment`;
+	
+	config["book_js_7_note"] = `(draft version free to read online)`;
+	
+	config["book_js_7_link"] = `http://domenlightenment.com/`;
+	
+	config["book_js_7_author"] = `Cody Lindley`;
+	
+	config["book_js_8"] = `Learning JavaScript Design Patterns`;
+	
+	config["book_js_8_note"] = `(free to read online)`;
+	
+	config["book_js_8_link"] = `https://addyosmani.com/resources/essentialjsdesignpatterns/book/`;
+	
+	config["book_js_8_author"] = `Addy Osmani`;
+	
+	config["book_js_9"] = `Programming JavaScript Applications`;
+	
+	config["book_js_9_note"] = `(free to read online)`;
+	
+	config["book_js_9_link"] = `http://chimera.labs.oreilly.com/books/1234000000262/index.html`;
+	
+	config["book_js_9_author"] = `Eric Elliott`;
+	
+	config["survey_intro"] = `https://docs.google.com/forms/d/e/1FAIpQLSeLRQXSrWw4n44xSzFSP0HZ_LLTnEn6gIGCpjIDpz83zsZiWQ/viewform`;
+	
+	config["piazza"] = `https://piazza.com/class/jzwolvs7q7y6dh`;
+	
+	config["email"] = `jversoza@cs.nyu.edu`;
+	
+	config["contact_link"] = `https://piazza.com/class/jzwolvs7q7y6dh`;
+	
+	config["contact_label"] = `piazza`;
+	
+	config["contact_note"] = `(the best way to contact me!)`;
+	
+	config["course_number"] = `CSCI-UA.0480`;
+	
+	config["course_section"] = `001`;
+	
+	config["course_name"] = `Applied Internet Technology`;
+	
+	config["course_semester"] = `Fall 2019`;
+	
+	config["course_time"] = `Mon and Wed, 12:3PAM - 1:45PM`;
+	
+	config["course_room"] = `WWH 202`;
+	
+	config["course_url"] = `https://cs.nyu.edu/courses/fall19/CSCI-UA.0480-001/`;
+	
+	config["course_site_alt"] = `http://cs.nyu.edu/~jversoza`;
+	
+	config["office_hours"] = `<br>Mon/Wed 11:25am - 12:25pm at WWH 422<br>Thurs 12:15PM - 1:15PM at 60 5th Ave`;
+	
+	config["office_hours_room"] = `WWH 422 on Mon/Wed... Lobby, 60 5th Ave on Tues`;
+	
+	config["survey_github"] = `https://docs.google.com/forms/d/e/1FAIpQLSfH_31bRaKCjdOcJwaKrVogbwt-HnD2LhHaca85fp90bm_xPQ/viewform`;
+	
+	config["node_version"] = `10.x.x or 12.x.x`;
+	
+	config["slides_img_prefix"] = `../../resources/img`;
+	
+	config["github_org"] = `https://github.com/nyu-csci-ua-0480-008-spring-2019`;
+	
+	
+	const re = /(site\.\w*)/g  
+	const table = document.querySelector('table');
+
+	console.log(table);
+	const result = table.innerHTML.match(re);
+	console.log(result);
+	for(const s of result) {
+		const k = s.replace('site.', '');
+		
+		table.innerHTML = table.innerHTML.replace(new RegExp('{{ ' + s + ' }}', 'g'), config[k]);
+		
+	}
+	
+	// console.log(config);
+}
+
+document.addEventListener('DOMContentLoaded', processSiteVars);
+</script>
+
+<style>
+.noclass {
+	text-align: center;
+	font-weight: bold;
+	color: #115522;
+}
+
+.date-col {
+	text-align: center;
+}
+
+.date {
+	border: 1px solid #ccc;
+	font-weight: bold;
+	color: #115522;
+	text-align: center;
+	padding: 0.25em;
+	margin: 0.25em;
+	/*
+	padding-top: 0.25em;
+	padding-bottom: 0.25em;
+	padding-left: 0.25em;
+	padding-right: 0.25em;
+	*/
+}
+
+td:nth-child(3) {
+	width: 30%;
+}
+
+td:nth-child(4) {
+	width: 35%;
+}
+
+#schedule {
+	display: grid;
+	grid-template-columns: 1fr 4fr 6fr 6fr 3fr
+}
+
+ul {
+	padding-left: 20px;
+}
+</style>
+
+<!--
+<style>
+#schedule {
+	display: grid;
+	grid-template-columns: 1fr 2fr 4fr 6fr 6fr 5fr
+}
+</style>
+-->
+:ET

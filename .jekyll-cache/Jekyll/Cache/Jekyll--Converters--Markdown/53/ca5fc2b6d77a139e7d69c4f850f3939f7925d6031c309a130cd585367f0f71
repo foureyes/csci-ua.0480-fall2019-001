@@ -1,0 +1,380 @@
+I"E<div class="panel panel-default">
+	<div class="panel-heading">Homework #6</div>
+	<div class="panel-body">
+
+    <h1 id="memoremoji-client-side-javascript---due-412-at-11pm-due-413-at-11pm">MemorEmoji (Client Side JavaScript) - <strike>Due 4/12 at 11pm</strike> <strong>Due 4/13 at 11pm</strong></h1>
+
+    <h2 id="overview">Overview</h2>
+
+    <h3 id="goals--topics-covered">Goals / Topics Covered</h3>
+
+    <p>You&#39;ll be using the following concepts:</p>
+
+    <ul>
+      <li>manipulating the DOM</li>
+      <li>setting DOM element attributes</li>
+      <li>handling events with addEventListener</li>
+    </ul>
+
+    <h3 id="description">Description</h3>
+
+    <p>MemorEmoji is a card game in which a deck of cards containing pairs of symbols are shuffled and laid face down on a surface. A player flips two cards over on each turn. The object of the game is to turn over pairs of matching cards. The player will have a limited number of turns to do this.</p>
+
+    <p>You will be making an interface with following components:</p>
+
+    <ol>
+      <li>Initially, a form that allows the user to set:
+        <ul>
+          <li>the number of cards</li>
+          <li>the maximum turns allowed</li>
+          <li>(optionally) the order that the cards placed (this will facilitate in testing)</li>
+        </ul>
+      </li>
+      <li>A game board that has:
+        <ul>
+          <li>a grid of cards where all of the cards are initially face down (once clicked, they are flipped over)
+ 	* a count of the turns taken over the maximum number of turns</li>
+          <li>a quit button (to restart the game)</li>
+        </ul>
+      </li>
+    </ol>
+
+    <p><img src="../resources/img/hw06-memoremoji/won.gif" /></p>
+
+    <h3 id="submission-process">Submission Process</h3>
+
+    <p>You will be given access to a private repository on GitHub.  The final version of your assignment should be in GitHub</p>
+
+    <ul>
+      <li><strong>Push</strong> your changes to the homework repository on GitHub.</li>
+    </ul>
+
+    <h3 id="make-at-least-4-commits">Make at Least 4 Commits</h3>
+
+    <ul>
+      <li>Commit multiple times throughout your development process.</li>
+      <li>Make at least 4 separate commits</li>
+    </ul>
+
+    <h2 id="memoremoji">MemorEmoji</h2>
+
+    <h3 id="required-features"><strong>Required Features</strong></h3>
+
+    <h3 id="create-an-express-application-and-setup-some-directories">Create an express application and setup some directories</h3>
+
+    <ol>
+      <li>You don&#39;t <em>really</em> need an Express application to do this homework, but start with one anyway, in case you decide to do the extra credit&#8230;</li>
+      <li>Start a new express project that uses express-static, using the following directory structure:
+        <ul>
+          <li><code class="highlighter-rouge">package.json</code></li>
+          <li><code class="highlighter-rouge">.eslintrc.js</code></li>
+          <li><code class="highlighter-rouge">README.md</code></li>
+          <li><code class="highlighter-rouge">src</code>
+            <ul>
+              <li><code class="highlighter-rouge">app.js</code></li>
+              <li><code class="highlighter-rouge">public</code>
+                <ul>
+                  <li><code class="highlighter-rouge">index.html</code></li>
+                  <li><code class="highlighter-rouge">stylesheets</code>
+                    <ul>
+                      <li><code class="highlighter-rouge">style.css</code></li>
+                    </ul>
+                  </li>
+                  <li><code class="highlighter-rouge">javascripts</code>
+                    <ul>
+                      <li><code class="highlighter-rouge">main.js</code></li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>(there&#39;s no need to create any route handlers for this homework, you can do the whole thing with static files)</li>
+      <li>In your public folder, create an <code>index.html</code> file.</li>
+      <li>In your public folder, create a <code class="highlighter-rouge">stylesheets</code> folder and a file, <code class="highlighter-rouge">style.css</code>, within it</li>
+      <li>In your public folder, create a <code class="highlighter-rouge">javascripts</code> folder and a file, <code class="highlighter-rouge">main.js</code>, within it</li>
+    </ol>
+
+    <p><strong>Use the following markup</strong></p>
+
+    <ol>
+      <li>Add the following code to your <code>index.html</code>:
+        <pre><code data-trim="" contenteditable="">
+&lt;!doctype html&gt;
+&lt;html&gt;
+ &lt;head&gt;
+     &lt;title&gt;MEMOREMOJI&lt;/title&gt;
+     &lt;link rel="stylesheet" href="stylesheets/style.css" type="text/css" media="screen" title="no title" charset="utf-8"&gt;
+     &lt;meta charset="utf-8" /&gt; 
+ &lt;/head&gt;
+ &lt;body&gt;
+     &lt;script src="javascripts/main.js"&gt;&lt;/script&gt;
+     &lt;!-- ok to add additional script tags, but do not modify the html below --&gt;
+     &lt;h1 class="title"&gt;Ⓜ️EM😂REM🤢Jℹ️&lt;/h1&gt;
+     &lt;div class="start"&gt;
+         &lt;div&gt;
+             &lt;h2&gt;Number of Cards&lt;/h2&gt;
+             &lt;input id="total-cards" type="number" /&gt;
+         &lt;/div&gt;
+         &lt;div&gt;
+             &lt;h2&gt;Max Turns&lt;/h2&gt;
+             &lt;input id="max-turns" type="number" /&gt;
+         &lt;/div&gt;            
+         &lt;div&gt;
+             &lt;h2&gt;Set Cards &lt;/h2&gt;
+             &lt;h3&gt;(testing mode; enter each card value separated by comma)&lt;/h3&gt;
+             &lt;input id="card-faces" type="text" /&gt;
+         &lt;/div&gt;
+         &lt;div&gt;
+             &lt;button class="play-btn" type="button"&gt;Game Start&lt;/button&gt;
+         &lt;/div&gt;
+     &lt;/div&gt;
+     &lt;div class="game"&gt;
+     &lt;/div&gt;
+     &lt;div class="result"&gt;
+     &lt;/div&gt;
+     &lt;div class="reset"&gt;
+         &lt;button class="reset-btn" type="button"&gt;Reset&lt;/button&gt;
+     &lt;/div&gt;
+     &lt;div class="error-message"&gt;
+         Please re-enter the number of cards (must be even number) and max turns !
+         &lt;button class="error-btn" type="button"&gt;Go Back&lt;/button&gt;
+     &lt;/div&gt;
+ &lt;/body&gt;
+&lt;/html&gt;
+
+ </code></pre>
+      </li>
+      <li><strong>You are not allowed to use any additional markup / modify the existing markup</strong> (the only exception is that you can add more script tags at the beginning); you must generate any additional elements you&#39;ll need with JavaScript, but you can use script markup to load multiple JavaScript files</li>
+      <li>All of your JavaScript should go in your JavaScript files.
+        <ul>
+          <li>⚠️a make sure to use and event listener for <code class="highlighter-rouge">DOMContentLoaded</code> if your script(s) expect elements to be present</li>
+        </ul>
+      </li>
+      <li>&#8230; and, of course, all of your CSS should go in your external CSS file.
+        <ul>
+          <li><strong>it&#39;s ok to add more CSS</strong></li>
+          <li><strong>in fact, part of the assignment is to add/remove css rules based on class name</strong></li>
+        </ul>
+      </li>
+    </ol>
+
+    <p><strong>Start with a form that allows the user to specify the number of cards in the game, the max turns,  and (optional for the player) the actual &quot;value&quot; / symbol of each card by using a character string of comma separated symbols</strong></p>
+
+    <ul>
+      <li>Only show the content in the h2 with class <code>title</code>, and div with class <code>start</code>
+        <ul>
+          <li>Make sure the div with class <code>game</code> , <code>result</code>, <code>reset</code>, and <code>error-message</code> are not displayed</li>
+          <li>Hint:
+            <ul>
+              <li>Make the appropriate CSS rules (this can be done in css only)</li>
+              <li>If necessary, you can use JavaScript&#39;s <code>someElementObj.classList</code>&#39;s <code>add</code>, <code>remove</code>, and <code>toggle</code> <a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/classList">to <em>add and remove</em> classes</a> so that you can control which CSS rules are active after some interaction</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>Add an event listener to the &quot;Game Start&quot; button to listen for clicks</li>
+      <li>When the &quot;Game Start&quot; button is pressed, the event listener should:
+        <ul>
+          <li>Retrieve the values of the input fields and use these values to set up the game</li>
+          <li>Note that some basic validation is required&#8230;
+            <ul>
+              <li>The number of cards should be an even number greater than 2 and less than or equal to 36
+ 	* The max turns should be equal to or greater than the number of cards / 2</li>
+              <li>If present, the &quot;preset values&quot; must contain the same number of values as the number of cards field</li>
+              <li>If present, the &quot;preset values&quot; must contain exactly two of every symbol</li>
+            </ul>
+          </li>
+          <li>If any of the above conditions are not satisfied
+            <ul>
+              <li>the game should <strong>not</strong> proceed yet</li>
+              <li>an error message should be displayed describing the issue</li>
+              <li>the form element should still be visible so that the user can modify them</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>The actual values of the cards can be set by the user by entering a comma separated string of characters&#8230; which implies that if the string is present, there must be two of each symbol
+        <ul>
+          <li>For example, entering &quot;1,2,3,2,3,1&quot; will display 6 cards with symbols 1, 2, 3, 2, 3, 1 (all face down initially)</li>
+        </ul>
+      </li>
+      <li>If the user doesn&#39;t enter this string, and the number of cards are valid, the game should generate and <em>shuffle</em> cards and their values (these can be emoji, letters, etc.)</li>
+      <li>If the form data is valid
+        <ul>
+          <li>the form should be removed or hidden</li>
+          <li>the game board should be added</li>
+        </ul>
+      </li>
+    </ul>
+
+    <p><strong>Generate a game board</strong></p>
+
+    <ul>
+      <li>Based on the number submitted, generate a game board in the <code>game</code> div</li>
+      <li>The cards should be arranged as a square if possible (for example 16 cards means a 4 x 4 grid)</li>
+      <li>If they cannot be arranged in a square lay out the cards at your discretion</li>
+      <li>However, regardless of the number of cards, the arrangement must be in a grid. Consider using:
+        <ul>
+          <li>display: inline-block; (this is the only one we covered in class)</li>
+          <li>a table</li>
+          <li>floated elements</li>
+          <li>grid</li>
+          <li>flexbox</li>
+        </ul>
+      </li>
+      <li>This game board must be generated by using <code>document.createElement()</code>, with attributes (class, id, etc.) also being added programmatically.
+        <ul>
+          <li>To smooth over element creation, try creating a helper function for making elements and adding class names and other attributes, like ids:
+            <ul>
+              <li>the first parameter can be the name of the element to create</li>
+              <li>the second parameter can be an object that contains name value pairs of attributes and their values</li>
+              <li>the last parameter can be child elements</li>
+              <li><code class="highlighter-rouge">createElement('div', {id: 'foo', class: 'bar'}, 'some text', createElement('p'))</code> →</li>
+              <li><code class="highlighter-rouge">&lt;div id='foo', class='bar'&gt;some text &lt;p&gt;&lt;/p&gt;&lt;/div&gt;</code>
+                <ul>
+                  <li><code>const ele = createElement('div, {'class': 'foo'}, 'bar!!!!');</code></li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+
+    <p><strong>Create a quit button</strong></p>
+
+    <ul>
+      <li>Create a button at the bottom of the page. When this button is clicked, quit the game and show the initial form again.</li>
+    </ul>
+
+    <p><strong>Assign a random symbol to each card or use preset cards</strong></p>
+
+    <ul>
+      <li><strong>NOTE THAT IF THE PLAYER PRESETS THE CARDS</strong>, then use those characters instead of random generation&#8230; otherwise&#8230;</li>
+      <li>Find a way to assign a symbol from a set of available symbols (again, these symbols are of your choosing) to each card</li>
+      <li>The symbol assignment should be randomized!</li>
+      <li>The symbol should not appear in the user interface at the beginning of the game</li>
+      <li>However, it does not matter if the symbol is viewable in the source code</li>
+      <li>Some potential solutions for associating a symbol with a card may include:
+        <ul>
+          <li>An object that serves as a lookup table</li>
+          <li>Setting the value as a custom attribute (see chapter 13 in Eloquent JavaScript, 2nd Edition)</li>
+          <li>Creating an underlying class that models your game</li>
+          <li>Oooor… any other scheme that you can come up with</li>
+        </ul>
+      </li>
+    </ul>
+
+    <p>Here&#39;s an example of the user setting the card values:</p>
+
+    <p><img src="../resources/img/hw06-memoremoji/preset.gif" /></p>
+
+    <p><strong>Allow the user to click on cards</strong></p>
+
+    <ul>
+      <li>Assign an event listener to each card</li>
+      <li>When a card is clicked show the card&#39;s symbol
+        <ul>
+          <li>Either add a text node to the card</li>
+          <li>Or use CSS
+            <ul>
+              <li>If you&#39;re using CSS, only manipulate the classes, don&#39;t assign styles directly</li>
+              <li>Some options for toggling classes include:
+                <ul>
+                  <li><code class="highlighter-rouge">classList</code></li>
+                  <li><code class="highlighter-rouge">setAttribute</code></li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>⚠️Do not allow more than two flipped cards at once</li>
+    </ul>
+
+    <p><strong>Handle two consecutive clicks / two flipped cards in each turn</strong></p>
+
+    <ul>
+      <li>In the <code>game</code> div, once a player flips two cards, display a message that tells the player whether or not a match was found</li>
+      <li>If there&#39;s only one card flipped, allow another card to be flipped</li>
+      <li>Once there are two cards flipped:
+        <ul>
+          <li>No other cards can be flipped</li>
+          <li>Show a message that says &quot;Match&quot; or &quot;No Match&quot;</li>
+          <li>Display an &quot;OK&quot; button</li>
+          <li>Clicking on the &quot;OK&quot; button proceeds to the next turn:
+            <ul>
+              <li>If two cards flipped didn&#39;t match
+                <ul>
+                  <li>flip them back so that the symbols are no longer visible</li>
+                </ul>
+              </li>
+              <li>If two cards do match, leave symbols revealed</li>
+              <li>In both cases, play can resume so that the user can flip another two cards</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+
+    <p><img src="../resources/img/hw06-memoremoji/ok.gif" /></p>
+
+    <p><strong>Keep track of the turns</strong></p>
+
+    <ul>
+      <li>One turn means a player flipped two cards</li>
+      <li>Above the game board, show <code>number of turns played / max number of turns</code>
+        <ul>
+          <li>For example, displaying <code>TURN 2/4</code> means the player is playing the second turn and can only play 4 turns maximum.</li>
+        </ul>
+      </li>
+    </ul>
+
+    <p><strong>Game end state:</strong></p>
+
+    <p>The game is over when either;</p>
+
+    <ul>
+      <li>The turns played is equal to the maximum of turns</li>
+      <li>All of the revealed cards are matched</li>
+    </ul>
+
+    <p><strong>Display results of the game</strong></p>
+
+    <ul>
+      <li>Once the game is over, display the number turns over the max turns and display whether or not the player has won or lost. Here&#39;s an example of a loss:</li>
+    </ul>
+
+    <p><img src="../resources/img/hw06-memoremoji/lost.gif" /></p>
+
+    <h3 id="optional-features-extra-credit">Optional Features (Extra Credit)</h3>
+
+    <p>If working on any extra credit, ⚠️ add a note in the readme specifying which extra credit you&#39;ve implemented</p>
+
+    <p>(5 points) <strong>A &quot;play again&quot;  button on the result page to restart the game once the game is over</strong></p>
+
+    <ul>
+      <li>This button will display the original form at the beginning of the game so that the user can play another game</li>
+    </ul>
+
+    <p>(10 points) <strong>Show previous score</strong></p>
+
+    <ul>
+      <li>Research and use <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage">client side local storage</a> to store the last score (number of turns over max number of turns)&#8230; and display this on the game end page</li>
+    </ul>
+
+    <p>(20 points) <strong>Save name and score in database</strong></p>
+
+    <ul>
+      <li>At the end of the game, display a form allowing the user to save their name and score (number of turns over max turns)</li>
+      <li>Save this data in the database</li>
+      <li>Display all scores after form submission</li>
+    </ul>
+
+  </div>
+</div>
+
+:ET

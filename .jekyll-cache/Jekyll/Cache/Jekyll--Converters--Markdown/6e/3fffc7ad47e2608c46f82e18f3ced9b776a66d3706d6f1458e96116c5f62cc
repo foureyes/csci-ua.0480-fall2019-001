@@ -1,0 +1,17 @@
+I"°<p>Passport Examples</p>
+
+<ul>
+  <li><a href="http://passportjs.org/docs">PassportJS Documentation</a></li>
+  <li><a href="https://github.com/saintedlama/passport-local-mongoose/tree/master/examples/login">From passport-local-mongoose</a></li>
+  <li><a href="http://mherman.org/blog/2015/01/31/local-authentication-with-passport-and-express-4/#.VjGSOq6rSRs">From mherman.org</a></li>
+  <li><a href="http://scotch.io/tutorials/javascript/easy-node-authentication-setup-and-local">From scotch.io</a></li>
+</ul>
+
+<p>Password Hashing</p>
+
+<ul>
+  <li><a href="http://csrc.nist.gov/publications/nistpubs/800-132/nist-sp800-132.pdf">NIST - Recommendation for Password-Based Key Derivation</a></li>
+  <li><a href="http://security.stackexchange.com/questions/211/how-to-securely-hash-passwords">How to securely hash passwords</a></li>
+  <li><a href="https://crackstation.net/hashing-security.htm">Salted Password Hashing - Doing it Right</a></li>
+</ul>
+:ET

@@ -1,0 +1,22 @@
+I"»<p>MongoDB</p>
+
+<ul>
+  <li><a href="https://docs.mongodb.com/manual/core/databases-and-collections/">Databases and Collections</a></li>
+  <li><a href="https://docs.mongodb.com/manual/core/documen://docs.mongodb.com/manual/reference/bson-types/">Types</a></li>
+  <li><a href="https://docs.mongodb.com/manual/tutorial/query-documents/">Query Documents</a></li>
+  <li><a href="https://docs.mongodb.com/manual/crud/">Create, Read, Update, Delete</a></li>
+  <li><a href="https://docs.mongodb.com/manual/tutorial/insert-documents/">Insert</a></li>
+  <li><a href="https://docs.mongodb.com/manual/core/data-modeling-introduction/">Data Modeling Intro</a></li>
+  <li><a href="https://docs.mongodb.com/v3.2/core/data-model-design/">Data Model Design</a></li>
+  <li><a href="https://docs.mongodb.com/manual/tutorial/model-embedded-one-to-many-relationships-between-documents/#data-modeling-example-one-to-many">Embedded</a></li>
+  <li><a href="https://docs.mongodb.com/manual/tutorial/model-referenced-one-to-many-relationships-between-documents/#data-modeling-publisher-and-books">Document References</a></li>
+  <li><a href="https://docs.mongodb.com/v3.2/applications/data-models-relationships/">Modeling Relationships / Examples</a></li>
+</ul>
+
+<p>Mongoose</p>
+
+<ul>
+  <li><a href="http://mongoosejs.com/docs/subdocs.html">Embedded Documents - Sub Docs</a></li>
+  <li><a href="http://mongoosejs.com/docs/populate.html">Document References - Mongoose Population</a></li>
+</ul>
+:ET

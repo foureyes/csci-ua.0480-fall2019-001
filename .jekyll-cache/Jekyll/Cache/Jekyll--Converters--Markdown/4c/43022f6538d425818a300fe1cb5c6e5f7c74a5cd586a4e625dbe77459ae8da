@@ -1,0 +1,606 @@
+I"{Y<section class="intro-slide">
+  <h1 id="flexbox">Flexbox</h1>
+
+  <h3 id="csci-ua0480-001">CSCI-UA.0480-001</h3>
+
+  <p><small></small></p>
+</section>
+
+<section>
+  <h2 id="different-screen-sizes">Different Screen Sizes</h2>
+
+  <p>With so many different devices that can be used to view a page, coming up with a design for different resolutions is pretty challenging&#8230;</p>
+
+  <p><strong>What are some layout/visual strategies that you can use to deal with different screen resolutions?</strong> &#8594;</p>
+
+</section>
+
+<section>
+  <h2 id="different-screen-sizes-1">Different Screen Sizes</h2>
+
+  <p><strong>To cope with varying screen dimensions:</strong> &#8594;</p>
+
+  <ul>
+    <li class="fragment">we may consider resizing the actual elements on the page as the screen size changes
+      <ul>
+        <li class="fragment">for example, text and images could shrink or grow</li>
+        <li class="fragment">(but, of course, until a certain point)</li>
+      </ul>
+    </li>
+    <li class="fragment">we may also consider re-flowing the elements, or laying elements out differently
+      <ul>
+        <li class="fragment">for example, for a narrower display, we may stack elements rather than have them adjacent to each other</li>
+      </ul>
+    </li>
+    <li class="fragment">we could add or remove elements
+      <ul>
+        <li class="fragment">for example, remove non-essential elements from a page on small resolutions</li>
+        <li class="fragment">or replace user interface elements that are more appropriate for the resolution (such as a <em>hamburger</em> menu on a phone)</li>
+      </ul>
+    </li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="layout">Layout</h2>
+
+  <p>So&#8230; working with the display properties of <strong>inline</strong> and <strong>block</strong> is a bit limiting, especially when it comes to accommodating different screen sizes.</p>
+
+  <ul>
+    <li class="fragment">we don&#39;t have much control of how things flow/resize/are added or removed when a screen resolution changes</li>
+    <li class="fragment">for example, block level elements don&#39;t really reflow in any way</li>
+    <li class="fragment">span elements just wrap, but don&#39;t have an explicitly <em>settable</em> width and height</li>
+    <li class="fragment">block and inline are rigid in the direction that elements are laid out (either biased vertically or horizontally)</li>
+  </ul>
+
+</section>
+<section>
+  <h2 id="flexbox-1">Flexbox</h2>
+
+  <p>One way to deal with these issues is to use <strong>flexbox</strong>.</p>
+
+  <ul>
+    <li><strong>flexbox</strong> is a layout mode that allows for more control over how elements are laid out, aligned, and sized to fill up available space</li>
+    <li>flexbox gives the developer the ability to specify an elements&#39; dimensions, arrangement, alignment, and surrounding white space:
+      <ul>
+        <li>when the layout must accommodate different screen sizes</li>
+        <li>&#8230;even when the sizes of elements are unknown or dynamic</li>
+      </ul>
+    </li>
+    <li>use it for:
+      <ul>
+        <li><em>simple</em> layouts</li>
+        <li>or layouts for components of a larger application</li>
+      </ul>
+    </li>
+  </ul>
+
+</section>
+<section>
+  <h2 id="flexbox-examples">Flexbox Examples</h2>
+
+  <p>The following slides will build off of this html, css and JavaScript:</p>
+
+  <ul>
+    <li><a href="https://jsbin.com/zapuhezowi/1/edit?css,output">jsbin</a></li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="flex-container-and-items">Flex Container and Items</h2>
+
+  <p><strong>Flexbox</strong> isn&#39;t a single property. Instead, it&#39;s a set of values and properties that are set on:</p>
+
+  <ul>
+    <li><strong>the flex container</strong> &#8230; the element that contains items to be arranged using flexbox</li>
+    <li><strong>flex items</strong> &#8230; child elements within the flex container</li>
+  </ul>
+
+</section>
+<section>
+  <h2 id="activating-flexbox">Activating Flexbox</h2>
+
+  <p>Set the <strong>display</strong> property of the containing element, the flex container, to <strong>flex</strong>:</p>
+
+  <pre><code data-trim="" contenteditable="">
+#container {
+	display: flex; 	
+}
+</code></pre>
+
+  <p><br />
+The items within the flex container will be laid out according to additional flexbox related properties.</p>
+
+  <p><strong>Let&#39;s try this.</strong> &#8594;</p>
+</section>
+
+<section>
+  <h2 id="flex-direction--flex-wrap">Flex Direction / Flex Wrap</h2>
+
+  <p>Because flexbox isn&#39;t tied to a horizontal/inline layout or a vertical/block layout, its layout is defined by <strong>flex direction</strong> and <strong>flex wrap</strong>, which in turn specify the main axis and the cross axis.</p>
+
+  <ul>
+    <li>the <strong>main axis</strong> of a flex container is the primary axis in which a container&#39;s items are laid out
+      <ul>
+        <li>it&#39;s the axis along which items <em>follow</em> each other</li>
+        <li>it&#39;s not always horizontal</li>
+      </ul>
+    </li>
+    <li>the <strong>cross axis</strong> of a flex container is perpendicular to the main axis</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="main-and-cross-axis-start-and-end">Main and Cross Axis Start and End</h2>
+
+  <p>The items are placed in a flex container on the <strong>main axis</strong>:</p>
+
+  <ul>
+    <li><strong>main start and main end</strong> specify the start and end of where elements can be placed on the <strong>main axis</strong></li>
+    <li><strong>cross start and cross end</strong> specify the start and end of the perpendicular axis on which elements are placed
+      <ul>
+        <li>for example, imagine that wrapping is enabled&#8230;</li>
+        <li>and that the main axis is horizontal</li>
+        <li>the cross axis would then be vertical&#8230;</li>
+        <li>so cross start would be the first line of horizontal items</li>
+        <li>and cross end would be the last line of horizontal items</li>
+      </ul>
+    </li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="um-pics-or-it-didnt-happen">Um. Pics or it Didn&#39;t Happen.</h2>
+
+  <p>Let&#39;s take a look at the <a href="https://developer.mozilla.org/files/3739/flex_terms.png">flexbox diagram on mozilla developer network</a>:</p>
+
+  <p><img src="https://developer.mozilla.org/files/3739/flex_terms.png" alt="flexbox diagram on mozilla developer network" /></p>
+
+  <p><strong>Specifically, notice the following items&#8230;</strong> &#8594;</p>
+
+  <ul>
+    <li class="fragment">flex container and flex items</li>
+    <li class="fragment">main and cross axis</li>
+    <li class="fragment">main and cross start and end</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="flex-direction">flex-direction</h2>
+
+  <p>The <em>actual</em> direction of the main and cross axis are specified by the <strong>flex-direction</strong> property of the containing element. The possible values are:</p>
+
+  <ul>
+    <li><code>row</code> - (default) lays out elements horizontally</li>
+    <li><code>row-reverse</code> - horizontally in reverse order of the source</li>
+    <li><code>column</code> - lays out elements vertically</li>
+    <li><code>column-reverse</code> - vertically in reverse order of the srouce</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="flex-direction-example">flex-direction example</h2>
+
+  <p><strong>Let&#39;s try some of these values.</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+.item {
+	flex-direction: column;
+}
+</code></pre>
+
+  <p data-height="388" data-theme-id="0" data-slug-hash="ZbgwGd" data-default-tab="result" data-user="foureyes" class="codepen">See the Pen <a href="http://codepen.io/foureyes/pen/ZbgwGd/">flex box - flex-direction</a> by Joe Versoza (<a href="http://codepen.io/foureyes">@foureyes</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+  <script async="" src="//assets.codepen.io/assets/embed/ei.js"></script>
+
+</section>
+
+<section>
+  <h2 id="no-more-space">No More space!?</h2>
+
+  <p>By default, <strong>flexbox will try to fit everything on the same main-axis&#8230;</strong> &#8230; even when resized:</p>
+
+  <ul>
+    <li class="fragment">reducing the dimensions results in the container and items shrinking</li>
+    <li class="fragment">when the items can&#39;t shrink anymore, items will overflow</li>
+    <li class="fragment">the content may fall outside of the viewable area of the window</li>
+  </ul>
+
+  <p><br /></p>
+
+  <div class="fragment">
+
+    <p><strong>Let&#39;s try resizing our window full of flex elements</strong> &#8594;</p>
+
+    <p data-height="268" data-theme-id="0" data-slug-hash="KdObLG" data-default-tab="result" data-user="foureyes" class="codepen">See the Pen <a href="http://codepen.io/foureyes/pen/KdObLG/">flex box - base</a> by Joe Versoza (<a href="http://codepen.io/foureyes">@foureyes</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+
+  </div>
+
+  <script async="" src="//assets.codepen.io/assets/embed/ei.js"></script>
+
+</section>
+
+<section>
+  <h2 id="flex-wrap">flex-wrap</h2>
+
+  <p>If you&#39;d rather have content wrap, there&#39;s the aptly named <strong>flex-wrap</strong>:</p>
+
+  <ul>
+    <li>it <strong>specifies what to do with flex items if the main axis no longer has space</strong></li>
+    <li>this property is set on the flex container, and these are its possible values:
+      <ul>
+        <li class="fragment"><code>nowrap</code> - default, as mentioned in previous slides&#8230; items will fit on one line of main axis</li>
+        <li class="fragment"><code>wrap</code> - wrap to next line</li>
+        <li class="fragment"><code>wrap-reverse</code> - wrap to next line, opposite direction</li>
+        <li class="fragment">note that direction matters (we can try column, but we&#39;ll have to explicitly set a height for the container)</li>
+      </ul>
+    </li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="flex-wrap-example">flex-wrap example</h2>
+
+  <p><strong>Let&#39;s try flex-wrap with some different values.</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+#container {
+	flex-wrap: wrap;
+}
+</code></pre>
+
+  <p data-height="316" data-theme-id="0" data-slug-hash="VvoOpW" data-default-tab="result" data-user="foureyes" class="codepen">See the Pen <a href="http://codepen.io/foureyes/pen/VvoOpW/">flex box - flex-wrap</a> by Joe Versoza (<a href="http://codepen.io/foureyes">@foureyes</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+  <script async="" src="//assets.codepen.io/assets/embed/ei.js"></script>
+
+</section>
+
+<section>
+  <h2 id="order">order</h2>
+
+  <p>Items within the flex container are arranged in order that they appear in the markup (<em>source order</em>)</p>
+
+  <p>However, <strong>you can change the visual rendering of these items</strong> by using the <strong>order</strong> property on specific <strong>item</strong> elements:</p>
+
+  <ul>
+    <li>the possible values of order are integers</li>
+    <li>the default value is 0</li>
+    <li>elements are laid out in ascending order of <strong>order</strong> values</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="order-example">order example</h2>
+
+  <p><strong>How would you move the first 2 elements in this row of divs to the end of the row without changing the markup?</strong> &#8594;</p>
+
+  <p data-height="268" data-theme-id="0" data-slug-hash="dYxaOv" data-default-tab="result" data-user="foureyes" class="codepen">See the Pen <a href="http://codepen.io/foureyes/pen/dYxaOv/">flex box - order</a> by Joe Versoza (<a href="http://codepen.io/foureyes">@foureyes</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+  <script async="" src="//assets.codepen.io/assets/embed/ei.js"></script>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+#item1 {
+  order: 1; 
+}
+#item2 {
+  order: 2; 
+}
+</code></pre>
+</section>
+
+<section>
+  <h2 id="justifying-content">Justifying Content</h2>
+
+  <p>The <strong>justify-content</strong> property defines how space is distributed around the flex items in the main axis. It&#39;s possible values are:</p>
+
+  <ul>
+    <li>flex-start - items are packed at the beginning of main axis</li>
+    <li>flex-end - &#8230; at end of main axis</li>
+    <li>center - items are centered</li>
+    <li>space-between - space distributed evenly between items, but items start and end at main-start and main-end</li>
+    <li>space-around - space distributed evenly&#8230; including before and after first and last item</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="justify-content-example">justify-content example</h2>
+
+  <p><strong>Let&#39;s try a few of these values.</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+.container {
+  display: flex;
+  justify-content: space-around;
+}
+</code></pre>
+
+  <p data-height="212" data-theme-id="0" data-slug-hash="BoXedO" data-default-tab="result" data-user="foureyes" class="codepen">See the Pen <a href="http://codepen.io/foureyes/pen/BoXedO/">flex box - justify-content</a> by Joe Versoza (<a href="http://codepen.io/foureyes">@foureyes</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+  <script async="" src="//assets.codepen.io/assets/embed/ei.js"></script>
+
+</section>
+
+<section>
+  <h2 id="aligning-along-the-line-on-the-cross-axis">Aligning Along the Line on the Cross Axis</h2>
+
+  <p>The <strong>align-items</strong> property specifies how space should be distributed <strong>along the flex line</strong> on the cross axis (that is, the perpendicular axis).</p>
+
+  <ul>
+    <li>flex-start - at the beginning of cross axis</li>
+    <li>flex-end - at end of cross axis</li>
+    <li>center - centered along cross axis</li>
+    <li>baseline - items aligned such that baseline of text is aligned</li>
+    <li>stretch - fill cross axis while still respecting specified height if specified (<em>stretch</em>)
+<br /></li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="align-items-example">align-items Example</h2>
+
+  <p><strong>Let&#39;s try this.</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+.container {
+  display: flex;
+  align-items: baseline;
+}
+</code></pre>
+
+  <p data-height="325" data-theme-id="0" data-slug-hash="ZbgNxY" data-default-tab="result" data-user="foureyes" class="codepen">See the Pen <a href="http://codepen.io/foureyes/pen/ZbgNxY/">flex box - align-items</a> by Joe Versoza (<a href="http://codepen.io/foureyes">@foureyes</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+  <script async="" src="//assets.codepen.io/assets/embed/ei.js"></script>
+
+</section>
+<section>
+  <h2 id="aligning-the-content-all-lines-along-cross-axis">Aligning the Content (All Lines) Along Cross Axis</h2>
+
+  <p>The <strong>align-content</strong> property specifies how space should be distributed <strong>around and between all flex lines</strong> on the cross axis (that is, the perpendicular axis).</p>
+
+  <ul>
+    <li>flex-start - lines are packed at the beginning of cross axis</li>
+    <li>flex-end - &#8230; at end of cross axis</li>
+    <li>center - lines are centered along cross axis</li>
+    <li>space-between - space distributed evenly between lines, but lines start and end at cross-start and cross-end</li>
+    <li>space-around - space distributed evenly&#8230; including before and after first and last line
+<br /></li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="align-content-example-setup">align-content Example Setup</h2>
+
+  <p>Let&#39;s add a border and a height to our container so that we can see where lines are aligned.</p>
+
+  <pre><code data-trim="" contenteditable="">
+.container {
+	display: flex;
+	flex-wrap: wrap;
+	height: 400px;
+	border: 1em solid #277;
+}
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="align-content-example-setup-1">align-content Example Setup</h2>
+
+  <p><strong>Let&#39;s try using align-content to align lines.</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+.container {
+	align-content: flex-end;
+}
+</code></pre>
+
+  <p data-height="457" data-theme-id="0" data-slug-hash="qOeGLX" data-default-tab="result" data-user="foureyes" class="codepen">See the Pen <a href="http://codepen.io/foureyes/pen/qOeGLX/">flex box - align-content</a> by Joe Versoza (<a href="http://codepen.io/foureyes">@foureyes</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+  <script async="" src="//assets.codepen.io/assets/embed/ei.js"></script>
+
+</section>
+
+<section>
+  <h2 id="flex-grow">flex-grow</h2>
+
+  <p>The <strong>flex-grow</strong> property is set on a flex item, and it determines how much space (in a container) an item should take up if the item needs to grow.</p>
+
+  <ul>
+    <li>the possible values are integers</li>
+    <li>the integer represents a proportion</li>
+    <li>if all are equal, then all items take up equal space</li>
+    <li>however, if all items are 1&#8230; but one item is 2, this one item would take up twice the space of all of the others</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="flex-grow-example">flex-grow Example</h2>
+
+  <p><strong>Let&#39;s see how flex-grow works.</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+#item2 {
+	flex-grow: 2;
+}
+.item {
+    flex-grow: 1;
+	height: 2em;
+	/* width: 2em; */
+}
+</code></pre>
+
+  <p data-height="214" data-theme-id="0" data-slug-hash="ojKrbd" data-default-tab="result" data-user="foureyes" class="codepen">See the Pen <a href="http://codepen.io/foureyes/pen/ojKrbd/">ojKrbd</a> by Joe Versoza (<a href="http://codepen.io/foureyes">@foureyes</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+  <script async="" src="//assets.codepen.io/assets/embed/ei.js"></script>
+
+</section>
+
+<section>
+  <h2 id="flex-shrink">flex-shrink</h2>
+
+  <p>The <strong>flex-shrink</strong> property is set on a flex item, and it determines how much space (within the container) an item should take up if the item needs to shrink.</p>
+
+  <ul>
+    <li>the possible values are integers</li>
+    <li>the integer represents a factor</li>
+    <li>if all are equal, then all items take up equal space</li>
+    <li>however, if all items are 1&#8230; but one item is 2, this one item would take up twice the space of all of the others</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="flex-shrink-example">flex-shrink Example</h2>
+
+  <p><strong>Let&#39;s see how flex-grow works (try resizing).</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+#item2 {
+	flex-shrink: 2;
+}
+
+.item {
+	flex-shrink: 1;
+	height: 2em;
+	width: 6em; 
+}
+</code></pre>
+
+  <p data-height="202" data-theme-id="0" data-slug-hash="gaVNgy" data-default-tab="result" data-user="foureyes" class="codepen">See the Pen <a href="http://codepen.io/foureyes/pen/gaVNgy/">gaVNgy</a> by Joe Versoza (<a href="http://codepen.io/foureyes">@foureyes</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+  <script async="" src="//assets.codepen.io/assets/embed/ei.js"></script>
+
+</section>
+
+<section>
+  <h2 id="overriding-align-items">Overriding align-items</h2>
+
+  <p>You can override the container&#39;s <strong>align-items</strong> property  for a specific item by using <strong>align-self</strong> on a flex item. The same values are still relevant:</p>
+
+  <ul>
+    <li>flex-start - at the beginning of cross axis</li>
+    <li>flex-end - at end of cross axis</li>
+    <li>center - centered along cross axis</li>
+    <li>baseline - items aligned such that baseline of text is aligned</li>
+    <li>stretch - fill cross axis while still respecting specified height if specified (<em>stretch</em>)
+<br /></li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="align-self-example">align-self Example</h2>
+
+  <p><strong>Let&#39;s try this.</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+#item4 {
+	background-color: #ea1;
+	align-self: flex-end;
+}
+</code></pre>
+
+  <p data-height="310" data-theme-id="0" data-slug-hash="pjMXpN" data-default-tab="result" data-user="foureyes" class="codepen">See the Pen <a href="http://codepen.io/foureyes/pen/pjMXpN/">flex box - align-self</a> by Joe Versoza (<a href="http://codepen.io/foureyes">@foureyes</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+  <script async="" src="//assets.codepen.io/assets/embed/ei.js"></script>
+
+</section>
+
+<section>
+  <h2 id="center-vertically-and-horizontally">Center Vertically and Horizontally</h2>
+
+  <p><strong>Using flex box related properties, center (horizontally and vertically) the inner div in the containing div</strong> &#8594;</p>
+
+  <p data-height="400" data-theme-id="0" data-slug-hash="yYmdEb" data-default-tab="result" data-user="foureyes" class="codepen">See the Pen <a href="http://codepen.io/foureyes/pen/yYmdEb/">flex box - center the item</a> by Joe Versoza (<a href="http://codepen.io/foureyes">@foureyes</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+  <script async="" src="//assets.codepen.io/assets/embed/ei.js"></script>
+
+</section>
+
+<section>
+  <h2 id="centering">Centering</h2>
+
+  <p>One way to center horizontally and vertically is to use flex box. Set both <strong>justify-content</strong> and <strong>align-items</strong> to <strong>center</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+.container {
+	display: flex;
+	justify-content: center;
+ 	align-items: center;
+}
+</code></pre>
+</section>
+
+<section>
+  <h2 id="layout-with-flex-box">Layout with Flex Box</h2>
+
+  <p>Use the following markup&#8230;.</p>
+
+  <pre><code data-trim="" contenteditable="">
+<div id="main">
+  <article>article</article>
+  <nav>nav</nav>
+  <aside>aside</aside>
+</div>
+<footer>footer</footer>
+</code></pre>
+</section>
+
+<section>
+  <h2 id="layout-with-flex-box-continued">Layout with Flex Box Continued</h2>
+
+  <p>And this CSS&#8230;</p>
+
+  <pre><code data-trim="" contenteditable="">
+article, nav, aside, footer {
+  font-family: sans-serif;
+  border: 1px solid #000;
+  padding: 5px;
+  margin: 5px;
+}
+
+nav {
+  width: 200px;
+}
+
+aside {
+  width: 200px;
+}
+
+article {
+  height: 300px;
+}
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="layout-with-flex-box-1">Layout with Flex Box&#8230;</h2>
+
+  <p><strong>Create this layout by using flexbox properties</strong> &#8594;</p>
+
+  <ul>
+    <li>don&#39;t peek at the css tab</li>
+    <li>only use flex properties</li>
+  </ul>
+
+  <p><br /></p>
+
+  <p data-height="344" data-theme-id="0" data-slug-hash="OyKeoP" data-default-tab="result" data-user="foureyes" class="codepen">See the Pen <a href="http://codepen.io/foureyes/pen/OyKeoP/">flex-box - 3 column</a> by Joe Versoza (<a href="http://codepen.io/foureyes">@foureyes</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+  <script async="" src="//assets.codepen.io/assets/embed/ei.js"></script>
+
+</section>
+
+<section>
+  <h2 id="resources">Resources</h2>
+
+  <ul>
+    <li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Flexible_Box_Layout/Using_CSS_flexible_boxes">flexbox mdn docs</a></li>
+    <li><a href="https://css-tricks.com/snippets/css/a-guide-to-flexbox/">flexbox guide from css tricks</a></li>
+    <li><a href="https://cvan.io/flexboxin5/">flexbox in 5 minutes</a></li>
+    <li><a href="http://jonibologna.com/content/images/flexboxsheet.pdf">flexbox decision tree</a></li>
+  </ul>
+
+</section>
+
+:ET

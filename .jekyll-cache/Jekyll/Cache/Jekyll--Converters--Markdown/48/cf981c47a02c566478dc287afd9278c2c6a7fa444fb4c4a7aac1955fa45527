@@ -1,0 +1,610 @@
+I"L<section class="intro-slide">
+  <h1 id="express">Express</h1>
+
+  <h3 id="csci-ua0480-001">CSCI-UA.0480-001</h3>
+
+  <p><small></small></p>
+</section>
+<section>
+  <h2 id="so-we-learned-about-nodes-http-module">So&#8230; We Learned About Node&#39;s HTTP Module</h2>
+
+  <p>It was little bit low level. <strong>What were some objects that we looked at?</strong> &#8594;</p>
+
+  <ul>
+    <li>the <a href="http://nodejs.org/api/http.html#http_http">http module</a> itself</li>
+    <li>the <a href="http://nodejs.org/api/http.html#http_class_http_server">Server object</a></li>
+    <li>the <a href="http://nodejs.org/api/http.html#http_http_incomingmessage">IncomingMessage object</a> (the request object)</li>
+    <li>the <a href="http://nodejs.org/api/http.html#http_class_http_serverresponse">ServerResponse object</a></li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="creating-a-web-server">Creating a Web Server</h2>
+
+  <p><strong>We brought up a web server and served some simple static pages by&#8230;</strong> &#8594;</p>
+
+  <ol>
+    <li class="fragment">creating a Server object that listens on a particular port</li>
+    <li class="fragment">specifying a function to be called when a request event is triggered</li>
+    <li class="fragment">using the passed in request and response objects in the callback to create a response</li>
+  </ol>
+
+  <p><br /></p>
+</section>
+<section>
+  <h2 id="setting-up">Setting Up</h2>
+
+  <p>To create a Server object that</p>
+
+  <ul>
+    <li>listens on port 3000</li>
+    <li>has callback, a <em>request handler</em>, bound to a request event</li>
+  </ul>
+
+  <p><br />
+&#8230; <strong>We needed to do two things</strong> &#8594;</p>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+// bring in the http module
+const http = require('http')
+
+// create a server object that listens on port 3000
+// ...and bind the handleRequest function to a requeset event
+http.createServer(handleRequest).listen(3000)
+</code></pre>
+</section>
+
+<section>
+  <h2 id="handling-requests">Handling Requests</h2>
+
+  <p>We created a callback function to handle requests. <strong>What were the two arguments that it could take?</strong> &#8594;</p>
+
+  <ul class="fragment">
+    <li>a Request object (we named this <code>req</code>)</li>
+    <li>a Response object (we named this <code>res</code>)</li>
+  </ul>
+
+  <p><br /></p>
+  <pre class="fragment"><code data-trim="" contenteditable="">
+function handleRequest(req, res) { ... } 
+</code></pre>
+</section>
+
+<section>
+  <h2 id="the-request-incomingmessage-object">The Request (IncomingMessage) Object</h2>
+
+  <p><strong>What did we use the IncomingMessage (<em>request</em>) object for?</strong> &#8594;</p>
+
+  <p class="fragment">We mainly just used it to determine what url the client was attempting to request:</p>
+
+  <p class="fragment"><code>if(req.url == '/') .. </code></p>
+</section>
+
+<section>
+  <h2 id="the-response-object">The Response Object</h2>
+
+  <p><strong>What did we use the Response object for?</strong> &#8594;</p>
+
+  <p class="fragment">We used it to send back the response headers and body. <strong>What were two methods that we used on it?</strong> &#8594;</p>
+
+  <ul class="fragment">
+    <li>writeHead(status, headers)</li>
+    <li>end(body)</li>
+  </ul>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+res.writehead(200, {'content-type':'text/plain'});
+res.end('hello');
+</code></pre>
+</section>
+
+<section>
+  <h2 id="it-looks-a-little-something-like-this">It Looks a Little Something Like This:</h2>
+
+  <p><strong>So, all together</strong> &#8230;</p>
+
+  <pre><code data-trim="" contenteditable="">
+const http = require('http');
+
+http.createServer(handleRequest).listen(3000);
+console.log('starting server on port 3000';
+
+function handleRequest(req, res) {
+	if(req.url == '/') {
+		res.writehead(200, {'content-type':'text/plain'});
+		res.end('hello');
+	} else {
+		res.writeHead(404, {'Content-Type':'text/plain'});
+		res.end('Not Found');
+
+	}
+}
+</code></pre>
+</section>
+
+<section>
+  <h2 id="serving-static-files">Serving Static Files</h2>
+
+  <p>We modified our program so that it served static files. <strong>How did we do that (what module and method did we use?)</strong> &#8594;</p>
+
+  <p class="fragment">We used the <code>fs</code> module.</p>
+
+  <p class="fragment">&#8230;and we used the <code>readFile</code> method, which takes a path and a callback.</p>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+// within our serveStatic function
+fs.readFile(path, function(err, data) { ... });
+</code></pre>
+</section>
+
+<section>
+  <h2 id="servestatic">serveStatic</h2>
+
+  <p>Our <code>serveStatic</code> function did two things:</p>
+
+  <ol>
+    <li>attempted to read the contents of a file&#8230;</li>
+    <li>and when it finished, it would send back an HTTP response</li>
+  </ol>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+function serveStatic(res, path, contentType, resCode) {
+	fs.readFile(path, function(err, data) {
+		if (err) {
+			res.writeHead(500, { 'Content-Type': 'text/plain' }); 
+			res.end('500 - Internal Error');
+		} else {
+			res.writeHead(resCode, { 'Content-Type': contentType }); 
+			res.end(data);
+		}
+	});
+}
+</code></pre>
+</section>
+
+<section>
+  <h2 id="using-servestatic">Using serveStatic</h2>
+
+  <p>We modified our request handling callback to use our new <code>serveStatic</code> function instead of sending back a response directly.</p>
+
+  <pre><code data-trim="" contenteditable="">
+function handleRequest(req, res) {
+	if (req.url === '/') {
+		serveStatic(res, './public/index.html', 'text/html', 200);
+	} else if (req.url === '/about') {
+		serveStatic(res, './public/about.html', 'text/html', 200);
+	}
+	// remainder of function definition omitted for brevity
+}
+</code></pre>
+</section>
+
+<section>
+  <h1 id="that-wasnt-so-bad">That Wasn&#39;t So Bad</h1>
+
+  <h3 id="at-least-it-was-better-than-the-net-module-right">(At least it was better than the net module, right?)</h3>
+</section>
+
+<section>
+  <h2 id="some-shortcomings">Some Shortcomings</h2>
+
+  <p><strong>Well&#8230; maybe some if it was not so great. What were some challenges in writing that program, and what were some missing features?</strong> &#8594;</p>
+
+  <ul class="fragment">
+    <li>the URLs are pretty brittle; they don&#39;t handle trailing slashes, query strings, etc. &#8230; without <em>a lot</em> of work</li>
+    <li>for every response&#8230;
+      <ul>
+        <li>we have to set the status code</li>
+        <li>as well as the content-type headers</li>
+        <li>a bit of a pain (accommodating all of the possible assets that could served, such as images, css, video, etc.)</li>
+      </ul>
+    </li>
+    <li>the files are read from the disk every time (no caching)</li>
+    <li><em>there&#39;s a lot of manual work in general</em></li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="a-little-help">A Little Help</h2>
+
+  <p>Let&#39;s use a <strong>server side web framework</strong>. A <strong>web framework</strong> is a set of tools, libraries or software that reduces the overhead of developing web applications.</p>
+
+  <p><strong>Some features that a web framework may provide are:</strong> &#8594;</p>
+
+  <ul class="fragment">
+    <li><strong>templating</strong> - to keep logic out of your presentation</li>
+    <li><strong>routing</strong> - for mapping urls to pages/functionality</li>
+    <li><strong>middleware</strong> - a pipeline of functions to manipulate and work with the request and response</li>
+    <li><strong>database access</strong> - an abstraction layer for dealing with databases</li>
+    <li><strong>general project structure</strong> - a standard way for organizing your project</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="web-frameworks">Web Frameworks</h2>
+
+  <p>Web frameworks can be very featureful:</p>
+
+  <ul>
+    <li>providing everything for you from database access to templating&#8230;</li>
+    <li>and even dictating your project layout</li>
+    <li>(these tend to be larger, and occasionally more complex)</li>
+  </ul>
+
+  <p><br />
+Web frameworks can also be very minimal:</p>
+
+  <ul>
+    <li>only providing a small amount of core functionality</li>
+    <li>&#8230; and leaving other features to be integrated piecemeal as needed</li>
+    <li>(these tend to be smaller, and more bare bones)</li>
+  </ul>
+
+  <p><br />
+<strong>Web frameworks can generally be categorized in this manner, or fall somewhere inbetween.</strong></p>
+</section>
+
+<section>
+  <h2 id="some-popular-web-frameworks">Some Popular Web Frameworks</h2>
+
+  <p>There are a lot of options for web frameworks, and they vary by language:</p>
+
+  <ul>
+    <li><strong>ruby</strong> - rails, <strong>sinatra</strong></li>
+    <li><strong>python</strong> - django, <strong>flask</strong></li>
+    <li><strong>PHP</strong> - laravel, symfony, <strong>slim</strong></li>
+    <li><strong>node</strong> - <strong>express</strong></li>
+  </ul>
+
+  <p><br />
+The highlighted ones are <strong>microframeworks</strong>.</p>
+</section>
+<section>
+  <h2 id="microframeworks">Microframeworks</h2>
+
+  <p>Generally, a microframework, or a minimal web framework:</p>
+
+  <ul>
+    <li>has a <strong>simple, but extensible</strong> set of core functionality</li>
+    <li><strong>won&#39;t make too many design decisions</strong> for you (and the ones that are made are usually changeable)</li>
+    <li>leaves many features up to the developer (and usually relies on third-party tools and libraries for those features)</li>
+    <li><strong>maybe even fits in a single file!</strong></li>
+  </ul>
+
+</section>
+
+<section>
+  <h1 id="were-using-express-a-minimal-and-flexible-nodejs-web-application-framework">We&#39;re Using Express, a &quot;minimal and flexible Node.js web application framework&quot;</h1>
+
+</section>
+<section>
+  <h2 id="express-1">Express</h2>
+
+  <p>We&#39;ll be using <strong>Express 4</strong>. <strong>A little bit about Express&#8230;</strong> &#8594;</p>
+
+  <ul>
+    <li><strong>built on top of node</strong> and node&#39;s <code>http</code> module</li>
+    <li>you&#39;ll find some <strong>familiar</strong> (but augmented) objects, like <strong>request</strong> and <strong>response</strong></li>
+    <li><strong>minimal</strong>, more like sinatra or flask rather than rails or django</li>
+    <li><strong>flexible</strong> - your project layout is up to you, you choose what features you&#39;d like integrated, etc.</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="express-4-features">Express 4 Features</h2>
+
+  <p>Some features that Express comes with:</p>
+
+  <ul>
+    <li>extends request and response objects
+      <ul>
+        <li><code>response.sendFile</code></li>
+        <li><code>response.redirect</code></li>
+        <li><code>request.ip</code></li>
+        <li>etc.</li>
+      </ul>
+    </li>
+    <li>routing</li>
+    <li>views and templating</li>
+    <li>middleware</li>
+    <li>scaffolding</li>
+  </ul>
+
+  <p>Some things that Express doesn&#39;t do (on its own):</p>
+
+  <ul>
+    <li>database access (we&#39;ll have to bring in another module for that)</li>
+    <li>no opinion on how your project is structured - it&#39;s up to you to make it as organized or <em>unorganized</em> as you want!</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="when-to-use-express">When to Use Express</h2>
+
+  <p>Some use cases for express</p>
+
+  <ul>
+    <li>an API</li>
+    <li>an API backed single page web app</li>
+    <li>a traditional html page based app</li>
+    <li>a hybrid single page web app / traditional app</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="installing-express">Installing Express</h2>
+
+  <p><strong>How do we install express?</strong> &#8594;</p>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+npm install express
+</code></pre>
+
+  <p class="fragment"><strong>What if we want to save it as a dependency of our project?</strong> &#8594;</p>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+// if you don't already have a package.json
+npm init
+
+// install express and save dependency to package.json
+npm install express --save
+</code></pre>
+</section>
+
+<section>
+  <h1 id="a-reminder-were-using-express-4">A Reminder, We&#39;re Using Express 4</h1>
+
+</section>
+<section>
+  <h2 id="a-simple-express-program">A Simple Express Program</h2>
+
+  <p>Hello World</p>
+  <pre><code data-trim="" contenteditable="">
+const express = require('express');
+const app = express();
+
+app.get('/', function(req, res){
+	res.send('hello');
+});
+
+app.listen(3000);
+console.log('Started server on port 3000');
+</code></pre>
+</section>
+
+<section>
+  <h2 id="another-url">Another URL</h2>
+
+  <p><strong>Let&#39;s try adding another url. The URL should be /faq.</strong> &#8594;</p>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+app.get('/faq', function(req, res) {
+	res.send('you has q, i has answer');
+});
+</code></pre>
+
+</section>
+<section>
+  <h2 id="testing-it-out">Testing it Out&#8230;</h2>
+
+  <p><strong>Try navigating to your app with&#8230;</strong> &#8594;</p>
+
+  <ul>
+    <li><code>http://localhost:3000/</code></li>
+    <li><code>http://localhost:3000/faq</code></li>
+    <li><code>http://localhost:3000/faq?question=1</code></li>
+    <li><code>http://localhost:3000/faq/</code></li>
+    <li><code>http://localhost:3000/faQ</code></li>
+    <li><code>http://localhost:3000/nope</code></li>
+  </ul>
+
+  <p><strong>What are some differences with our previous implementation using only node&#39;s http module?</strong> &#8594;</p>
+
+  <ul class="fragment">
+    <li>trailing slashes and query strings work</li>
+    <li>case insensitive</li>
+    <li>content type is set implicitly to text/html</li>
+    <li>404&#39;s built in</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="line-by-line">Line by Line</h2>
+
+  <pre><code data-trim="" contenteditable="">
+// require the express module
+const express = require('express');
+
+// create our express app
+const app = express();
+</code></pre>
+  <pre><code data-trim="" contenteditable="">
+// use a router to bind a callback, a request handler
+// to a particular url
+app.get('/', function(req, res){
+
+	// sends back a response; that is all
+	res.send('hello');
+});
+</code></pre>
+  <pre><code data-trim="" contenteditable="">
+// listen on port 3000
+app.listen(3000);
+console.log('Started server on port 3000');
+</code></pre>
+</section>
+
+<section>
+  <h2 id="express-and-verb">express() and VERB()</h2>
+
+  <p><strong>express()</strong> - creates a new express application</p>
+
+  <ul>
+    <li>allows for configuration</li>
+    <li>takes on functionality of Server object in http module only example</li>
+    <li>note that you can call some methods on it based on http verbs (<em>request methods</em>)</li>
+  </ul>
+
+  <p><br />
+<strong>app.VERB(path, [callback]&#8230;, callback)</strong> - defines routes</p>
+
+  <ul>
+    <li>verb is an HTTP request method (such as <code>get</code>)</li>
+    <li>maps a url to a callback (or multiple callback functions)</li>
+    <li>path is case insensitive, can have trailing slash and query string</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="send-and-set">send() and set()</h2>
+
+  <p><strong>res.send([body])</strong> - send a response</p>
+
+  <ul>
+    <li>sends all set headers</li>
+    <li>if the body is a string, content type is set to <code>text/html</code></li>
+    <li>if the body is an object or an array, content type is set to <code>application/json</code></li>
+  </ul>
+
+  <p><br />
+Of course, you can still manipulate headers before sending&#8230;</p>
+
+  <p><strong>res.set()</strong> - set a response header</p>
+
+</section>
+<section>
+  <h2 id="serving-static-files-1">Serving Static Files</h2>
+
+  <p>This code will allow <strong>any</strong> file found in the public directory in your project to be served as a static file!</p>
+
+  <pre><code data-trim="" contenteditable="">
+const path = require("path");
+
+const publicPath = path.resolve(__dirname, "public");
+app.use(express.static(publicPath));
+</code></pre>
+  <!--__ -->
+  <p>No more individual urls (YES!)</p>
+</section>
+
+<section>
+  <h2 id="path-and-static-middleware">Path and Static Middleware</h2>
+
+  <p>Use the path module to create a path that specifies where your static files are located.</p>
+
+  <pre><code data-trim="" contenteditable="">
+// bring in the path module
+const path = require("path");
+
+// create a cross-platform compatible path name (don't just use public)
+const publicPath = path.resolve(__dirname, "public");
+</code></pre>
+  <!--__ -->
+
+  <p>Use the built-in <strong>static files</strong> middleware to serve up any file in <code>publicPath</code></p>
+
+  <pre><code data-trim="" contenteditable="">
+app.use(express.static(publicPath));
+</code></pre>
+</section>
+
+<section>
+  <h1 id="lets-try-serving-some-static-files">Let&#39;s Try Serving Some Static Files</h1>
+
+  <h3 id="remember-to-actually-create-the-public-directory">Remember to <em>actually</em> create the public directory</h3>
+</section>
+
+<section>
+  <h2 id="generating--rendering-html">Generating / Rendering HTML</h2>
+
+  <p>Serving flat HTML files is nice and all, but <strong>is it adequate for building all <em>sorts</em> of web applications</strong>? &#8594;</p>
+
+  <p class="fragment">Well, we want to serve <strong>dynamic content</strong>. That is, our web application will be generating html on-the-fly.</p>
+
+  <p class="fragment"><strong>To do this, we&#39;ll need a way to:</strong> &#8594;</p>
+
+  <ol>
+    <li class="fragment">create templates that content can be dropped into</li>
+    <li class="fragment">&#8230;and render those templates into an html document (or whatever format your application requires)</li>
+  </ol>
+</section>
+
+<section>
+  <h2 id="templating">Templating</h2>
+
+  <p>There are many templating solutions that we can use, both on the server side and the client side.</p>
+
+  <ul>
+    <li><strong>jade/pug</strong> comes with express, and it has a meta language for writing html!
+      <ul>
+        <li>terse syntax based on indentation (no closing tags!)</li>
+        <li><em>very</em> quick to write, but you have to learn a lot more new syntax</li>
+      </ul>
+    </li>
+    <li><strong>handlebars</strong> is based off of a basic templating language called mustache
+      <ul>
+        <li>it&#39;s basically just html</li>
+        <li>with some special <em>tokens</em> for inserting data</li>
+      </ul>
+    </li>
+  </ul>
+
+</section>
+
+<section>
+  <h1 id="well-be-using-handlebars">We&#39;ll be using handlebars.</h1>
+
+  <p>(slightly less to learn &#8230; but <strong>definitely feel free to use jade/pug instead</strong>)</p>
+
+</section>
+
+<section>
+  <h2 id="handlebars">Handlebars</h2>
+
+  <p>First, install the express handlebars module:</p>
+
+  <pre><code data-trim="" contenteditable="">
+npm install hbs --save
+</code></pre>
+  <p><br /></p>
+
+  <p>And in your code, bring in handlebars for templating:</p>
+
+  <pre><code data-trim="" contenteditable="">
+app.set('view engine', 'hbs');
+</code></pre>
+  <p><br /></p>
+
+  <p>Render a template!</p>
+
+  <pre><code data-trim="" contenteditable="">
+res.render('index', { "greeting":"HELLLOOOO" });
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="layouts">Layouts</h2>
+
+  <p>In <code>views/layout.hbs</code> &#8230;</p>
+
+  <p>(Notice 3 curly braces!)</p>
+
+  <pre><code data-trim="" contenteditable="">
+<!-- surrounding html -->
+{{{ body }}}
+<!-- surrounding html -->
+</code></pre>
+</section>
+
+<section>
+  <h2 id="templates">Templates</h2>
+
+  <p>In <code>views/viewname.hbs</code> &#8230; drop in your content</p>
+
+  <pre><code data-trim="" contenteditable="">
+{{ greeting }} world!
+</code></pre>
+</section>
+
+:ET

@@ -1,0 +1,299 @@
+I".<section class="intro-slide">
+  <h1 id="socketio-rooms">Socket.io, Rooms</h1>
+
+  <h3 id="csci-ua0480-001">CSCI-UA.0480-001</h3>
+
+  <p><small></small></p>
+</section>
+
+<section>
+  <h2 id="dont-want-to-broadcast-to-everyone">Don&#39;t Want to Broadcast to Everyone?</h2>
+
+  <p>Socket.IO allows you to have rooms&#8230;</p>
+
+  <ul>
+    <li>sockets can join and leave rooms</li>
+    <li>messages can be emitted to specific rooms</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="rooms-continued">Rooms Continued</h2>
+
+  <p>The server can add a client to a room by using <code>join</code>:</p>
+
+  <pre><code data-trim="" contenteditable="">
+socket.join('some room', optional_cb_function);
+</code></pre>
+
+  <p>The callback is called when the socket has successfully joined a room.</p>
+
+  <p>You can see all of the rooms that a socket is in as an object with:</p>
+
+  <pre><code data-trim="" contenteditable="">
+socket.rooms
+</code></pre>
+
+  <p>Note that:</p>
+
+  <ul>
+    <li>everyone starts off in a default room based on their socket id</li>
+    <li>you can also be in multiple rooms</li>
+  </ul>
+</section>
+
+<section>
+  <h1 id="joining-a-room-demo">Joining a Room Demo</h1>
+
+</section>
+<section>
+  <h2 id="on-the-server">On the Server</h2>
+
+  <p>Join a room immediately upon connection (this can be a custom event sent from the client).</p>
+
+  <pre><code data-trim="" contenteditable="">
+  // listen for a custom event from the client and join that room
+  socket.on('join', function(room) {
+    console.log('join', room);
+    // joining 
+    socket.join(room, function() {
+        console.log(socket.rooms); 
+    });
+  });
+
+</code></pre>
+</section>
+
+<section>
+  <h2 id="on-the-client">On the Client</h2>
+
+  <p>We just have to make sure that we send the custom join event&#8230; with the room that we&#39;d like to join.</p>
+
+  <pre><code data-trim="" contenteditable="">
+	socket.on('connect', onConnect);
+	function onConnect() {
+		console.log('connected');
+		socket.emit('join', 'my very own room');
+	}
+</code></pre>
+</section>
+
+<section>
+  <h2 id="sending-messages-in-rooms">Sending Messages in Rooms</h2>
+
+  <p>To send everyone in that room:</p>
+
+  <pre><code data-trim="" contenteditable="">
+socket.to('some room').emit('some event', 'message'):
+</code></pre>
+
+  <p>To send to everyone in that room, but the connected client (socket):</p>
+
+  <pre><code data-trim="" contenteditable="">
+socket.to('some room').emit('some event', 'message'):
+</code></pre>
+</section>
+
+<section>
+  <h1 id="multi-room-chat-demo">Multi Room Chat Demo</h1>
+
+</section>
+
+<section>
+  <h2 id="multi-room-chat">Multi Room Chat</h2>
+
+  <p>In this demo:</p>
+
+  <ol>
+    <li>the initial page will have two buttons, one for room 1, and another for room 2</li>
+    <li>clicking on one of the buttons will join that room and change the interface
+      <ul>
+        <li>the room buttons will be removed/hidden</li>
+        <li>a text input and a button will appear to send messages</li>
+      </ul>
+    </li>
+    <li>sending a message will send only to clients in the same room</li>
+    <li>the messages will be displayed under the text input and button</li>
+  </ol>
+</section>
+
+<section>
+  <h2 id="server-code">Server Code</h2>
+
+  <p>Boiler-plate setup code for socket.io.</p>
+
+  <pre><code data-trim="" contenteditable="">
+const express = require('express');
+const app = express();
+const server = require('http').Server(app);
+const io = require('socket.io')(server);
+app.use(express.static('public'));
+
+io.on('connect', (socket) =&gt; {
+  // add custom event listeners here
+});
+
+server.listen(3000);
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="server-code-continued">Server Code Continued</h2>
+
+  <p>Now we&#39;ll handle what to do when:</p>
+
+  <ul>
+    <li>a client joins a room</li>
+    <li>a client sends a message</li>
+  </ul>
+
+  <pre><code data-trim="" contenteditable="">
+// in connect handler...
+    let room; // capture the room in our closure
+</code></pre>
+
+  <pre><code data-trim="" contenteditable="">
+    socket.on('join', (num) =&gt; {
+        console.log(num);
+        room = `room${num}`;
+        socket.join(room);
+    });
+</code></pre>
+
+  <pre><code data-trim="" contenteditable="">
+    socket.on('chat message', (message) =&gt; {
+        console.log('got message', message);
+        io.to(room).emit('chat message', message);
+    });
+</code></pre>
+</section>
+
+<section>
+  <h2 id="mark-up">Mark Up</h2>
+
+  <p>We&#39;ll have our join room buttons and our chat interface in the markup&#8230;</p>
+
+  <ul>
+    <li>the room buttons should be visible</li>
+    <li>the chat interface will default to hidden</li>
+  </ul>
+
+  <pre><code data-trim="" contenteditable="">
+&lt;style type="text/css" media="screen"&gt;
+.hidden {
+  display: none;
+}
+&lt;/style&gt;
+</code></pre>
+  <pre><code data-trim="" contenteditable="">
+&lt;script src="/socket.io/socket.io.js"&gt;&lt;/script&gt;
+&lt;script src="game.js"&gt;&lt;/script&gt;
+&lt;button data-room="1"&gt;Room 1&lt;/button&gt;
+&lt;button data-room="2"&gt;Room 2&lt;/button&gt;
+&lt;input type="text" class="hidden" id="message"&gt;
+&lt;button class="hidden" id="sendBtn"&gt;Send&lt;/button&gt;
+</code></pre>
+</section>
+
+<section>
+  <h2 id="client-code">Client Code</h2>
+
+  <p>The client code will have to handle:</p>
+
+  <ul>
+    <li>joining a room</li>
+    <li>sending a message</li>
+    <li>reacting to a sent message</li>
+  </ul>
+
+  <p><br /> 
+First, let&#39;s start with some globals, and our DOMContentLoaded&#8230;</p>
+
+  <pre><code data-trim="" contenteditable="">
+document.addEventListener("DOMContentLoaded", init);
+// connect (note that we should probably only proceed after on connect,
+// but we're ignoring that in this example code)
+const socket = io();
+</code></pre>
+
+  <pre><code data-trim="" contenteditable="">
+function init() {
+    // add listeners for our room buttons
+    const buttons = document.querySelectorAll('button[data-room]');
+    for(const button of buttons) {
+        console.log(button);
+        button.addEventListener('click', handleRoomClick); 
+    }
+}
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="choosing-a-room">Choosing a Room</h2>
+
+  <p>Let&#39;s define handleRoomClick so that our client can join a room:</p>
+
+  <pre><code data-trim="" contenteditable="">
+function handleRoomClick() {
+    // join a room
+    const room = this.getAttribute('data-room');
+    socket.emit('join', room);
+
+    // deal with interface below...
+    
+}
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="changing-the-interface">Changing the Interface</h2>
+
+  <p>Remove buttons and add a header:</p>
+
+  <pre><code data-trim="" contenteditable="">
+const buttons = document.querySelectorAll('button[data-room]');
+for(const button of buttons) {
+    button.classList.add('hidden');
+}
+
+document.body.appendChild(
+        document.createElement('h2'))
+        .textContent = `Room ${room}`;
+</code></pre>
+
+  <p>Add in chat interface and event listeners&#8230;</p>
+
+  <pre><code data-trim="" contenteditable="">
+const sendBtn = document.querySelector('#sendBtn');
+const message = document.querySelector('#message');
+
+sendBtn.classList.remove('hidden');
+message.classList.remove('hidden');
+sendBtn.addEventListener('click', sendMessage);
+socket.on('chat message', onMessage);
+</code></pre>
+
+</section>
+<section>
+  <h2 id="event-listeners-for-sending--receiving">Event Listeners for Sending / Receiving</h2>
+
+  <pre><code data-trim="" contenteditable="">
+function sendMessage() {
+    const message = document.querySelector('#message').value;
+    socket.emit('chat message', message);
+}
+</code></pre>
+
+  <pre><code data-trim="" contenteditable="">
+function onMessage(msg) {
+    document.body.appendChild(
+            document.createElement('div')) 
+            .textContent = msg;
+}
+</code></pre>
+
+</section>
+:ET
