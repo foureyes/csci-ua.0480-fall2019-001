@@ -88,7 +88,7 @@ draft,type,num,date,day,topics,slides,readings,assignments,
  
 * [Homework #1](homework/01.html)
 ",
-y,,3,11-Sep,Wed,* Higher Order Functions,"* [Higher Order Functions](slides/js/higher-order-functions.html) 
+,,3,11-Sep,Wed,* Higher Order Functions,"* [Higher Order Functions](slides/js/higher-order-functions.html) 
 * [Higher Order Functions Continued](slides/js/higher-order-functions-continued.html) 
 * [Objects Revisited, Arrow Functions with ""this""](slides/js/objects-prototypes.html)
 * [A Detour: Globals, Methods, and This](slides/js/globals-methods-this.html)","[{{ site.book_js }}]({{ site.book_js_link }})
