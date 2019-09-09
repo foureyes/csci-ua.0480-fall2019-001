@@ -86,11 +86,8 @@ draft,type,num,date,day,topics,slides,readings,assignments,
 
 *  [Chapter 11 - Asynchronous Programming](http://eloquentjavascript.net/11_async.html) (Only read up to Promises)"," __Due Monday 9/16, by 11pm__
  
-* Homework #1 (Posted on 9/9)
-
-<!--
- * [Homework #1](homework/01.html)
--->",
+* [Homework #1](homework/01.html)
+",
 y,,3,11-Sep,Wed,* Higher Order Functions,"* [Higher Order Functions](slides/js/higher-order-functions.html) 
 * [Higher Order Functions Continued](slides/js/higher-order-functions-continued.html) 
 * [Objects Revisited, Arrow Functions with ""this""](slides/js/objects-prototypes.html)
@@ -566,4 +563,3 @@ y,,26,4-Dec,Wed,"* Build tools
 ",,* TBD Lab,
 y,,27,9-Dec,Mon,* Review,,,,
 y,exam,28,11-Dec,Wed,EXAM #2,,,,
-,,,,,,,,,
