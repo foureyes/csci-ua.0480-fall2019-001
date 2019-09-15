@@ -103,7 +103,7 @@ draft,type,num,date,day,topics,slides,readings,assignments,
  [{{ site.book_js_5 }}]({{ site.book_js_5_link }})
  
  * [Chapter 5 - Higher Order Functions](http://eloquentjavascript.net/05_higher_order.html)",,
-y,,4,16-Sep,Mon,* Objects and Prototypes,"* [Objects and Prototypes, Classes](slides/05/prototypes.html)
+,,4,16-Sep,Mon,* Objects and Prototypes,"* [Objects and Prototypes, Classes](slides/05/prototypes.html)
  * [Objects in JavaScript Summary](slides/05/objects-review.html)
  * [Where Not to Use Arrow Functions](slides/05/not-arrow.html)","[{{ site.book_js }}]({{ site.book_js_link }})
  
@@ -118,17 +118,18 @@ y,,4,16-Sep,Mon,* Objects and Prototypes,"* [Objects and Prototypes, Classes](sl
  
  * [Chapter 6 - The Secret Life of Objects](http://eloquentjavascript.net/06_object.html)
  * [Chapter 8 - Bugs and Error Handling](http://eloquentjavascript.net/08_error.html)","
- __Due Wed 2/13 at 11pm:__
+ __Due Monday MORNING 9/23, by 9am__ 
  
+ * Quiz #4 (Readings and Slides from classes 5 and 6)
+
+ __Due Monday 9/23 at 11pm:__
  
- * [Homework #2](homework/02.html) 
- 
- __Due Sunday 9/25, by 9am__ 
- 
- * Quiz #4(Readings and Slides from classes 5 and 6)
- * Quiz #5(Readings from class 10) 
+Homework #2 To be posted 
+
+
+
  ",
-y,,5,18-Sep,Wed,"* Networking Primer
+,,5,18-Sep,Wed,"* Networking Primer
 * Network Programming
 * Streams / Buffers / File IO
 * HTTP
@@ -158,10 +159,11 @@ MDN Articles on HTTP
 Net Module Review
  
  * [Create Server](https://nodejs.org/api/net.html#net_net_createserver_options_connectionlistener)
-"," __Due Sunday 2/4, by 11pm__ 
+","<!-- 
+ * [Homework #2](homework/02.html) 
 
-* Quizzes #4 and #5",
-y,,6,23-Sep,Mon,"* A Simple Web Server Continued / Our ""Framework""
+-->",
+,,6,23-Sep,Mon,"* A Simple Web Server Continued / Our ""Framework""
 * Routing
 * Node HTTP Module","* [HTTP Summary](slides/07/http-summary.html)
 * [Sockets Review](slides/07/sockets-review.html)
@@ -207,11 +209,14 @@ Example Set 2
  
 * [Node's HTTP Module](slides/07/node-http.html)
 * [Project Setup](slides/08/setup.html)
--->",See previous classes on HTTP and network programming,"__Due Friday 3/1 at 11pm:__
+-->",See previous classes on HTTP and network programming,"<!-- 
+__Due Friday 3/1 at 11pm:__
  
  
  
- * [Homework #3](homework/03.html)",
+ * [Homework #3](homework/03.html)
+
+-->",
 y,,7,25-Sep,Wed,"* Server-side Web Framework
 * Project Layout","Slides
  
