@@ -104,8 +104,8 @@ draft,type,num,date,day,topics,slides,readings,assignments,
  
  * [Chapter 5 - Higher Order Functions](http://eloquentjavascript.net/05_higher_order.html)",,
 ,,4,16-Sep,Mon,* Objects and Prototypes,"* [Objects and Prototypes, Classes](slides/05/prototypes.html)
- * [Objects in JavaScript Summary](slides/05/objects-review.html)
- * [Where Not to Use Arrow Functions](slides/05/not-arrow.html)","[{{ site.book_js }}]({{ site.book_js_link }})
+* [Objects in JavaScript Summary](slides/05/objects-review.html)
+* [Where Not to Use Arrow Functions](slides/05/not-arrow.html)","[{{ site.book_js }}]({{ site.book_js_link }})
  
  * [Chapter 17 -Layer 2: The Prototype Relationship Between Objects](http://speakingjs.com/es5/ch17.html#prototype_relationship)
  
@@ -124,7 +124,7 @@ draft,type,num,date,day,topics,slides,readings,assignments,
 
  __Due Monday 9/23 at 11pm:__
  
-Homework #2 To be posted 
+ * [Homework #2](homework/02.html) 
 
 
 
@@ -159,10 +159,7 @@ MDN Articles on HTTP
 Net Module Review
  
  * [Create Server](https://nodejs.org/api/net.html#net_net_createserver_options_connectionlistener)
-","<!-- 
- * [Homework #2](homework/02.html) 
-
--->",
+",,
 ,,6,23-Sep,Mon,"* A Simple Web Server Continued / Our ""Framework""
 * Routing
 * Node HTTP Module","* [HTTP Summary](slides/07/http-summary.html)
