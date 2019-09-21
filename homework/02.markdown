@@ -265,7 +265,7 @@ console.log('odds', odds, '| evens', evens); // odds [ 1, 7, 5 ] | evens [ 2, 30
 
 <hr>
 
-### `addPermsissions(oldFn)`
+### `addPermissions(oldFn)`
 
 __Parameters:__
 
