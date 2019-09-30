@@ -230,8 +230,9 @@ Express Documentation
 * [Express Basic Routing](https://expressjs.com/en/starter/basic-routing.html)
 * [Express Routing](https://expressjs.com/en/guide/routing.html) (up to, but not including route paths)
 * [Express Static Files](https://expressjs.com/en/starter/static-files.html)",,
-y,,8,30-Sep,Mon,"* Server-side Web Framework Continued
- * Templating","* [Templating](slides/09/templating.html)
+,,8,30-Sep,Mon,"* Server-side Web Framework Continued
+ * Templating","* (See previous slides on Express)
+* [Templating](slides/09/templating.html)
 * [Middleware](slides/09/middleware.html)
 ","Handlebars Documentation
 
