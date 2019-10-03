@@ -57,7 +57,7 @@ Your directory layout should look like the following __once you're done with the
 ### Example Interaction
 
 <!-- TODO -->
-![example interaction](../resources/img/hw04/01-example.gif)
+![example interaction](../resources/img/hw04-snippet/01-example.gif)
 
 ### Submission Process
 
@@ -152,7 +152,7 @@ Now that we can server static files including our css file to make pages pretty,
 
 Here's an example of what the page could look like (you don't have to use the same exact styles, but add enough styles so that you can see that the style sheet is correctly served and applied to the html):
 
-![styled homepage](../resources/img/hw04/screenshot3.png)
+![styled homepage](../resources/img/hw04-snippet/screenshot3.png)
 
 If you add stuff to your css file but no styles change, check the console for errors and the html in <code> layout.hbs </code> to make sure the path to the css file is correct.
 
@@ -278,7 +278,7 @@ __Reload and visually check.__
 * Page should display the 3 initial snippets along with their data in a list-like way
 * Styling does not have to be exact, just as long as you can differentiate the actual snippet code, it's name, and number of lines for each.
 
-![display initial data](../resources/img/hw04/02-initial-data.png)
+![display initial data](../resources/img/hw04-snippet/02-initial-data.png)
 
 ## Part 5 - Search snippets
 
@@ -309,7 +309,7 @@ __Important:__
 __Example interaction:__
 
 <!-- TODO -->
-![searching](../resources/img/hw04/03-search.gif)
+![searching](../resources/img/hw04-snippet/03-search.gif)
 
 And your console should look something like this (for the case where tag and text are specified):
 
@@ -356,7 +356,7 @@ What's missing is the ability to add our own custom snippet and have it show up 
 __Example interaction:__
 
 <!-- TODO -->
-![adding](../resources/img/hw04/04-add.gif)
+![adding](../resources/img/hw04-snippet/04-add.gif)
 
 And your console should look something like this (for adding a single new snippet in this example). Notice the redirect back to the home/main page (in this case <code>/</code>)
 
@@ -380,7 +380,7 @@ Path: /
 
 If you check out the network tab in the browser, you should see a `GET`, `POST`, and another `GET` as a result of a redirect:
 
-![adding with network tab open](../resources/img/hw04/05-add-network.png)
+![adding with network tab open](../resources/img/hw04-snippet/05-add-network.png)
 </div>
 
 </div>
