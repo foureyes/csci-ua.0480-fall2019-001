@@ -17,8 +17,6 @@ h1.warning {
 
 ## Overview
 
-<!-- TODO -->
-![screenshot](resources/screenshot1.png)
 
 ### Description
 
@@ -31,8 +29,8 @@ Create a site that aggregates and searches JavaScript code snippets! In this hom
 
 You'll be creating 2 pages:
 
-* __home__ - <code>/</code>: home page that displays all of the JS snippets submitted on the site. Can be searched by text that is in a snippet and number of lines.
-* __add__ - <code>/add</code>: a page that allows a user to submit a new code snippet with a name, code, and number of lines.
+* __home__ - <code>/</code>: home page that displays all of the JS snippets submitted on the site. Can be searched by text that is in a snippet, a minimum number (greater than or equal to) of lines, and a tag.
+* __add__ - <code>/add</code>: a page that allows a user to submit a new code snippet with a name, code, and tags.
 
 Your directory layout should look like the following __once you're done with the assignment__:
 
@@ -59,7 +57,7 @@ Your directory layout should look like the following __once you're done with the
 ### Example Interaction
 
 <!-- TODO -->
-![example interaction](resources/interaction1.gif)
+![example interaction](../resources/img/hw04/01-example.gif)
 
 ### Submission Process
 
@@ -76,7 +74,7 @@ Your directory layout should look like the following __once you're done with the
 
 ###  Installing Dependencies
 
-* create a <code>package.json</code>
+* create a <code>package.json</code> (a `package-lock.json` should be created for you as well once you start installing modules)
 * __install__ the following __dependencies__ (make sure you use the <code>--save</code> option):
 	* <code>express</code>
 	* <code>hbs</code>
@@ -154,7 +152,7 @@ Now that we can server static files including our css file to make pages pretty,
 
 Here's an example of what the page could look like (you don't have to use the same exact styles, but add enough styles so that you can see that the style sheet is correctly served and applied to the html):
 
-![screenshot](resources/screenshot3.png)
+![styled homepage](../resources/img/hw04/screenshot3.png)
 
 If you add stuff to your css file but no styles change, check the console for errors and the html in <code> layout.hbs </code> to make sure the path to the css file is correct.
 
@@ -216,6 +214,8 @@ console.log(s.hasTag('fun')); // false
 console.log(s.hasTag('function')); // true
 ```
 
+⚠️ Export the class you make... and bring it into `app.js` so that your web app can create `Snippet` instances!
+
 ### Initial data
 
 The initial data for the site should be stored as an `Array` of `Snippet` instances. This can simply be a global variable in your `app.js` file.
@@ -226,6 +226,9 @@ The format of each code file in `code-samples` is as follows:
 
 * each file will have a single line comment as the very first line
 * each file will have unix style line endings: `\n`
+	* to avoid hardcoding line endings, attempt to determine which newlines are used
+	* for example, you can install and use [the `detect-newline` library](https://www.npmjs.com/package/detect-newline)
+	* this should be done per string of code
 * this comment contains a comma separated list of tags.
 * ⚠️ __the first line containing the comment should not be included as part of the code!__
 * (but it should be used to extract individual tags)
@@ -238,7 +241,8 @@ The general requirements for this part are:
 * read the code from each file and create `Snippet` objects
 * save the snippet objects in a global variable
 * once everything is read, print out the global variable of snippets:
-	```
+
+```
 [
   Snippet {
     name: 'helloWorld.js',
@@ -248,6 +252,7 @@ The general requirements for this part are:
   }, // other Snippet objects follow
 ]
 ```
+
 * modify `app.js` so that `listen` is called and the "Server started" message is printed __after__ all of the files are read
 	* this is tricky because of the async nature of reading the directory and reading each file
 	* you'll have to create one or more functions
@@ -273,18 +278,18 @@ __Reload and visually check.__
 * Page should display the 3 initial snippets along with their data in a list-like way
 * Styling does not have to be exact, just as long as you can differentiate the actual snippet code, it's name, and number of lines for each.
 
-![screenshot](resources/screenshot2.png)
+![display initial data](../resources/img/hw04/02-initial-data.png)
 
 ## Part 5 - Search snippets
 
-Now that we have our data being displayed on the home/main page, let's add functionality to search for snippets based on some text, the number of lines, and a tag. The server will only return snippets that match __all__ of the search criteria (essentially `and`). If a search criteria is blank (empty string), do not include it as a feature to search on.
+Now that we have our data being displayed on the home/main page, let's add functionality to search for snippets based on some text, a minimum number of lines, and a tag. The server will only return snippets that match __all__ of the search criteria (essentially `and`). If a search criteria is blank (empty string), do not include it as a feature to search on.
 
 * __In the same__ template as the homepage, add a form to search for snippets. 
 	* add attributes to the form tag so that...
 	* submitting the form makes a request to the same path that the form page is on
 	* the form uses the appropriate HTTP request method for the functionality of this form (it should be `GET` since it's just reading data!)
 * The form should have 3 `input` elements for entering form data, each with a `name` attribute:
-	* `lineQ` (the number of lines)
+	* `lineQ` (the minimum number of lines)
 	* `tagQ` (a single tag)
 	* `textQ` (any text in the snippet)
 * Remember that the name of each input element shows up somewhere in the HTTP request and ... in properties of the  express application's request object
@@ -294,7 +299,7 @@ __Now, onto the server side:__
 Modify your route handler for your home page (e.g. <code>/</code>) to __only__ select snippets that match __all__ of the search and send it to the <code>render</code> call
 
 * if searching based on text - return only those snippets that (this is important) __contain__ the text from the form input
-* if searching based on count of lines - return only those snippets that match the number of lines
+* if searching based on count of lines - return only those snippets that have a number of lines greater than or equal to the value submitted
 * if searching based on tag - return only those results that have the specified tag
     
 __Important:__
@@ -304,38 +309,34 @@ __Important:__
 __Example interaction:__
 
 <!-- TODO -->
-![searching](resources/interaction1.gif)
+![searching](../resources/img/hw04/03-search.gif)
 
-And your console should look something like this (for three requests in this example):
+And your console should look something like this (for the case where tag and text are specified):
 
-<code>
-Method: GET 
+```
+Method: GET
 Path: /
-{}
-</code> 
-<br/>
-<code>
-Method: GET 
-Path: /
-{ lineQuery: '1' }
-</code> 
-<br/>
-
-<code>
-Method: GET 
-Path: /
-{ searchQuery: 'console.log' }
-</code>
+{ tagQ: 'loop', textQ: 'console.log', lineQ: '' }
+```
 <br/>
 <br/>
 
 As you can see, the values of the query string change based on which form we submit. You can even manually manipulate the query string in the URL bar of your browser. Nice!
 
+__Make the tags clickable links:__
+
+Now that the form is working, and now that it's also possible to search by modifying the url, modify the homepage template so that:
+
+* each tag is a link
+* the link should be to `?tagQ=` ... followed by the actual tag
+* the result should be a link that you could click on that searches for that tag
+* (the other criteria can be cleared)
+
 ## Part 6 - Adding a new snippet
 
 ### Form
 
-We now have made our site display JS snippets from in-memory store, and we can search for snippets based on some text, the number of lines that the snippets have, and a tag. Nice! 
+We now have made our site display JS snippets from in-memory store, and we can search for snippets based on some text, the minimum number of lines (greater than or equal to) that the snippets have, and a tag. Nice! 
 
 What's missing is the ability to add our own custom snippet and have it show up in the list along with the others. Let's implement this feature.
 
@@ -348,36 +349,38 @@ What's missing is the ability to add our own custom snippet and have it show up 
 * now that we have a new form making a <code>POST</code> request to a new URL, add a new route handler in __app.js__ to accept <code>POST</code> requests on the URL of <code>/add</code>
 	* inside this handler: 
 	    1. create a new object for this inputted JS snippet
-	    3. add the new object to the global array holding all of the snippets. 
-	    4. __Important__: the new object should be added to the top of the array (so that it shows up first as most recent on the home/main page)
-	    2. after modifying the in-memory store, redirect to the home/main page to display the updated list
+	    2. add the new object to the global array holding all of the snippets. 
+	    3. __Important__: the new object should be added to the top of the array (so that it shows up first as most recent on the home/main page)
+	    4. after modifying the in-memory store, redirect to the home/main page to display the updated list (any previous search criteria can be cleared)
 
 __Example interaction:__
 
 <!-- TODO -->
-![adding](resources/interaction2.gif)
+![adding](../resources/img/hw04/04-add.gif)
 
 And your console should look something like this (for adding a single new snippet in this example). Notice the redirect back to the home/main page (in this case <code>/</code>)
 
-<code>
+```
 Method: GET 
 Path: /add
 {}
-</code> 
-<br/>
-<code>
+```
+
+```
 Method: POST 
 Path: /add
 {}
-</code> 
-<br/>
-<code>
+```
+
+```
 Method: GET 
 Path: /
 {}
-</code>
+```
 
+If you check out the network tab in the browser, you should see a `GET`, `POST`, and another `GET` as a result of a redirect:
 
+![adding with network tab open](../resources/img/hw04/05-add-network.png)
 </div>
 
 </div>

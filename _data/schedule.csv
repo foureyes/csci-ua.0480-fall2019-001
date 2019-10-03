@@ -253,11 +253,11 @@ Express Documentation
  
  Coding Demo
  
- * [Middleware and Forms](examples/class09/middleware-forms.zip)
-* [Sessions and Cookies](slides/10/sessions.html)
-* About the Upcoming Exam
+* [Middleware and Forms](examples/class09/middleware-forms.zip)
 
 <!--
+* About the Upcoming Exam
+
  (???)
  Coding Demo
  
@@ -272,11 +272,9 @@ Express Documentation
  
 MDN Articles on Express
 
-* [Forms](https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/forms) (up to validation)","<s>Due Friday 3/29 at 11pm</s>
+* [Forms](https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/forms) (up to validation)","__Due Wednesday 10/9 at 11pm__
  
- __Due Saturday 3/30 at 11pm__
- 
- 
+
  * [Homework #4](homework/04.html)",
 y,,10,7-Oct,Mon,"* Cookies
 * Sessions 
