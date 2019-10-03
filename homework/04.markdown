@@ -378,7 +378,7 @@ Path: /
 {}
 ```
 
-If you check out the network tab in the browser, you should see a `GET`, `POST`, and another `GET` as a result of a redirect:
+If you check out the network tab in the browser, you should see a `POST` (as a result of the submit button push) and another `GET` (as a result of a redirect)... see the first two entries in the network tab image below:
 
 ![adding with network tab open](../resources/img/hw04-snippet/05-add-network.png)
 </div>
