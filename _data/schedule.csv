@@ -255,16 +255,6 @@ Express Documentation
  
 * [Middleware and Forms](examples/class09/middleware-forms.zip)
 
-<!--
-* About the Upcoming Exam
-
- (???)
- Coding Demo
- 
- 
- * [creating middleware, sessions](examples/class10/middleware-sessions.zip)
- 
- -->
 ","[{{ site.book_js_6 }}]({{ site.book_js_6_link }})
 
 * [Chapter 7. Important External Modules - Express - Handling Forms](https://www.oreilly.com/library/view/node-up-and/9781449332235/ch07.html#id3220880
@@ -276,23 +266,22 @@ MDN Articles on Express
  
 
  * [Homework #4](homework/04.html)",
-y,,10,7-Oct,Mon,"* Cookies
+,,10,7-Oct,Mon,"* Cookies
 * Sessions 
 * NoSQL Database
 ","* Review form handling, middleware
 * [Sessions and Cookies](slides/10/sessions.html)
-* About the Upcoming Exam
+* Exam, Legislative Day
 * [Introduction to Databases / Mongo DB](slides/14/mongo.html)
  
+<!--
  
- <!--
- (???)
+(???)
  Coding Demo
- 
  
  * [creating middleware, sessions](examples/class10/middleware-sessions.zip)
  
- -->","MDN / nczonline Articles
+-->","MDN / nczonline Articles
 
 * [MDN on Cookies](https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies)
 * nczonline articles on [Cookies](https://www.nczonline.net/blog/2009/05/05/http-cookies-explained/) and [Cookies and Security](https://www.nczonline.net/blog/2009/05/12/cookies-and-security/)
