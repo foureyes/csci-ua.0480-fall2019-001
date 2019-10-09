@@ -7,7 +7,7 @@ title: CSCI-UA.0480 - Homework #5
 	<div class="panel-heading">Homework #5</div>
 	<div class="panel-body" markdown="block">
 
-# Anonymous Course Reviews (Sessions and Storing Data) - __Thursday, March 22nd, by 11PM__
+# Anonymous Course Reviews (Sessions and Storing Data) - __Thursday, October 16th, by 11PM__
 
 ## Overview
 
