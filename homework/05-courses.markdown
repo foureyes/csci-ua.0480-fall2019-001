@@ -322,7 +322,7 @@ Once your familiar with `express-session`, find a way to keep a count of the tot
 
 <hr>
 
-## Part 6 - Movies Added (by session) 
+## Part 6 - Reviews Added (by session) 
 
 Finally, create one last page (which makes 3 total), `/reviews/mine`,  showing all of the reviews that have been added by the user during their session.
 
