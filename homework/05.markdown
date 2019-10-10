@@ -349,14 +349,10 @@ Again, you've already done something similar in a previous assignment (using an 
 
 ## Part 5 - Logging Cookies, Pages Visited (by session) 
 
+### Background, User Visits and Logging Cookies
+
 Now that we have basic adding and filtering done, it's time to add some session based features.  Check out the [the slides on `express-session` middleware](../slides/10/sessions.html#/17) before starting (they're near the end of the slides).
 
-👀 🍪First, start off by adding middleware that logs out the cookie header on every request:
-
-* this should display the value in the cookie header on the server's console for every request that comes in
-* the output should look like this:
-	The Cookie header contains:
-	foo=bar;baz=qux
 
 Once your familiar with `express-session` and the idea of Cookies, find a way to keep a count of the total number of pages that a user has seen. We can identify users by their session (which `express-session` will generate for us). Consequently, different sessions (for example, visiting the site on two different browsers) will increment different, independent, count totals.
 
@@ -377,6 +373,15 @@ Once your familiar with `express-session` and the idea of Cookies, find a way to
 	* you'll have to find some way of incrementing a counter variable that's session dependent (that is, different client sessions will have different visit counts) for every page visited, regardless of page / path
 	* once you've implemented this, try refreshing the page or flipping back-and-forth between viewing all reviews and adding a review
 	* you should see the counter increment similar to the animation shown in the example section below
+* lastly, 👀 🍪.... add middleware that logs out the value associated with the `Cookie` header on every request:
+	* this should display the value found in the header containing cookies  on the server's console for every request that comes in
+	* use the request object's `get` method to retrieve the value of a specific header!
+	* the resulting output on the server should look like this:
+		```
+The Cookie header contains:
+foo=bar;baz=qux
+```
+* notice - this should only contain session id, not the number of actual visits!
 
 ### Example - Keeping Track of Number of Pages Visited During Session
 
