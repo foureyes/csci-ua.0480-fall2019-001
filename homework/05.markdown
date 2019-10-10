@@ -383,9 +383,15 @@ Once your familiar with `express-session` and the idea of Cookies, find a way to
 	* this should display the value found in the header containing cookies  on the server's console for every request that comes in
 	* use the request object's `get` method to retrieve the value of a specific header!
 * the resulting output on the server should look like this:
-		```
+	```
 The Cookie header contains:
 foo=bar;baz=qux
+```
+* again, use middleware to do this:
+	```
+app.use((req, res, next) => {
+	// your code goes here
+})
 ```
 * notice that the value logged out isn't number of visits, but instead, only the session id
 * (where is the number of visits stored again? on the server!)
