@@ -39,9 +39,9 @@ You'll create a single express application with the following directory layout (
 * `/src`
 	* `app.js`
 	* `public`
-	* `img`
-	* `css`
-		* your css file
+		* `img`
+		* `css`
+			* your css file
 	* `views`
 		* `layout.hbs`
 		* any other views
