@@ -339,7 +339,7 @@ y,holiday,,14-Oct,Mon,Fall Recess: No classes scheduled,,,,
  * Sessions and Cookies from Previous Classes
  * [Router Objects](slides/14/routers.html)
  * [URL Parameters](slides/14/params.html)
- * Validation from Previous Classes","* [Express Routing - Route Parameters](https://expressjs.com/en/guide/routing.html)
+ * [Validation](slides/15/validation.html)","* [Express Routing - Route Parameters](https://expressjs.com/en/guide/routing.html)
 * [Mongoose - Validation](https://mongoosejs.com/docs/validation.html)",,
 y,,13,16-Oct,Wed,* Review,,,,
 y,exam,14,21-Oct,Mon,EXAM #1,,,,
@@ -356,7 +356,8 @@ y,exam,14,21-Oct,Mon,EXAM #1,,,,
 -->","<!--
 * [Final Project](final-project.html)
  * Continue with Mongoose
-–?
+-->
+
 * [Authentication](slides/16/auth.html)
 * [High-Level Description of SSL/TLS](slides/16/ssl.html)","Programming JavaScript Applications by Eric Elliott 
 
