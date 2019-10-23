@@ -191,15 +191,15 @@ __Ok... so, how do I find or create an adequate hashing algorithm? What are some
 
 __It turns out that these are the ones that are recommended:__ &rarr;
 
-1. `bcrypt`
-2. `PBKDF2`
+1. {:.fragment} `bcrypt`
+2. {:.fragment} `PBKDF2`
 
 <br>
 __But only for _now_ ... as the landscape continues to change:__ &rarr;
 
-* computational power increases
-* flaws found in existing algorithms
-* better algorithms discovered
+* {:.fragment} computational power increases
+* {:.fragment} flaws found in existing algorithms
+* {:.fragment} better algorithms discovered
 </section>
 
 <section markdown="block">
