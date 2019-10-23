@@ -353,11 +353,8 @@ y,exam,14,21-Oct,Mon,EXAM #1,,,,
  * __new__ OAuth
  * __new__ JWT
  
--->","<!--
+-->","* Review Routers and URL Parameters
 * [Final Project](final-project.html)
- * Continue with Mongoose
--->
-
 * [Authentication](slides/16/auth.html)
 * [High-Level Description of SSL/TLS](slides/16/ssl.html)","Programming JavaScript Applications by Eric Elliott 
 
@@ -375,14 +372,10 @@ Using Passport JS
 * [PassportJS Documentation](http://passportjs.org/docs)
 * [From passport-local-mongoose](https://github.com/saintedlama/passport-local-mongoose/tree/master/examples/login)
 * [From mherman.org](http://mherman.org/blog/2015/01/31/local-authentication-with-passport-and-express-4/#.VjGSOq6rSRs)
-* [From scotch.io](http://scotch.io/tutorials/javascript/easy-node-authentication-setup-and-local)","<!--
-
-HW 6 - Auth and URL params
-__Due Friday 4/5 at 11pm:__
+* [From scotch.io](http://scotch.io/tutorials/javascript/easy-node-authentication-setup-and-local)","__Due Monday 10/28 at 11pm:__
  
- * [Homework #05](homework/05.html)
- * [Final Project Miletsone #01](final-project.html#milestone01)
--->",
+ * [Final Project Miletsone #01](final-project.html#milestone1)
+",
 y,,16,28-Oct,Mon,"* HTML Primer
 * Accessibility on the Web
 * JavaScript and the Browser
@@ -404,17 +397,17 @@ HTML Tutorials
 * [MDN - Introduction to HTML](https://developer.mozilla.org/en-US/docs/Learn/HTML/Introduction_to_HTML)
 * [MDN - Accessibility](https://developer.mozilla.org/en-US/docs/Web/Accessibility)
 * [HTML and CSS from shayhowe.com](http://learn.shayhowe.com/html-css/getting-to-know-html/)
-",,
+","<strike>Due Friday 4/12 at 11pm:</strike>
+ __Due Saturday 4/13 at 11pm:__
+ 
+ * [Homework #6](homework/06.html)
+ * [Final Project Milestone #02](final-project.html#milestone2)",
 y,,17,30-Oct,Wed,* CSS,"* [JavaScript Timers](slides/19/timers.html)
 * [CSS](slides/19/css.html)
 * (Optional / Briefly) Flexbox
 * (Optional / Briefly) Grids
 ","* [HTML and CSS from shayhowe.com](http://learn.shayhowe.com/html-css/getting-to-know-html/)
-* [MDN - Introduction to CSS](https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS#Guides)","<strike>Due Friday 4/12 at 11pm:</strike>
- __Due Saturday 4/13 at 11pm:__
- 
- * [Homework #6](homework/06.html)
- * [Final Project Milestone #02](final-project.html#milestone2)",
+* [MDN - Introduction to CSS](https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS#Guides)",,
 y,,18,4-Nov,Mon,"* CSS Continued
 * Events / Timers","* [Selectors, JS and CSS](slides/19/js-css.html)
 * [Events](slides/19/events.html)
@@ -422,7 +415,10 @@ y,,18,4-Nov,Mon,"* CSS Continued
 ","{{ site.book_js_5 }} 
 
 * [Chapter 15 Events](http://eloquentjavascript.net/15_event.html)
-",HW 7?,
+","__Due Saturday 4/20 at 11pm:__
+ 
+ * [Homework #7](homework/07.html)
+ * [Final Project Milestone #03](final-project.html#milestone03)",
 y,,19,6-Nov,Wed,"* AJAX
 * Same Origin Policy
 * Cross Site Scripting
@@ -439,10 +435,7 @@ MDN Articles on AJAX
 
 OWASP
 
-* [OWASP - Cross Site Scripting](https://www.owasp.org/index.php/Cross-site_Scripting_(XSS))","__Due Saturday 4/20 at 11pm:__
- 
- * [Homework #7](homework/07.html)
- * [Final Project Milestone #03](final-project.html#milestone03)",m1 due
+* [OWASP - Cross Site Scripting](https://www.owasp.org/index.php/Cross-site_Scripting_(XSS))",,m1 due
 y,,20,11-Nov,Mon,"* AJAX Continued
 * Polling
 * Promises","* [Ajax Part 2](slides/21/ajax-express.html)

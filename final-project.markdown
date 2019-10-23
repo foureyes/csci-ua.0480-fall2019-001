@@ -32,10 +32,9 @@ pre {
 	<div class="panel-heading">Final Project</div>
 	<div class="panel-body" markdown="block">
 
-# Final Project, __Final Milestone Due__ <strike>4/26</strike> 4/29
+# Final Project, __Final Milestone Due__ 11/25
 
-Earlier milestones due throughout April
-
+Earlier milestones due throughout October and November
 
 
 ## Overview 
@@ -150,7 +149,7 @@ Choose at least __8 points__ worth of these following topics (research and imple
 
 <a name="proposal"></a>
 
-###  __Due 4/5 at 11PM__ - Milestone 1 - Requirements / Specifications, Draft Data Model, Skeleton Application (20 points)
+###  __Due 10/28 at 11PM__ - Milestone 1 - Requirements / Specifications, Draft Data Model, Skeleton Application (20 points)
 
 [Check out sample documentation](https://github.com/nyu-csci-ua-0480-008-spring-2017/final-project-example)
 
@@ -197,7 +196,9 @@ Choose at least __8 points__ worth of these following topics (research and imple
 <br>
 <br>
 
-### <strike>Due Date 4/12 at 11pm</strike> __Due Date 4/13 at 11pm__ - Milestone 2 - Initial Deployment and First Form (20 points)
+### __Due Date 11/4 at 11pm__ - Milestone 2 - Initial Deployment and First Form (20 points)
+
+{% comment %}
 
 1. your server and port name can be accessed through a link in a piazza post for milestone #2
 2. attempt to deploy your code to Courant's servers by following [instructions](homework/deploy.html)
@@ -218,9 +219,12 @@ Choose at least __8 points__ worth of these following topics (research and imple
 <br>
 <br>
 
+{% endcomment %}
 
-### __Due Date 4/20 at 11pm__ - Milestone 3 - 2nd Form and More Progress on Research (20 points)
 
+### __Due Date 11/18 at 11pm__ - Milestone 3 - 2nd Form and More Progress on Research (20 points)
+
+{% comment %}
 
 1. make at least 3 additional commits to add:
     * your 2nd form / ajax interaction
@@ -245,8 +249,11 @@ Choose at least __8 points__ worth of these following topics (research and imple
 <br>
 <br>
 <br>
+{% endcomment %}
 
-### __Due Date__ <strike>4/26</strike> 4/29  __at 11PM__ - Final Project Complete and Code is fully  _Deployed_ (40 points)
+### __Due Date 11/25 at 11PM__ - Final Project Complete and Code is fully  _Deployed_ (40 points)
+
+{% comment %}
 
 * __all commits must be in by Monday, April 29th__ 
 * __project must be deployed__ on cims servers (or other platform, such as Heroku, gomix, zeit, etc.)     
@@ -262,6 +269,8 @@ Choose at least __8 points__ worth of these following topics (research and imple
 <br>
 <br>
 <br>
+
+{% endcomment %}
 
 {% comment %}
 <a name="suggestions">
