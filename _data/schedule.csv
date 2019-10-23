@@ -376,7 +376,7 @@ Using Passport JS
  
  * [Final Project Miletsone #01](final-project.html#milestone1)
 ",
-y,,16,28-Oct,Mon,"* HTML Primer
+,,16,28-Oct,Mon,"* HTML Primer
 * Accessibility on the Web
 * JavaScript and the Browser
 * The Document Object Model
@@ -397,11 +397,14 @@ HTML Tutorials
 * [MDN - Introduction to HTML](https://developer.mozilla.org/en-US/docs/Learn/HTML/Introduction_to_HTML)
 * [MDN - Accessibility](https://developer.mozilla.org/en-US/docs/Web/Accessibility)
 * [HTML and CSS from shayhowe.com](http://learn.shayhowe.com/html-css/getting-to-know-html/)
-","<strike>Due Friday 4/12 at 11pm:</strike>
+","<--
+<strike>Due Friday 4/12 at 11pm:</strike>
  __Due Saturday 4/13 at 11pm:__
  
  * [Homework #6](homework/06.html)
- * [Final Project Milestone #02](final-project.html#milestone2)",
+ * [Final Project Milestone #02](final-project.html#milestone2)
+
+-->",
 y,,17,30-Oct,Wed,* CSS,"* [JavaScript Timers](slides/19/timers.html)
 * [CSS](slides/19/css.html)
 * (Optional / Briefly) Flexbox
