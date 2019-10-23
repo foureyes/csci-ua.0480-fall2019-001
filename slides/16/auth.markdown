@@ -65,7 +65,7 @@ __You'll have to__: &rarr;
 <br>
 __Let's Encrypt__ is a free certificate authority backed by a non-profit.  Check out:
 
-* [greenlock-express](https://git.daplie.com/Daplie/greenlock-express), a node module for installing and renewing Let's Encrypt certs
+* [greenlock-express](https://www.npmjs.com/package/greenlock-express), a node module for installing and renewing Let's Encrypt certs
 * ...and this [blog article](https://justinmccandless.com/post/setting-up-https-on-node-for-free-with-lets-encrypt/) for how to set everything up.
 
 
