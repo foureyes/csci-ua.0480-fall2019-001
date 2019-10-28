@@ -201,7 +201,7 @@ Choose at least __8 points__ worth of these following topics (research and imple
 
 1. your server and port name can be accessed through a link in a piazza post for milestone #2
 2. attempt to deploy your code to Courant's servers by following [instructions](homework/deploy.html)
-3. <span class="warning">use a form to submit your code</span>
+3. <span class="warning">use [this form to submit your deployed site](https://docs.google.com/forms/d/e/1FAIpQLScWer2Oh_n2dZv30G127DqHu4VX4rmdk7Zd79qA9Zce4Z8tFg/viewform) to submit your code</span>
 4. your submission won't be graded unless the form above is sent with urls to your deployed site
 5. your deployed site should contain the following progress:
     * __one working form (that is not login or registration)__ 

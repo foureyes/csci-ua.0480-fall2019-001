@@ -35,7 +35,7 @@ section {
 
 ## Final Project Deployment
 
-These instructions detail deployment to Courant's compute and assignment servers. __If you'd like to deploy elsewhere (your own server, Heroku, AWS, etc.), please let me know by email / message via NYU Classes.__ Heroku has been an option that students have used in the past because of the good [introductory documentation](https://devcenter.heroku.com/articles/getting-started-with-nodejs#introduction), and [deployment tutorial](https://devcenter.heroku.com/articles/deploying-nodejs).
+These instructions detail deployment to Courant's compute and assignment servers. __If you'd like to deploy elsewhere (your own server, AWS, etc.), please let me know by sending a direct message on piazza.__ 
 
 Deployment __to Courant's compute and assignment servers__ involves the following steps:
 
@@ -58,7 +58,7 @@ There are multiple potential servers that can host assignments. See the [documen
 
 To determine which port number and server, see the milestone #2 announcement on piazza:
 
-1. Log in piazza
+1. Log in to piazza
 2. Go to the pinned post announcing <code>Final Project Milestone #2</code>
 3. User the link to the port retrieval page and the password supplied in the post
 
