@@ -198,11 +198,10 @@ Choose at least __8 points__ worth of these following topics (research and imple
 
 ### __Due Date 11/4 at 11pm__ - Milestone 2 - Initial Deployment and First Form (20 points)
 
-{% comment %}
 
 1. your server and port name can be accessed through a link in a piazza post for milestone #2
 2. attempt to deploy your code to Courant's servers by following [instructions](homework/deploy.html)
-3. <span class="warning">use [this form to submit your deployed site](https://docs.google.com/forms/d/e/1FAIpQLSeDK0kCfwzhpZbEW1XSWq1sT1WIinZdZJ8Q8KjQiB5vTFKh9Q/viewform)</span>
+3. <span class="warning">use a form to submit your code</span>
 4. your submission won't be graded unless the form above is sent with urls to your deployed site
 5. your deployed site should contain the following progress:
     * __one working form (that is not login or registration)__ 
@@ -212,14 +211,14 @@ Choose at least __8 points__ worth of these following topics (research and imple
         * consequently, a link to the github repository / line no that shows any proof of work is sufficient
         * or, if it's something that's already visible, a link to the a page on your site that's deployed to the server
       
-
+{% comment %}[this form to submit your deployed site](https://docs.google.com/forms/d/e/1FAIpQLSeDK0kCfwzhpZbEW1XSWq1sT1WIinZdZJ8Q8KjQiB5vTFKh9Q/viewform)
+{% endcomment %}
 <a name="milestone03">
 
 <br>
 <br>
 <br>
 
-{% endcomment %}
 
 
 ### __Due Date 11/18 at 11pm__ - Milestone 3 - 2nd Form and More Progress on Research (20 points)
