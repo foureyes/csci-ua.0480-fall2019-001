@@ -238,8 +238,8 @@ Choose at least __8 points__ worth of these following topics (research and imple
     * __both working forms or ajax interactions__ 
     * a link to show code changes since milestone #2:
         * start with the url to your repository: `https://github.com/nyu-csci-ua-0480-001-fall-2019/NETID-final-project/`
-        * and append the following to the url: `compare/master@%7B04-20-19%7D...master`
-        * for example: `https://github.com/nyu-csci-ua-0480-001-fall-2019/NETID-final-project/compare/master@%7B04-13-19%7D...master`
+        * and append the following to the url: `compare/master@%7B11-11-19%7D...master`
+        * for example: `https://github.com/nyu-csci-ua-0480-001-fall-2019/NETID-final-project/compare/master@%7B11-11-19%7D...master`
 
 <a id="final_submit" name="final_submit">
 
