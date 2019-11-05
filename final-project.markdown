@@ -224,6 +224,7 @@ Choose at least __8 points__ worth of these following topics (research and imple
 ### __Due Date 11/11 at 11pm__ - Milestone 3 - 2nd Form and More Progress on Research (20 points)
 
 
+
 1. make at least 3 additional commits to add:
     * your 2nd form / ajax interaction
     * make more progress on your research topics
