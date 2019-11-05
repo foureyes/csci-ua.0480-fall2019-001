@@ -241,6 +241,7 @@ Choose at least __8 points__ worth of these following topics (research and imple
         * and append the following to the url: `compare/master@%7B11-11-19%7D...master`
         * for example: `https://github.com/nyu-csci-ua-0480-001-fall-2019/NETID-final-project/compare/master@%7B11-11-19%7D...master`
 
+
 <a id="final_submit" name="final_submit">
 
 <br>
