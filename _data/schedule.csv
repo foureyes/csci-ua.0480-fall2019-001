@@ -400,7 +400,6 @@ HTML Tutorials
 ","
  __Due Monday 11/5 at 11pm:__
  
- * Homework 6 to be postsed
  * [Final Project Milestone #02](final-project.html#milestone2)
 
 ",
@@ -410,18 +409,17 @@ HTML Tutorials
 * (Optional / Briefly) Grids
 ","* [HTML and CSS from shayhowe.com](http://learn.shayhowe.com/html-css/getting-to-know-html/)
 * [MDN - Introduction to CSS](https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS#Guides)",,
-y,,18,4-Nov,Mon,"* CSS Continued
+,,18,4-Nov,Mon,"* CSS Continued
 * Events / Timers","* [Selectors, JS and CSS](slides/19/js-css.html)
 * [Events](slides/19/events.html)
 
 ","{{ site.book_js_5 }} 
 
 * [Chapter 15 Events](http://eloquentjavascript.net/15_event.html)
-","__Due Saturday 4/20 at 11pm:__
- 
- * [Homework #7](homework/07.html)
- * [Final Project Milestone #03](final-project.html#milestone03)",
-y,,19,6-Nov,Wed,"* AJAX
+","  __Due Monday 11/11 at 11pm:__
+
+* [Final Project Milestone #03](final-project.html#milestone03)",
+,,19,6-Nov,Wed,"* AJAX
 * Same Origin Policy
 * Cross Site Scripting
 * Working with APIs","* Events / Timers Review
@@ -454,7 +452,12 @@ y,,20,11-Nov,Mon,"* AJAX Continued
 
 MDN
 
-* [MDN - Promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)",HW 8 AJAX,
+* [MDN - Promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)","__Due Saturday 4/20 at 11pm:__
+ 
+ * [Homework #7](homework/07.html)
+ * [Final Project Milestone #03](final-project.html#milestone03)
+
+HW 8 AJAX",
 y,,21,13-Nov,Wed,"* Promises Continued
 * fetch 
 * async / await","* Example Code for AJAX and Promises

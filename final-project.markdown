@@ -221,9 +221,8 @@ Choose at least __8 points__ worth of these following topics (research and imple
 
 
 
-### __Due Date 11/18 at 11pm__ - Milestone 3 - 2nd Form and More Progress on Research (20 points)
+### __Due Date 11/11 at 11pm__ - Milestone 3 - 2nd Form and More Progress on Research (20 points)
 
-{% comment %}
 
 1. make at least 3 additional commits to add:
     * your 2nd form / ajax interaction
@@ -235,12 +234,12 @@ Choose at least __8 points__ worth of these following topics (research and imple
     3. run `forever stopall` and `forever start bin/www` 
         * you'll have to use the full path to forever, likely `~/usr/local/node_modules/bin/forever`
         * and perhaps the full bath to `bin/www`
-4. __[fill out form to submit assignment](https://docs.google.com/forms/d/e/1FAIpQLSd720a6HdIc8Ok_raL4VAk2p5C9sfQVXHZmcaSbq30QJ8u67w/viewform)__; it will contain:
+4. __[fill out form to submit assignment](https://docs.google.com/forms/d/e/1FAIpQLSe6Eutvy6RTb0YB_Zf1-CqL2kF_l51dtVfAHywQzyIw14A52A/viewform)__; it will contain:
     * __both working forms or ajax interactions__ 
     * a link to show code changes since milestone #2:
-        * start with the url to your repository: `https://github.com/nyu-csci-ua-0480-008-spring-2019/NETID-final-project/`
+        * start with the url to your repository: `https://github.com/nyu-csci-ua-0480-001-fall-2019/NETID-final-project/`
         * and append the following to the url: `compare/master@%7B04-20-19%7D...master`
-        * for example: `https://github.com/nyu-csci-ua-0480-008-spring-2019/NETID-final-project/compare/master@%7B04-13-19%7D...master`
+        * for example: `https://github.com/nyu-csci-ua-0480-001-fall-2019/NETID-final-project/compare/master@%7B04-13-19%7D...master`
 
 <a id="final_submit" name="final_submit">
 
@@ -248,7 +247,6 @@ Choose at least __8 points__ worth of these following topics (research and imple
 <br>
 <br>
 <br>
-{% endcomment %}
 
 ### __Due Date 11/25 at 11PM__ - Final Project Complete and Code is fully  _Deployed_ (40 points)
 
