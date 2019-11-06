@@ -220,7 +220,7 @@ Based on the cards dealt, add elements to the user interface to represent both t
     * the user total should reflect the total in the user's hand
 * Create two buttons, `Hit` and `Stand`
 * See an example interaction below:
-* <span class=warning>THE STYLING IN THE ANIMATED GIFS IS JUST FOR EMBELLISHMENT; YOUR STYLING DOES NOT HAVE TO MATCH</span>
+* <span class="warning">THE STYLING IN THE ANIMATED GIFS IS JUST FOR EMBELLISHMENT; YOUR STYLING DOES NOT HAVE TO MATCH</span>
     * (but you should put in some effort to make the cards _card-like_)
 
 
