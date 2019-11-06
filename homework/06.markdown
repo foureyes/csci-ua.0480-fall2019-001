@@ -3,41 +3,57 @@ layout: homework
 title: CSCI-UA.0480 - Homework #6
 ---
 
+<style>
+.warning {
+    background-color: #eecccc;
+}
+</style>
+
 <div class="panel panel-default">
-	<div class="panel-heading">Homework #6</div>
+	<div class="panel-heading">Homework #7</div>
 	<div class="panel-body" markdown="block">
 
 
-# MemorEmoji (Client Side JavaScript) - <strike>Due 4/12 at 11pm</strike> __Due 4/13 at 11pm__
+# One Hand of Blackjack (Client Side JavaScript) - __Due Wednesday, Nov 13th, by 11PM__
+
 
 ## Overview
-
 
 ### Goals / Topics Covered
 
 You'll be using the following concepts:
 
-* manipulating the DOM
+* manipulating the DOM by creating and adding elements
 * setting DOM element attributes
-* handling events with addEventListener
+* handling events with `addEventListener`
+* stopping form submission with `preventDefault`
+* using CSS to arrange elements with `position` and `display` 
 
 ### Description
 
-MemorEmoji is a card game in which a deck of cards containing pairs of symbols are shuffled and laid face down on a surface. A player flips two cards over on each turn. The object of the game is to turn over pairs of matching cards. The player will have a limited number of turns to do this.
+Create a two-player (user vs computer) client-side card game. The card game will be __a single hand__ of blackjack. If you're unfamiliar with the rules:
 
-You will be making an interface with following components:
+* each player will try to construct a hand of cards that's equal to 21 or as close to 21 as possible, without going over
+    * the sum of the numeric values of the cards determine the value of a hand
+	* face cards are worth 10
+	* aces are worth 1 or 11
+    * the player with the hand closest to (or equal to) 21 wins
+    * ties are possible
+* each player is dealt 2 cards from a 52 card deck, with each card representing some numeric value
+* in our version, the initial cards are dealt to the computer and user in an alternating fashion, with the computer being dealt the 1st card:
+    * the computer is dealt one card, and the user is dealt another card
+    * this repeats one more time so that both the user and computer have 2 cards each
+* once the initial two cards are dealt, the user can choose to be dealt more cards ("hit") or stop being dealt cards ("stand") 
+    * if the user's hand ends up exceeding 21, then the user automatically loses 
+    * if the user chooses to "stand" (to stop being dealt cards), then the computer can choose to continually "hit" or "stand"
+* once both players have either chosen to stand or have a hand with a total that's more than 21 ("bust"), the hands are compared
+    * the player with the hand that's closest to 21 without going over wins
+    * again ties are possible (either same total, or both player "bust")
 
-1. Initially, a form that allows the user to set:
-	* the number of cards
-	* the maximum turns allowed
-	* (optionally) the order that the cards placed (this will facilitate in testing)
-2. A game board that has:
-	* a grid of cards where all of the cards are initially face down (once clicked, they are flipped over)
- 	* a count of the turns taken over the maximum number of turns
-	* a quit button (to restart the game)
+Here's an example of what your game may look like:
 
-<img src="../resources/img/hw06-memoremoji/won.gif">
-
+![Demo](../resources/img/hw07-blackjack-01-overview.gif)
+ 
 ### Submission Process
 
 You will be given access to a private repository on GitHub.  The final version of your assignment should be in GitHub
@@ -49,9 +65,23 @@ You will be given access to a private repository on GitHub.  The final version o
 * Commit multiple times throughout your development process.
 * Make at least 4 separate commits
 
-## MemorEmoji
+## Blackjack Game Requirements
 
-### __Required Features__
+
+There are three main features required for the game:
+
+1. An initial screen where the user can enter a series of comma separated face values (2 - 10, J, Q, K, A) that will set the cards of the top of the deck to those values
+	* Consequently, if a user puts in 2,3,4,5 .... 2 will be on the top of the deck, 3 next, etc.
+	* So when hands are dealt, the computer will be dealt a 2 and a 4, and the player will be dealt a 3 and a 5
+2. A client-side JavaScript implementation of one hand of blackjack
+3. A small amount of styling:
+    * the cards in a hand should appear adjacent to each other
+    * cards should have a height and a width
+    * _some effort_ should be made to make the game appear visually polished
+
+
+## Setup and Initial Screen
+
 
 ### Create an express application and setup some directories
 
@@ -73,199 +103,193 @@ You will be given access to a private repository on GitHub.  The final version o
 5. In your public folder, create a `stylesheets` folder and a file, `style.css`, within it 
 6. In your public folder, create a `javascripts` folder and a file, `main.js`, within it 
 
-__Use the following markup__
 
-1. Add the following code to your <code>index.html</code>:
-    <pre><code data-trim contenteditable>
-&lt;!doctype html&gt;
+### Create a form
+
+1. Add the following code to your <code>index.html</code> (it will be the only markup in your project, everything else will be generated with JavaScript):
+    <pre><code data-trim contenteditable>&lt;!doctype html&gt;
 &lt;html&gt;
-    &lt;head&gt;
-        &lt;title&gt;MEMOREMOJI&lt;/title&gt;
-        &lt;link rel="stylesheet" href="stylesheets/style.css" type="text/css" media="screen" title="no title" charset="utf-8"&gt;
-        &lt;meta charset="utf-8" /&gt; 
-    &lt;/head&gt;
-    &lt;body&gt;
-        &lt;script src="javascripts/main.js"&gt;&lt;/script&gt;
-		&lt;!-- ok to add additional script tags, but do not modify the html below --&gt;
-        &lt;h1 class="title"&gt;Ⓜ️EM😂REM🤢Jℹ️&lt;/h1&gt;
-        &lt;div class="start"&gt;
-            &lt;div&gt;
-                &lt;h2&gt;Number of Cards&lt;/h2&gt;
-                &lt;input id="total-cards" type="number" /&gt;
-            &lt;/div&gt;
-            &lt;div&gt;
-                &lt;h2&gt;Max Turns&lt;/h2&gt;
-                &lt;input id="max-turns" type="number" /&gt;
-            &lt;/div&gt;            
-            &lt;div&gt;
-                &lt;h2&gt;Set Cards &lt;/h2&gt;
-				&lt;h3&gt;(testing mode; enter each card value separated by comma)&lt;/h3&gt;
-                &lt;input id="card-faces" type="text" /&gt;
-            &lt;/div&gt;
-            &lt;div&gt;
-                &lt;button class="play-btn" type="button"&gt;Game Start&lt;/button&gt;
-            &lt;/div&gt;
-        &lt;/div&gt;
-        &lt;div class="game"&gt;
-        &lt;/div&gt;
-        &lt;div class="result"&gt;
-        &lt;/div&gt;
-        &lt;div class="reset"&gt;
-            &lt;button class="reset-btn" type="button"&gt;Reset&lt;/button&gt;
-        &lt;/div&gt;
-        &lt;div class="error-message"&gt;
-            Please re-enter the number of cards (must be even number) and max turns !
-            &lt;button class="error-btn" type="button"&gt;Go Back&lt;/button&gt;
-        &lt;/div&gt;
-    &lt;/body&gt;
+&lt;head&gt;
+&lt;title&gt;Cards!&lt;/title&gt;
+&lt;link rel="stylesheet" href="stylesheets/style.css" type="text/css" media="screen" title="no title" charset="utf-8"&gt;
+&lt;meta charset="utf-8" /&gt; 
+&lt;/head&gt;
+&lt;body&gt;
+&lt;script src="javascripts/main.js"&gt;&lt;/script&gt;
+&lt;div class="start"&gt;
+  &lt;form method="POST" action=""&gt;
+    &lt;label for="startValues"&gt;Start Values:&lt;/label&gt; &lt;input type="text" name="startValues" id="startValues"&gt;  
+    &lt;input class="playBtn" type="submit" value="Play"&gt;  
+  &lt;/form&gt;
+&lt;/div&gt;
+&lt;div class="game"&gt;
+&lt;/div&gt;
+&lt;/body&gt;
 &lt;/html&gt;
+</code></pre>
+2. Test that your form shows up when you go to `http://localhost:3000`
+3. __You are not allowed to use any additional markup, and you cannot modify the markup above__; you must generate any additional elements you'll need with JavaScript 
 
-    </code></pre>
-5. __You are not allowed to use any additional markup / modify the existing markup__ (the only exception is that you can add more script tags at the beginning); you must generate any additional elements you'll need with JavaScript, but you can use script markup to load multiple JavaScript files
-6. All of your JavaScript should go in your JavaScript files.
-	* ⚠️a make sure to use and event listener for `DOMContentLoaded` if your script(s) expect elements to be present
-7. ... and, of course, all of your CSS should go in your external CSS file. 
-	* __it's ok to add more CSS__
-	* __in fact, part of the assignment is to add/remove css rules based on class name__
+### Initialize your JavaScript
+
+Note that `main.js` is included at the top of the body. This means that the code within it may run before the rest of the page (DOM) is actually available to manipulate. This problem will result in:
+
+1. a failure to find an element that _should_ exist (when using `document.getElementById`, `querySelector`, etc.)
+2. which most likely will manifest itself as an undefined object
+
+So, __to delay the running of your JavaScript until the page has completely loaded__ (and without changing the markup, use `document.addEventListener` to call the main line of execution for your program only when the DOM has completely loaded. Follow these steps to do this:
+
+1. in `main.js`, create a function called `main` - this will be where your game code resides (of course, you can create other functions, but you _should_ have at least a main function)
+2. after that, add the following line to make sure that the `main` function is only run when the DOM is completely loaded:  `document.addEventListener('DOMContentLoaded', main);`
+
+### Handle the Form Submission and Modify the User Interface
+
+Submitting the form hides the original form and distributes (deals) cards to the computer and user. If the user entered a list of card faces in the form before submitting, then those cards will be dealt first from the top of the deck.
+
+Start off by handling the submit button on the form and making the form disappear. Use a combination of `document.querySelector` and `addEventListener` to allow the submit button on the form to be pressed:
+
+* see the [slides on `document.querySelector`](../slides/19/js-css.html#/6) or the [mdn documentation](https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector)
+* check out the [slides on events](../slides/19/events.html#/)
+* ...along with mdn's documentation on [addEventListener](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener), [click](https://developer.mozilla.org/en-US/docs/Web/Events/click), and [DOMContentLoaded](https://developer.mozilla.org/en-US/docs/Web/Events/DOMContentLoaded)
+* because the button in the form is a submit button, it'll _actually_ make a GET or POST request when pressed; we don't want this to happen, so we'll use [preventDefault](../slides/19/events.html#/15) to stop the default action from occurring on a click event
+* and lastly, the [slides](../slides/19/css.html#/56) on [classList](../slides/19/css.html#/7) will show you how to add, remove and toggle css classes on elements
+*  Remember, you'll need to put all of your DOM dependant JavaScript in a <code>DOMContentLoaded</code> listener (which you already did above)
+* and, of course, you'll need to add a <code>click</code> event listener for your submit button 
+* within the callback to your `click` event listener:
+    1. make sure to call `preventDefault` (see the [slides on events](slides/19/events.html#/15)) to stop the form from submitting
+    2. create and apply the appropriate CSS classes to get rid of the _form_ (do this with styles, there's no need to remove the element) to make room for displaying cards (in addition to the slides above, [here's the mdn docs on classList](https://developer.mozilla.org/en-US/docs/Web/API/Element/classList))
+* <span class="warning">Note that `this` within the callback passed to `addEventListener` will refer to the element that was clicked on, as long as the function you use is not an arrow function</span>
+    * For example....
+    * Using this markup: `<div id="clicker">Click Me</div>`
+    * Using this JavaScript: `document.querySelector('#clicker').addEventListener('click', myCallback)`
+    * `this` within `function myCallback` will refer to the original div element clicked on!
+
+![Demo](../resources/img/hw07-blackjack-02-form.gif)
+
+### Generate a Deck of Cards and Deal Cards
+
+Once you've gotten rid of the form, generate a deck of cards and distribute a hand to the user and the computer (optionally setting the top cards to the values set in the form above).
+
+* Note that there was a text field in the original form - this can be used to set the cards at the top of the deck 
+    * If the player enters a value in this field, then the cards on top of the deck are set to the sequence inputted
+    * The input should be a comma separated list of characters and/or numbers (for example `K,2,3,7`), the suit of the cards can be any suit (in the example below, all of the specified cards were given a default suit of diamonds)
+    * No validation is required (assume that the user puts in valid input or no input)
+    * You can retrieve the user input from the text field by using the `value` property on the form element that contains the user input - [see the mdn docs on value under HTML Input Element](https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement)
+* __The following should done programmatically via client side JavaScript__ (the graphical part will be specified in the next section)
+* Generate a deck of 52 shuffled cards (perhaps an Array of objects?)
+* If there were card faces that were entered in the form above...
+    * add those cards to the top of the deck (again, you can just pick a suit; it's the faces that matter)
+    * these cards will be dealt first, alternating between the computer and the user
+    * for example, if the cards 2, 5, 2, 5, J, Q, K, then:
+        * the computer would get a 2 and 2
+        * the user would get a 5 and 5
+        * the next cards dealth (from pressing the "Hit" button) would be J, Q, and K
+* Deal the cards - alternate between the computer and player
+    * the computer gets the first and third card
+    * the player gets the second card and fourth card
 
 
-__Start with a form that allows the user to specify the number of cards in the game, the max turns,  and (optional for the player) the actual "value" / symbol of each card by using a character string of comma separated symbols__
+### Display the Cards and User Interface
 
-* Only show the content in the h2 with class <code>title</code>, and div with class <code>start</code>
-    * Make sure the div with class <code>game</code> , <code>result</code>, <code>reset</code>, and <code>error-message</code> are not displayed
-    * Hint:
-        * Make the appropriate CSS rules (this can be done in css only)
-        * If necessary, you can use JavaScript's <code>someElementObj.classList</code>'s <code>add</code>, <code>remove</code>, and <code>toggle</code> [to _add and remove_ classes](https://developer.mozilla.org/en-US/docs/Web/API/Element/classList) so that you can control which CSS rules are active after some interaction
-* Add an event listener to the "Game Start" button to listen for clicks
-* When the "Game Start" button is pressed, the event listener should:
-  * Retrieve the values of the input fields and use these values to set up the game
-  * Note that some basic validation is required...
-  	* The number of cards should be an even number greater than 2 and less than or equal to 36
-   	* The max turns should be equal to or greater than the number of cards / 2
-	* If present, the "preset values" must contain the same number of values as the number of cards field
-	* If present, the "preset values" must contain exactly two of every symbol
-  * If any of the above conditions are not satisfied
-    * the game should __not__ proceed yet
-    * an error message should be displayed describing the issue
-	* the form element should still be visible so that the user can modify them
-* The actual values of the cards can be set by the user by entering a comma separated string of characters... which implies that if the string is present, there must be two of each symbol
-  * For example, entering "1,2,3,2,3,1" will display 6 cards with symbols 1, 2, 3, 2, 3, 1 (all face down initially)
-* If the user doesn't enter this string, and the number of cards are valid, the game should generate and _shuffle_ cards and their values (these can be emoji, letters, etc.)
-* If the form data is valid
-  * the form should be removed or hidden 
-   * the game board should be added
+Based on the cards dealt, add elements to the user interface to represent both the user's and computer's hands (set of cards).
 
-__Generate a game board__
+* Create DOM elements to represent cards
+    * Check out the slides and mdn documentation on modifying and creating elements
+        * [slides on adding and removing elements](../slides/18/modifying-creating.html#/1)
+        * [slides on changing an elements text](../slides/18/modifying-creating.html#/5)
+        * [slides on creating elements](../slides/18/modifying-creating.html#/7)
+        * [mdn docs on `createElement`](https://developer.mozilla.org/en-US/docs/Web/API/Document/createElement)
+        * [mdn docs on `createTextNode`](https://developer.mozilla.org/en-US/docs/Web/API/Document/createTextNode)
+        * [mdn docs on `appendChild`](https://developer.mozilla.org/en-US/docs/Web/API/Node/appendChild)
+    * You should consider writing some helper functions for creating and adding elements
+    * For example, one of our books introduces [a function to create an element and add children immediately](http://eloquentjavascript.net/13_dom.html#c_Mnkp5ioh9C)
+    * Programmatically create elements to represent cards
+    * All of the computer's cards should appear next to each other horizontally - one of the cards should not be revealed
+    * All of the user's cards should appear next to each other horizontally
+    * All of the cards should have a width and height
+    * Hint: to lay out elements adjacent to each other and still maintain a width and height, you can use ...
+        * <code>display: inline-block</code>
+        * <code>display: flex</code>
+        * a <code>table</code>  
+        * or <code>float</code> your elements
+* Calculate the hand total for both the computer and the user
+    * Remember that aces can be 1 or 11
+    * Make sure that your algorithm optimizes the values of aces so that the hand total is as close to 21 as possible without going over
+* Create two elements to display the computer and user total
+    * the computer total should be displayed as ?
+    * the user total should reflect the total in the user's hand
+* Create two buttons, `Hit` and `Stand`
+* See an example interaction below:
+* <span class=warning>THE STYLING IN THE ANIMATED GIFS IS JUST FOR EMBELLISHMENT; YOUR STYLING DOES NOT HAVE TO MATCH</span>
+    * (but you should put in some effort to make the cards _card-like_)
 
-* Based on the number submitted, generate a game board in the <code>game</code> div
-* The cards should be arranged as a square if possible (for example 16 cards means a 4 x 4 grid)
-* If they cannot be arranged in a square lay out the cards at your discretion 
-* However, regardless of the number of cards, the arrangement must be in a grid. Consider using:
-  * display: inline-block; (this is the only one we covered in class)
-  * a table
-  * floated elements
-  * grid
-  * flexbox
-* This game board must be generated by using <code>document.createElement()</code>, with attributes (class, id, etc.) also being added programmatically. 
-  * To smooth over element creation, try creating a helper function for making elements and adding class names and other attributes, like ids:
-    * the first parameter can be the name of the element to create
-	* the second parameter can be an object that contains name value pairs of attributes and their values
-	* the last parameter can be child elements
-	* `createElement('div', {id: 'foo', class: 'bar'}, 'some text', createElement('p'))` →
-	* `<div id='foo', class='bar'>some text <p></p></div>`
-  	* <code>const ele = createElement('div, {'class': 'foo'}, 'bar!!!!');</code>
 
-__Create a quit button__
+![Deal](../resources/img/hw07-blackjack-03-deal.gif)
 
-* Create a button at the bottom of the page. When this button is clicked, quit the game and show the initial form again.
+### Hit and Stand
 
-__Assign a random symbol to each card or use preset cards__
+Once user's hand and the computer's hand are displayed after the initial deal, the user can now decide whether they want more cards or stay with the cards that they have. The previous section added buttons (Hit and Stand), but now you'll have to add event listeners to those buttons. 
 
-* __NOTE THAT IF THE PLAYER PRESETS THE CARDS__, then use those characters instead of random generation... otherwise...
-* Find a way to assign a symbol from a set of available symbols (again, these symbols are of your choosing) to each card
-* The symbol assignment should be randomized!
-* The symbol should not appear in the user interface at the beginning of the game
-* However, it does not matter if the symbol is viewable in the source code
-* Some potential solutions for associating a symbol with a card may include:
-  * An object that serves as a lookup table
-  * Setting the value as a custom attribute (see chapter 13 in Eloquent JavaScript, 2nd Edition)
-  * Creating an underlying class that models your game
-  * Oooor… any other scheme that you can come up with
+1. pressing `Hit` should deal the next card from the deck
+    * the next card should be moved from the deck to the user's hand
+    * an element should be created to add the card to the user's hand in the user interface
+    * if hitting makes a user's total go over 21: 
+        * then the user's turn ends immediately 
+        * ... and they lose the hand
+        * (the computer does not even need to decided to hit or stand)
+2. pressing `Stand` should end the user's turn and allow the computer to Hit or Stand
+    * the computer's strategy is your discretion
+    * though the computer must hit in some situations or stand in others
+    * an easy strategy is to always hit if a hand total is underneath a threshold, but stand if it's eqaul to or above that threshold
 
-Here's an example of the user setting the card values:
+The following is an example of the user:
 
-<img src="../resources/img/hw06-memoremoji/preset.gif">
+1. hitting twice
+2. then going over 21 (busting)
+3. (and consequently, immediately losing the hand)
 
-__Allow the user to click on cards__
+![Play](../resources/img/hw07-blackjack-04-play.gif)
 
-* Assign an event listener to each card
-* When a card is clicked show the card's symbol
-  * Either add a text node to the card
-  * Or use CSS
-    * If you're using CSS, only manipulate the classes, don't assign styles directly
-    * Some options for toggling classes include:
-      * `classList`
-      * `setAttribute`
-* ⚠️Do not allow more than two flipped cards at once
+### Determine the winner
 
-__Handle two consecutive clicks / two flipped cards in each turn__
+Once the user and computer have both decided to "stand" or have a hand total over 21...
 
-* In the <code>game</code> div, once a player flips two cards, display a message that tells the player whether or not a match was found
-* If there's only one card flipped, allow another card to be flipped
-* Once there are two cards flipped:
-  * No other cards can be flipped
-  * Show a message that says "Match" or "No Match"
-  * Display an "OK" button
-  * Clicking on the "OK" button proceeds to the next turn:
-    * If two cards flipped didn't match
-      * flip them back so that the symbols are no longer visible
-    * If two cards do match, leave symbols revealed
-	* In both cases, play can resume so that the user can flip another two cards
+1. Compare the computer's score with the user's score
+2. The player with the score closer to or equal to 21 wins
+3. Add text to indicate of who won
+4. If the player went over 21, they lose automatically
+5. __A tie is possible__
 
-<img src="../resources/img/hw06-memoremoji/ok.gif">
+Below is an example of the user winning a hand:
 
-__Keep track of the turns__
-
-* One turn means a player flipped two cards
-* Above the game board, show <code>number of turns played / max number of turns</code>
-  * For example, displaying <code>TURN 2/4</code> means the player is playing the second turn and can only play 4 turns maximum.
-
-__Game end state:__
-
-The game is over when either;
-
-* The turns played is equal to the maximum of turns
-* All of the revealed cards are matched
-
-__Display results of the game__
-
-* Once the game is over, display the number turns over the max turns and display whether or not the player has won or lost. Here's an example of a loss:
-
-<img src="../resources/img/hw06-memoremoji/lost.gif">
+![Win](../resources/img/hw07-blackjack-05-win.gif)
 
 ### Optional Features (Extra Credit)
 
+Implement any of the following features for extra credit. 
 
-If working on any extra credit, ⚠️ add a note in the readme specifying which extra credit you've implemented
+<span class="warning">If you are implementing extra credit:</span>
 
-(5 points) __A "play again"  button on the result page to restart the game once the game is over__ 
+1. add a README.md to the root of your project
+2. add notes specifying which extra credit you did
 
-* This button will display the original form at the beginning of the game so that the user can play another game
+(5 points) __Reset hand__
 
-(10 points) __Show previous score__
+* when a hand ends, remove the `Hit` and `Stand` buttons and add a `Restart` button along the bottom row
+* when the `Restart` button is pressed, it resets the game so that:
+    * the computer and player hands are cleared
+    * new cards are dealt
+    * the `Hit` and `Stand` button are added back
 
-* Research and use [client side local storage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage) to store the last score (number of turns over max number of turns)... and display this on the game end page
+(10 points) __Save results in database__
 
-(20 points) __Save name and score in database__
-
-* At the end of the game, display a form allowing the user to save their name and score (number of turns over max turns)
-* Save this data in the database
-* Display all scores after form submission
-
+* when the game ends, allow the user to enter their initials in a form
+* when the form is submitted:
+    * save the results of this hand (the computer scores and the user score) in the database, along with the user's initials
+    * display the results of the last 5 hands
+* if this is combined with the reset hand, then place the restart button after the form has been submitted
 
 
 </div>
 </div>
-
-
 
