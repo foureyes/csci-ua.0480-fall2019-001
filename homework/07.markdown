@@ -18,7 +18,7 @@ img {
   <div class="panel-heading">Homework #7</div>
   <div class="panel-body" markdown="block">
 
-# ANONYMOUS Q&AIT (AJAX) - __Due Saturday, April 20th by 11pm__
+# ANONYMOUS Q&AIT (AJAX) - __Due Wed, Nov 20th by 11pm__
 
 
 ## Overview

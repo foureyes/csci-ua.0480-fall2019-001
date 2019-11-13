@@ -457,7 +457,7 @@ OWASP
 MDN
 
 * [MDN - Promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)",,
-y,,21,13-Nov,Wed,"* Promises Continued
+,,21,13-Nov,Wed,"* Promises Continued
 * fetch 
 * async / await","* Example Code for AJAX and Promises
 * [app.js](examples/ajax-promises/app.js)
@@ -470,21 +470,21 @@ y,,21,13-Nov,Wed,"* Promises Continued
 MDN Articles
 
 * [MDN - Using Fetch](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch)
-* [MDN - Async Await](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous/Async_await)","__Due Saturday 4/20 at 11pm:__
+* [MDN - Async Await](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous/Async_await)","__Due Wednesday 11/20 at 11pm:__
  
  * [Homework #7](homework/07.html)
- * [Final Project Milestone #03](final-project.html#milestone03)
 
-HW 8 AJAX
+__Due Monday 11/25 at 11pm:__
+
+ * [Final Project Milestone #04](final-project.html#milestone04)
+
+
 
 <!--__Due Monday 4/24 at 11pm:__ 
+HW 8 AJAX
  
  * [Homework #9](homework/09.html)
- -->
- 
- <!--
- * [Final Project Miletsone #03](final-project.html#milestone03)
- -->",m2 due
+-->",m2 due
 y,,22,18-Nov,Mon,* Realtime Web Applications,"* [Websockets and socket.io](slides/23/socketio.html)
 * [Rooms](slides/25/socketio-rooms.html)
 * Websockets and socket.io Examples
