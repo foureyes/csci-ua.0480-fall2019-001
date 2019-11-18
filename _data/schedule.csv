@@ -485,7 +485,9 @@ HW 8 AJAX
  
  * [Homework #9](homework/09.html)
 -->",m2 due
-y,,22,18-Nov,Mon,* Realtime Web Applications,"* [Websockets and socket.io](slides/23/socketio.html)
+,,22,18-Nov,Mon,* Realtime Web Applications,"* Revisit Polling
+* [Websockets and socket.io](slides/23/socketio.html)
+* In-Class Workshop Tomorrow
 * [Rooms](slides/25/socketio-rooms.html)
 * Websockets and socket.io Examples
 * [app.js](examples/websockets-demo/app.js) (server)
