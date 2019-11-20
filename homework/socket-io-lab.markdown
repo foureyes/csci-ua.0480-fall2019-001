@@ -7,19 +7,21 @@ title: CSCI-UA.0480 - Socket IO Lab
 	<div class="panel-heading">socket.io Lab</div>
 	<div class="panel-body" markdown="block">
 
-# Socket IO Lab - Emoji Racer (10 points for In-Class Project/Quiz Grade)
+# Socket IO Lab - Emoji Racer 
 
 ## Submission Process
 
-* work in groups of 2 or 3
-* __submit using [the form for your section on the schedule](../#class24)__
+* work in groups of 2 or 3 
+* __submit using [the form on the schedule](../#class22)__
 * __each person on the team should submit their own individual form__
+
+If you'd like, you can work directly in glitch.com. Additionally, if you want to collaboratively edit, you'll likely have to create an account (though you're not required to).
 
 ## Scoring
 
-* __+7 points__ for showing up and submitting form 
-* __+2 points__ form submitted with a _reasonable_ amount of _valid looking_ code
-* __+1 point__ code deployed on glitch.com (kind of optional, since you basically get 90% for just submitting a form with some code!)
+* __+60%__ for showing up and submitting form  (that's it, really! 😮)
+* __+25%__ form submitted with a _reasonable_ amount of _valid looking_ code
+* __+15%__ code deployed on glitch.com (kind of optional, since you basically get 90% for just submitting a form with some code!)
 
 ## Overview
 
@@ -33,16 +35,30 @@ You'll be using the following concepts:
 
 ### Description
 
+
 Make a real time web app that:
 
 1. displays two emoji
 2. displays two buttons
 3. displays a finish line
 4. clicking on one button moves one emoji
+	* the entire element containing the emoji should move
+	* ⚠️ do not just change the margin or padding
 5. everyone connected to the game can click either button
 6. everyone connected to the game can see the emoji move in real time
 7. when someone new connects to the game, the should see the current position of both emoji
-8. (optional) end game and show message when one emoji crosses the finish line
+8. try playing your game / looking over your code
+	* does your game handle the case where two clients click on the same emoji... and it's registered as two movements (rather than 1) on the server?
+	* can you reduce your client side code so that there's only one click handler that's used for both buttons?
+9. try to deploy to glitch.com
+
+Finished already? 
+
+* end game and show a message when one emoji crosses the finish line
+* end game and show a message when one emoji wins, then show a reset button; when pressed, it will bring both emoji back to the start
+* same as above, but when brining emoji back to start, animate with one of our JavaScript timing functions!
+
+
 
 
 <img src="../resources/img/hw09-screen.gif" alt="example emoji racer animation">
@@ -54,7 +70,7 @@ Make a real time web app that:
 
 Use the _one-page_ version of the slides to guide you through socket.io:
 
-[https://cs.nyu.edu/courses/fall18/CSCI-UA.0480-003/_site/slides/23/socketio.html?print-pdf](https://cs.nyu.edu/courses/fall18/CSCI-UA.0480-003/_site/slides/23/socketio.html?print-pdf)
+[https://cs.nyu.edu/courses/fall19/CSCI-UA.0480-001/_site/slides/23/socketio.html?print-pdf](https://cs.nyu.edu/courses/fall19/CSCI-UA.0480-001/_site/slides/23/socketio.html?print-pdf)
 
 1. create a directory to store your project
 2. create your `package.json` and install these packages:
@@ -104,14 +120,19 @@ server.listen(3000);
 ### Deploying to glitch.com
 
 1. [go to glitch.com/edit](https://glitch.com/edit/)
-2. modify the existing `package.json` so that it has both socket.io and express as requirements (but keep everything else the same)
+2. modify the existing `package.json` so that it has both socket.io and express as requirements (but __keep everything else the same__)
 3. add/modify necessary files!
     * for example...
-    * modify `server.js` (make sure you're listening with server obj)
-    * add `public/racer.html`
+    * modify `server.js` 
+		* make sure you're listening with server obj
+		* change the port to `process.env.PORT`
+    * add the html from your `public/racer.html` to `public/index.html`
+		* do this by clicking on `New File`
+		* type in `public/index.html`
+		* this will create a file in the `public` folder
     * change the name of `public/client.js` to `public/racer.js`
     * etc.
-4. __change the port so that it looks in the env for the port number!__
+4. __again, change the port so that it looks in the env for the port number!__
     * `server.listen(process.env.PORT);`
 5. click on the look link...  
     * instantly deployed app!
