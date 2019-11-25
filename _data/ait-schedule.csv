@@ -503,9 +503,9 @@ HW 8 AJAX
  
  * [Socket.IO Lab](homework/socket-io-lab.html)
  * [Form to submit](https://docs.google.com/forms/d/e/1FAIpQLSf5NfoshWtcdjc0ixxvLTZ3xqtwgDr2kq0up-S_dD8X9vBrQA/viewform)
- * Final Exam 5/7
 ",m3 due,
 ,,24,25-Nov,Mon,* Frontend Framework,"* [React Basics](slides/26/react.html)
+* Final Exam Reminder
 * [React Revisited](slides/26/react-state-parent.html)
 * Example Code: [index.js / Sum of Counters, Text Input](examples/react/demo/src/index.js) (Parent and Child Components, Text Input)
 * Example with React and fetch
