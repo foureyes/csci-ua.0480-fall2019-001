@@ -25,10 +25,11 @@ title: CSCI-UA.0480 -  React Lab
 
 Total Score
 
-* __75 points__ submitting _any_ code
+
+* __60 points__ submitting _any_ code
 * __80 points__ (Part 1) code deployed on [codepen.io](https://codepen.io), [glitch](glitch.com), and single card toggle works
-* __90 points__ (Part 2) code deployed and multi-card toggle works with hardcoded components / elements
-* __100 points__ (Part 3)code deployed and multi-card toggle works with dynamically created elements
+* __95 points__ (Part 2) code deployed and multi-card toggle works with hardcoded components / elements
+* __100 points__ (Part 3) full game implemented
 
 Extra Credit 
 
