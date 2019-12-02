@@ -119,8 +119,9 @@ To deploy your app on glitch.com... (only valid if you developed locally, otherw
 
 1. use the react starter boilerplate on [glitch.com](https://glitch.com/edit/#!/remix/starter-react)
 2. add your code to `app.jsx`
-    * only add your components and your call to render
-    * no need to bring in imports (it's already done at the top of `index.js`)
+	* __Do not bring in `import` statements__
+    * (it's already done at the top of `index.js` with `require`)
+    * only add your components and your call to `ReactDOM.render`
 3. add styles easily by adding a `style` tag in `index.html` and writing your css directly there
 
 To deploy your app in codepen.io... (only valid if you developed locally, otherwise, your code is _already there_)
