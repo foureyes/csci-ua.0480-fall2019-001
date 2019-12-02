@@ -7,13 +7,13 @@ title: CSCI-UA.0480 -  React Lab
   <div class="panel-heading">React Lab</div>
   <div class="panel-body" markdown="block">
 
-# React Lab - MemorEmoji (In-Class Project/Homework 08 Grade)
+# React Lab - MemorEmoji 
 
 ## Submission Process
 
 * work in groups of 2 - 4 students
 * choose one of the applications described below in the Overview &rarr; Description and implement it
-* __submit using [this form](https://docs.google.com/forms/d/e/1FAIpQLScj7vvs0AI3i5nS-NsWU_CC7RPpOz_YvR_CaDrjpzkVOK-cpQ/viewform)__
+* __submit using [this form](https://docs.google.com/forms/d/e/1FAIpQLSfPZMXdlMnx-w-ZighnPR5P7bw6opA0h_1QvFiw8M7SNSaKUw/viewform)__
 * __each person on the team should submit their own individual form__
 * once you've submitted:
     * raise your hand to let me know
