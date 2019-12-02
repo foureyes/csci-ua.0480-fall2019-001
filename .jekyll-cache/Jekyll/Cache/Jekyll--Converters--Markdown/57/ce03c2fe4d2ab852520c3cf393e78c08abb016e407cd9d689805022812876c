@@ -1,0 +1,1126 @@
+I"Q‰<section class="intro-slide">
+  <h1 id="react-continued">React Continued</h1>
+
+  <h3 id="csci-ua0480-001">CSCI-UA.0480-001</h3>
+
+  <p><small></small></p>
+</section>
+
+<section>
+  <h2 id="a-little-bit-of-refresher">A Little Bit of Refresher</h2>
+
+  <p><strong>What&#39;s react again?</strong> &#8594;</p>
+
+  <p class="fragment">On its own <strong>React</strong> is  a library for generating the user interface of an application.</p>
+
+  <ul>
+    <li class="fragment">think of it as the <strong>view</strong> in an MVC app</li>
+    <li class="fragment">it provides an API for creating and rendering reusable view components
+      <ul>
+        <li class="fragment">including state management</li>
+        <li class="fragment">&#8230;and event handling</li>
+      </ul>
+    </li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="running-a-react-app">Running a React App</h2>
+
+  <p><strong>What did we use to demonstrate our small React examples?</strong> &#8594;</p>
+
+  <p class="fragment">We used Codepen (jsbin is also an option). However&#8230; <strong>we had to do a little bit of configuration first.</strong> &#8594;</p>
+
+  <ul>
+    <li class="fragment">for <strong>codepen</strong>:
+      <ul>
+        <li class="fragment">set <strong>Babel</strong> as the JavaScript preprocessor</li>
+        <li class="fragment">add the <strong>react libaray</strong> as external JavaScript</li>
+      </ul>
+    </li>
+    <li class="fragment">for <strong>jsbin</strong>:
+      <ul>
+        <li class="fragment">use <strong>Add Library</strong> to add react</li>
+        <li class="fragment">select <strong>JSX (React)</strong> in the JavaScript drop down</li>
+      </ul>
+    </li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="creating-an-element">Creating an Element</h2>
+
+  <p>ReactElements are elements in a <em>virtual DOM</em>.  <strong>Here&#39;s what creating a ReactElement looks like&#8230;</strong> &#8594;</p>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+React.createElement('h1', {className: 'hello'}, 'Hi There!'); 
+</code></pre>
+
+  <p class="fragment"><code>createElement</code> has 3 parameters:</p>
+
+  <ul>
+    <li class="fragment">first parameter&#8230; element that you want to create as a string</li>
+    <li class="fragment">second parameter&#8230; its attributes (note that <strong>class is className</strong>!)</li>
+    <li class="fragment">third parameter&#8230; its text content</li>
+    <li class="fragment">it&#39;ll return a <strong>ReactElement</strong> object</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="rendering">Rendering</h2>
+
+  <p>Changes in the virtual DOM are combined together and applied to the actual DOM in a way that minimizes DOM modification. <strong>Here&#39;s what rendering a ReactElement looks like.</strong> &#8594;</p>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+ReactDOM.render(
+    React.createElement('h1', {className: 'hello'}, 'Hi there!'), 
+	document.body
+);
+</code></pre>
+
+  <p class="fragment"><code>render</code> has two arguments</p>
+
+  <ul>
+    <li class="fragment">first parameter&#8230; a <code>ReactElement</code></li>
+    <li class="fragment">second parameter&#8230; an insertion point (where to add element as a child - can be a regular <code>HTMLElement!</code>)</li>
+  </ul>
+
+  <p class="fragment"><strong>Let&#39;s give it a try.</strong> &#8594;</p>
+</section>
+
+<section>
+  <h2 id="another-way">Another Way</h2>
+
+  <p>Sooo&#8230; there was another <em>unusual</em> way of creating ReactElements. <strong>What was it?</strong> &#8594;</p>
+
+  <p class="fragment"><strong>Using JSX, we could&#8230;</strong> &#8594;</p>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+ReactDOM.render(
+	<h1 classname="hello">Hi there!</h1>, 
+	document.body
+);
+</code></pre>
+</section>
+
+<section>
+  <h2 id="another-way-explained">Another Way Explained&#8230;.</h2>
+
+  <p><strong>Why did that look so unusual?</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+ReactDOM.render(
+	<h1 classname="hello">Hi there!</h1>, 
+	document.body
+);
+</code></pre>
+
+  <p class="fragment">Hey - there&#39;s markup in my JavaScript. It&#39;s an unquoted string! What!?</p>
+</section>
+
+<section>
+  <h2 id="jsx">JSX</h2>
+
+  <p><strong>So, what&#39;s JSX again?</strong> &#8594;</p>
+
+  <p><strong>JSX</strong> is an extension to JavaScript syntax that allows <em>XML-like</em> syntax without</p>
+
+  <ul>
+    <li class="fragment">it&#39;s essentially a JavaScript preprocessor
+      <ul>
+        <li class="fragment">it takes in JavaScript with JSX syntax</li>
+        <li class="fragment">and <em>compiles</em> JSX to plain vanilla JavaScript</li>
+      </ul>
+    </li>
+    <li class="fragment">its usage is optional; you could just use plain JavaScript with react</li>
+    <li class="fragment">also&#8230; <strong>browsers don&#39;t quite understand JSX</strong> (maybe yet?)</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="jsx-continued">JSX Continued</h2>
+
+  <p>So that means&#8230; this JSX</p>
+
+  <pre><code data-trim="" contenteditable="">
+<h1 classname="hello">Hi there!</h1>
+</code></pre>
+
+  <p>&#8230;is equivalent to this vanilla JavaScript</p>
+
+  <pre><code data-trim="" contenteditable="">
+React.createElement('h1', {className: 'hello'}, 'Hi there!'), 
+</code></pre>
+
+  <p>They both produce a ReactElement!</p>
+</section>
+
+<section>
+  <h2 id="components">Components</h2>
+
+  <p>You can bundle elements together into a single component. <strong>Here&#39;s an example.</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+class MyComponent extends React.Component {
+  render() {
+    return (
+      &lt;div&gt; &lt;h1&gt;A Message&lt;&#47;h1&gt;{this.props.message}&lt;&#47;div&gt;
+    );
+  }
+}
+
+</code></pre>
+
+  <pre><code data-trim="" contenteditable="">
+ReactDOM.render(
+  &lt;MyComponent message="Hi there!" &#47;&gt;,
+  document.body
+);
+</code></pre>
+</section>
+
+<section>
+  <h2 id="components-and-props">Components and Props</h2>
+
+  <p>To make a component, use <code>React.createClass</code>, which takes an object as a parameter or use <strong>ES6 classes</strong>.</p>
+
+  <ul>
+    <li>the object must have a function called <strong>render</strong> (it&#39;ll generate elements)</li>
+    <li>note that a <strong>component variable must start with uppercase</strong></li>
+    <li>once you have a component, you can pass it to render using JSX, with the variable name as the tag name</li>
+    <li>you can access attributes defined in JSX via <strong>this.props</strong> in your component</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="say-hi-or-bye">Say Hi or Bye!</h2>
+
+  <p><strong>Let&#39;s try to create a component that&#8230;</strong> &#8594;</p>
+
+  <ul>
+    <li>displays &quot;hi&quot; if the attribute, <code>greet</code> is true</li>
+    <li>otherwise, it&#39;ll display &quot;bye&quot; instead</li>
+  </ul>
+
+  <p><br />
+For example&#8230; rendering&#8230;</p>
+
+  <pre><code data-trim="" contenteditable="">
+&lt;MyComponent greet={true} &#47;&gt;,
+</code></pre>
+
+  <p>Gives us</p>
+
+  <pre><code data-trim="" contenteditable="">
+<div>hi</div>
+</code></pre>
+
+  <p>Changing <code>greet</code> to false would give us <code>bye</code> instead.</p>
+</section>
+
+<section>
+  <h2 id="say-hi-or-bye-1">Say Hi or Bye!</h2>
+
+  <pre><code data-trim="" contenteditable="">
+class MyComponent extends React.Component {
+  render() {
+    const msg = this.props.greet ? 'hi' : 'bye';
+    return (
+      &lt;h1&gt;{msg}&lt;&#47;h1&gt;
+    )
+  }
+}
+</code></pre>
+
+  <pre><code data-trim="" contenteditable="">
+ReactDOM.render(
+	&lt;MyComponent greet={true} &#47;&gt;, 
+	document.body
+);
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="events">Events</h2>
+
+  <p>To add an event handler in JSX&#8230; add an inline attribute (wait, what!?). For example, click events would be represented by <code>onClick</code>:</p>
+
+  <pre><code data-trim="" contenteditable="">
+class MyButton extends React.Component {
+  onButtonClick(evt) {
+    alert("Clicked!");
+  }
+
+  render() {
+    return &lt;div onClick={this.onButtonClick}&gt;Press This Button&lt;&#47;div&gt;;
+  }
+}
+
+ReactDOM.render(
+  &lt;MyButton &#47;&gt;,
+  document.body
+)
+</code></pre>
+</section>
+
+<section>
+  <h2 id="events-continued">Events Continued</h2>
+
+  <p><strong>Conventions and notes when handling events</strong> &#8594;</p>
+
+  <ol>
+    <li class="fragment">events are named by their <strong>camelCase</strong> version; <a href="https://facebook.github.io/react/docs/events.html#supported-events">see the whole list here</a></li>
+    <li class="fragment">the <strong>value of the event is the actual function</strong>, not a string or a function call
+      <ul>
+        <li>that means the value can be an arrow function</li>
+      </ul>
+    </li>
+    <li class="fragment">you must <strong>define an event on an element</strong>, not on a component
+      <ul>
+        <li>(react doesn&#39;t know which element in the component you want the click event to be attached to!)</li>
+      </ul>
+    </li>
+    <li class="fragment">it&#39;s a common convention to <strong>use a method defined in your component</strong> as the handler (but this gets tricky at times; we&#39;ll see why a little later!)</li>
+  </ol>
+
+</section>
+
+<section>
+  <h2 id="create-react-app">create-react-app</h2>
+
+  <p><strong>If the stuff we&#39;re starting to do is too complicated to debug with codepen, another <em>easy</em> way of working with react is using <a href="https://www.npmjs.com/package/create-react-app">create-react-app</a></strong> &#8594;</p>
+
+  <ul>
+    <li>it&#39;s an npm module that generates a frontend only react application</li>
+    <li>it&#39;ll serve the application on port 3000 (no express is involved)</li>
+  </ul>
+
+  <p><br /></p>
+
+  <p><strong>To use it:</strong> &#8594;</p>
+
+  <ul>
+    <li>install globally by: <code class="highlighter-rouge">npm install -g create-react-app</code></li>
+    <li>create a new project by: <code class="highlighter-rouge">create-react-app projectname</code></li>
+    <li>edit <code class="highlighter-rouge">App.js</code> and <code class="highlighter-rouge">App.css</code> in <code class="highlighter-rouge">src</code></li>
+    <li>to run app: <code class="highlighter-rouge">npm start</code></li>
+    <li>browser <em>may</em> open immediately and refresh on filesystem changes!</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="development-options-so-far">Development Options So Far</h2>
+
+  <p><strong>Now we have 3 options for developing super simple react apps</strong> &#8594;</p>
+
+  <ol>
+    <li>create-react-app</li>
+    <li>codepen</li>
+    <li>jsbin</li>
+  </ol>
+
+  <p><br />
+The above options are in-order of easiest to debug. However, note that:</p>
+
+  <ul>
+    <li>if you want to integrate your create-react-app with express or some other framework</li>
+    <li>&#8230;or actually deploy your app</li>
+    <li>you&#39;ll have to set up some build infrastructure (for example, webpack + babble&#8230; which we may go over in the last class)</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="state">State</h2>
+
+  <p><strong>state</strong> is internal data controlled by the component (contrast this with <strong>props</strong>, which are controlled by whatever renders the component).</p>
+
+  <p>To initialize state properties when your component is created:</p>
+
+  <ol>
+    <li class="fragment">define a <code>getInitialState</code> within your component definition&#8230;</li>
+    <li class="fragment">and return the desired state properties as property value pairs within an object. &#8594;</li>
+  </ol>
+
+  <p><br /></p>
+  <pre class="fragment"><code data-trim="" contenteditable="">
+{ // within a component definition
+  getInitialState: function() {
+    return {
+      prop: val,
+    }
+  }
+}
+</code></pre>
+
+  <p class="fragment"><strong>Note that we&#39;ll take a look at setting initial state with ES6 classes a little later!</strong></p>
+
+</section>
+
+<section>
+  <h2 id="handling-state">Handling State</h2>
+
+  <p><strong>Once your application has state, you can manipulate it by reading or setting it</strong> &#8594;</p>
+
+  <ol>
+    <li class="fragment">To read state&#8230;.
+      <pre><code data-trim="" contenteditable="">
+this.state.propertyName
+</code></pre>
+    </li>
+    <li class="fragment">To set state:
+      <pre><code data-trim="" contenteditable="">
+this.setState({stateName: stateValue});
+</code></pre>
+    </li>
+  </ol>
+
+  <p class="fragment"><br />
+When setting state, <strong>you must pass an object</strong>.</p>
+
+  <p class="fragment"><strong>The object passed in specifies the new values of properties</strong>.</p>
+
+</section>
+
+<section>
+  <h2 id="using-state-an-example">Using State&#8230; an Example</h2>
+
+  <p><strong>Let&#39;s define a couple of state variables, and put their values in a list when the component is rendered.</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+const MyComponent = React.createClass({
+  render: function() {
+    return (
+      <ul>
+      <li>{this.state.var1}</li>
+      <li>{this.state.var2}</li>
+      </ul>
+    )
+  },
+  getInitialState: function() {
+    return {
+      var1: 'this is the first variable',
+      var2: 'and a second variable'
+    }
+  }
+});
+</code></pre>
+</section>
+
+<section>
+  <h2 id="state-is-asynchronous">State is Asynchronous</h2>
+
+  <p><strong>When updating state, updates may be batched by React to increase performance</strong> &#8594;</p>
+
+  <ul>
+    <li>this means that it may be tricky using <code class="highlighter-rouge">this.state</code> to determine a new state value</li>
+    <li>&#8230;instead, use another form of <code class="highlighter-rouge">setState</code></li>
+    <li>it can take a function as an argument
+      <ul>
+        <li>the function is called with the previous state and props passed in</li>
+        <li>it should return the new state</li>
+      </ul>
+    </li>
+  </ul>
+
+  <pre><code data-trim="" contenteditable="">
+this.setState((state, props) =&gt; ({
+  counter: state.counter + props.increment
+}));
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="state-with-es6-classes">State With ES6 Classes</h2>
+
+  <p><strong>Things are slightly different if you&#39;re using ES6 Classes to define your components</strong> &#8594;</p>
+
+  <ul>
+    <li class="fragment">instead of defining <code class="highlighter-rouge">getInitialState</code>, create a constructor that sets the state property to an object:</li>
+    <li class="fragment">also, you&#39;ll have to watch out for how <code class="highlighter-rouge">this</code> works (<code class="highlighter-rouge">createClass</code> handles it for you, but ES6 classes do not)</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="from-getinitialstate-to-constructor">From <code class="highlighter-rouge">getInitialState</code> to <code class="highlighter-rouge">constructor</code></h2>
+
+  <p><strong>Instead of defining <code class="highlighter-rouge">getInitialState</code>&#8230;</strong> &#8594;</p>
+
+  <p class="fragment">Create a constructor (optionally defining a props parameter), call <code class="highlighter-rouge">super</code> and assign an object to <code class="highlighter-rouge">this.state</code></p>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+constructor() {
+  super();
+  this.state = {
+    title: 'A React Component'
+  };
+}
+</code></pre>
+
+  <p class="fragment">Pass in <code class="highlighter-rouge">props</code> to your constructor if you want access to &quot;attributes&quot; (<code class="highlighter-rouge">this.props</code> isn&#39;t available within the constructor yet, so props can be accessed via parameter):</p>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+constructor(props) { ... }
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="createclass-and-this"><code class="highlighter-rouge">createClass</code> and <code class="highlighter-rouge">this</code></h2>
+
+  <p>Let&#39;s check out an event example with <code class="highlighter-rouge">createClass</code>. <strong>There&#39;s something a little suspicious about the code - what&#39;s weird about it?</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+const MyButton = React.createClass({
+  getInitialState: function() {
+    return { msg: 'Clicked!!!' };
+  },
+
+  handleClick: function(evt) { alert(this.state.msg); },
+
+  render: function() {
+    return &lt;div onClick={this.handleClick}&gt;Press Me!&lt;&#47;div&gt;;
+  }
+});
+</code></pre>
+
+  <ul>
+    <li class="fragment"><code class="highlighter-rouge">this</code> <em>should</em> refer to the global object, but it doesn&#39;t; everything works just fine!</li>
+    <li class="fragment">fortunately, when we use <code class="highlighter-rouge">createClass</code>, <code class="highlighter-rouge">this</code> is automatically set to the instance of the created <code class="highlighter-rouge">ReactElement</code> for us!</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="events-state-es6-classes">Events, State, ES6 Classes</h2>
+
+  <p>Unfortunately, <strong>ES6 classes</strong> do not set <code class="highlighter-rouge">this</code> for us like <code class="highlighter-rouge">createClass</code> does. <strong>Consequently, the code below, which <em>looks</em> equivalent, will not work!</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+class MyButton extends React.Component {
+  constructor() {
+    super();
+    this.state = { msg: 'Clicked!!!' };
+  }
+
+  // Y U NO WORK??????
+  handleClick(evt) { alert(this.state.msg); }
+
+  render() {
+    return &lt;div onClick={this.handleClick}&gt;Press Me!&lt;/div&gt;;
+  }
+}
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="fixing-this">Fixing <code class="highlighter-rouge">this</code></h2>
+
+  <p><strong>Let&#39;s modify the following lines so that <code class="highlighter-rouge">this</code> is bound to the instance rather than the global object.</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+handleClick(evt) { alert(this.state.msg); }
+
+render() {
+  return &lt;div onClick={this.handleClick}&gt;Press Me!&lt;/div&gt;;
+}
+</code></pre>
+
+  <ul>
+    <li class="fragment">use good &#39;ol bind!
+      <ul>
+        <li class="fragment"><code class="highlighter-rouge">&lt;div onClick={this.handleClick.bind(this)}&gt;</code></li>
+      </ul>
+    </li>
+    <li class="fragment">wrap <code class="highlighter-rouge">handleClick</code> in an arrow function to capture <code class="highlighter-rouge">render</code>&#39;s <code class="highlighter-rouge">this</code>:
+      <ul>
+        <li class="fragment"><code class="highlighter-rouge">&lt;div onClick={() =&gt; {this.handleClick()}}&gt;</code></li>
+      </ul>
+    </li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="a-challenge">A Challenge</h2>
+
+  <p>Using events and state, create a component that:</p>
+
+  <ul>
+    <li>renders a div with a class of number</li>
+    <li>the number starts at 0</li>
+    <li>every time you click on the div, the number increases</li>
+  </ul>
+
+  <p><br /></p>
+
+  <div class="img">
+    <p><img src="../../resources/img/number-click.gif" alt="number click" /></p>
+  </div>
+
+</section>
+
+<section>
+  <h2 id="a-solution">A Solution</h2>
+
+  <p>Start off with some boiler plate&#8230;</p>
+
+  <pre><code data-trim="" contenteditable="">
+const MyComponent = React.createClass({
+	// render, getInitialState and event handler
+	// goes here...
+});
+</code></pre>
+
+  <pre><code data-trim="" contenteditable="">
+ReactDOM.render(
+	&lt;MyComponent &#47;&gt;, 
+	document.body
+);
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="a-solution-continued">A Solution (Continued)</h2>
+
+  <p>Within your component definition:</p>
+
+  <pre><code data-trim="" contenteditable="">
+  getInitialState: function() {
+    return {
+      count: 0,
+    }
+  }
+</code></pre>
+
+  <pre><code data-trim="" contenteditable="">
+  handleClick: function() {
+    this.setState({count: this.state.count + 1});
+  }
+</code></pre>
+
+  <pre><code data-trim="" contenteditable="">
+  render: function() {
+    return (
+      &lt;div className="number" 
+	  onClick={this.handleClick}&gt;{this.state.count}&lt;&#47;div&gt;
+    )
+  }
+</code></pre>
+</section>
+
+<section>
+  <h2 id="what-about-these-components">What About These Components?</h2>
+
+  <p><strong>Now let&#39;s try adding 3 counters to our render&#8230;</strong> &#8594;</p>
+  <pre><code data-trim="" contenteditable="">
+ReactDOM.render(
+  &lt;div&gt;&lt;Counter /&gt;&lt;Counter /&gt;&lt;Counter /&gt;&lt;/div&gt;,
+    document.body
+);
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="oh-also-an-es6-class-version">Oh, Also, an ES6 Class Version</h2>
+
+  <pre><code data-trim="" contenteditable="">
+class Clicker extends React.Component {
+  constructor() {
+    super();
+    this.state = {count: 0};
+  }
+  
+  render() {
+    return &lt;div onClick={() =&gt; {this.handleClick()}}&gt;<h2>{this.state.count}</h2>&lt;/div&gt;;
+  }
+  
+  handleClick() {
+    this.setState({count: this.state.count + 1});
+  }
+}
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="more-complex-components">More Complex Components</h2>
+
+  <p><strong>When you&#39;re actually writing <em>real</em> components</strong> &#8594;</p>
+
+  <ul>
+    <li>you&#39;ll often find that you&#39;ll be creating components that have nested components interacting with each other</li>
+    <li>&#8230; for example, a button and a text field that set some text in the containing element/component</li>
+  </ul>
+
+  <p><br /></p>
+
+  <p><strong>The common pattern for this is to:</strong> &#8594;</p>
+
+  <ul>
+    <li class="fragment">move state out of the child components</li>
+    <li class="fragment">all of the state will go in the parent</li>
+    <li class="fragment">the parent will orchestrate interactions</li>
+    <li class="fragment">&#8230;this will be done by the parent setting props on its children
+      <ul>
+        <li class="fragment">such as event handler functions</li>
+        <li class="fragment">&#8230;and any other attributes</li>
+      </ul>
+    </li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="communication-between-components">Communication Between Components</h2>
+
+  <p>From the react docs: <strong>When you want to</strong> &#8594;</p>
+
+  <ol>
+    <li>aggregate data from multiple children</li>
+    <li>&#8230; or have two child components communicate with each other</li>
+  </ol>
+
+  <p><br />
+<strong>Move the state upwards so that it lives in the parent component:</strong> &#8594;</p>
+
+  <ul>
+    <li>The parent can then pass the state back down to the children <strong>via props</strong>&#8230;</li>
+    <li>so that the child components are always in sync with each other and with the parent.</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="ceding-control-to-parent">Ceding Control to Parent</h2>
+
+  <p><strong>In this example, the child component doesn&#39;t define its own click handler, but instead receives one from its parent via props.</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+class Parent extends React.Component {
+  // this handleClick will be used by the child!
+  handleClick() {
+    alert('cliiiiick me');
+  }
+  
+  render() {
+    // pass handlClick to child as a prop
+    return &lt;Child onClick={this.handleClick} /&gt;
+  }
+}
+</code></pre>
+
+  <pre><code data-trim="" contenteditable="">
+class Child extends React.Component {
+  render() {
+    return (&lt;div onClick={this.props.onClick}&gt;
+      PRESS ME&lt;/div&gt;);
+  }
+}
+</code></pre>
+
+  <pre><code data-trim="" contenteditable="">
+ReactDOM.render(&lt;Parent /&gt;, document.body);
+</code></pre>
+</section>
+
+<section>
+  <h2 id="counting-revisited">Counting Revisited</h2>
+
+  <p><strong>Let&#39;s try rewriting our counter so that the state is moved up to a parent element.</strong> &#8594;</p>
+
+  <p>Start with our parent class&#8230;</p>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+class Parent extends React.Component {
+}
+</code></pre>
+
+  <p class="fragment">Within that parent class, define a constructor to create initial state.</p>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+  constructor() {
+    super();
+    this.state = {
+      count:0
+    }
+  }
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="parent-class-continued-handleclick">Parent Class Continued: <code class="highlighter-rouge">handleClick</code></h2>
+
+  <p><strong>Now let&#39;s define <code class="highlighter-rouge">handleClick</code></strong> &#8594;</p>
+
+  <ul>
+    <li class="fragment"><code class="highlighter-rouge">handleClick</code> sets the state like it did previously</li>
+    <li class="fragment">but note that in order to do set state, it needs access to <code class="highlighter-rouge">this</code>!</li>
+  </ul>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+  handleClick() {
+    this.setState({count: this.state.count + 1});
+  }
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="parent-class-continued-render">Parent Class Continued: <code class="highlighter-rouge">render</code></h2>
+
+  <p><strong><code class="highlighter-rouge">render</code> creates a child element and passes down a click handler and a count as props</strong> &#8594;</p>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+  render() {
+    // note that we have to bind this so that we have 
+    // access to the  this of the instance that render is 
+    // called on(and consequently this.state!
+    const handler = this.handleClick.bind(this);
+    return (
+      &lt;Child onClick={handler} val={this.state.count} /&gt;
+    );
+  }
+</code></pre>
+
+  <ul>
+    <li class="fragment">use <code class="highlighter-rouge">bind</code> to bind context of handleClick to instance</li>
+    <li class="fragment">alternatively, you can inline and arrow function as the value of onClick in JSX:
+      <ul>
+        <li class="fragment"><code class="highlighter-rouge">onClick={() =&gt; {this.handleClick()}}</code></li>
+        <li class="fragment">note that if you&#39;re using an arrow function, call the click handler!</li>
+      </ul>
+    </li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="a-slightly-more-efficient-version">A Slightly More Efficient Version</h2>
+
+  <p><strong>If you&#39;re worried about making too many function objects, you can set this.handleClick to the bound version in the constructor rather than each time <code class="highlighter-rouge">render</code> is called</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+  constructor() {
+    // add this line...
+    this.handleClick = this.handleClick.bind(this);
+}
+</code></pre>
+
+  <pre><code data-trim="" contenteditable="">
+  render() {
+    // change back to using this.handleClick
+    return (
+      &lt;Child onClick={this.handleClick} val={this.state.count} /&gt;
+    );
+  }
+</code></pre>
+</section>
+
+<section>
+  <h2 id="child-component">Child Component</h2>
+
+  <p><strong>Finally, for the child component, use props to define its click handler and its text content.</strong> &#8594;</p>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+class Child extends React.Component {
+  render() {
+    return (
+      &lt;div onClick={this.props.onClick}&gt;
+        {this.props.val}
+      &lt;/div&gt;);
+  }
+}
+</code></pre>
+
+  <p class="fragment">Of course, call <code class="highlighter-rouge">render</code>:</p>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+ReactDOM.render(&lt;Parent /&gt;, document.body);
+</code></pre>
+</section>
+
+<section>
+  <h2 id="two-clickers">Two Clickers!</h2>
+
+  <p>Your event handler may require an argument. <strong>For example, it&#39;s a way to specify which child component was clicked without the child explicitly</strong></p>
+
+  <pre><code data-trim="" contenteditable="">
+// passing args to handle click, fixing arity, computer property names
+class Parent extends React.Component {
+}
+</code></pre>
+
+  <p>Again, start with a constructor, but now we have state for two click boxes!</p>
+  <pre><code data-trim="" contenteditable="">
+  constructor() {
+    super();
+    this.state = {
+      box1:0,
+      box2:0
+    }
+  }
+
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="two-clickers-continued">Two Clickers Continued</h2>
+
+  <p><strong>Notice that our handleClick function will take an argument, the name of the box:</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+  handleClick(name) {
+    // setState will be called based on this name!
+    // this is using shorthand syntax for dynamic keys:
+    this.setState({[name]: this.state[name] + 1});
+  }
+  
+</code></pre>
+
+  <p>Lastly, when we define render, note that we&#39;re passing in different arguments to the call to handleClick.</p>
+
+  <pre><code data-trim="" contenteditable="">
+  render() {
+    return (<div>
+        &lt;Child onClick={() =&gt; {this.handleClick('box1')}} val={this.state.box1} /&gt;
+        &lt;Child onClick={() =&gt; {this.handleClick('box2')}} val={this.state.box2} /&gt;
+      </div>);
+  }
+</code></pre>
+</section>
+
+<section>
+  <h2 id="child">Child</h2>
+
+  <p>And, of course, our Child component code:</p>
+
+  <pre><code data-trim="" contenteditable="">
+class Child extends React.Component {
+  render() {
+    return &lt;div onClick={this.props.onClick}&gt;{this.props.val}&lt;/div&gt;;
+  }
+}
+
+
+</code></pre>
+
+  <p>Rendering &#8230;</p>
+
+  <pre><code data-trim="" contenteditable="">
+ReactDOM.render(<Parent />, document.body);
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="another-example">Another Example</h2>
+
+  <p><strong>Let&#39;s change our original clicker so that:</strong> &#8594;</p>
+
+  <ul>
+    <li>the button is a nested component</li>
+    <li>the count is shown in the button</li>
+    <li>the count is shown outside of the button as well</li>
+  </ul>
+
+  <p><br /></p>
+
+  <pre><code data-trim="" contenteditable="">
+Parent Count: 4
+Child Count: 4
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="parent-clickcounter">Parent: <code class="highlighter-rouge">ClickCounter</code></h2>
+
+  <p><strong>This component is the parent; you can see that it:</strong> &#8594;</p>
+
+  <ul>
+    <li>controls what the child component will do on click by handing down the <code class="highlighter-rouge">onClick</code> function via props</li>
+    <li>and sets props on its child by using the values from its own state</li>
+  </ul>
+
+  <pre><code data-trim="" contenteditable="">
+class ClickCounter extends React.Component {
+  constructor() {
+    super();
+    this.state = { count: 0 };
+  }
+  handleClick(arg) {
+    alert(arg + ' ' + this.state.count);
+    this.setState( { count: this.state.count + 1} );
+  }
+  render() {
+    // wrap onclick callback in arrow function to handle this
+    return <div><h1>Parent Count: {this.state.count}</h1>&lt;Clicker count={this.state.count} onClick={() =&gt; {this.handleClick("clicked!")}} /&gt;</div>;
+  }
+}
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="child-clicker">Child: <code class="highlighter-rouge">Clicker</code></h2>
+
+  <p><strong>Aaaand here&#39;s our child implementation</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+class Clicker extends React.Component {
+  render() {
+    return &lt;div onClick={() =&gt; {this.props.onClick()}}&gt;Child Count:{this.props.count}&lt;/div&gt;;
+  }
+}
+</code></pre>
+
+  <p>Of course&#8230; rendering:</p>
+
+  <pre><code data-trim="" contenteditable="">
+ReactDOM.render(
+  <ClickCounter />,
+  document.body
+)
+</code></pre>
+</section>
+
+<section>
+  <h2 id="a-challenge-1">A Challenge</h2>
+
+  <p><strong>Let&#39;s try building this component&#8230;</strong> &#8594;</p>
+
+  <ul>
+    <li>it contains 3 boxes with numbers that increment on click</li>
+    <li>the last box clicked will be green, and its index will be displayed</li>
+  </ul>
+
+  <p><br /></p>
+
+  <div style="text-align:center;">
+    <p><img src="../../resources/img/react-last-clicked.gif" alt="last clicked" />
+<!-- ![last clicked](../../resources/img/react-last-clicked.gif) --></p>
+  </div>
+
+</section>
+
+<section>
+  <h2 id="input-elements-and-onchange">Input Elements and onChange</h2>
+
+  <p><strong>Form input elements have their own state (for example, when you type into the text field, that element&#39;s state is what you typed</strong> &#8594;</p>
+
+  <ol>
+    <li>however, we may want one of React component&#39;s state to be the &quot;single source of truth&quot;</li>
+    <li>so we can override an element&#39;s state with the React component&#39;s notion of state</li>
+    <li>this allows us to use the component&#39;s state for working with form data rather than querying the form elements directly</li>
+  </ol>
+
+  <p><br />
+In next few slides, the demo will will be using an input element with an <strong>onChange</strong> attribute.</p>
+
+  <ul>
+    <li><strong>onChange</strong> is an event that occurs whenever a change in an element is made</li>
+    <li>for example, typing in a text field</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="text-input-demo">Text Input Demo</h2>
+
+  <p>Let&#39;s create an h3 that has its content controlled from a text input field. The h3&#39;s text value <strong>will change as data is typed in the text field</strong>.</p>
+
+  <p><strong>First, let&#39;s create our h3 as a component</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+class Message extends React.Component {
+    render() {
+        let value = this.props.value;
+        if(value === '') {
+            value = "Type Something PLZ ^^^";
+        }
+        return <h3>{value}</h3> 
+    }
+}
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="onchange-state">onChange, State</h2>
+
+  <p><strong>Then we&#39;ll deal with onChange and state. In a component called InputDemo&#8230;</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+constructor() {
+    super();
+    this.state = {message: ''};
+    this.handleChange = this.handleChange.bind(this);
+}
+</code></pre>
+
+  <pre><code data-trim="" contenteditable="">
+handleChange(evt) {
+    this.setState({message: evt.target.value}); 
+}
+</code></pre>
+
+  <pre><code data-trim="" contenteditable="">
+render() {
+    return (
+        <div>
+        Message: &lt;input value={this.state.message} onChange={this.handleChange} type="text" /&gt;
+        &lt;Message value={this.state.message} /&gt;
+        </div>
+    );
+}
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="functional-components">Functional Components</h2>
+
+  <p><strong>If a component only deals with props, you can use a function instead of an ES6 style class or createClass</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+function MyComponent(props) {
+    return <h1>{props.message}</h1>
+}
+</code></pre>
+
+  <p>Instead of:</p>
+
+  <pre><code data-trim="" contenteditable="">
+class MyComponent extends React.Component {
+    render() {
+        return <h1>{this.props.message}</h1>
+    }
+}
+</code></pre>
+</section>
+
+<section>
+  <h2 id="componentdidmount">componentDidMount</h2>
+
+  <p><strong>Implement the method <code class="highlighter-rouge">componentDidMount</code> to run code after a component is <em>mounted</em> to the actual DOM.</strong></p>
+
+  <p>Why is this useful? The <a href="https://reactjs.org/docs/react-component.html#componentdidmount">React Component docs</a> specify that this is where background requests should be placed:</p>
+
+  <ul>
+    <li><code class="highlighter-rouge">componentDidMount</code> is meant for mutating the existing DOM</li>
+    <li>which likely what will happen after receiving a response</li>
+  </ul>
+</section>
+
+:ET

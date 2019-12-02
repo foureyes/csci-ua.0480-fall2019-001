@@ -159,13 +159,13 @@ They both produce a ReactElement!
 You can bundle elements together into a single component. __Here's an example.__ &rarr;
 
 <pre><code data-trim contenteditable>
-const MyComponent = React.createClass({
-  render: function() {
+class MyComponent extends React.Component {
+  render() {
     return (
       &lt;div&gt; &lt;h1&gt;A Message&lt;&#47;h1&gt;{this.props.message}&lt;&#47;div&gt;
     );
   }
-});
+}
 
 </code></pre>
 
@@ -216,14 +216,14 @@ Changing <code>greet</code> to false would give us <code>bye</code> instead.
 ## Say Hi or Bye!
 
 <pre><code data-trim contenteditable>
-const MyComponent = React.createClass({
-  render: function() {
+class MyComponent extends React.Component {
+  render() {
     const msg = this.props.greet ? 'hi' : 'bye';
     return (
       &lt;h1&gt;{msg}&lt;&#47;h1&gt;
     )
   }
-});
+}
 </code></pre>
 
 <pre><code data-trim contenteditable>
@@ -241,15 +241,15 @@ ReactDOM.render(
 To add an event handler in JSX... add an inline attribute (wait, what!?). For example, click events would be represented by <code>onClick</code>:
 
 <pre><code data-trim contenteditable>
-const MyButton = React.createClass({
-  onButtonClick: function(evt) {
+class MyButton extends React.Component {
+  onButtonClick(evt) {
     alert("Clicked!");
-  },
+  }
 
-  render: function() {
+  render() {
     return <div onClick={this.onButtonClick}>Press This Button<&#47;div>;
   }
-});
+}
 
 ReactDOM.render(
   <MyButton &#47;>,
@@ -383,6 +383,25 @@ const MyComponent = React.createClass({
   }
 });
 </code></pre>
+</section>
+
+<section markdown="block">
+## State is Asynchronous
+
+__When updating state, updates may be batched by React to increase performance__ &rarr;
+
+* this means that it may be tricky using `this.state` to determine a new state value
+* ...instead, use another form of `setState`
+* it can take a function as an argument
+	* the function is called with the previous state and props passed in
+	* it should return an object to update the state
+
+<pre><code data-trim contenteditable>
+this.setState((state, props) => ({
+  prop: newVal
+}));
+</code></pre>
+
 </section>
 
 <section markdown="block">

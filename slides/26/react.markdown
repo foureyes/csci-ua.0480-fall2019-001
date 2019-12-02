@@ -290,12 +290,22 @@ const Greeting = React.createClass({
 });
 </code></pre>
 
-* it turns out that you can render a list of elements (but you have to wrap it in a containing single element)
+* it turns out that you can render a list of elements (but depending on react version, you may have to wrap it in a containing single element)
 * in the example above, we generate a few paragraph elements
 * a render a div that contains all of those elements by dropping the Array in curly braces
 
 </section>
 
+
+<section markdown="block">
+## Multiple React Elements
+
+__If you have multiple elements__ &rarr;
+
+* with react grater than version 16, `render` can return a list of ReactElements directly
+* alternatively, you can wrap in react fragment tags: &lt;&gt; and &lt;/&gt;
+
+</section>
 
 
 
